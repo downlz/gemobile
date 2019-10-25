@@ -1,5 +1,5 @@
-import 'package:f_groceries/checkout_screen.dart';
-import 'package:f_groceries/item_screen.dart';
+import 'package:graineasy/checkout_screen.dart';
+import 'package:graineasy/item_screen.dart';
 import 'package:flutter/material.dart';
 
 enum DialogDemoAction {

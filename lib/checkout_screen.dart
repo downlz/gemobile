@@ -1,4 +1,4 @@
-import 'package:f_groceries/Payment_Screen.dart';
+import 'package:graineasy/Payment_Screen.dart';
 import 'package:flutter/material.dart';
 
 class Checkout extends StatefulWidget {

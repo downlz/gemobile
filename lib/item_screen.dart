@@ -1,5 +1,5 @@
-import 'package:f_groceries/Cart_Screen.dart';
-import 'package:f_groceries/item_details.dart';
+import 'package:graineasy/Cart_Screen.dart';
+import 'package:graineasy/item_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_range_slider/flutter_range_slider.dart' as rngslider;
 
@@ -10,6 +10,14 @@ class Item_Screen extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => item(toolbarname);
+}
+
+class MyTestLocation {
+  static const bool isProduction = bool.fromEnvironment('dart.vm.product');
+
+  MyTestLocation() {
+    print(isProduction);
+  }
 }
 
 class Item {
@@ -25,6 +33,7 @@ class item extends State<Item_Screen> {
   bool checkboxValueA = true;
   bool checkboxValueB = false;
   bool checkboxValueC = false;
+
   VoidCallback _showBottomSheetCallback;
   List<Item> itemList = <Item>[
     Item(imagename: 'images/apple.jpg', itemname: 'Apple', itmprice: '\$10'),
@@ -54,6 +63,8 @@ class item extends State<Item_Screen> {
 
   @override
   Widget build(BuildContext context) {
+    final location = new MyTestLocation();
+    print(location);
     // TODO: implement build
     IconData _backIcon() {
       switch (Theme.of(context).platform) {

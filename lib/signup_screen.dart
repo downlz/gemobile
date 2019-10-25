@@ -1,4 +1,4 @@
-import 'package:f_groceries/logind_signup.dart';
+import 'package:graineasy/logind_signup.dart';
 import 'package:flutter/material.dart';
 
 class Signup_Screen extends StatefulWidget {
