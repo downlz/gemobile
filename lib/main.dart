@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
             accentColor: Colors.blue
 
         ),
-      home: new MyHomePage(title: 'Groceries'),
+      home: new MyHomePage(title: 'Graineasy'),
     );
   }
 }
@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
         width: 250.0,
         height: 250.0,
         child: new Image.asset(
-          'images/gro.jpg',
+          'images/gelogo.png',
         ),
       ),
     );

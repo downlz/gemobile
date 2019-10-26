@@ -4,6 +4,7 @@ import 'package:graineasy/item_screen.dart';
 import 'package:graineasy/logind_signup.dart';
 import 'package:graineasy/orderhistory_screen.dart';
 import 'package:graineasy/setting_screen.dart';
+import 'package:graineasy/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_search_bar/loader_search_bar.dart';
 import 'package:flutter/foundation.dart';
@@ -200,16 +201,49 @@ class home extends State<Home_screen> {
                         Navigator.push(context, MaterialPageRoute(builder: (context)=> Oder_History(toolbarname: ' Order History',)));
 
                       }),
+                  new ListTile(
+                      leading: Icon(Icons.history),
+                      title: new Text("User Login Test"),
+
+
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginPage(toolbarname: ' User Login Test',)));
+
+                      }),
                 ],
               ),
             ),
+            // Custom container created to test app
+//            new Card(
+//              elevation: 4.0,
+//              child: new Column(
+//                children: <Widget>[
+//                  new ListTile(
+//                      leading: Icon(Icons.favorite),
+//                      title: new Text(name),
+//                      onTap: () {
+//                        Navigator.push(context, MaterialPageRoute(builder: (context)=> Item_Screen(toolbarname: name,)));
+//                      }),
+//                  new Divider(),
+//                  new ListTile(
+//                      leading: Icon(Icons.history),
+//                      title: new Text("User Login Test"),
+//
+//
+//                      onTap: () {
+//                        Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginPage(toolbarname: ' User Login Test',)));
+//
+//                      }),
+//                ],
+//              ),
+//            ),
             new Card(
               elevation: 4.0,
               child: new Column(
                 children: <Widget>[
                   new ListTile(
                       leading: Icon(Icons.settings),
-                      title: new Text("Setting"),
+                      title: new Text("Settings"),
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context)=> Setting_Screen(toolbarname: 'Setting',)));
                       }),

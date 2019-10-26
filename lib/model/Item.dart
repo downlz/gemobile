@@ -1,14 +1,47 @@
-class Beer {
-  final int id;
+class Item {
   final String name;
-  final String tagline;
-  final String description;
-  final String image_url;
+  final String deliveryTime;
+  final String oderId;
+  final String oderAmount;
+  final String paymentType;
+  final Address address;
+  final String cancelOder;
 
-  Beer.fromJSON(Map<String, dynamic> jsonMap) :
-        id = jsonMap['id'],
-        name = jsonMap['name'],
-        tagline = jsonMap['tagline'],
-        description = jsonMap['description'],
-        image_url = jsonMap['image_url'];
+  Item({this.name,
+    this.deliveryTime,
+    this.oderId,
+    this.oderAmount,
+    this.paymentType,
+    this.address,
+    this.cancelOder});
+
+  factory Item.fromJson(Map<String, dynamic> json) {
+    return new Item(
+        name: json['sampleNo'],
+        deliveryTime: json['origin'],
+        oderId: json['grainCount'],
+        oderAmount: json['grainCount'],
+        paymentType: json['grainCount'],
+        address: json['address'],
+        cancelOder: json['grade']
+    );
+  }
+
+}
+
+class Address {
+
+  final String city;
+  final String pin;
+
+  Address({this.city,
+    this.pin});
+
+  factory Address.fromJson(Map<String, dynamic> json) {
+    return new Address(
+        city: json['sampleNo'],
+        pin: json['origin']
+    );
+  }
+
 }
