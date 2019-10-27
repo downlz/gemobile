@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Patment extends StatefulWidget {
+class Payment_Screen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => payment();
 }
@@ -13,7 +13,7 @@ class Item {
   Item({this.itemName, this.itemQun, this.itemPrice});
 }
 
-class payment extends State<Patment> {
+class payment extends State<Payment_Screen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool checkboxValueA = true;
   bool checkboxValueB = false;

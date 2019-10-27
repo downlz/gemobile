@@ -1,5 +1,5 @@
-import 'package:f_groceries/Cart_Screen.dart';
-import 'package:f_groceries/item_details.dart';
+import 'package:graineasy/Cart_Screen.dart';
+import 'package:graineasy/item_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_range_slider/flutter_range_slider.dart';
 

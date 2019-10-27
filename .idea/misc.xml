@@ -39,6 +39,9 @@
       </value>
     </option>
   </component>
+  <component name="ProjectPlainTextFileTypeManager">
+    <file url="file://$PROJECT_DIR$/lib/routes.dart" />
+  </component>
   <component name="ProjectType">
     <option name="id" value="io.flutter" />
   </component>

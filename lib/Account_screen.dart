@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:f_groceries/model/Address_model.dart';
-import 'package:f_groceries/services/address_services.dart';
+import 'package:graineasy/model/Address_model.dart';
+import 'package:graineasy/services/address_services.dart';
 
 class Account_Screen extends StatefulWidget {
   @override

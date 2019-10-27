@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/f_groceries.iml" filepath="$PROJECT_DIR$/f_groceries.iml" />
-      <module fileurl="file://$PROJECT_DIR$/f_groceries_android.iml" filepath="$PROJECT_DIR$/f_groceries_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/graineasy.iml" filepath="$PROJECT_DIR$/graineasy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/graineasy_android.iml" filepath="$PROJECT_DIR$/graineasy_android.iml" />
     </modules>
   </component>
 </project>

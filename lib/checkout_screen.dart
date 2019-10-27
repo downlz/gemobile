@@ -1,4 +1,4 @@
-import 'package:f_groceries/Payment_Screen.dart';
+import 'package:graineasy/Payment_Screen.dart';
 import 'package:flutter/material.dart';
 
 class Checkout extends StatefulWidget {
@@ -550,7 +550,7 @@ class check_out extends State<Checkout> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Patment()));
+                                      builder: (context) => Payment_Screen()));
                             },
                             shape: new OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30.0),

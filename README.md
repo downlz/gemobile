@@ -1,4 +1,4 @@
-# f_groceries
+# graineasy
 
 Flutter Grocery Shopping App Fully Working Template
 
