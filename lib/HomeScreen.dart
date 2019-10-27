@@ -83,13 +83,11 @@ class home extends State<Home_screen> {
         theme.textTheme.headline.copyWith(color: Colors.black54);
     final TextStyle descriptionStyle = theme.textTheme.subhead;
     ShapeBorder shapeBorder;
-
-
     return Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.white,
 
-        title: Text("Grocery store"),
+        title: Text("Graineasy"),
         actions: <Widget>[
           IconButton(
             tooltip: 'Search',

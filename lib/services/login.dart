@@ -1,5 +1,10 @@
 import 'dart:convert' as convert;
 import 'dart:io';
+import 'package:graineasy/helpers/saveCurrentLogin.dart';
+import 'package:graineasy/helpers/getToken.dart';
+import 'package:graineasy/helpers/saveLogout.dart';
+import 'package:graineasy/helpers/showDialogSingleButton.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class LoginService{
@@ -16,13 +21,7 @@ class LoginService{
         headers: {"Content-Type":"application/json"},
         body: body
     );
-//
     return response;
-    //      HttpClient httpClient=new HttpClient();
-    //    HttpClientRequest request=await httpClient.postUrl(Uri.parse(url));
-    //     request.headers.set('content-type', 'application/json');
-//        convert.jsonEncode(data);
-
   }
 
   static Future<http.Response> getItems() async{
@@ -34,14 +33,22 @@ class LoginService{
     );
     return response;
   }
-//  static Future<http.Response> userPhoto(var authToken) async{
-//
-//    Map<dynamic,dynamic> header={"Authorization":"$authToken"};
-//    var url='http://farmchain.rishavanand.com:3000/user/photo';
-//    var response=await http.get(url,
-//        headers: header
-//    );
-//    return response;
-//  }
 
+  static Future<http.Response> userOrder(var authToken) async{
+
+    Map<String,String> header={"Authorization":"$authToken"};
+    var url='http://192.168.0.105:3000/api/order';
+    var response=await http.get(url,
+        headers: header
+    );
+    return response;
+  }
+
+  static Future<http.Response> userLogout() async{
+
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    await saveLogout();
+//    Future<bool> remove(String token) => _setValue(null, token, null);
+  }
 }

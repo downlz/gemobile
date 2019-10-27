@@ -1,7 +1,7 @@
 import 'package:graineasy/Cart_Screen.dart';
 import 'package:graineasy/item_details.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_range_slider/flutter_range_slider.dart' as rngslider;
+import 'package:flutter_range_slider/flutter_range_slider.dart' as rngSlider;
 
 class Item_Screen extends StatefulWidget {
   final String toolbarname;
@@ -10,14 +10,6 @@ class Item_Screen extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => item(toolbarname);
-}
-
-class MyTestLocation {
-  static const bool isProduction = bool.fromEnvironment('dart.vm.product');
-
-  MyTestLocation() {
-    print(isProduction);
-  }
 }
 
 class Item {
@@ -33,7 +25,6 @@ class item extends State<Item_Screen> {
   bool checkboxValueA = true;
   bool checkboxValueB = false;
   bool checkboxValueC = false;
-
   VoidCallback _showBottomSheetCallback;
   List<Item> itemList = <Item>[
     Item(imagename: 'images/apple.jpg', itemname: 'Apple', itmprice: '\$10'),
@@ -55,7 +46,7 @@ class item extends State<Item_Screen> {
     Item(imagename: 'images/grapes.jpg', itemname: 'Grapes', itmprice: '\$25'),
     Item(imagename: 'images/grapes.jpg', itemname: 'Grapes', itmprice: '\$25'),
   ];
- // String toolbarname = 'Fruiys & Vegetables';
+  // String toolbarname = 'Fruiys & Vegetables';
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String toolbarname;
 
@@ -63,8 +54,6 @@ class item extends State<Item_Screen> {
 
   @override
   Widget build(BuildContext context) {
-    final location = new MyTestLocation();
-    print(location);
     // TODO: implement build
     IconData _backIcon() {
       switch (Theme.of(context).platform) {
@@ -96,7 +85,7 @@ class item extends State<Item_Screen> {
             Navigator.pop(context);
           },
         ),
-        title: Text(toolbarname),
+        title: Text(toolbarname ?? 'Product List'),
         backgroundColor: Colors.white,
         actions: <Widget>[
           IconButton(
@@ -111,12 +100,12 @@ class item extends State<Item_Screen> {
             },
           ),
           IconButton(
-            tooltip: 'Sort',
-            icon: const Icon(Icons.filter_list),
-            onPressed: () {
+              tooltip: 'Sort',
+              icon: const Icon(Icons.filter_list),
+              onPressed: () {
 
-              _showBottomSheet();
-            }
+                _showBottomSheet();
+              }
 
           ),
           new Padding(
@@ -663,7 +652,7 @@ class item extends State<Item_Screen> {
                   )
               ),
 
-      /*  Container(
+              /*  Container(
           padding: const EdgeInsets.only(top: 50.0, left: 10.0, right: 10.0),
           child: new Column(
               children: <Widget>[]
@@ -1196,28 +1185,28 @@ class item extends State<Item_Screen> {
               _verticalDivider(),
               Container(
                   child: Align(
-                    alignment: const Alignment(0.0, -0.2),
+                      alignment: const Alignment(0.0, -0.2),
                       child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
+                        children: <Widget>[
 
-                      _verticalDivider(),
-                      Radio<int>(
-                          value: 0,
-                          groupValue: radioValue,
-                          onChanged: handleRadioValueChanged
-                      ),
+                          _verticalDivider(),
+                          Radio<int>(
+                              value: 0,
+                              groupValue: radioValue,
+                              onChanged: handleRadioValueChanged
+                          ),
 
-                      Text('Available for this location', style: TextStyle(color: Colors.black54,
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold),
-                      ),
+                          Text('Available for this location', style: TextStyle(color: Colors.black54,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold),
+                          ),
 
 
 
-                    ],
-                  )
+                        ],
+                      )
                   )
               ),
 
@@ -1261,101 +1250,101 @@ class TravelDestinationItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final TextStyle titleStyle =
-        theme.textTheme.headline.copyWith(color: Colors.white);
+    theme.textTheme.headline.copyWith(color: Colors.white);
     final TextStyle descriptionStyle = theme.textTheme.subhead;
 
     return SafeArea(
         top: false,
         bottom: false,
         child: Container(
-          padding: const EdgeInsets.all(4.0),
-          height: height,
-          child: GestureDetector(
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> Item_Details()));
-            },
+            padding: const EdgeInsets.all(4.0),
+            height: height,
+            child: GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> Item_Details()));
+              },
 
-          child: Card(
-            shape: shape,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                // photo and title
-                SizedBox(
-                  height: 150.0,
-                  child: Stack(
-                    children: <Widget>[
-                      Positioned.fill(
-                        child: Image.asset(
-                          destination.imagename,
-                          // package: destination.assetPackage,
-                          fit: BoxFit.scaleDown,
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.topLeft,
-                       // padding: EdgeInsets.all(5.0),
-                        child: IconButton(icon: const Icon(Icons.favorite_border), onPressed: (){
-
-                        }),
-                      ),
-                    ],
-                  ),
-
-                ),
-                // description and share/explore buttons
-                Divider(),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
-                    child: DefaultTextStyle(
-                      style: descriptionStyle,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Card(
+                shape: shape,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    // photo and title
+                    SizedBox(
+                      height: 150.0,
+                      child: Stack(
                         children: <Widget>[
-                          // three line description
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Text(
-                              destination.itemname,
-                              style: descriptionStyle.copyWith(
-                                  color: Colors.black87),
+                          Positioned.fill(
+                            child: Image.asset(
+                              destination.imagename,
+                              // package: destination.assetPackage,
+                              fit: BoxFit.scaleDown,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Text(
-                              destination.itmprice,
-                              style: descriptionStyle.copyWith(
-                                  color: Colors.black54),
-                            ),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            // padding: EdgeInsets.all(5.0),
+                            child: IconButton(icon: const Icon(Icons.favorite_border), onPressed: (){
+
+                            }),
                           ),
-                          // Text(destination.description[1]),
-                          // Text(destination.description[2]),
                         ],
                       ),
+
                     ),
-                  ),
+                    // description and share/explore buttons
+                    Divider(),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+                        child: DefaultTextStyle(
+                          style: descriptionStyle,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              // three line description
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: Text(
+                                  destination.itemname,
+                                  style: descriptionStyle.copyWith(
+                                      color: Colors.black87),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: Text(
+                                  destination.itmprice,
+                                  style: descriptionStyle.copyWith(
+                                      color: Colors.black54),
+                                ),
+                              ),
+                              // Text(destination.description[1]),
+                              // Text(destination.description[2]),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    // share, explore buttons
+                    Container(
+                      alignment: Alignment.center,
+                      child: OutlineButton(
+                          borderSide: BorderSide(color: Colors.amber.shade500),
+                          child: const Text('Add'),
+                          textColor: Colors.amber.shade500,
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> Item_Details()));
+                          },
+                          shape: new OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          )),
+                    ),
+                  ],
                 ),
-                // share, explore buttons
-                Container(
-                  alignment: Alignment.center,
-                  child: OutlineButton(
-                      borderSide: BorderSide(color: Colors.amber.shade500),
-                      child: const Text('Add'),
-                      textColor: Colors.amber.shade500,
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> Item_Details()));
-                      },
-                      shape: new OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      )),
-                ),
-              ],
-            ),
-          ),
-        )
+              ),
+            )
         )
     );
 
@@ -1365,7 +1354,7 @@ class TravelDestinationItem extends StatelessWidget {
 
 
 
- /* List<RangeSliderData> _rangeSliderDefinitions() {
+/* List<RangeSliderData> _rangeSliderDefinitions() {
     return <RangeSliderData>[
       RangeSliderData(
           min: 0.0, max: 100.0, lowerValue: 10.0, upperValue: 100.0),
@@ -1464,7 +1453,7 @@ class RangeSliderData {
   // Builds a RangeSlider and customizes the theme
   // based on parameters
   //
-  Widget build(BuildContext context, rngslider.RangeSliderCallback callback) {
+  Widget build(BuildContext context, rngSlider.RangeSliderCallback callback) {
     return new Container(
       width: double.infinity,
       child: new Row(
@@ -1492,7 +1481,7 @@ class RangeSliderData {
                     ? ShowValueIndicator.always
                     : ShowValueIndicator.onlyForDiscrete,
               ),
-              child: new rngslider.RangeSlider(
+              child: new rngSlider.RangeSlider(
                 min: min,
                 max: max,
                 lowerValue: lowerValue,

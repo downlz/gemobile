@@ -1,9 +1,18 @@
 import 'package:graineasy/HomeScreen.dart';
 import 'package:graineasy/signup_screen.dart';
+import 'package:graineasy/item_details.dart';
 import 'package:flutter/material.dart';
+import 'package:graineasy/item_screen.dart';
+import 'package:graineasy/services/login.dart';
+import 'package:graineasy/helpers/saveCurrentLogin.dart';
+import 'package:graineasy/helpers/showDialogSingleButton.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'dart:convert';
+
+const URL = "https://graineasy.com";
 
 class Login_Screen extends StatefulWidget {
-
 
   final Key fieldKey;
   final String hintText;
@@ -44,6 +53,25 @@ class login extends State<Login_Screen> {
   bool _autovalidate = false;
   bool _formWasEdited = false;
 
+  Future launchURL(String url) async {
+    if(await canLaunch(url)) {
+      await launch(url, forceSafariVC: true, forceWebView: true);
+    } else {
+      showDialogSingleButton(context, "Unable to reach your website.", "Currently unable to reach the website $URL. Please try again at a later time.", "OK");
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _saveCurrentRoute("/LoginScreen");
+  }
+
+  _saveCurrentRoute(String lastRoute) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString('LastScreenRoute', lastRoute);
+  }
+
   String _validateName(String value) {
     _formWasEdited = true;
     if (value.isEmpty)
@@ -78,10 +106,10 @@ class login extends State<Login_Screen> {
                       _verticalD(),
                       new GestureDetector(
                         onTap: () {
-                          /* Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => login_screen()));*/
+//                          Navigator.push(
+//                            context,
+//                            MaterialPageRoute(
+//                                builder: (context) => Item_Details()));
                         },
                         child: new Text(
                           'Login',
@@ -134,13 +162,14 @@ class login extends State<Login_Screen> {
                                             borderSide: BorderSide(color: Colors.black87,style: BorderStyle.solid),
                                           ),
                                           icon: Icon(Icons.email,color: Colors.black38,),
-                                          hintText: 'Your email address',
-                                          labelText: 'E-mail',
+                                          hintText: 'Your phone no',
+                                          labelText: 'Phone',
                                           labelStyle: TextStyle(color: Colors.black54)
                                       ),
                                       keyboardType: TextInputType.emailAddress,
                                       validator: (val) =>
-                                      !val.contains('@') ? 'Not a valid email.' : null,
+//                                      !val.contains('@') ? 'Not a valid email.' : null,
+                                      val.length < 9 ? 'Not a valid phone no.' : null,
                                       onSaved: (val) => _email = val,
                                     ),
 
@@ -240,20 +269,43 @@ class login extends State<Login_Screen> {
         ));
   }
 
-  void _submit() {
+  void _submit() async{
     final form = formKey.currentState;
 
     if (form.validate()) {
       form.save();
-
       // Email & password matched our validation rules
       // and are saved to _email and _password fields.
-      _performLogin();
+
+      Map<dynamic,dynamic> data;
+      data = {'phone': '+91'+_email,'password':_password};
+
+      var response=await LoginService.userLogin(data);
+      //print(val);
+      if(response.statusCode==200){
+//        print(response.body);
+        var decodeResponse=jsonDecode(response.body);
+        saveCurrentLogin(decodeResponse);
+        _performLogin();
+
+//        storage.setItem('GEUser', decodeResponse);
+      }
+      else{
+        print(response.body);
+        showDialogSingleButton(context, "Unable to Login", "You may have supplied an invalid 'Username' / 'Password' combination. Please try again or contact your support representative.", "OK");
+      }
+
+//      _performLogin();
     }
     else{
       showInSnackBar('Please fix the errors in red before submitting.');
-
     }
+  }
+
+
+  void _logout() async{
+    var response=await LoginService.userLogout();
+    Navigator.push(context, MaterialPageRoute(builder: (context)=> Login_Screen()));
   }
 
   void showInSnackBar(String value) {
