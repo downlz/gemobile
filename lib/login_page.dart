@@ -1,9 +1,10 @@
 import 'dart:convert';
-import 'package:graineasy/Cart_Screen.dart';
+//import 'package:graineasy/Cart_Screen.dart';
 import 'package:graineasy/item_details.dart';
 import 'package:graineasy/services/login.dart';
 import 'package:flutter/material.dart';
 import 'package:graineasy/model/Item.dart';
+import 'package:graineasy/model/unit.dart';
 import 'package:graineasy/utils/loader.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:localstorage/localstorage.dart';
@@ -22,45 +23,48 @@ class LoginPage extends StatefulWidget {
   State<StatefulWidget> createState() => login_dtl(toolbarname);
 }
 
-class Item {
-  final String name;
-  final String deliveryTime;
-  final String oderId;
-  final String oderAmount;
-  final String paymentType;
-  final String address;
-  final String cancelOder;
-
-  Item({this.name,
-        this.deliveryTime,
-        this.oderId,
-        this.oderAmount,
-        this.paymentType,
-        this.address,
-        this.cancelOder});
-
-  factory Item.fromJson(Map<String, dynamic> json) {
-    return new Item(
-      name: json['sampleNo'],
-      deliveryTime: json['origin'],
-        oderId: json['grainCount'],
-        oderAmount: json['grainCount'],
-        paymentType: json['grainCount'],
-    address: json['origin'],
-    cancelOder: json['grade']
-    );
-  }
-
-}
+//class Item {
+//  final String name;
+//  final String deliveryTime;
+//  final String oderId;
+//  final String oderAmount;
+//  final String paymentType;
+//  final String address;
+//  final String cancelOder;
+//
+//  Item({this.name,
+//        this.deliveryTime,
+//        this.oderId,
+//        this.oderAmount,
+//        this.paymentType,
+//        this.address,
+//        this.cancelOder});
+//
+//  factory Item.fromJson(Map<String, dynamic> json) {
+//    return new Item(
+//      name: json['sampleNo'],
+//      deliveryTime: json['origin'],
+//        oderId: json['grainCount'],
+//        oderAmount: json['grainCount'],
+//        paymentType: json['grainCount'],
+//    address: json['origin'],
+//    cancelOder: json['grade']
+//    );
+//  }
+//
+//}
 
 class login_dtl extends State<LoginPage> {
-  List<Item> itemList = List();
+//  List<Item> itemList = Item.List();
+  List<Item> itemList = List<Item>();
+
   var isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _onView();
+       _onView();
+//    LoginService.parseJSON();
   }
 
 //  @override
@@ -176,6 +180,7 @@ class login_dtl extends State<LoginPage> {
           body: ListView.builder(
               itemCount: itemList.length,
               itemBuilder: (BuildContext cont, int ind) {
+
                 return SafeArea(
                     child: Column(children: <Widget>[
                       Container(
@@ -321,7 +326,9 @@ class login_dtl extends State<LoginPage> {
                                             color: Colors.amber.shade500,
                                           ),
                                           Container(
-                                              child:_status(itemList[ind].cancelOder)
+                                              child:_status(
+                                                  itemList[ind].address
+                                                  )
                                           )
                                         ],
                                       ))))),
@@ -427,6 +434,27 @@ class login_dtl extends State<LoginPage> {
     }
   }
 
+
+  _onViewData() async {
+//    setState(() {
+//      isLoading = true;
+//    });
+////    var itemResponse;
+//    var response=await LoginService.parseJSON();
+//    if(response.statusCode==200){
+//
+//      itemList = (json.decode(response.body) as List)
+//          .map((data) => new Item.fromJson(data))
+//          .toList();
+//
+////      print(itemList[2]);
+//
+//      setState(() {
+//        isLoading = false;
+//      });
+//    }
+  }
+
   _onView() async {
     setState(() {
       isLoading = true;
@@ -435,9 +463,19 @@ class login_dtl extends State<LoginPage> {
     var response=await LoginService.getItems();
     if(response.statusCode==200){
 //      itemResponse=jsonDecode(response.body);
+//      Item item = new Item.fromJson(itemResponse);
+//
+//      print(item);
+//      itemList = (item as List)
+//          .map((data) => item)
+//          .toList();
+
       itemList = (json.decode(response.body) as List)
           .map((data) => new Item.fromJson(data))
           .toList();
+
+//      print(itemList[2]);
+
       setState(() {
         isLoading = false;
       });

@@ -5,6 +5,9 @@ import 'package:graineasy/helpers/getToken.dart';
 import 'package:graineasy/helpers/saveLogout.dart';
 import 'package:graineasy/helpers/showDialogSingleButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:graineasy/model/Item.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:async' show Future;
 import 'package:http/http.dart' as http;
 
 class LoginService{
@@ -51,4 +54,17 @@ class LoginService{
     await saveLogout();
 //    Future<bool> remove(String token) => _setValue(null, token, null);
   }
+
+  Future parseJSON() async{
+    String jsonString = await _loadItemAsset();
+    final jsonResponse = convert.jsonDecode(jsonString);
+    Item item = new Item.fromJson(jsonResponse);
+    print(item.category.name);
+    return item;
+  }
+
+  Future<String> _loadItemAsset() async {
+    return await rootBundle.loadString('assets/items.json');
+  }
+
 }

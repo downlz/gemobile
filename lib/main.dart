@@ -1,4 +1,5 @@
 import 'package:graineasy/HomeScreen.dart';
+import 'package:graineasy/HomeScreen.dart' as prefix0;
 import 'package:graineasy/item_details.dart';
 import 'package:graineasy/logind_signup.dart';
 import 'package:graineasy/item_screen.dart';
@@ -74,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void navigationPage() {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Login_Screen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Home_screen()));
 
   }
 
