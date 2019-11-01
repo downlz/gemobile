@@ -1,9 +1,12 @@
 import 'dart:convert';
-import 'package:graineasy/Cart_Screen.dart';
+import 'dart:async';
+import 'package:flutter/services.dart' show rootBundle;
+//import 'package:graineasy/Cart_Screen.dart';
 import 'package:graineasy/item_details.dart';
 import 'package:graineasy/services/login.dart';
 import 'package:flutter/material.dart';
 import 'package:graineasy/model/Item.dart';
+import 'package:graineasy/model/unit.dart';
 import 'package:graineasy/utils/loader.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:localstorage/localstorage.dart';
@@ -11,6 +14,7 @@ import 'package:graineasy/helpers/getToken.dart';
 import 'package:graineasy/logind_signup.dart';
 import 'package:graineasy/helpers/showDialogSingleButton.dart';
 import 'package:flutter_range_slider/flutter_range_slider.dart';
+import 'package:http/http.dart' as http;
 final LocalStorage storage = new LocalStorage('GEUser');
 
 class LoginPage extends StatefulWidget {
@@ -22,45 +26,58 @@ class LoginPage extends StatefulWidget {
   State<StatefulWidget> createState() => login_dtl(toolbarname);
 }
 
-class Item {
-  final String name;
-  final String deliveryTime;
-  final String oderId;
-  final String oderAmount;
-  final String paymentType;
-  final String address;
-  final String cancelOder;
-
-  Item({this.name,
-        this.deliveryTime,
-        this.oderId,
-        this.oderAmount,
-        this.paymentType,
-        this.address,
-        this.cancelOder});
-
-  factory Item.fromJson(Map<String, dynamic> json) {
-    return new Item(
-      name: json['sampleNo'],
-      deliveryTime: json['origin'],
-        oderId: json['grainCount'],
-        oderAmount: json['grainCount'],
-        paymentType: json['grainCount'],
-    address: json['origin'],
-    cancelOder: json['grade']
-    );
-  }
-
-}
+//class Item {
+//  final String name;
+//  final String deliveryTime;
+//  final String oderId;
+//  final String oderAmount;
+//  final String paymentType;
+//  final String address;
+//  final String cancelOder;
+//
+//  Item({this.name,
+//        this.deliveryTime,
+//        this.oderId,
+//        this.oderAmount,
+//        this.paymentType,
+//        this.address,
+//        this.cancelOder});
+//
+//  factory Item.fromJson(Map<String, dynamic> json) {
+//    return new Item(
+//      name: json['sampleNo'],
+//      deliveryTime: json['origin'],
+//        oderId: json['grainCount'],
+//        oderAmount: json['grainCount'],
+//        paymentType: json['grainCount'],
+//    address: json['origin'],
+//    cancelOder: json['grade']
+//    );
+//  }
+//
+//}
 
 class login_dtl extends State<LoginPage> {
-  List<Item> itemList = List();
+//  List<Item> itemList = Item.List();
+
+//  Future parseJSON() async{
+//    var jsonString = await LoginService.getItems();
+//    final jsonResponse = json.decode(jsonString);
+//    Item item = new Item.fromJson(jsonResponse);
+////    print(item.category.name);
+//    print('Name: ${item.name}');
+//    return item;
+//  }
+
+  List<Item> itemList = List<Item>();
+
   var isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _onView();
+       _onView();
+//    LoginService.parseJSON();
   }
 
 //  @override
@@ -172,7 +189,6 @@ class login_dtl extends State<LoginPage> {
             title: Text(toolbarname),
             backgroundColor: Colors.white,
           ),
-// **************************************************************************************************
           body: ListView.builder(
               itemCount: itemList.length,
               itemBuilder: (BuildContext cont, int ind) {
@@ -321,16 +337,12 @@ class login_dtl extends State<LoginPage> {
                                             color: Colors.amber.shade500,
                                           ),
                                           Container(
-                                              child:_status(itemList[ind].cancelOder)
+                                              child:_status(itemList[ind].category.name)
                                           )
                                         ],
                                       ))))),
                     ]));
-              })
-// **************************************************************************************************
-//      )
-//    ])
-    );
+              }));
   }
 
   _verticalDivider() => Container(
@@ -427,6 +439,11 @@ class login_dtl extends State<LoginPage> {
     }
   }
 
+
+  _onViewData() async {
+    var response  = await LoginService.getPhotos();
+  }
+
   _onView() async {
     setState(() {
       isLoading = true;
@@ -434,10 +451,21 @@ class login_dtl extends State<LoginPage> {
 //    var itemResponse;
     var response=await LoginService.getItems();
     if(response.statusCode==200){
-//      itemResponse=jsonDecode(response.body);
-      itemList = (json.decode(response.body) as List)
-          .map((data) => new Item.fromJson(data))
-          .toList();
+      var itemResponse=jsonDecode(response.body);
+//      Item item = new Item.fromJson(itemResponse);
+//
+//      print(item);
+//      itemList = (item as List)
+//          .map((data) => item)
+//          .toList();
+      var rest = itemResponse as List;
+      itemList = rest.map<Item>((json) => Item.fromJson(json)).toList();
+//      itemList = (json.decode(response.body) as List)
+//          .map((data) => new Item.fromJson(data))
+//          .toList();
+
+      print(itemList[2].category.name);
+
       setState(() {
         isLoading = false;
       });

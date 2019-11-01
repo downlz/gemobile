@@ -1,0 +1,2520 @@
+{
+    "bargainenabled": true,
+    "isTaxable": true,
+    "_id": "5cbf4acf3ea6d90267ba9b98",
+    "image": "https://res.cloudinary.com/dkhlc6xlj/image/upload/v1556040430/uskti1mqdrccqwxqqhcr.jpg",
+    "qty": 2000,
+    "price": 27.98,
+    "grainCount": "38",
+    "grade": "B",
+    "sampleNo": "WHEA102",
+    "origin": "Hyderabad",
+    "isLive": true,
+    "specs": {
+      "_id": "5cbf4acf3ea6d90267ba9b99",
+      "moisture": "67",
+      "graincount": "38",
+      "icumsa": "190"
+    },
+    "category": {
+      "_id": "5cb2e49cdd97f5916fb26e65",
+      "name": "Fatka",
+      "itemname": {
+        "_id": "5cb2e3efdd97f5916fb26e5d",
+        "name": "Toor Dal",
+        "tax": 0,
+        "insurance": 0,
+        "__v": 0
+      },
+      "__v": 0
+    },
+    "name": {
+      "_id": "5cb2e3fbdd97f5916fb26e5f",
+      "name": "Wheat",
+      "tax": 0,
+      "insurance": 0,
+      "__v": 0
+    },
+    "city": {
+      "_id": "5cb2e333dd97f5916fb26dd4",
+      "name": "Gulbarga",
+      "state": {
+        "_id": "5cb2e28ddd97f5916fb26dc7",
+        "name": "Karnataka",
+        "__v": 0
+      },
+      "loadingPerKg": 0,
+      "unloadingPerKg": 0,
+      "packagingPerKg": 0,
+      "__v": 0
+    },
+    "address": {
+      "_id": "5cb2dda67e8fae91235f25a2",
+      "text": "GK Heights,Kondapur",
+      "city": {
+        "_id": "5cb2dba959222190e4bc0328",
+        "name": "Hyderabad",
+        "state": {
+          "_id": "5cb2db9b59222190e4bc0327",
+          "name": "Telangana",
+          "__v": 0
+        },
+        "loadingPerKg": 0,
+        "unloadingPerKg": 0,
+        "packagingPerKg": 0,
+        "__v": 0
+      },
+      "pin": "232323",
+      "__v": 0
+    },
+    "seller": {
+      "vendorCode": "",
+      "isactive": false,
+      "_id": "5cb2df0f7e8fae91235f261e",
+      "Addresses": [
+        {
+          "_id": "5cb2df0e7e8fae91235f261b",
+          "text": "Chandan Street",
+          "city": {
+            "_id": "5cb2dba959222190e4bc0328",
+            "name": "Hyderabad",
+            "state": {
+              "_id": "5cb2db9b59222190e4bc0327",
+              "name": "Telangana",
+              "__v": 0
+            },
+            "loadingPerKg": 0,
+            "unloadingPerKg": 0,
+            "packagingPerKg": 0,
+            "__v": 0
+          },
+          "pin": "222222",
+          "__v": 0
+        }
+      ],
+      "name": "Seller",
+      "email": "seller@graineasy.com",
+      "password": "$2a$10$eY35wER5NvLPoj41XgZ5DuueZicwCC/gN4Jv5fb9/jlw3xZc2hND.",
+      "phone": "+912222222222",
+      "pan": "asdfgh",
+      "GST": "zxcvb",
+      "isBuyer": false,
+      "sellerFeePerKg": 0,
+      "buyerBackMarginPercent": 0,
+      "buyerCreditCostPercent": 0,
+      "buyerFeePerKg": 0,
+      "buyerNetLossPercent": 0,
+      "buyerMarginPerKg": 0,
+      "buyerDiscount1Percent": 0,
+      "buyerDiscount2PerKg": 0,
+      "buyerDiscount3Lumpsump": 0,
+      "buyerFinePerKg": 0,
+      "isSeller": true,
+      "__v": 0
+    },
+    "unit": {
+      "_id": "5cb236fd97a8238c56b611bb",
+      "mass": "Quintal",
+      "__v": 0
+    },
+    "manufacturer": {
+      "_id": "5cb22aea93bb318c1a18b2d2",
+      "name": "Mysore Industries",
+      "__v": 0
+    },
+    "__v": 0,
+    "bargaintrgqty": 100
+  },
+  {
+    "bargainenabled": false,
+    "isTaxable": false,
+    "_id": "5d9902a5ed6d73458f11c2e1",
+    "image": "https://res.cloudinary.com/dkhlc6xlj/image/upload/v1570308770/hlv1tmkgi56yr8aex42p.jpg",
+    "qty": 100,
+    "price": 32,
+    "grainCount": "NA",
+    "grade": "A",
+    "origin": "Bangalore",
+    "isLive": true,
+    "specs": {
+      "_id": "5d9902a5ed6d73458f11c2e2",
+      "moisture": "NA",
+      "graincount": "NA",
+      "icumsa": "NA"
+    },
+    "sampleNo": "SUG1000",
+    "category": {
+      "_id": "5d98f7c50975964420d3b4cd",
+      "name": "S-1",
+      "itemname": {
+        "_id": "5cb2e3fedd97f5916fb26e60",
+        "name": "Sugar",
+        "tax": 0,
+        "insurance": 0,
+        "__v": 0,
+        "hsn": "10071000"
+      },
+      "__v": 0
+    },
+    "name": {
+      "_id": "5cb2e3fedd97f5916fb26e60",
+      "name": "Sugar",
+      "tax": 0,
+      "insurance": 0,
+      "__v": 0,
+      "hsn": "10071000"
+    },
+    "city": {
+      "_id": "5cb2e342dd97f5916fb26dd6",
+      "name": "Bangalore",
+      "state": {
+        "_id": "5cb2e28ddd97f5916fb26dc7",
+        "name": "Karnataka",
+        "__v": 0
+      },
+      "loadingPerKg": 0,
+      "unloadingPerKg": 0,
+      "packagingPerKg": 0,
+      "__v": 0,
+      "location": {
+        "coordinates": [
+          12.9542946,
+          77.4908523
+        ],
+        "_id": "5d9902a3ed6d73458f11c2d4",
+        "type": "Point"
+      }
+    },
+    "address": {
+      "_id": "5cff1e038815d1d1d9384bd3",
+      "text": "24/3,Main Road,Banjara Hills",
+      "city": {
+        "_id": "5cb2dba959222190e4bc0328",
+        "name": "Hyderabad",
+        "state": {
+          "_id": "5cb2db9b59222190e4bc0327",
+          "name": "Telangana",
+          "__v": 0
+        },
+        "loadingPerKg": 0,
+        "unloadingPerKg": 0,
+        "packagingPerKg": 0,
+        "__v": 0
+      },
+      "pin": "500091",
+      "state": {
+        "_id": "5cb2db9b59222190e4bc0327",
+        "name": "Telangana",
+        "__v": 0,
+        "code": 36
+      },
+      "phone": "+912222222222",
+      "addresstype": "registered",
+      "addressbasicdtl": {
+        "_id": "5cff1e038815d1d1d9384bd7",
+        "partyname": "Admin Seller",
+        "gstin": "SELLER2019ABCDE"
+      },
+      "__v": 0
+    },
+    "seller": {
+      "vendorCode": "ADMINSEL",
+      "isactive": true,
+      "_id": "5cff1e038815d1d1d9384bd8",
+      "Addresses": [
+        {
+          "_id": "5cff1e038815d1d1d9384bd3",
+          "text": "24/3,Main Road,Banjara Hills",
+          "city": {
+            "_id": "5cb2dba959222190e4bc0328",
+            "name": "Hyderabad",
+            "state": {
+              "_id": "5cb2db9b59222190e4bc0327",
+              "name": "Telangana",
+              "__v": 0
+            },
+            "loadingPerKg": 0,
+            "unloadingPerKg": 0,
+            "packagingPerKg": 0,
+            "__v": 0
+          },
+          "pin": "500091",
+          "state": {
+            "_id": "5cb2db9b59222190e4bc0327",
+            "name": "Telangana",
+            "__v": 0,
+            "code": 36
+          },
+          "phone": "+912222222222",
+          "addresstype": "registered",
+          "addressbasicdtl": {
+            "_id": "5cff1e038815d1d1d9384bd7",
+            "partyname": "Admin Seller",
+            "gstin": "SELLER2019ABCDE"
+          },
+          "__v": 0
+        }
+      ],
+      "name": "Admin Seller",
+      "email": "seller@graineasy.com",
+      "password": "$2a$10$b5WOE4YJN9AEd1nyAK3S0eL0s8k6L8.RpoNZjkwsZyJOWLBHA2E5y",
+      "phone": "+912222222222",
+      "pan": "SELLER2019",
+      "GST": "SELLER2019ABCDE",
+      "isBuyer": false,
+      "sellerFeePerKg": 0,
+      "buyerBackMarginPercent": 0,
+      "buyerCreditCostPercent": 0,
+      "buyerFeePerKg": 0,
+      "buyerNetLossPercent": 0,
+      "buyerMarginPerKg": 0,
+      "buyerDiscount1Percent": 0,
+      "buyerDiscount2PerKg": 0,
+      "buyerDiscount3Lumpsump": 0,
+      "buyerFinePerKg": 0,
+      "isSeller": true,
+      "__v": 0
+    },
+    "unit": {
+      "_id": "5cb2e223dd97f5916fb26dc6",
+      "mass": "Kg",
+      "__v": 0
+    },
+    "manufacturer": {
+      "_id": "5cb21f8bf17d5e8bde7c3dcb",
+      "name": "Balram Chini",
+      "address": "Uttar Pradesh",
+      "phone": "5534223235",
+      "email": "balram@balram.com",
+      "__v": 0
+    },
+    "addedby": {
+      "vendorCode": "ADMINACC",
+      "isactive": true,
+      "_id": "5cff1dbd8815d1d1d9384bc6",
+      "Addresses": [
+        {
+          "_id": "5cff1dbd8815d1d1d9384bc1",
+          "text": "Laxmi Nagar,Kothaguda",
+          "city": {
+            "_id": "5cb2dba959222190e4bc0328",
+            "name": "Hyderabad",
+            "state": {
+              "_id": "5cb2db9b59222190e4bc0327",
+              "name": "Telangana",
+              "__v": 0
+            },
+            "loadingPerKg": 0,
+            "unloadingPerKg": 0,
+            "packagingPerKg": 0,
+            "__v": 0
+          },
+          "pin": "500084",
+          "state": {
+            "_id": "5cb2db9b59222190e4bc0327",
+            "name": "Telangana",
+            "__v": 0,
+            "code": 36
+          },
+          "phone": "+911111111111",
+          "addresstype": "registered",
+          "addressbasicdtl": {
+            "_id": "5cff1dbd8815d1d1d9384bc5",
+            "partyname": "Admin Account",
+            "gstin": "ADMIN2019ABCDEF"
+          },
+          "__v": 0
+        }
+      ],
+      "name": "Admin Account",
+      "email": "admin@graineasy.com",
+      "password": "$2a$10$uUd1tR8slVJcDHlGNmJyxejej8rAhxGfLqKez.0xBSH2StjhknBu.",
+      "phone": "+911111111111",
+      "pan": "ADMIN2019R",
+      "GST": "ADMIN2019ABCDEF",
+      "isBuyer": true,
+      "sellerFeePerKg": 0,
+      "buyerBackMarginPercent": 0,
+      "buyerCreditCostPercent": 0,
+      "buyerFeePerKg": 0,
+      "buyerNetLossPercent": 0,
+      "buyerMarginPerKg": 0,
+      "buyerDiscount1Percent": 0,
+      "buyerDiscount2PerKg": 0,
+      "buyerDiscount3Lumpsump": 0,
+      "buyerFinePerKg": 0,
+      "isSeller": false,
+      "__v": 0,
+      "isAdmin": true,
+      "isAgent": false
+    },
+    "__v": 0
+  },
+  {
+    "bargainenabled": false,
+    "isTaxable": true,
+    "_id": "5d87a166e8e5fdd41363f438",
+    "image": "https://res.cloudinary.com/dkhlc6xlj/image/upload/v1569169763/t4pwfis7aclkff6767gq.jpg",
+    "qty": 1000,
+    "price": 32.9,
+    "grainCount": "NA",
+    "grade": "A",
+    "sampleNo": "RIC231",
+    "origin": "Bangalore",
+    "isLive": true,
+    "specs": {
+      "_id": "5d87a166e8e5fdd41363f439",
+      "moisture": "NA",
+      "graincount": "NA",
+      "icumsa": "23"
+    },
+    "category": {
+      "_id": "5ce8cd08eb52de1123ed40ce",
+      "name": "HMT",
+      "itemname": {
+        "_id": "5cb2c51e7468b08fc00d447a",
+        "name": "Rice",
+        "tax": 0,
+        "insurance": 0,
+        "__v": 0
+      },
+      "__v": 0
+    },
+    "name": {
+      "_id": "5cb2c51e7468b08fc00d447a",
+      "name": "Rice",
+      "tax": 0,
+      "insurance": 0,
+      "__v": 0,
+      "hsn": "10061010"
+    },
+    "city": {
+      "_id": "5cb2e359dd97f5916fb26dd8",
+      "name": "Tumkur",
+      "state": {
+        "_id": "5cb2e28ddd97f5916fb26dc7",
+        "name": "Karnataka",
+        "__v": 0
+      },
+      "loadingPerKg": 0,
+      "unloadingPerKg": 0,
+      "packagingPerKg": 0,
+      "__v": 0
+    },
+    "address": {
+      "_id": "5cff1e038815d1d1d9384bd3",
+      "text": "24/3,Main Road,Banjara Hills",
+      "city": {
+        "_id": "5cb2dba959222190e4bc0328",
+        "name": "Hyderabad",
+        "state": {
+          "_id": "5cb2db9b59222190e4bc0327",
+          "name": "Telangana",
+          "__v": 0
+        },
+        "loadingPerKg": 0,
+        "unloadingPerKg": 0,
+        "packagingPerKg": 0,
+        "__v": 0
+      },
+      "pin": "500091",
+      "state": {
+        "_id": "5cb2db9b59222190e4bc0327",
+        "name": "Telangana",
+        "__v": 0,
+        "code": 36
+      },
+      "phone": "+912222222222",
+      "addresstype": "registered",
+      "addressbasicdtl": {
+        "_id": "5cff1e038815d1d1d9384bd7",
+        "partyname": "Admin Seller",
+        "gstin": "SELLER2019ABCDE"
+      },
+      "__v": 0
+    },
+    "seller": {
+      "vendorCode": "ADMINSEL",
+      "isactive": true,
+      "_id": "5cff1e038815d1d1d9384bd8",
+      "Addresses": [
+        {
+          "_id": "5cff1e038815d1d1d9384bd3",
+          "text": "24/3,Main Road,Banjara Hills",
+          "city": {
+            "_id": "5cb2dba959222190e4bc0328",
+            "name": "Hyderabad",
+            "state": {
+              "_id": "5cb2db9b59222190e4bc0327",
+              "name": "Telangana",
+              "__v": 0
+            },
+            "loadingPerKg": 0,
+            "unloadingPerKg": 0,
+            "packagingPerKg": 0,
+            "__v": 0
+          },
+          "pin": "500091",
+          "state": {
+            "_id": "5cb2db9b59222190e4bc0327",
+            "name": "Telangana",
+            "__v": 0,
+            "code": 36
+          },
+          "phone": "+912222222222",
+          "addresstype": "registered",
+          "addressbasicdtl": {
+            "_id": "5cff1e038815d1d1d9384bd7",
+            "partyname": "Admin Seller",
+            "gstin": "SELLER2019ABCDE"
+          },
+          "__v": 0
+        }
+      ],
+      "name": "Admin Seller",
+      "email": "seller@graineasy.com",
+      "password": "$2a$10$b5WOE4YJN9AEd1nyAK3S0eL0s8k6L8.RpoNZjkwsZyJOWLBHA2E5y",
+      "phone": "+912222222222",
+      "pan": "SELLER2019",
+      "GST": "SELLER2019ABCDE",
+      "isBuyer": false,
+      "sellerFeePerKg": 0,
+      "buyerBackMarginPercent": 0,
+      "buyerCreditCostPercent": 0,
+      "buyerFeePerKg": 0,
+      "buyerNetLossPercent": 0,
+      "buyerMarginPerKg": 0,
+      "buyerDiscount1Percent": 0,
+      "buyerDiscount2PerKg": 0,
+      "buyerDiscount3Lumpsump": 0,
+      "buyerFinePerKg": 0,
+      "isSeller": true,
+      "__v": 0
+    },
+    "unit": {
+      "_id": "5cb2e223dd97f5916fb26dc6",
+      "mass": "Kg",
+      "__v": 0
+    },
+    "manufacturer": {
+      "_id": "5cb22aea93bb318c1a18b2d2",
+      "name": "Mysore Industries",
+      "__v": 0
+    },
+    "addedby": {
+      "vendorCode": "ADMINACC",
+      "isactive": true,
+      "_id": "5cff1dbd8815d1d1d9384bc6",
+      "Addresses": [
+        {
+          "_id": "5cff1dbd8815d1d1d9384bc1",
+          "text": "Laxmi Nagar,Kothaguda",
+          "city": {
+            "_id": "5cb2dba959222190e4bc0328",
+            "name": "Hyderabad",
+            "state": {
+              "_id": "5cb2db9b59222190e4bc0327",
+              "name": "Telangana",
+              "__v": 0
+            },
+            "loadingPerKg": 0,
+            "unloadingPerKg": 0,
+            "packagingPerKg": 0,
+            "__v": 0
+          },
+          "pin": "500084",
+          "state": {
+            "_id": "5cb2db9b59222190e4bc0327",
+            "name": "Telangana",
+            "__v": 0,
+            "code": 36
+          },
+          "phone": "+911111111111",
+          "addresstype": "registered",
+          "addressbasicdtl": {
+            "_id": "5cff1dbd8815d1d1d9384bc5",
+            "partyname": "Admin Account",
+            "gstin": "ADMIN2019ABCDEF"
+          },
+          "__v": 0
+        }
+      ],
+      "name": "Admin Account",
+      "email": "admin@graineasy.com",
+      "password": "$2a$10$uUd1tR8slVJcDHlGNmJyxejej8rAhxGfLqKez.0xBSH2StjhknBu.",
+      "phone": "+911111111111",
+      "pan": "ADMIN2019R",
+      "GST": "ADMIN2019ABCDEF",
+      "isBuyer": true,
+      "sellerFeePerKg": 0,
+      "buyerBackMarginPercent": 0,
+      "buyerCreditCostPercent": 0,
+      "buyerFeePerKg": 0,
+      "buyerNetLossPercent": 0,
+      "buyerMarginPerKg": 0,
+      "buyerDiscount1Percent": 0,
+      "buyerDiscount2PerKg": 0,
+      "buyerDiscount3Lumpsump": 0,
+      "buyerFinePerKg": 0,
+      "isSeller": false,
+      "__v": 0,
+      "isAdmin": true
+    },
+    "__v": 0
+  },
+  {
+    "bargainenabled": false,
+    "isTaxable": true,
+    "_id": "5d41b4aab805e87e53b40020",
+    "image": "https://res.cloudinary.com/dkhlc6xlj/image/upload/v1564587175/b14ukavub6rsozdjaih1.jpg",
+    "qty": 1000,
+    "price": 34.61,
+    "grainCount": "23",
+    "grade": "A",
+    "sampleNo": "MAS1003",
+    "origin": "Latur",
+    "isLive": true,
+    "specs": {
+      "_id": "5d41b4aab805e87e53b40021",
+      "moisture": "91",
+      "graincount": "23",
+      "icumsa": "100"
+    },
+    "category": {
+      "_id": "5cc5451bb1840a4cc29a9857",
+      "name": "Dhuli",
+      "itemname": {
+        "_id": "5cc5420af0919a4be4978bb6",
+        "name": "Masoor Dal",
+        "tax": 0,
+        "insurance": 0,
+        "__v": 0
+      },
+      "__v": 0
+    },
+    "name": {
+      "_id": "5cc5420af0919a4be4978bb6",
+      "name": "Masoor Dal",
+      "tax": 0,
+      "insurance": 0,
+      "__v": 0,
+      "hsn": "07139010"
+    },
+    "city": {
+      "_id": "5cb2e2fcdd97f5916fb26dd0",
+      "name": "Latur",
+      "state": {
+        "_id": "5cb2e2a1dd97f5916fb26dc8",
+        "name": "Maharashtra",
+        "__v": 0
+      },
+      "loadingPerKg": 0,
+      "unloadingPerKg": 0,
+      "packagingPerKg": 0,
+      "__v": 0
+    },
+    "address": {
+      "_id": "5cff1e038815d1d1d9384bd3",
+      "text": "24/3,Main Road,Banjara Hills",
+      "city": {
+        "_id": "5cb2dba959222190e4bc0328",
+        "name": "Hyderabad",
+        "state": {
+          "_id": "5cb2db9b59222190e4bc0327",
+          "name": "Telangana",
+          "__v": 0
+        },
+        "loadingPerKg": 0,
+        "unloadingPerKg": 0,
+        "packagingPerKg": 0,
+        "__v": 0
+      },
+      "pin": "500091",
+      "state": {
+        "_id": "5cb2db9b59222190e4bc0327",
+        "name": "Telangana",
+        "__v": 0,
+        "code": 36
+      },
+      "phone": "+912222222222",
+      "addresstype": "registered",
+      "addressbasicdtl": {
+        "_id": "5cff1e038815d1d1d9384bd7",
+        "partyname": "Admin Seller",
+        "gstin": "SELLER2019ABCDE"
+      },
+      "__v": 0
+    },
+    "seller": {
+      "vendorCode": "ADMINSEL",
+      "isactive": true,
+      "_id": "5cff1e038815d1d1d9384bd8",
+      "Addresses": [
+        {
+          "_id": "5cff1e038815d1d1d9384bd3",
+          "text": "24/3,Main Road,Banjara Hills",
+          "city": {
+            "_id": "5cb2dba959222190e4bc0328",
+            "name": "Hyderabad",
+            "state": {
+              "_id": "5cb2db9b59222190e4bc0327",
+              "name": "Telangana",
+              "__v": 0
+            },
+            "loadingPerKg": 0,
+            "unloadingPerKg": 0,
+            "packagingPerKg": 0,
+            "__v": 0
+          },
+          "pin": "500091",
+          "state": {
+            "_id": "5cb2db9b59222190e4bc0327",
+            "name": "Telangana",
+            "__v": 0,
+            "code": 36
+          },
+          "phone": "+912222222222",
+          "addresstype": "registered",
+          "addressbasicdtl": {
+            "_id": "5cff1e038815d1d1d9384bd7",
+            "partyname": "Admin Seller",
+            "gstin": "SELLER2019ABCDE"
+          },
+          "__v": 0
+        }
+      ],
+      "name": "Admin Seller",
+      "email": "seller@graineasy.com",
+      "password": "$2a$10$b5WOE4YJN9AEd1nyAK3S0eL0s8k6L8.RpoNZjkwsZyJOWLBHA2E5y",
+      "phone": "+912222222222",
+      "pan": "SELLER2019",
+      "GST": "SELLER2019ABCDE",
+      "isBuyer": false,
+      "sellerFeePerKg": 0,
+      "buyerBackMarginPercent": 0,
+      "buyerCreditCostPercent": 0,
+      "buyerFeePerKg": 0,
+      "buyerNetLossPercent": 0,
+      "buyerMarginPerKg": 0,
+      "buyerDiscount1Percent": 0,
+      "buyerDiscount2PerKg": 0,
+      "buyerDiscount3Lumpsump": 0,
+      "buyerFinePerKg": 0,
+      "isSeller": true,
+      "__v": 0
+    },
+    "unit": {
+      "_id": "5cb2e223dd97f5916fb26dc6",
+      "mass": "Kg",
+      "__v": 0
+    },
+    "manufacturer": {
+      "_id": "5cb22ae093bb318c1a18b2d1",
+      "name": "Bajaj Pulse Mill",
+      "__v": 0
+    },
+    "__v": 0
+  },
+  {
+    "bargainenabled": true,
+    "isTaxable": true,
+    "_id": "5d0bda117c2d7a34bbba1628",
+    "image": "https://res.cloudinary.com/dkhlc6xlj/image/upload/v1561057807/pbtexegsxnvfgzo3izie.jpg",
+    "qty": 1000,
+    "price": 34.9,
+    "grainCount": "10",
+    "grade": "A",
+    "sampleNo": "RIC120",
+    "origin": "Bangalore",
+    "isLive": true,
+    "specs": {
+      "_id": "5d0bda117c2d7a34bbba1629",
+      "moisture": "9",
+      "graincount": "10",
+      "icumsa": "12"
+    },
+    "category": {
+      "_id": "5ce8cce3eb52de1123ed40ca",
+      "name": "Minicate",
+      "itemname": {
+        "_id": "5cb2c51e7468b08fc00d447a",
+        "name": "Rice",
+        "tax": 0,
+        "insurance": 0,
+        "__v": 0
+      },
+      "__v": 0
+    },
+    "name": {
+      "_id": "5cb2c51e7468b08fc00d447a",
+      "name": "Rice",
+      "tax": 0,
+      "insurance": 0,
+      "__v": 0,
+      "hsn": "10061010"
+    },
+    "city": {
+      "_id": "5cb2e342dd97f5916fb26dd6",
+      "name": "Bangalore",
+      "state": {
+        "_id": "5cb2e28ddd97f5916fb26dc7",
+        "name": "Karnataka",
+        "__v": 0
+      },
+      "loadingPerKg": 0,
+      "unloadingPerKg": 0,
+      "packagingPerKg": 0,
+      "__v": 0
+    },
+    "address": {
+      "_id": "5d0bd98c4e7bcff2f3939b7e",
+      "text": "39/2 ITPL MAIN ROAD MUNNEKOLAL",
+      "city": {
+        "_id": "5c487ddd05be7315cff08b21",
+        "name": "Bangalore",
+        "state": {
+          "_id": "5c2a547aef3fce441cbb959f",
+          "name": "Karnataka",
+          "__v": 0
+        },
+        "__v": 0
+      },
+      "pin": "560037",
+      "state": {
+        "_id": "5c2a547aef3fce441cbb959f",
+        "name": "Karnataka",
+        "__v": 0,
+        "code": 29
+      },
+      "phone": "+918340445819",
+      "addresstype": "registered",
+      "addressbasicdtl": {
+        "_id": "5d0bda117c2d7a34bbba1623",
+        "partyname": "Funfact eMarketplace Private limited",
+        "gstin": "29AADCF2827J1ZG"
+      }
+    },
+    "seller": {
+      "vendorCode": "ADMINSEL",
+      "isactive": true,
+      "_id": "5cff1e038815d1d1d9384bd8",
+      "Addresses": [
+        {
+          "_id": "5cff1e038815d1d1d9384bd3",
+          "text": "24/3,Main Road,Banjara Hills",
+          "city": {
+            "_id": "5cb2dba959222190e4bc0328",
+            "name": "Hyderabad",
+            "state": {
+              "_id": "5cb2db9b59222190e4bc0327",
+              "name": "Telangana",
+              "__v": 0
+            },
+            "loadingPerKg": 0,
+            "unloadingPerKg": 0,
+            "packagingPerKg": 0,
+            "__v": 0
+          },
+          "pin": "500091",
+          "state": {
+            "_id": "5cb2db9b59222190e4bc0327",
+            "name": "Telangana",
+            "__v": 0,
+            "code": 36
+          },
+          "phone": "+912222222222",
+          "addresstype": "registered",
+          "addressbasicdtl": {
+            "_id": "5cff1e038815d1d1d9384bd7",
+            "partyname": "Admin Seller",
+            "gstin": "SELLER2019ABCDE"
+          },
+          "__v": 0
+        }
+      ],
+      "name": "Admin Seller",
+      "email": "seller@graineasy.com",
+      "password": "$2a$10$b5WOE4YJN9AEd1nyAK3S0eL0s8k6L8.RpoNZjkwsZyJOWLBHA2E5y",
+      "phone": "+912222222222",
+      "pan": "SELLER2019",
+      "GST": "SELLER2019ABCDE",
+      "isBuyer": false,
+      "sellerFeePerKg": 0,
+      "buyerBackMarginPercent": 0,
+      "buyerCreditCostPercent": 0,
+      "buyerFeePerKg": 0,
+      "buyerNetLossPercent": 0,
+      "buyerMarginPerKg": 0,
+      "buyerDiscount1Percent": 0,
+      "buyerDiscount2PerKg": 0,
+      "buyerDiscount3Lumpsump": 0,
+      "buyerFinePerKg": 0,
+      "isSeller": true,
+      "__v": 0
+    },
+    "unit": {
+      "_id": "5cb2e223dd97f5916fb26dc6",
+      "mass": "Kg",
+      "__v": 0
+    },
+    "manufacturer": {
+      "_id": "5cb22acc93bb318c1a18b2cf",
+      "name": "G Ngapatnam and Co.",
+      "__v": 0
+    },
+    "__v": 0,
+    "bargaintrgqty": 75
+  },
+  {
+    "bargainenabled": false,
+    "isTaxable": false,
+    "_id": "5daf424ed58b2510e143312c",
+    "image": "https://res.cloudinary.com/dkhlc6xlj/image/upload/v1571766858/ixa8chbdhrnm5hpovpkl.jpg",
+    "qty": 1000,
+    "price": 34.9,
+    "grainCount": "9",
+    "grade": "NA",
+    "origin": "Bangalore",
+    "isLive": true,
+    "specs": {
+      "_id": "5daf43d6d58b2510e1433d69",
+      "moisture": "90",
+      "graincount": "9",
+      "icumsa": "120"
+    },
+    "sampleNo": "MAS1004",
+    "category": {
+      "_id": "5cc5451bb1840a4cc29a9857",
+      "name": "Dhuli",
+      "itemname": {
+        "_id": "5cc5420af0919a4be4978bb6",
+        "name": "Masoor Dal",
+        "tax": 0,
+        "insurance": 0,
+        "__v": 0
+      },
+      "__v": 0
+    },
+    "name": {
+      "_id": "5cc5420af0919a4be4978bb6",
+      "name": "Masoor Dal",
+      "tax": 5,
+      "insurance": 0,
+      "__v": 0,
+      "hsn": "07139010"
+    },
+    "city": {
+      "_id": "5cb2e333dd97f5916fb26dd4",
+      "name": "Gulbarga",
+      "state": {
+        "_id": "5cb2e28ddd97f5916fb26dc7",
+        "name": "Karnataka",
+        "__v": 0
+      },
+      "loadingPerKg": 0,
+      "unloadingPerKg": 0,
+      "packagingPerKg": 0,
+      "__v": 0,
+      "location": {
+        "coordinates": [
+          17.3391569,
+          76.7698995
+        ],
+        "_id": "5daf424cd58b2510e143310d",
+        "type": "Point"
+      }
+    },
+    "address": {
+      "_id": "5cff1e038815d1d1d9384bd3",
+      "text": "24/3,Main Road,Banjara Hills",
+      "city": {
+        "_id": "5cb2dba959222190e4bc0328",
+        "name": "Hyderabad",
+        "state": {
+          "_id": "5cb2db9b59222190e4bc0327",
+          "name": "Telangana",
+          "__v": 0
+        },
+        "loadingPerKg": 0,
+        "unloadingPerKg": 0,
+        "packagingPerKg": 0,
+        "__v": 0
+      },
+      "pin": "500091",
+      "state": {
+        "_id": "5cb2db9b59222190e4bc0327",
+        "name": "Telangana",
+        "__v": 0,
+        "code": 36
+      },
+      "phone": "+912222222222",
+      "addresstype": "registered",
+      "addressbasicdtl": {
+        "_id": "5cff1e038815d1d1d9384bd7",
+        "partyname": "Admin Seller",
+        "gstin": "SELLER2019ABCDE"
+      },
+      "__v": 0
+    },
+    "seller": {
+      "vendorCode": "ADMINSEL",
+      "isactive": true,
+      "_id": "5cff1e038815d1d1d9384bd8",
+      "Addresses": [
+        {
+          "_id": "5cff1e038815d1d1d9384bd3",
+          "text": "24/3,Main Road,Banjara Hills",
+          "city": {
+            "_id": "5cb2dba959222190e4bc0328",
+            "name": "Hyderabad",
+            "state": {
+              "_id": "5cb2db9b59222190e4bc0327",
+              "name": "Telangana",
+              "__v": 0
+            },
+            "loadingPerKg": 0,
+            "unloadingPerKg": 0,
+            "packagingPerKg": 0,
+            "__v": 0
+          },
+          "pin": "500091",
+          "state": {
+            "_id": "5cb2db9b59222190e4bc0327",
+            "name": "Telangana",
+            "__v": 0,
+            "code": 36
+          },
+          "phone": "+912222222222",
+          "addresstype": "registered",
+          "addressbasicdtl": {
+            "_id": "5cff1e038815d1d1d9384bd7",
+            "partyname": "Admin Seller",
+            "gstin": "SELLER2019ABCDE"
+          },
+          "__v": 0
+        }
+      ],
+      "name": "Admin Seller",
+      "email": "seller@graineasy.com",
+      "password": "$2a$10$b5WOE4YJN9AEd1nyAK3S0eL0s8k6L8.RpoNZjkwsZyJOWLBHA2E5y",
+      "phone": "+912222222222",
+      "pan": "SELLER2019",
+      "GST": "SELLER2019ABCDE",
+      "isBuyer": false,
+      "sellerFeePerKg": 0,
+      "buyerBackMarginPercent": 0,
+      "buyerCreditCostPercent": 0,
+      "buyerFeePerKg": 0,
+      "buyerNetLossPercent": 0,
+      "buyerMarginPerKg": 0,
+      "buyerDiscount1Percent": 0,
+      "buyerDiscount2PerKg": 0,
+      "buyerDiscount3Lumpsump": 0,
+      "buyerFinePerKg": 0,
+      "isSeller": true,
+      "__v": 0
+    },
+    "unit": {
+      "_id": "5cb2e223dd97f5916fb26dc6",
+      "mass": "Kg",
+      "__v": 0
+    },
+    "manufacturer": {
+      "_id": "5cb21f8bf17d5e8bde7c3dcb",
+      "name": "Balram Chini",
+      "address": "Uttar Pradesh",
+      "phone": "5534223235",
+      "email": "balram@balram.com",
+      "__v": 0
+    },
+    "addedby": {
+      "vendorCode": "ADMINSEL",
+      "isactive": true,
+      "_id": "5cff1e038815d1d1d9384bd8",
+      "Addresses": [
+        {
+          "_id": "5cff1e038815d1d1d9384bd3",
+          "text": "24/3,Main Road,Banjara Hills",
+          "city": {
+            "_id": "5cb2dba959222190e4bc0328",
+            "name": "Hyderabad",
+            "state": {
+              "_id": "5cb2db9b59222190e4bc0327",
+              "name": "Telangana",
+              "__v": 0
+            },
+            "loadingPerKg": 0,
+            "unloadingPerKg": 0,
+            "packagingPerKg": 0,
+            "__v": 0
+          },
+          "pin": "500091",
+          "state": {
+            "_id": "5cb2db9b59222190e4bc0327",
+            "name": "Telangana",
+            "__v": 0,
+            "code": 36
+          },
+          "phone": "+912222222222",
+          "addresstype": "registered",
+          "addressbasicdtl": {
+            "_id": "5cff1e038815d1d1d9384bd7",
+            "partyname": "Admin Seller",
+            "gstin": "SELLER2019ABCDE"
+          },
+          "__v": 0
+        }
+      ],
+      "name": "Admin Seller",
+      "email": "seller@graineasy.com",
+      "password": "$2a$10$b5WOE4YJN9AEd1nyAK3S0eL0s8k6L8.RpoNZjkwsZyJOWLBHA2E5y",
+      "phone": "+912222222222",
+      "pan": "SELLER2019",
+      "GST": "SELLER2019ABCDE",
+      "isBuyer": false,
+      "sellerFeePerKg": 0,
+      "buyerBackMarginPercent": 0,
+      "buyerCreditCostPercent": 0,
+      "buyerFeePerKg": 0,
+      "buyerNetLossPercent": 0,
+      "buyerMarginPerKg": 0,
+      "buyerDiscount1Percent": 0,
+      "buyerDiscount2PerKg": 0,
+      "buyerDiscount3Lumpsump": 0,
+      "buyerFinePerKg": 0,
+      "isSeller": true,
+      "__v": 0
+    },
+    "__v": 0
+  },
+  {
+    "bargainenabled": true,
+    "isTaxable": true,
+    "_id": "5cb4d4b4d71da3968f33f145",
+    "image": "https://res.cloudinary.com/dkhlc6xlj/image/upload/v1555354802/o7t7hzdp7kmhh13tfw6f.jpg",
+    "qty": 1000,
+    "price": 38.9,
+    "grainCount": "38",
+    "grade": "A",
+    "sampleNo": "BAS105",
+    "origin": "Vizag",
+    "isLive": true,
+    "specs": {
+      "_id": "5cb4d4b4d71da3968f33f146",
+      "moisture": "24",
+      "graincount": "38",
+      "icumsa": "120"
+    },
+    "category": {
+      "_id": "5cb25aef25294f8eae763f9e",
+      "name": "Basmati",
+      "itemname": {
+        "_id": "5cb25ad725294f8eae763f9d",
+        "name": "Bajra",
+        "tax": 0,
+        "insurance": 0,
+        "__v": 0
+      },
+      "__v": 0
+    },
+    "name": {
+      "_id": "5cb2c51e7468b08fc00d447a",
+      "name": "Rice",
+      "tax": 0,
+      "insurance": 0,
+      "__v": 0
+    },
+    "city": {
+      "_id": "5cb2e342dd97f5916fb26dd6",
+      "name": "Bangalore",
+      "state": {
+        "_id": "5cb2e28ddd97f5916fb26dc7",
+        "name": "Karnataka",
+        "__v": 0
+      },
+      "loadingPerKg": 0,
+      "unloadingPerKg": 0,
+      "packagingPerKg": 0,
+      "__v": 0
+    },
+    "address": {
+      "_id": "5cb2dda67e8fae91235f25a2",
+      "text": "GK Heights,Kondapur",
+      "city": {
+        "_id": "5cb2dba959222190e4bc0328",
+        "name": "Hyderabad",
+        "state": {
+          "_id": "5cb2db9b59222190e4bc0327",
+          "name": "Telangana",
+          "__v": 0
+        },
+        "loadingPerKg": 0,
+        "unloadingPerKg": 0,
+        "packagingPerKg": 0,
+        "__v": 0
+      },
+      "pin": "232323",
+      "__v": 0
+    },
+    "seller": {
+      "vendorCode": "",
+      "isactive": false,
+      "_id": "5cb2df0f7e8fae91235f261e",
+      "Addresses": [
+        {
+          "_id": "5cb2df0e7e8fae91235f261b",
+          "text": "Chandan Street",
+          "city": {
+            "_id": "5cb2dba959222190e4bc0328",
+            "name": "Hyderabad",
+            "state": {
+              "_id": "5cb2db9b59222190e4bc0327",
+              "name": "Telangana",
+              "__v": 0
+            },
+            "loadingPerKg": 0,
+            "unloadingPerKg": 0,
+            "packagingPerKg": 0,
+            "__v": 0
+          },
+          "pin": "222222",
+          "__v": 0
+        }
+      ],
+      "name": "Seller",
+      "email": "seller@graineasy.com",
+      "password": "$2a$10$eY35wER5NvLPoj41XgZ5DuueZicwCC/gN4Jv5fb9/jlw3xZc2hND.",
+      "phone": "+912222222222",
+      "pan": "asdfgh",
+      "GST": "zxcvb",
+      "isBuyer": false,
+      "sellerFeePerKg": 0,
+      "buyerBackMarginPercent": 0,
+      "buyerCreditCostPercent": 0,
+      "buyerFeePerKg": 0,
+      "buyerNetLossPercent": 0,
+      "buyerMarginPerKg": 0,
+      "buyerDiscount1Percent": 0,
+      "buyerDiscount2PerKg": 0,
+      "buyerDiscount3Lumpsump": 0,
+      "buyerFinePerKg": 0,
+      "isSeller": true,
+      "__v": 0
+    },
+    "unit": {
+      "_id": "5cb2e223dd97f5916fb26dc6",
+      "mass": "Kg",
+      "__v": 0
+    },
+    "manufacturer": {
+      "_id": "5cb22aea93bb318c1a18b2d2",
+      "name": "Mysore Industries",
+      "__v": 0
+    },
+    "__v": 0,
+    "bargaintrgqty": 100
+  },
+  {
+    "bargainenabled": true,
+    "isTaxable": true,
+    "_id": "5cfb4cd669db89c846557bfd",
+    "image": "https://res.cloudinary.com/dkhlc6xlj/image/upload/v1559973075/gwy6ai6mqsnepkllf9ur.jpg",
+    "qty": 10000,
+    "price": 45.23,
+    "grainCount": "78",
+    "grade": "A",
+    "sampleNo": "MIN108",
+    "origin": "Hyderabad",
+    "isLive": true,
+    "specs": {
+      "_id": "5cfb4cd669db89c846557bfe",
+      "moisture": "32",
+      "graincount": "78",
+      "icumsa": "0"
+    },
+    "category": {
+      "_id": "5ce8cce3eb52de1123ed40ca",
+      "name": "Minicate",
+      "itemname": {
+        "_id": "5cb2c51e7468b08fc00d447a",
+        "name": "Rice",
+        "tax": 0,
+        "insurance": 0,
+        "__v": 0
+      },
+      "__v": 0
+    },
+    "name": {
+      "_id": "5cb2c51e7468b08fc00d447a",
+      "name": "Rice",
+      "tax": 0,
+      "insurance": 0,
+      "__v": 0,
+      "hsn": "10061010"
+    },
+    "city": {
+      "_id": "5cb2dba959222190e4bc0328",
+      "name": "Hyderabad",
+      "state": {
+        "_id": "5cb2db9b59222190e4bc0327",
+        "name": "Telangana",
+        "__v": 0
+      },
+      "loadingPerKg": 0,
+      "unloadingPerKg": 0,
+      "packagingPerKg": 0,
+      "__v": 0
+    },
+    "address": {
+      "_id": "5cec3bf149d4693501d3075e",
+      "text": "35/2,Madhupur Junction",
+      "city": {
+        "_id": "5cb2dba959222190e4bc0328",
+        "name": "Hyderabad",
+        "state": {
+          "_id": "5cb2db9b59222190e4bc0327",
+          "name": "Telangana",
+          "__v": 0
+        },
+        "loadingPerKg": 0,
+        "unloadingPerKg": 0,
+        "packagingPerKg": 0,
+        "__v": 0
+      },
+      "pin": "500091",
+      "__v": 0
+    },
+    "seller": {
+      "vendorCode": "SELL0002",
+      "isactive": false,
+      "_id": "5cb2df0f7e8fae91235f261e",
+      "Addresses": [
+        {
+          "_id": "5cb2df0e7e8fae91235f261b",
+          "text": "Chandan Street",
+          "city": {
+            "_id": "5cb2dba959222190e4bc0328",
+            "name": "Hyderabad",
+            "state": {
+              "_id": "5cb2db9b59222190e4bc0327",
+              "name": "Telangana",
+              "__v": 0
+            },
+            "loadingPerKg": 0,
+            "unloadingPerKg": 0,
+            "packagingPerKg": 0,
+            "__v": 0
+          },
+          "pin": "222222",
+          "__v": 0
+        }
+      ],
+      "name": "Seller",
+      "email": "seller@graineasy.com",
+      "password": "$2a$10$eY35wER5NvLPoj41XgZ5DuueZicwCC/gN4Jv5fb9/jlw3xZc2hND.",
+      "phone": "+912222222222",
+      "pan": "asdfgh",
+      "GST": "zxcvb",
+      "isBuyer": false,
+      "sellerFeePerKg": 0,
+      "buyerBackMarginPercent": 0,
+      "buyerCreditCostPercent": 0,
+      "buyerFeePerKg": 0,
+      "buyerNetLossPercent": 0,
+      "buyerMarginPerKg": 0,
+      "buyerDiscount1Percent": 0,
+      "buyerDiscount2PerKg": 0,
+      "buyerDiscount3Lumpsump": 0,
+      "buyerFinePerKg": 0,
+      "isSeller": true,
+      "__v": 0
+    },
+    "unit": {
+      "_id": "5cb2e223dd97f5916fb26dc6",
+      "mass": "Kg",
+      "__v": 0
+    },
+    "manufacturer": {
+      "_id": "5cb22acc93bb318c1a18b2cf",
+      "name": "G Ngapatnam and Co.",
+      "__v": 0
+    },
+    "__v": 0,
+    "bargaintrgqty": 100
+  },
+  {
+    "bargainenabled": true,
+    "isTaxable": true,
+    "_id": "5cc546e6f7d8234d5fe770a0",
+    "image": "https://res.cloudinary.com/dkhlc6xlj/image/upload/v1556432612/mbzlflvbztn9qpxlsefc.jpg",
+    "qty": 500,
+    "price": 48.91,
+    "grainCount": "38",
+    "grade": "C",
+    "sampleNo": "MAS102",
+    "origin": "Bangalore",
+    "isLive": true,
+    "specs": {
+      "_id": "5cc546e6f7d8234d5fe770a1",
+      "moisture": "21",
+      "graincount": "38",
+      "icumsa": "120"
+    },
+    "category": {
+      "_id": "5cc5451bb1840a4cc29a9857",
+      "name": "Dhuli",
+      "itemname": {
+        "_id": "5cc5420af0919a4be4978bb6",
+        "name": "Masoor Dal",
+        "tax": 0,
+        "insurance": 0,
+        "__v": 0
+      },
+      "__v": 0
+    },
+    "name": {
+      "_id": "5cc5420af0919a4be4978bb6",
+      "name": "Masoor Dal",
+      "tax": 0,
+      "insurance": 0,
+      "__v": 0
+    },
+    "city": {
+      "_id": "5cb2e342dd97f5916fb26dd6",
+      "name": "Bangalore",
+      "state": {
+        "_id": "5cb2e28ddd97f5916fb26dc7",
+        "name": "Karnataka",
+        "__v": 0
+      },
+      "loadingPerKg": 0,
+      "unloadingPerKg": 0,
+      "packagingPerKg": 0,
+      "__v": 0
+    },
+    "address": {
+      "_id": "5cb2e399dd97f5916fb26de2",
+      "text": "Hill Top Road",
+      "city": {
+        "_id": "5cb2e342dd97f5916fb26dd6",
+        "name": "Bangalore",
+        "state": {
+          "_id": "5cb2e28ddd97f5916fb26dc7",
+          "name": "Karnataka",
+          "__v": 0
+        },
+        "loadingPerKg": 0,
+        "unloadingPerKg": 0,
+        "packagingPerKg": 0,
+        "__v": 0
+      },
+      "pin": "333333",
+      "__v": 0
+    },
+    "seller": {
+      "vendorCode": "",
+      "isactive": false,
+      "_id": "5cb2df0f7e8fae91235f261e",
+      "Addresses": [
+        {
+          "_id": "5cb2df0e7e8fae91235f261b",
+          "text": "Chandan Street",
+          "city": {
+            "_id": "5cb2dba959222190e4bc0328",
+            "name": "Hyderabad",
+            "state": {
+              "_id": "5cb2db9b59222190e4bc0327",
+              "name": "Telangana",
+              "__v": 0
+            },
+            "loadingPerKg": 0,
+            "unloadingPerKg": 0,
+            "packagingPerKg": 0,
+            "__v": 0
+          },
+          "pin": "222222",
+          "__v": 0
+        }
+      ],
+      "name": "Seller",
+      "email": "seller@graineasy.com",
+      "password": "$2a$10$eY35wER5NvLPoj41XgZ5DuueZicwCC/gN4Jv5fb9/jlw3xZc2hND.",
+      "phone": "+912222222222",
+      "pan": "asdfgh",
+      "GST": "zxcvb",
+      "isBuyer": false,
+      "sellerFeePerKg": 0,
+      "buyerBackMarginPercent": 0,
+      "buyerCreditCostPercent": 0,
+      "buyerFeePerKg": 0,
+      "buyerNetLossPercent": 0,
+      "buyerMarginPerKg": 0,
+      "buyerDiscount1Percent": 0,
+      "buyerDiscount2PerKg": 0,
+      "buyerDiscount3Lumpsump": 0,
+      "buyerFinePerKg": 0,
+      "isSeller": true,
+      "__v": 0
+    },
+    "unit": {
+      "_id": "5cb2e223dd97f5916fb26dc6",
+      "mass": "Kg",
+      "__v": 0
+    },
+    "manufacturer": {
+      "_id": "5cb22aea93bb318c1a18b2d2",
+      "name": "Mysore Industries",
+      "__v": 0
+    },
+    "__v": 0,
+    "bargaintrgqty": 50
+  },
+  {
+    "bargainenabled": true,
+    "isTaxable": true,
+    "_id": "5cb9d8066ba4eda6c8d121fd",
+    "image": "https://res.cloudinary.com/dkhlc6xlj/image/upload/v1555683332/irwhcnhrh95olbwhegfx.jpg",
+    "qty": 500,
+    "price": 52.49,
+    "grainCount": "28",
+    "grade": "A",
+    "sampleNo": "BAJ100",
+    "origin": "Bangalore",
+    "isLive": true,
+    "specs": {
+      "_id": "5cb9d8066ba4eda6c8d121fe",
+      "moisture": "34",
+      "graincount": "28",
+      "icumsa": "190"
+    },
+    "category": {
+      "_id": "5cb2e49cdd97f5916fb26e65",
+      "name": "Fatka",
+      "itemname": {
+        "_id": "5cb2e3efdd97f5916fb26e5d",
+        "name": "Toor Dal",
+        "tax": 0,
+        "insurance": 0,
+        "__v": 0
+      },
+      "__v": 0
+    },
+    "name": {
+      "_id": "5cb25ad725294f8eae763f9d",
+      "name": "Bajra",
+      "tax": 0,
+      "insurance": 0,
+      "__v": 0
+    },
+    "city": {
+      "_id": "5cb2dba959222190e4bc0328",
+      "name": "Hyderabad",
+      "state": {
+        "_id": "5cb2db9b59222190e4bc0327",
+        "name": "Telangana",
+        "__v": 0
+      },
+      "loadingPerKg": 0,
+      "unloadingPerKg": 0,
+      "packagingPerKg": 0,
+      "__v": 0
+    },
+    "address": {
+      "_id": "5cb2dda67e8fae91235f25a2",
+      "text": "GK Heights,Kondapur",
+      "city": {
+        "_id": "5cb2dba959222190e4bc0328",
+        "name": "Hyderabad",
+        "state": {
+          "_id": "5cb2db9b59222190e4bc0327",
+          "name": "Telangana",
+          "__v": 0
+        },
+        "loadingPerKg": 0,
+        "unloadingPerKg": 0,
+        "packagingPerKg": 0,
+        "__v": 0
+      },
+      "pin": "232323",
+      "__v": 0
+    },
+    "seller": {
+      "vendorCode": "",
+      "isactive": false,
+      "_id": "5cb2df0f7e8fae91235f261e",
+      "Addresses": [
+        {
+          "_id": "5cb2df0e7e8fae91235f261b",
+          "text": "Chandan Street",
+          "city": {
+            "_id": "5cb2dba959222190e4bc0328",
+            "name": "Hyderabad",
+            "state": {
+              "_id": "5cb2db9b59222190e4bc0327",
+              "name": "Telangana",
+              "__v": 0
+            },
+            "loadingPerKg": 0,
+            "unloadingPerKg": 0,
+            "packagingPerKg": 0,
+            "__v": 0
+          },
+          "pin": "222222",
+          "__v": 0
+        }
+      ],
+      "name": "Seller",
+      "email": "seller@graineasy.com",
+      "password": "$2a$10$eY35wER5NvLPoj41XgZ5DuueZicwCC/gN4Jv5fb9/jlw3xZc2hND.",
+      "phone": "+912222222222",
+      "pan": "asdfgh",
+      "GST": "zxcvb",
+      "isBuyer": false,
+      "sellerFeePerKg": 0,
+      "buyerBackMarginPercent": 0,
+      "buyerCreditCostPercent": 0,
+      "buyerFeePerKg": 0,
+      "buyerNetLossPercent": 0,
+      "buyerMarginPerKg": 0,
+      "buyerDiscount1Percent": 0,
+      "buyerDiscount2PerKg": 0,
+      "buyerDiscount3Lumpsump": 0,
+      "buyerFinePerKg": 0,
+      "isSeller": true,
+      "__v": 0
+    },
+    "unit": {
+      "_id": "5cb236fd97a8238c56b611bb",
+      "mass": "Quintal",
+      "__v": 0
+    },
+    "manufacturer": {
+      "_id": "5cb22aea93bb318c1a18b2d2",
+      "name": "Mysore Industries",
+      "__v": 0
+    },
+    "__v": 0,
+    "bargaintrgqty": 100
+  },
+  {
+    "bargainenabled": true,
+    "isTaxable": true,
+    "_id": "5cc54606f7d8234d5fe76fd8",
+    "image": "https://res.cloudinary.com/dkhlc6xlj/image/upload/v1556432388/i9dqmuhcf3ptyjl0so5h.jpg",
+    "qty": 1000,
+    "price": 56.89,
+    "grainCount": "42",
+    "grade": "B",
+    "sampleNo": "MAS101",
+    "origin": "Gulbarga",
+    "isLive": true,
+    "specs": {
+      "_id": "5db699fc244c3fca112140aa",
+      "moisture": "12",
+      "graincount": "42",
+      "icumsa": "190"
+    },
+    "category": {
+      "_id": "5cc5444cb1840a4cc29a9855",
+      "name": "Malka",
+      "itemname": {
+        "_id": "5cc5420af0919a4be4978bb6",
+        "name": "Masoor Dal",
+        "tax": 0,
+        "insurance": 0,
+        "__v": 0
+      },
+      "__v": 0
+    },
+    "name": {
+      "_id": "5cc5420af0919a4be4978bb6",
+      "name": "Masoor Dal",
+      "tax": 0,
+      "insurance": 0,
+      "__v": 0
+    },
+    "city": {
+      "_id": "5cb2e333dd97f5916fb26dd4",
+      "name": "Gulbarga",
+      "state": {
+        "_id": "5cb2e28ddd97f5916fb26dc7",
+        "name": "Karnataka",
+        "__v": 0
+      },
+      "loadingPerKg": 0,
+      "unloadingPerKg": 0,
+      "packagingPerKg": 0,
+      "__v": 0
+    },
+    "address": {
+      "_id": "5cb2e399dd97f5916fb26de2",
+      "text": "Hill Top Road",
+      "city": {
+        "_id": "5cb2e342dd97f5916fb26dd6",
+        "name": "Bangalore",
+        "state": {
+          "_id": "5cb2e28ddd97f5916fb26dc7",
+          "name": "Karnataka",
+          "__v": 0
+        },
+        "loadingPerKg": 0,
+        "unloadingPerKg": 0,
+        "packagingPerKg": 0,
+        "__v": 0
+      },
+      "pin": "333333",
+      "__v": 0
+    },
+    "seller": {
+      "vendorCode": "",
+      "isactive": false,
+      "_id": "5cb2df0f7e8fae91235f261e",
+      "Addresses": [
+        {
+          "_id": "5cb2df0e7e8fae91235f261b",
+          "text": "Chandan Street",
+          "city": {
+            "_id": "5cb2dba959222190e4bc0328",
+            "name": "Hyderabad",
+            "state": {
+              "_id": "5cb2db9b59222190e4bc0327",
+              "name": "Telangana",
+              "__v": 0
+            },
+            "loadingPerKg": 0,
+            "unloadingPerKg": 0,
+            "packagingPerKg": 0,
+            "__v": 0
+          },
+          "pin": "222222",
+          "__v": 0
+        }
+      ],
+      "name": "Seller",
+      "email": "seller@graineasy.com",
+      "password": "$2a$10$eY35wER5NvLPoj41XgZ5DuueZicwCC/gN4Jv5fb9/jlw3xZc2hND.",
+      "phone": "+912222222222",
+      "pan": "asdfgh",
+      "GST": "zxcvb",
+      "isBuyer": false,
+      "sellerFeePerKg": 0,
+      "buyerBackMarginPercent": 0,
+      "buyerCreditCostPercent": 0,
+      "buyerFeePerKg": 0,
+      "buyerNetLossPercent": 0,
+      "buyerMarginPerKg": 0,
+      "buyerDiscount1Percent": 0,
+      "buyerDiscount2PerKg": 0,
+      "buyerDiscount3Lumpsump": 0,
+      "buyerFinePerKg": 0,
+      "isSeller": true,
+      "__v": 0
+    },
+    "unit": {
+      "_id": "5cb236fd97a8238c56b611bb",
+      "mass": "Quintal",
+      "__v": 0
+    },
+    "manufacturer": {
+      "_id": "5cb22acc93bb318c1a18b2cf",
+      "name": "G Ngapatnam and Co.",
+      "__v": 0
+    },
+    "__v": 0,
+    "bargaintrgqty": 100
+  },
+  {
+    "bargainenabled": false,
+    "isTaxable": true,
+    "_id": "5d6e76834035b8a4949e4e25",
+    "image": "https://res.cloudinary.com/dkhlc6xlj/image/upload/v1567520385/bi07yjggr5tf1xej8kr4.jpg",
+    "qty": 80,
+    "price": 3245,
+    "grainCount": "NA",
+    "grade": "A",
+    "sampleNo": "MON102",
+    "origin": "Bangalore",
+    "isLive": true,
+    "specs": {
+      "_id": "5d6e76834035b8a4949e4e26",
+      "moisture": "NA",
+      "graincount": "NA",
+      "icumsa": "NA"
+    },
+    "category": {
+      "_id": "5cc5451bb1840a4cc29a9857",
+      "name": "Dhuli",
+      "itemname": {
+        "_id": "5cc5420af0919a4be4978bb6",
+        "name": "Masoor Dal",
+        "tax": 0,
+        "insurance": 0,
+        "__v": 0
+      },
+      "__v": 0
+    },
+    "name": {
+      "_id": "5cc5420af0919a4be4978bb6",
+      "name": "Masoor Dal",
+      "tax": 0,
+      "insurance": 0,
+      "__v": 0,
+      "hsn": "07139010"
+    },
+    "city": {
+      "_id": "5cb2e342dd97f5916fb26dd6",
+      "name": "Bangalore",
+      "state": {
+        "_id": "5cb2e28ddd97f5916fb26dc7",
+        "name": "Karnataka",
+        "__v": 0
+      },
+      "loadingPerKg": 0,
+      "unloadingPerKg": 0,
+      "packagingPerKg": 0,
+      "__v": 0
+    },
+    "address": {
+      "_id": "5cff1e038815d1d1d9384bd3",
+      "text": "24/3,Main Road,Banjara Hills",
+      "city": {
+        "_id": "5cb2dba959222190e4bc0328",
+        "name": "Hyderabad",
+        "state": {
+          "_id": "5cb2db9b59222190e4bc0327",
+          "name": "Telangana",
+          "__v": 0
+        },
+        "loadingPerKg": 0,
+        "unloadingPerKg": 0,
+        "packagingPerKg": 0,
+        "__v": 0
+      },
+      "pin": "500091",
+      "state": {
+        "_id": "5cb2db9b59222190e4bc0327",
+        "name": "Telangana",
+        "__v": 0,
+        "code": 36
+      },
+      "phone": "+912222222222",
+      "addresstype": "registered",
+      "addressbasicdtl": {
+        "_id": "5cff1e038815d1d1d9384bd7",
+        "partyname": "Admin Seller",
+        "gstin": "SELLER2019ABCDE"
+      },
+      "__v": 0
+    },
+    "seller": {
+      "vendorCode": "ADMINSEL",
+      "isactive": true,
+      "_id": "5cff1e038815d1d1d9384bd8",
+      "Addresses": [
+        {
+          "_id": "5cff1e038815d1d1d9384bd3",
+          "text": "24/3,Main Road,Banjara Hills",
+          "city": {
+            "_id": "5cb2dba959222190e4bc0328",
+            "name": "Hyderabad",
+            "state": {
+              "_id": "5cb2db9b59222190e4bc0327",
+              "name": "Telangana",
+              "__v": 0
+            },
+            "loadingPerKg": 0,
+            "unloadingPerKg": 0,
+            "packagingPerKg": 0,
+            "__v": 0
+          },
+          "pin": "500091",
+          "state": {
+            "_id": "5cb2db9b59222190e4bc0327",
+            "name": "Telangana",
+            "__v": 0,
+            "code": 36
+          },
+          "phone": "+912222222222",
+          "addresstype": "registered",
+          "addressbasicdtl": {
+            "_id": "5cff1e038815d1d1d9384bd7",
+            "partyname": "Admin Seller",
+            "gstin": "SELLER2019ABCDE"
+          },
+          "__v": 0
+        }
+      ],
+      "name": "Admin Seller",
+      "email": "seller@graineasy.com",
+      "password": "$2a$10$b5WOE4YJN9AEd1nyAK3S0eL0s8k6L8.RpoNZjkwsZyJOWLBHA2E5y",
+      "phone": "+912222222222",
+      "pan": "SELLER2019",
+      "GST": "SELLER2019ABCDE",
+      "isBuyer": false,
+      "sellerFeePerKg": 0,
+      "buyerBackMarginPercent": 0,
+      "buyerCreditCostPercent": 0,
+      "buyerFeePerKg": 0,
+      "buyerNetLossPercent": 0,
+      "buyerMarginPerKg": 0,
+      "buyerDiscount1Percent": 0,
+      "buyerDiscount2PerKg": 0,
+      "buyerDiscount3Lumpsump": 0,
+      "buyerFinePerKg": 0,
+      "isSeller": true,
+      "__v": 0
+    },
+    "unit": {
+      "_id": "5cb236fd97a8238c56b611bb",
+      "mass": "Quintal",
+      "__v": 0
+    },
+    "manufacturer": {
+      "_id": "5cb22acc93bb318c1a18b2cf",
+      "name": "G Ngapatnam and Co.",
+      "__v": 0
+    },
+    "__v": 0
+  },
+  {
+    "bargainenabled": false,
+    "isTaxable": true,
+    "_id": "5d8bbb4dbcadcbf013069ba4",
+    "image": "https://res.cloudinary.com/dkhlc6xlj/image/upload/v1569438539/cwmdadeuubs1ilxs8cej.jpg",
+    "qty": 1000,
+    "price": 3314,
+    "grainCount": "NA",
+    "grade": "A",
+    "sampleNo": "RIC232",
+    "origin": "Hyderabad",
+    "isLive": true,
+    "specs": {
+      "_id": "5d8bbb4dbcadcbf013069ba5",
+      "moisture": "NA",
+      "graincount": "NA",
+      "icumsa": "123"
+    },
+    "category": {
+      "_id": "5ce8ccd6eb52de1123ed40c8",
+      "name": "Joha",
+      "itemname": {
+        "_id": "5cb2c51e7468b08fc00d447a",
+        "name": "Rice",
+        "tax": 0,
+        "insurance": 0,
+        "__v": 0
+      },
+      "__v": 0
+    },
+    "name": {
+      "_id": "5cb2c51e7468b08fc00d447a",
+      "name": "Rice",
+      "tax": 0,
+      "insurance": 0,
+      "__v": 0,
+      "hsn": "10061010"
+    },
+    "city": {
+      "_id": "5cb2e333dd97f5916fb26dd4",
+      "name": "Gulbarga",
+      "state": {
+        "_id": "5cb2e28ddd97f5916fb26dc7",
+        "name": "Karnataka",
+        "__v": 0
+      },
+      "loadingPerKg": 0,
+      "unloadingPerKg": 0,
+      "packagingPerKg": 0,
+      "__v": 0
+    },
+    "address": {
+      "_id": "5cff1e038815d1d1d9384bd3",
+      "text": "24/3,Main Road,Banjara Hills",
+      "city": {
+        "_id": "5cb2dba959222190e4bc0328",
+        "name": "Hyderabad",
+        "state": {
+          "_id": "5cb2db9b59222190e4bc0327",
+          "name": "Telangana",
+          "__v": 0
+        },
+        "loadingPerKg": 0,
+        "unloadingPerKg": 0,
+        "packagingPerKg": 0,
+        "__v": 0
+      },
+      "pin": "500091",
+      "state": {
+        "_id": "5cb2db9b59222190e4bc0327",
+        "name": "Telangana",
+        "__v": 0,
+        "code": 36
+      },
+      "phone": "+912222222222",
+      "addresstype": "registered",
+      "addressbasicdtl": {
+        "_id": "5cff1e038815d1d1d9384bd7",
+        "partyname": "Admin Seller",
+        "gstin": "SELLER2019ABCDE"
+      },
+      "__v": 0
+    },
+    "seller": {
+      "vendorCode": "ADMINSEL",
+      "isactive": true,
+      "_id": "5cff1e038815d1d1d9384bd8",
+      "Addresses": [
+        {
+          "_id": "5cff1e038815d1d1d9384bd3",
+          "text": "24/3,Main Road,Banjara Hills",
+          "city": {
+            "_id": "5cb2dba959222190e4bc0328",
+            "name": "Hyderabad",
+            "state": {
+              "_id": "5cb2db9b59222190e4bc0327",
+              "name": "Telangana",
+              "__v": 0
+            },
+            "loadingPerKg": 0,
+            "unloadingPerKg": 0,
+            "packagingPerKg": 0,
+            "__v": 0
+          },
+          "pin": "500091",
+          "state": {
+            "_id": "5cb2db9b59222190e4bc0327",
+            "name": "Telangana",
+            "__v": 0,
+            "code": 36
+          },
+          "phone": "+912222222222",
+          "addresstype": "registered",
+          "addressbasicdtl": {
+            "_id": "5cff1e038815d1d1d9384bd7",
+            "partyname": "Admin Seller",
+            "gstin": "SELLER2019ABCDE"
+          },
+          "__v": 0
+        }
+      ],
+      "name": "Admin Seller",
+      "email": "seller@graineasy.com",
+      "password": "$2a$10$b5WOE4YJN9AEd1nyAK3S0eL0s8k6L8.RpoNZjkwsZyJOWLBHA2E5y",
+      "phone": "+912222222222",
+      "pan": "SELLER2019",
+      "GST": "SELLER2019ABCDE",
+      "isBuyer": false,
+      "sellerFeePerKg": 0,
+      "buyerBackMarginPercent": 0,
+      "buyerCreditCostPercent": 0,
+      "buyerFeePerKg": 0,
+      "buyerNetLossPercent": 0,
+      "buyerMarginPerKg": 0,
+      "buyerDiscount1Percent": 0,
+      "buyerDiscount2PerKg": 0,
+      "buyerDiscount3Lumpsump": 0,
+      "buyerFinePerKg": 0,
+      "isSeller": true,
+      "__v": 0
+    },
+    "unit": {
+      "_id": "5cb236fd97a8238c56b611bb",
+      "mass": "Quintal",
+      "__v": 0
+    },
+    "manufacturer": {
+      "_id": "5cb21f8bf17d5e8bde7c3dcb",
+      "name": "Balram Chini",
+      "address": "Uttar Pradesh",
+      "phone": "5534223235",
+      "email": "balram@balram.com",
+      "__v": 0
+    },
+    "addedby": {
+      "vendorCode": "ADMINACC",
+      "isactive": true,
+      "_id": "5cff1dbd8815d1d1d9384bc6",
+      "Addresses": [
+        {
+          "_id": "5cff1dbd8815d1d1d9384bc1",
+          "text": "Laxmi Nagar,Kothaguda",
+          "city": {
+            "_id": "5cb2dba959222190e4bc0328",
+            "name": "Hyderabad",
+            "state": {
+              "_id": "5cb2db9b59222190e4bc0327",
+              "name": "Telangana",
+              "__v": 0
+            },
+            "loadingPerKg": 0,
+            "unloadingPerKg": 0,
+            "packagingPerKg": 0,
+            "__v": 0
+          },
+          "pin": "500084",
+          "state": {
+            "_id": "5cb2db9b59222190e4bc0327",
+            "name": "Telangana",
+            "__v": 0,
+            "code": 36
+          },
+          "phone": "+911111111111",
+          "addresstype": "registered",
+          "addressbasicdtl": {
+            "_id": "5cff1dbd8815d1d1d9384bc5",
+            "partyname": "Admin Account",
+            "gstin": "ADMIN2019ABCDEF"
+          },
+          "__v": 0
+        }
+      ],
+      "name": "Admin Account",
+      "email": "admin@graineasy.com",
+      "password": "$2a$10$uUd1tR8slVJcDHlGNmJyxejej8rAhxGfLqKez.0xBSH2StjhknBu.",
+      "phone": "+911111111111",
+      "pan": "ADMIN2019R",
+      "GST": "ADMIN2019ABCDEF",
+      "isBuyer": true,
+      "sellerFeePerKg": 0,
+      "buyerBackMarginPercent": 0,
+      "buyerCreditCostPercent": 0,
+      "buyerFeePerKg": 0,
+      "buyerNetLossPercent": 0,
+      "buyerMarginPerKg": 0,
+      "buyerDiscount1Percent": 0,
+      "buyerDiscount2PerKg": 0,
+      "buyerDiscount3Lumpsump": 0,
+      "buyerFinePerKg": 0,
+      "isSeller": false,
+      "__v": 0,
+      "isAdmin": true
+    },
+    "__v": 0
+  },
+  {
+    "bargainenabled": false,
+    "isTaxable": false,
+    "_id": "5d8fafc89581810d86940c69",
+    "image": "https://res.cloudinary.com/dkhlc6xlj/image/upload/v1569697733/pwl54mwxztva81i4kium.jpg",
+    "qty": 100,
+    "price": 3451,
+    "grainCount": "NA",
+    "grade": "A",
+    "sampleNo": "RIC234",
+    "origin": "Hyderabad",
+    "isLive": true,
+    "specs": {
+      "_id": "5d8fb3259581810d86941a6e",
+      "moisture": "NA",
+      "graincount": "NA",
+      "icumsa": "23"
+    },
+    "category": {
+      "_id": "5ce8cd08eb52de1123ed40ce",
+      "name": "HMT",
+      "itemname": {
+        "_id": "5cb2c51e7468b08fc00d447a",
+        "name": "Rice",
+        "tax": 0,
+        "insurance": 0,
+        "__v": 0
+      },
+      "__v": 0
+    },
+    "name": {
+      "_id": "5cb2c51e7468b08fc00d447a",
+      "name": "Rice",
+      "tax": 0,
+      "insurance": 0,
+      "__v": 0,
+      "hsn": "10061010"
+    },
+    "city": {
+      "_id": "5cb2e342dd97f5916fb26dd6",
+      "name": "Bangalore",
+      "state": {
+        "_id": "5cb2e28ddd97f5916fb26dc7",
+        "name": "Karnataka",
+        "__v": 0
+      },
+      "loadingPerKg": 0,
+      "unloadingPerKg": 0,
+      "packagingPerKg": 0,
+      "__v": 0
+    },
+    "address": {
+      "_id": "5d8752af797c15cfcc0ca81f",
+      "text": "kolkk",
+      "city": {
+        "_id": "5cb2dba959222190e4bc0328",
+        "name": "Hyderabad",
+        "state": {
+          "_id": "5cb2db9b59222190e4bc0327",
+          "name": "Telangana",
+          "__v": 0
+        },
+        "loadingPerKg": 0,
+        "unloadingPerKg": 0,
+        "packagingPerKg": 0,
+        "__v": 0
+      },
+      "pin": "123344",
+      "state": {
+        "_id": "5cb2db9b59222190e4bc0327",
+        "name": "Telangana",
+        "__v": 0,
+        "code": 36
+      },
+      "phone": "+919007555359",
+      "addresstype": "registered",
+      "addressbasicdtl": {
+        "_id": "5d8752af797c15cfcc0ca823",
+        "partyname": "Shahn 3",
+        "gstin": "123451234512345"
+      },
+      "__v": 0
+    },
+    "seller": {
+      "vendorCode": "DUMBUY001",
+      "isactive": true,
+      "_id": "5d8752af797c15cfcc0ca824",
+      "Addresses": [
+        {
+          "_id": "5d8752af797c15cfcc0ca81f",
+          "text": "kolkk",
+          "city": {
+            "_id": "5cb2dba959222190e4bc0328",
+            "name": "Hyderabad",
+            "state": {
+              "_id": "5cb2db9b59222190e4bc0327",
+              "name": "Telangana",
+              "__v": 0
+            },
+            "loadingPerKg": 0,
+            "unloadingPerKg": 0,
+            "packagingPerKg": 0,
+            "__v": 0
+          },
+          "pin": "123344",
+          "state": {
+            "_id": "5cb2db9b59222190e4bc0327",
+            "name": "Telangana",
+            "__v": 0,
+            "code": 36
+          },
+          "phone": "+919007555359",
+          "addresstype": "registered",
+          "addressbasicdtl": {
+            "_id": "5d8752af797c15cfcc0ca823",
+            "partyname": "Shahn 3",
+            "gstin": "123451234512345"
+          }
+        }
+      ],
+      "name": "Shahn 3",
+      "email": "shahnawaz3@outlook.com",
+      "password": "$2a$10$AeXhdLLHYYEYeyzE9h.3qOZY3hPXqE9X/lsSaeF7xYg1IMfF7SMCa",
+      "phone": "+919007555359",
+      "GST": "123451234512345",
+      "isBuyer": true,
+      "sellerFeePerKg": 0,
+      "buyerBackMarginPercent": 0,
+      "buyerCreditCostPercent": 0,
+      "buyerFeePerKg": 0,
+      "buyerNetLossPercent": 0,
+      "buyerMarginPerKg": 0,
+      "buyerDiscount1Percent": 0,
+      "buyerDiscount2PerKg": 0,
+      "buyerDiscount3Lumpsump": 0,
+      "buyerFinePerKg": 0,
+      "isSeller": true,
+      "__v": 0,
+      "isTransporter": true
+    },
+    "unit": {
+      "_id": "5cb236fd97a8238c56b611bb",
+      "mass": "Quintal",
+      "__v": 0
+    },
+    "manufacturer": {
+      "_id": "5cb21f8bf17d5e8bde7c3dcb",
+      "name": "Balram Chini",
+      "address": "Uttar Pradesh",
+      "phone": "5534223235",
+      "email": "balram@balram.com",
+      "__v": 0
+    },
+    "addedby": {
+      "vendorCode": "MODERNBUY",
+      "isactive": true,
+      "_id": "5d618e2cdaac3d02deecf268",
+      "Addresses": [
+        {
+          "_id": "5d618e2cdaac3d02deecf263",
+          "text": "12/4, Kondapur road",
+          "city": {
+            "_id": "5cb2dba959222190e4bc0328",
+            "name": "Hyderabad",
+            "state": {
+              "_id": "5cb2db9b59222190e4bc0327",
+              "name": "Telangana",
+              "__v": 0
+            },
+            "loadingPerKg": 0,
+            "unloadingPerKg": 0,
+            "packagingPerKg": 0,
+            "__v": 0
+          },
+          "pin": "500032",
+          "state": {
+            "_id": "5cb2db9b59222190e4bc0327",
+            "name": "Telangana",
+            "__v": 0,
+            "code": 36
+          },
+          "phone": "+913131313131",
+          "addresstype": "registered",
+          "addressbasicdtl": {
+            "_id": "5d618e2cdaac3d02deecf267",
+            "partyname": "MTBuyer",
+            "gstin": "MTBUYER123TRADE"
+          },
+          "__v": 0
+        }
+      ],
+      "name": "MTBuyer",
+      "email": "mtbuyer@gmail.com",
+      "password": "$2a$10$FGhm2GZjmNAwScjJf6AIi.oRDOftCNEB6mg/3roo8Kvvf/DxzXaCy",
+      "phone": "+913131313131",
+      "pan": "MTBUYER123",
+      "GST": "MTBUYER123TRADE",
+      "isBuyer": false,
+      "buyerBackMarginPercent": 4,
+      "buyerCreditCostPercent": 3,
+      "buyerFeePerKg": 0,
+      "buyerNetLossPercent": 1,
+      "buyerMarginPerKg": 1,
+      "buyerDiscount1Percent": 2,
+      "buyerDiscount2PerKg": 0,
+      "buyerDiscount3Lumpsump": 0,
+      "buyerFinePerKg": 0,
+      "isSeller": false,
+      "__v": 0,
+      "sellerFeePerKg": 1.5,
+      "isAgent": true,
+      "isTransporter": false
+    },
+    "__v": 0
+  },
+  {
+    "bargainenabled": false,
+    "isTaxable": true,
+    "_id": "5d8bc419905eecf3cd6e1377",
+    "image": "https://res.cloudinary.com/dkhlc6xlj/image/upload/v1569440791/fqbcowitaythjtnimobf.jpg",
+    "qty": 1000,
+    "price": 12312,
+    "grainCount": "NA",
+    "grade": "A",
+    "sampleNo": "RIC233",
+    "origin": "Hyderabad",
+    "isLive": true,
+    "specs": {
+      "_id": "5d8bc419905eecf3cd6e1378",
+      "moisture": "NA",
+      "graincount": "NA",
+      "icumsa": "12"
+    },
+    "category": {
+      "_id": "5cc5451bb1840a4cc29a9857",
+      "name": "Dhuli",
+      "itemname": {
+        "_id": "5cc5420af0919a4be4978bb6",
+        "name": "Masoor Dal",
+        "tax": 0,
+        "insurance": 0,
+        "__v": 0
+      },
+      "__v": 0
+    },
+    "name": {
+      "_id": "5cc5420af0919a4be4978bb6",
+      "name": "Masoor Dal",
+      "tax": 5,
+      "insurance": 0,
+      "__v": 0,
+      "hsn": "07139010"
+    },
+    "city": {
+      "_id": "5cb2e342dd97f5916fb26dd6",
+      "name": "Bangalore",
+      "state": {
+        "_id": "5cb2e28ddd97f5916fb26dc7",
+        "name": "Karnataka",
+        "__v": 0
+      },
+      "loadingPerKg": 0,
+      "unloadingPerKg": 0,
+      "packagingPerKg": 0,
+      "__v": 0
+    },
+    "address": {
+      "_id": "5cff1e038815d1d1d9384bd3",
+      "text": "24/3,Main Road,Banjara Hills",
+      "city": {
+        "_id": "5cb2dba959222190e4bc0328",
+        "name": "Hyderabad",
+        "state": {
+          "_id": "5cb2db9b59222190e4bc0327",
+          "name": "Telangana",
+          "__v": 0
+        },
+        "loadingPerKg": 0,
+        "unloadingPerKg": 0,
+        "packagingPerKg": 0,
+        "__v": 0
+      },
+      "pin": "500091",
+      "state": {
+        "_id": "5cb2db9b59222190e4bc0327",
+        "name": "Telangana",
+        "__v": 0,
+        "code": 36
+      },
+      "phone": "+912222222222",
+      "addresstype": "registered",
+      "addressbasicdtl": {
+        "_id": "5cff1e038815d1d1d9384bd7",
+        "partyname": "Admin Seller",
+        "gstin": "SELLER2019ABCDE"
+      },
+      "__v": 0
+    },
+    "seller": {
+      "vendorCode": "ADMINSEL",
+      "isactive": true,
+      "_id": "5cff1e038815d1d1d9384bd8",
+      "Addresses": [
+        {
+          "_id": "5cff1e038815d1d1d9384bd3",
+          "text": "24/3,Main Road,Banjara Hills",
+          "city": {
+            "_id": "5cb2dba959222190e4bc0328",
+            "name": "Hyderabad",
+            "state": {
+              "_id": "5cb2db9b59222190e4bc0327",
+              "name": "Telangana",
+              "__v": 0
+            },
+            "loadingPerKg": 0,
+            "unloadingPerKg": 0,
+            "packagingPerKg": 0,
+            "__v": 0
+          },
+          "pin": "500091",
+          "state": {
+            "_id": "5cb2db9b59222190e4bc0327",
+            "name": "Telangana",
+            "__v": 0,
+            "code": 36
+          },
+          "phone": "+912222222222",
+          "addresstype": "registered",
+          "addressbasicdtl": {
+            "_id": "5cff1e038815d1d1d9384bd7",
+            "partyname": "Admin Seller",
+            "gstin": "SELLER2019ABCDE"
+          },
+          "__v": 0
+        }
+      ],
+      "name": "Admin Seller",
+      "email": "seller@graineasy.com",
+      "password": "$2a$10$b5WOE4YJN9AEd1nyAK3S0eL0s8k6L8.RpoNZjkwsZyJOWLBHA2E5y",
+      "phone": "+912222222222",
+      "pan": "SELLER2019",
+      "GST": "SELLER2019ABCDE",
+      "isBuyer": false,
+      "sellerFeePerKg": 0,
+      "buyerBackMarginPercent": 0,
+      "buyerCreditCostPercent": 0,
+      "buyerFeePerKg": 0,
+      "buyerNetLossPercent": 0,
+      "buyerMarginPerKg": 0,
+      "buyerDiscount1Percent": 0,
+      "buyerDiscount2PerKg": 0,
+      "buyerDiscount3Lumpsump": 0,
+      "buyerFinePerKg": 0,
+      "isSeller": true,
+      "__v": 0
+    },
+    "unit": {
+      "_id": "5cb236fd97a8238c56b611bb",
+      "mass": "Quintal",
+      "__v": 0
+    },
+    "manufacturer": {
+      "_id": "5cb22acc93bb318c1a18b2cf",
+      "name": "G Ngapatnam and Co.",
+      "__v": 0
+    },
+    "addedby": {
+      "vendorCode": "ADMINACC",
+      "isactive": true,
+      "_id": "5cff1dbd8815d1d1d9384bc6",
+      "Addresses": [
+        {
+          "_id": "5cff1dbd8815d1d1d9384bc1",
+          "text": "Laxmi Nagar,Kothaguda",
+          "city": {
+            "_id": "5cb2dba959222190e4bc0328",
+            "name": "Hyderabad",
+            "state": {
+              "_id": "5cb2db9b59222190e4bc0327",
+              "name": "Telangana",
+              "__v": 0
+            },
+            "loadingPerKg": 0,
+            "unloadingPerKg": 0,
+            "packagingPerKg": 0,
+            "__v": 0
+          },
+          "pin": "500084",
+          "state": {
+            "_id": "5cb2db9b59222190e4bc0327",
+            "name": "Telangana",
+            "__v": 0,
+            "code": 36
+          },
+          "phone": "+911111111111",
+          "addresstype": "registered",
+          "addressbasicdtl": {
+            "_id": "5cff1dbd8815d1d1d9384bc5",
+            "partyname": "Admin Account",
+            "gstin": "ADMIN2019ABCDEF"
+          },
+          "__v": 0
+        }
+      ],
+      "name": "Admin Account",
+      "email": "admin@graineasy.com",
+      "password": "$2a$10$uUd1tR8slVJcDHlGNmJyxejej8rAhxGfLqKez.0xBSH2StjhknBu.",
+      "phone": "+911111111111",
+      "pan": "ADMIN2019R",
+      "GST": "ADMIN2019ABCDEF",
+      "isBuyer": true,
+      "sellerFeePerKg": 0,
+      "buyerBackMarginPercent": 0,
+      "buyerCreditCostPercent": 0,
+      "buyerFeePerKg": 0,
+      "buyerNetLossPercent": 0,
+      "buyerMarginPerKg": 0,
+      "buyerDiscount1Percent": 0,
+      "buyerDiscount2PerKg": 0,
+      "buyerDiscount3Lumpsump": 0,
+      "buyerFinePerKg": 0,
+      "isSeller": false,
+      "__v": 0,
+      "isAdmin": true
+    },
+    "__v": 0,
+  }
