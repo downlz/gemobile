@@ -7,5 +7,6 @@
 build/
 
 .flutter-plugins
-andriod/app/google-services.json
+
 environments/
+android/app/google-services.json
