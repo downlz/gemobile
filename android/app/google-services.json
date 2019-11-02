@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "790713779055",
+    "firebase_url": "https://graineasy-daf5d.firebaseio.com",
+    "project_id": "graineasy",
+    "storage_bucket": "graineasy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790713779055:android:61b714fde66f8ec4cb5e9a",
+        "android_client_info": {
+          "package_name": "com.graineasy.gemobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "790713779055-lkbhaek1sl07vov35gva96jhe2r0soen.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3G8H0wV0efZMZC2a59Jhn7c7jEV6PGPk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "790713779055-lkbhaek1sl07vov35gva96jhe2r0soen.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

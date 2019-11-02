@@ -464,7 +464,7 @@ class login_dtl extends State<LoginPage> {
 //          .map((data) => new Item.fromJson(data))
 //          .toList();
 
-      print(itemList[2].category.name);
+//      print(itemList[2].category.name);
 
       setState(() {
         isLoading = false;
