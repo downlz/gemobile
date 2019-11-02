@@ -1,4 +1,4 @@
-package com.imperialinfosys.fgroceries;
+package com.graineasy.gemobile;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
