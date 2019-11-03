@@ -87,4 +87,5 @@ class LoginService{
     return parsed.map<Album>((json) => Album.fromJson(json)).toList();
   }
 
+
 }

@@ -1,5 +1,4 @@
 import 'package:graineasy/HomeScreen.dart';
-import 'package:graineasy/HomeScreen.dart' as prefix0;
 import 'package:graineasy/item_details.dart';
 import 'package:graineasy/logind_signup.dart';
 import 'package:graineasy/item_screen.dart';
@@ -11,12 +10,19 @@ import 'package:flutter/material.dart';
 //import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 
+import 'dart:io';
+//import 'package:flutter/material.dart';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
+
+
   Widget build(BuildContext context) {
     return new MaterialApp(
         theme: new ThemeData(
@@ -49,7 +55,22 @@ class MyApp extends StatelessWidget {
   }
 }
 
+//Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) {
+//  if (message.containsKey('data')) {
+//    // Handle data message
+//    final dynamic data = message['data'];
+//  }
+//
+//  if (message.containsKey('notification')) {
+//    // Handle notification message
+//    final dynamic notification = message['notification'];
+//  }
+//
+//  // Or do other work.
+//}
+
 class MyHomePage extends StatefulWidget {
+
   MyHomePage({Key key, this.title}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -65,6 +86,15 @@ class MyHomePage extends StatefulWidget {
 
   @override
   _MyHomePageState createState() => new _MyHomePageState();
+//  _MessageHandlerState createState() => _MessageHandlerState();
+}
+
+class _MessageHandlerState extends State<MessageHandler> {
+  final Firestore _db = Firestore.instance;
+  final FirebaseMessaging _fcm = FirebaseMessaging();
+
+// TODO...
+
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -102,5 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
+
 
 }

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/services.dart' show rootBundle;
@@ -15,7 +16,12 @@ import 'package:graineasy/logind_signup.dart';
 import 'package:graineasy/helpers/showDialogSingleButton.dart';
 import 'package:flutter_range_slider/flutter_range_slider.dart';
 import 'package:http/http.dart' as http;
+//import 'dart:io';
+//import 'package:firebase_messaging/firebase_messaging.dart';
+
+
 final LocalStorage storage = new LocalStorage('GEUser');
+//FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
 class LoginPage extends StatefulWidget {
   final String toolbarname;
@@ -77,6 +83,7 @@ class login_dtl extends State<LoginPage> {
   void initState() {
     super.initState();
        _onView();
+//       firebaseCloudMessaging_Listeners();
 //    LoginService.parseJSON();
   }
 
@@ -506,4 +513,36 @@ class login_dtl extends State<LoginPage> {
     }
     return false;
   }
+
+//  void firebaseCloudMessaging_Listeners() {
+//    if (Platform.isIOS) iOS_Permission();
+//
+//    _firebaseMessaging.getToken().then((token){
+//      print(token);
+//    });
+//
+//    _firebaseMessaging.configure(
+//      onMessage: (Map<String, dynamic> message) async {
+//        print('on message $message');
+//      },
+//      onResume: (Map<String, dynamic> message) async {
+//        print('on resume $message');
+//      },
+//      onLaunch: (Map<String, dynamic> message) async {
+//        print('on launch $message');
+//      },
+//    );
+//  }
+//
+//  void iOS_Permission() {
+//    _firebaseMessaging.requestNotificationPermissions(
+//        IosNotificationSettings(sound: true, badge: true, alert: true)
+//    );
+//    _firebaseMessaging.onIosSettingsRegistered
+//        .listen((IosNotificationSettings settings)
+//    {
+//      print("Settings registered: $settings");
+//    });
+//  }
+
 }
