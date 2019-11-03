@@ -2,14 +2,14 @@ import 'package:graineasy/model/unit.dart';
 import 'package:graineasy/model/category.dart';
 
 class Item {
-  String name;
-  String deliveryTime;
-  String oderId;
-  String oderAmount;
-  String paymentType;
-  String address;
-  Category category;
-  Unit cancelOder;
+  final String name;
+  final String deliveryTime;
+  final String oderId;
+  final String oderAmount;
+  final String paymentType;
+  final String address;
+  final Category category;
+//  final Unit cancelOder;
 
 
   Item({this.name,
@@ -18,8 +18,9 @@ class Item {
     this.oderAmount,
     this.paymentType,
     this.address,
-    this.category,
-    this.cancelOder});
+//    this.cancelOder,
+    this.category
+  });
 
   factory Item.fromJson(Map<String, dynamic> json) {
 //    print(json['category.name']);
@@ -30,7 +31,7 @@ class Item {
         oderAmount: json['grainCount'],
         paymentType: json['grainCount'],
         address: json['origin'],
-        cancelOder: Unit.fromJson(json['unit']),
+//        cancelOder: Unit.fromJson(json['unit']),
         category: Category.fromJson(json['category'])
     );
 

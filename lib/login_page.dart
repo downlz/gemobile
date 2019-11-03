@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:async';
+import 'package:flutter/services.dart' show rootBundle;
 //import 'package:graineasy/Cart_Screen.dart';
 import 'package:graineasy/item_details.dart';
 import 'package:graineasy/services/login.dart';
@@ -12,6 +14,7 @@ import 'package:graineasy/helpers/getToken.dart';
 import 'package:graineasy/logind_signup.dart';
 import 'package:graineasy/helpers/showDialogSingleButton.dart';
 import 'package:flutter_range_slider/flutter_range_slider.dart';
+import 'package:http/http.dart' as http;
 final LocalStorage storage = new LocalStorage('GEUser');
 
 class LoginPage extends StatefulWidget {
@@ -56,6 +59,16 @@ class LoginPage extends StatefulWidget {
 
 class login_dtl extends State<LoginPage> {
 //  List<Item> itemList = Item.List();
+
+//  Future parseJSON() async{
+//    var jsonString = await LoginService.getItems();
+//    final jsonResponse = json.decode(jsonString);
+//    Item item = new Item.fromJson(jsonResponse);
+////    print(item.category.name);
+//    print('Name: ${item.name}');
+//    return item;
+//  }
+
   List<Item> itemList = List<Item>();
 
   var isLoading = false;
@@ -176,11 +189,9 @@ class login_dtl extends State<LoginPage> {
             title: Text(toolbarname),
             backgroundColor: Colors.white,
           ),
-// **************************************************************************************************
           body: ListView.builder(
               itemCount: itemList.length,
               itemBuilder: (BuildContext cont, int ind) {
-
                 return SafeArea(
                     child: Column(children: <Widget>[
                       Container(
@@ -326,18 +337,12 @@ class login_dtl extends State<LoginPage> {
                                             color: Colors.amber.shade500,
                                           ),
                                           Container(
-                                              child:_status(
-                                                  itemList[ind].address
-                                                  )
+                                              child:_status(itemList[ind].category.name)
                                           )
                                         ],
                                       ))))),
                     ]));
-              })
-// **************************************************************************************************
-//      )
-//    ])
-    );
+              }));
   }
 
   _verticalDivider() => Container(
@@ -436,23 +441,7 @@ class login_dtl extends State<LoginPage> {
 
 
   _onViewData() async {
-//    setState(() {
-//      isLoading = true;
-//    });
-////    var itemResponse;
-//    var response=await LoginService.parseJSON();
-//    if(response.statusCode==200){
-//
-//      itemList = (json.decode(response.body) as List)
-//          .map((data) => new Item.fromJson(data))
-//          .toList();
-//
-////      print(itemList[2]);
-//
-//      setState(() {
-//        isLoading = false;
-//      });
-//    }
+    var response  = await LoginService.getPhotos();
   }
 
   _onView() async {
@@ -462,19 +451,20 @@ class login_dtl extends State<LoginPage> {
 //    var itemResponse;
     var response=await LoginService.getItems();
     if(response.statusCode==200){
-//      itemResponse=jsonDecode(response.body);
+      var itemResponse=jsonDecode(response.body);
 //      Item item = new Item.fromJson(itemResponse);
 //
 //      print(item);
 //      itemList = (item as List)
 //          .map((data) => item)
 //          .toList();
+      var rest = itemResponse as List;
+      itemList = rest.map<Item>((json) => Item.fromJson(json)).toList();
+//      itemList = (json.decode(response.body) as List)
+//          .map((data) => new Item.fromJson(data))
+//          .toList();
 
-      itemList = (json.decode(response.body) as List)
-          .map((data) => new Item.fromJson(data))
-          .toList();
-
-//      print(itemList[2]);
+//      print(itemList[2].category.name);
 
       setState(() {
         isLoading = false;

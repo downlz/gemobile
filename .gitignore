@@ -9,3 +9,4 @@ build/
 .flutter-plugins
 
 environments/
+android/app/google-services.json

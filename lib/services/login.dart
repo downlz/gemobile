@@ -6,12 +6,13 @@ import 'package:graineasy/helpers/saveLogout.dart';
 import 'package:graineasy/helpers/showDialogSingleButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:graineasy/model/Item.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'dart:async' show Future;
+import 'package:graineasy/model/album.dart';
+import 'package:flutter/services.dart';
+import 'dart:async';
 import 'package:http/http.dart' as http;
 
 class LoginService{
-
+  static const String url = "https://jsonplaceholder.typicode.com/photos";
   static Future<http.Response> userLogin(Map<dynamic,dynamic> data) async{
 //    print(data);
     //   print(convert.jsonEncode(data));
@@ -59,12 +60,31 @@ class LoginService{
     String jsonString = await _loadItemAsset();
     final jsonResponse = convert.jsonDecode(jsonString);
     Item item = new Item.fromJson(jsonResponse);
-    print(item.category.name);
     return item;
   }
 
   Future<String> _loadItemAsset() async {
     return await rootBundle.loadString('assets/items.json');
+  }
+
+  static Future<List<Album>> getPhotos() async {
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        List<Album> list = parsePhotos(response.body);
+        print(list);
+        return list;
+      } else {
+        throw Exception("Error");
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  static List<Album> parsePhotos(String responseBody) {
+    final parsed = convert.jsonDecode(responseBody).cast<Map<String, dynamic>>();
+    return parsed.map<Album>((json) => Album.fromJson(json)).toList();
   }
 
 }
