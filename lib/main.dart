@@ -89,13 +89,13 @@ class MyHomePage extends StatefulWidget {
 //  _MessageHandlerState createState() => _MessageHandlerState();
 }
 
-class _MessageHandlerState extends State<MessageHandler> {
-  final Firestore _db = Firestore.instance;
-  final FirebaseMessaging _fcm = FirebaseMessaging();
+// class _MessageHandlerState extends State<MessageHandler> {
+//   final Firestore _db = Firestore.instance;
+//   final FirebaseMessaging _fcm = FirebaseMessaging();
 
-// TODO...
+// // TODO...
 
-}
+// }
 
 class _MyHomePageState extends State<MyHomePage> {
 
