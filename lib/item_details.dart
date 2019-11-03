@@ -1,5 +1,5 @@
-import 'package:f_groceries/Cart_Screen.dart';
-import 'package:f_groceries/checkout_screen.dart';
+import 'package:graineasy/Cart_Screen.dart';
+import 'package:graineasy/checkout_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 

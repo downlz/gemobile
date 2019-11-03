@@ -1,7 +1,7 @@
 import 'dart:async' show Future;
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
-import 'package:f_groceries/model/Address_model.dart';
+import 'package:graineasy/model/Address_model.dart';
 
 Future<String> _loadProduct() async{
   return await rootBundle.loadString('assets/address.json');

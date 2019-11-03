@@ -1,5 +1,14 @@
-import 'package:f_groceries/HomeScreen.dart';
+import 'package:graineasy/HomeScreen.dart';
+import 'package:graineasy/HomeScreen.dart' as prefix0;
+import 'package:graineasy/item_details.dart';
+import 'package:graineasy/logind_signup.dart';
+import 'package:graineasy/item_screen.dart';
+import 'package:graineasy/Cart_Screen.dart';
+import 'package:graineasy/orderhistory_screen.dart';
+import 'package:graineasy/Payment_Screen.dart';
+import 'package:graineasy/checkout_screen.dart';
 import 'package:flutter/material.dart';
+//import 'package:url_launcher/url_launcher.dart';
 import 'dart:async';
 
 
@@ -25,7 +34,17 @@ class MyApp extends StatelessWidget {
             accentColor: Colors.blue
 
         ),
-      home: new MyHomePage(title: 'Groceries'),
+      routes: <String,WidgetBuilder>{
+        "/HomeScreen": (BuildContext context) => Home_screen(),
+        "/ItemDetails": (BuildContext context) => Item_Details(),
+        "/LoginScreen": (BuildContext context) => Login_Screen(),
+        "/ItemScreen": (BuildContext context) => Item_Screen(),
+        "/CartScreen": (BuildContext context) => Cart_screen(),
+        "/OrderHistory": (BuildContext context) => Oder_History(),
+        "/PaymentScreen": (BuildContext context) => Payment_Screen(),
+        "/CheckoutScreen": (BuildContext context) => Checkout()
+      },
+      home: new MyHomePage(title: 'Graineasy'),
     );
   }
 }
@@ -78,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
         width: 250.0,
         height: 250.0,
         child: new Image.asset(
-          'images/gro.jpg',
+          'images/gelogo.png',
         ),
       ),
     );
