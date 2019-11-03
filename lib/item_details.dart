@@ -9,7 +9,7 @@ class Item_Details extends StatefulWidget {
 }
 
 class item_details extends State<Item_Details> {
-  String toolbarname = 'Fruiys & Vegetables';
+  String toolbarname = 'Fruits & Vegetables';
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List list = ['12', '11'];
 
