@@ -333,7 +333,7 @@ class login_dtl extends State<LoginPage> {
                                                 size: 20.0,
                                                 color: Colors.amber.shade500,
                                               ),
-                                              Text(itemList[ind].address,
+                                              Text(itemList[ind].oderAmount,
                                                   style: TextStyle(
                                                       fontSize: 13.0,
                                                       color: Colors.black54)),
