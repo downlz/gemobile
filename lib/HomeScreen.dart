@@ -105,7 +105,6 @@ class home extends State<Home_screen> {
                 context: context,
                 //delegate: _delegate,
               );
-
             },
           ),
           new Padding(
