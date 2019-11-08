@@ -8,7 +8,7 @@ class Itemname {
 
   Itemname({this.name,this.id,this.hsn,this.tax,this.insurance,this.image});
 
-  factory Itemname.fromJson(Map<String, dynamic> json) {
+  factory Itemname.fromJson(Map<dynamic, dynamic> json) {
     return Itemname(
         name: json['name'],
         id: json['_id'],
@@ -18,4 +18,15 @@ class Itemname {
         insurance: json['insurance']
     );
   }
+
+
+
+  static List<Itemname> fromJsonArray(Map json) {
+//    var rest = json['items'] as List;
+    List<Itemname> bannerLists =  json[''].map<Itemname>((json) => Itemname.fromJson(json))
+        .toList();
+    return bannerLists;
+  }
+
+
 }

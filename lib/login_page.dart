@@ -12,7 +12,7 @@ import 'package:graineasy/utils/loader.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:graineasy/helpers/getToken.dart';
-import 'package:graineasy/logind_signup.dart';
+import 'package:graineasy/ui/view/login/login_view.dart';
 import 'package:graineasy/helpers/showDialogSingleButton.dart';
 import 'package:flutter_range_slider/flutter_range_slider.dart';
 import 'package:http/http.dart' as http;
@@ -487,7 +487,7 @@ class login_dtl extends State<LoginPage> {
 
   void _logout() async{
     var response=await LoginService.userLogout();
-    Navigator.push(context, MaterialPageRoute(builder: (context)=> Login_Screen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginView()));
 
     // Test to validate token got expired
 

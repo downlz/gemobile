@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:graineasy/Cart_Screen.dart';
 import 'package:graineasy/help_screen.dart';
 import 'package:graineasy/item_screen.dart';
-import 'package:graineasy/logind_signup.dart';
+import 'package:graineasy/manager/api_call/api_config/api_config.dart';
+import 'package:graineasy/model/itemname.dart';
+import 'package:graineasy/ui/view/login/login_view.dart';
 import 'package:graineasy/orderhistory_screen.dart';
 import 'package:graineasy/setting_screen.dart';
 import 'package:graineasy/login_page.dart';
@@ -9,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:loader_search_bar/loader_search_bar.dart';
 import 'package:flutter/foundation.dart';
 import 'Account_screen.dart';
+import 'package:http/http.dart' as http;
 
 const String _kGalleryAssetsPackage = 'flutter_gallery_assets';
 
@@ -34,6 +39,8 @@ class Photo {
 }
 
 class home extends State<Home_screen> {
+
+  List<Itemname> item = [];
   List list = ['12', '11'];
 
   List<Photo> photos = <Photo>[
@@ -76,6 +83,8 @@ class home extends State<Home_screen> {
   String name ='My Wishlist';
   @override
   Widget build(BuildContext context) {
+
+//    getData();
     // TODO: implement build
     final Orientation orientation = MediaQuery.of(context).orientation;
     final ThemeData theme = Theme.of(context);
@@ -86,7 +95,6 @@ class home extends State<Home_screen> {
     return Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.white,
-
         title: Text("Graineasy"),
         actions: <Widget>[
           IconButton(
@@ -267,7 +275,7 @@ class home extends State<Home_screen> {
                         new TextStyle(color: Colors.redAccent, fontSize: 17.0),
                   ),
                   onTap: () {
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => Login_Screen()));
+                    Navigator.push(context,MaterialPageRoute(builder: (context) => LoginView()));
                   }),
             )
           ],
@@ -564,10 +572,12 @@ class home extends State<Home_screen> {
                     )
                   ]),
             ),
+
+
+
             new Container(
               alignment: Alignment.topCenter,
               height: 700.0,
-
               child: new GridView.builder(
                   itemCount: photos.length,
                   primary: false,
@@ -668,12 +678,30 @@ class home extends State<Home_screen> {
   ))*/
   Icon keyloch = new Icon(
     Icons.arrow_forward,
-    color: Colors.black26,
-  );
+    color: Colors.black26);
 
   _verticalD() => Container(
         margin: EdgeInsets.only(left: 5.0, right: 0.0, top: 5.0, bottom: 0.0),
       );
+
+  Future getData()
+  async {
+      http.Response response = await http.get(
+        ApiConfig.getCategoryName,
+        headers:  {"Content-Type": "application/json"},
+      );
+      var data = json.decode(response.body);
+print(data);
+      item = Itemname.fromJsonArray(data);
+
+      if (response.statusCode == 200) {
+        print('get Data');
+      } else {
+        print('error');
+      }
+      return item;
+    }
+
 
 
 }
