@@ -1,8 +1,9 @@
-import 'package:graineasy/di/locator.dart';
 import 'package:flutter/material.dart';
+import 'package:graineasy/di/locator.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/ui/view/router.dart';
 
+import 'manager/api_call/API.dart';
 import 'model/user.dart';
 
 void main() {
@@ -16,6 +17,7 @@ void checkUserLoggedinOrNot() async {
   if (user != null &&
       user.name != null &&
       await UserPreferences.getToken() != null) {
+    API.user = user;
     runApp(MyApp(Screen.Home_screen));
   } else {
     runApp(MyApp(Screen.Login));

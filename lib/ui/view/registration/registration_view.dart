@@ -1,13 +1,11 @@
-import 'package:graineasy/manager/base/base_view.dart';
-import 'package:graineasy/ui/validation/validation.dart';
-import 'package:graineasy/ui/view/login/login_view.dart';
 import 'package:flutter/material.dart';
+import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/ui/theme/app_responsive.dart';
 import 'package:graineasy/ui/theme/palette.dart';
 import 'package:graineasy/ui/theme/text_style.dart';
 import 'package:graineasy/ui/theme/widget.dart';
+import 'package:graineasy/ui/validation/validation.dart';
 import 'package:graineasy/ui/view/registration/registration_view_model.dart';
-import 'package:graineasy/ui/view/router.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/utils/ui_helper.dart';
 
@@ -272,7 +270,6 @@ class _RegistrationViewState extends State<RegistrationView>  with CommonAppBar 
   bool _formWasEdited = false;
   @override
   Widget build(BuildContext context) {
-    AppResponsive.isTablet(MediaQuery.of(context), context);
 
     return BaseView<RegistrationViewModel>(builder: (context, model, child) {
       showMessage(model);

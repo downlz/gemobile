@@ -1,25 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/base_view.dart';
-import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/theme/app_responsive.dart';
-import 'package:graineasy/ui/theme/palette.dart';
-import 'package:graineasy/ui/theme/text_style.dart';
-import 'package:graineasy/ui/theme/widget.dart';
 import 'package:graineasy/ui/view/category/category_view.dart';
-import 'package:graineasy/ui/view/forgot_password/forgot_password_view.dart';
-import 'package:graineasy/ui/view/login/login_view.dart';
-import 'package:graineasy/ui/view/registration/registration_view.dart';
 import 'package:graineasy/ui/view/router.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
-import 'package:graineasy/utils/ui_helper.dart';
-import 'package:graineasy/ui/validation/validation.dart';
-
 
 import '../../../Account_screen.dart';
 import '../../../help_screen.dart';
-import '../../../item_screen.dart';
 import '../../../login_page.dart';
 import '../../../orderhistory_screen.dart';
 import '../../../setting_screen.dart';
@@ -164,8 +154,8 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
         children: <Widget>[
           new Card(
             child: UserAccountsDrawerHeader(
-              accountName: new Text("Naomi A. Schultz"),
-              accountEmail: new Text("NaomiASchultz@armyspy.com"),
+              accountName: new Text(API.user.name),
+              accountEmail: new Text(API.user.phone),
               onDetailsPressed: () {
                 Navigator.push(
                     context,

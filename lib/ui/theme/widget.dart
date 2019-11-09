@@ -9,6 +9,7 @@ class AppWidget {
     return InputDecoration(
 //                            contentPadding: EdgeInsets.only(top: 25, left: 7),
       hintText: hint,
+
       disabledBorder: new UnderlineInputBorder(
         borderSide: new BorderSide(color: Palette.loginBgColor),
       ),

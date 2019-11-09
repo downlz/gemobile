@@ -41,7 +41,6 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> with CommonAppB
   }
   @override
   Widget build(BuildContext context) {
-    AppResponsive.isTablet(MediaQuery.of(context), context);
 
     return BaseView<ForgotPasswordModel>(builder: (context, model, child) {
       showMessage(model);

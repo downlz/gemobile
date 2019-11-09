@@ -85,4 +85,18 @@ static  validateEmptyPassword(String value)
 
   }
 
+  static validateItemQty(String value, int qty) {
+    int selectedQty = int.parse(value);
+    if (qty <= selectedQty) {
+      return null;
+    }
+    if (selectedQty == 0) {
+      return 'Please add qty';
+    }
+
+    if (selectedQty > qty) {
+      return 'only $qty stock is availabel';
+    }
+  }
+
 }

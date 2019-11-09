@@ -1,7 +1,4 @@
-import 'package:graineasy/Cart_Screen.dart';
-import 'package:graineasy/item_details.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_range_slider/flutter_range_slider.dart';
 
 class Oder_History extends StatefulWidget {
   final String toolbarname;
@@ -12,7 +9,7 @@ class Oder_History extends StatefulWidget {
   State<StatefulWidget> createState() => oder_history(toolbarname);
 }
 
-class Item {
+class OrderItem {
   final String name;
   final String deliveryTime;
   final String oderId;
@@ -21,7 +18,7 @@ class Item {
   final String address;
   final String cancelOder;
 
-  Item(
+  OrderItem(
       {this.name,
       this.deliveryTime,
       this.oderId,
@@ -37,8 +34,8 @@ class oder_history extends State<Oder_History> {
   bool checkboxValueB = false;
   bool checkboxValueC = false;
   VoidCallback _showBottomSheetCallback;
-  List<Item> itemList = <Item>[
-    Item(
+  List<OrderItem> itemList = <OrderItem>[
+    OrderItem(
         name: 'Jhone Miller',
         deliveryTime: '26-5-2106',
         oderId: '#CN23656',
@@ -46,7 +43,7 @@ class oder_history extends State<Oder_History> {
         paymentType: 'online',
         address: '1338 Karen Lane,Louisville,Kentucky',
         cancelOder: 'Cancel Order'),
-    Item(
+    OrderItem(
         name: 'Gautam Dass',
         deliveryTime: '10-8-2106',
         oderId: '#CN33568',
@@ -54,7 +51,7 @@ class oder_history extends State<Oder_History> {
         paymentType: 'COD',
         address: '319 Alexander Drive,Ponder,Texas',
         cancelOder: 'View Receipt'),
-    Item(
+    OrderItem(
         name: 'Jhone Hill',
         deliveryTime: '23-3-2107',
         oderId: '#CN75695',
@@ -62,7 +59,7 @@ class oder_history extends State<Oder_History> {
         paymentType: 'online',
         address: '92 Jarvis Street,Buffalo,New York',
         cancelOder: 'View Receipt'),
-    Item(
+    OrderItem(
         name: 'Miller Root',
         deliveryTime: '10-5-2107',
         oderId: '#CN45238',
@@ -70,7 +67,7 @@ class oder_history extends State<Oder_History> {
         paymentType: 'Bhim/upi',
         address: '103 Romrog Way,Grand Island,Nebraska',
         cancelOder: 'Cancel Order'),
-    Item(
+    OrderItem(
         name: 'Lag Gilli',
         deliveryTime: '26-10-2107',
         oderId: '#CN69532',
