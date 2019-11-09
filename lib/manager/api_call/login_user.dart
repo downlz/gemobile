@@ -16,7 +16,7 @@ class LoginUser extends LoginRepository {
     var data = {'phone': '+91'+phone,'password':password};
 
     var response = await http.post(ApiConfig.login,
-        headers:  {"Content-Type": "application/json"},
+        headers:  await ApiConfig.getHeader(),
         body: convert.jsonEncode(data));
     if (response.statusCode == ApiConfig.successStatusCode) {
       print(response.body);

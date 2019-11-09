@@ -10,12 +10,13 @@ import 'package:json_annotation/json_annotation.dart';
 @JsonSerializable(nullable: true)
 class Item {
   final String name;
+  final String id;
   final String deliveryTime;
   final String oderId;
   final String oderAmount;
   final String paymentType;
   final Category category;
-  final Itemname itemname;
+  final ItemName itemname;
   final String image;
   final int qty;
   final int bargaintrgqty;
@@ -34,6 +35,7 @@ class Item {
   final Address address;
 
   Item({this.name,
+    this.id,
     this.deliveryTime,
     this.oderId,
     this.oderAmount,
@@ -62,6 +64,7 @@ class Item {
 //    print(json['category.name']);
     return Item(
         name: json['sampleNo'],
+        id: json['_id'],
         deliveryTime: json['origin'],
         oderId: json['grainCount'],
         oderAmount: json['grainCount'],
@@ -75,7 +78,7 @@ class Item {
         isLive: json['isLive'],
         isTaxable: json['isTaxable'],
         price: json['price'].toDouble(),
-        itemname: Itemname.fromJson(json['name']),
+        itemname: ItemName.fromJson(json['name']),
         unit: Unit.fromJson(json['unit']),
         category: Category.fromJson(json['category']),
         city: City.fromJson(json['city']),
@@ -88,7 +91,14 @@ class Item {
 
   }
 
+
+  static List<Item> fromJsonArray(  List<dynamic>  json) {
+    List<Item> bannerLists = json.map<Item>((json) => Item.fromJson(json))
+        .toList();
+    return bannerLists;
+  }
 }
+
 
 
 class Specs {

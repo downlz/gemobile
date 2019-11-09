@@ -440,7 +440,7 @@ class _RegistrationViewState extends State<RegistrationView>  with CommonAppBar 
                           ],
                         ),
                         onTap: (){
-                          Navigator.pushNamed(context, Screen.Login.toString());
+                          Navigator.pop(context);
                         },
                       ),
 

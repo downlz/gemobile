@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:graineasy/model/Address_model.dart';
+import 'package:graineasy/model/user.dart';
 import 'package:graineasy/services/address_services.dart';
+
+import 'manager/shared_preference/UserPreferences.dart';
 
 class Account_Screen extends StatefulWidget {
   @override
@@ -8,12 +11,15 @@ class Account_Screen extends StatefulWidget {
 }
 
 class account extends State<Account_Screen> {
+
+  User user;
   String username = 'Naomi A. Schultz';
   String mobilenumber = '410-422-9171';
   String eid = 'NaomiASchultz@armyspy.com';
-
   @override
   Widget build(BuildContext context) {
+    getDetails();
+
     // TODO: implement build
 
     Icon ofericon = new Icon(
@@ -40,6 +46,7 @@ class account extends State<Account_Screen> {
     bool checkboxValueA = true;
     bool checkboxValueB = false;
     bool checkboxValueC = false;
+
 
     //List<address> addresLst = loadAddress() as List<address> ;
     return new Scaffold(
@@ -527,6 +534,9 @@ class account extends State<Account_Screen> {
   _verticalD() => Container(
         margin: EdgeInsets.only(left: 3.0, right: 0.0, top: 0.0, bottom: 0.0),
       );
+
+  void getDetails()
+  {}
 
 
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graineasy/HomeScreen.dart';
+import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/ui/view/registration/registration_view.dart';
 
 import 'forgot_password/forgot_password_view.dart';
@@ -56,7 +57,7 @@ class Router {
       }
       else if(screen==Screen.Home_screen)
       {
-        return MaterialPageRoute(builder: (_) => Home_screen());
+        return MaterialPageRoute(builder: (_) => HomeView());
       }
       return MaterialPageRoute(
           builder: (_) => Scaffold(

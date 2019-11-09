@@ -40,7 +40,7 @@ class Photo {
 
 class home extends State<Home_screen> {
 
-  List<Itemname> item = [];
+  List<ItemName> item = [];
   List list = ['12', '11'];
 
   List<Photo> photos = <Photo>[
@@ -691,7 +691,7 @@ class home extends State<Home_screen> {
       );
       var data = json.decode(response.body);
 print(data);
-      item = Itemname.fromJsonArray(data);
+      item = ItemName.fromJsonArray(data);
 
       if (response.statusCode == 200) {
         print('get Data');

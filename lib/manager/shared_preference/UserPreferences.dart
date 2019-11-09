@@ -57,5 +57,13 @@ class UserPreferences {
     return user;
   }
 
+  static Future<String> getToken() async
+  {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.get('token');
+  }
+
+
+
 
 }

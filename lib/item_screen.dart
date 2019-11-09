@@ -16,7 +16,6 @@ class Item {
   final String itemname;
   final String imagename;
   final String itmprice;
-
   Item({this.itemname, this.imagename, this.itmprice});
 }
 
@@ -386,9 +385,6 @@ class item extends State<Item_Screen> {
                                               fontSize: 13.0,
                                               letterSpacing: 0.5),
                                         ),
-
-
-
                                       ],
                                     ),
                                   ),

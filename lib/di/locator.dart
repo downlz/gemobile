@@ -1,6 +1,8 @@
 
 import 'package:get_it/get_it.dart';
+import 'package:graineasy/ui/view/category/category_view_model.dart';
 import 'package:graineasy/ui/view/forgot_password/forgot_password_model.dart';
+import 'package:graineasy/ui/view/home/home_view_model.dart';
 import 'package:graineasy/ui/view/login/login_view_model.dart';
 import 'package:graineasy/ui/view/registration/registration_view_model.dart';
 
@@ -17,5 +19,13 @@ void setupLocator() {
 
   locator.registerFactory(() {
     return ForgotPasswordModel();
+  });
+
+  locator.registerFactory(() {
+    return HomeViewModel();
+  });
+
+  locator.registerFactory(() {
+    return CategoryViewModel();
   });
 }
