@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:graineasy/exception/data_exception.dart';
-import 'package:graineasy/manager/api_call/login_user.dart';
 import 'package:graineasy/manager/api_call/register_user.dart';
 
 abstract class RegisterListener {
@@ -11,7 +9,7 @@ abstract class RegisterListener {
 
 class RegisterDataManager {
   RegisterListener listener;
-  static const String LOGIN = "LOGIN";
+  static const String REGISTER = "REGISTER";
 
   void register(String firstName, String lastName,String email,String phoneNumber,String password) async {
     RegisterUser user = RegisterUser();
@@ -20,7 +18,7 @@ class RegisterDataManager {
       if (user != null) {
         listener.goToLogin(users);
       } else {
-        listener.errorObtained('Invalid data', 202, LOGIN);
+        listener.errorObtained('Invalid data', 202, REGISTER);
       }
     }).catchError((onError) {
       int errorCode = DataException.errorUnknown;
@@ -32,7 +30,7 @@ class RegisterDataManager {
       print('error=============>' + error);
 
       if (listener != null) {
-        listener.errorObtained(error, errorCode, LOGIN);
+        listener.errorObtained(error, errorCode, REGISTER);
       }
     });
   }

@@ -1,4 +1,5 @@
 import 'package:graineasy/model/user.dart';
+import 'package:graineasy/model/usermodel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPreferences {
@@ -53,6 +54,37 @@ class UserPreferences {
     user.isAgent = prefs.getBool("isAgent");
     user.isActive = prefs.getBool("isActive");
     user.token = prefs.getString("token");
+    user.phone = prefs.getString("phone");
+    return user;
+  }
+
+
+  static Future<bool> saveUserAllDetails(UserModel user) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('vendorCode', user.vendorCode);
+
+    prefs.setString('_id', user.id);
+    prefs.setString('name', user.name);
+    prefs.setString('email', user.email);
+    prefs.setString('phone', user.phone);
+    prefs.setString('pan', user.pan);
+    prefs.setString('GST', user.gst);
+    prefs.setBool('isBuyer', user.isBuyer);
+    prefs.setString('phone', user.phone);
+
+    return true;
+  }
+
+  static Future<UserModel> getUserAllDetail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    UserModel user = new UserModel();
+    user.name = prefs.getString("name");
+    user.id = prefs.getString("_id");
+    user.email = prefs.getString("email");
+    user.phone = prefs.getString("phone");
+    user.pan = prefs.getString("pan");
+    user.gst = prefs.getString("GST");
+    user.isBuyer = prefs.getBool("isActive");
     user.phone = prefs.getString("phone");
     return user;
   }

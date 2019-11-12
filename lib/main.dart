@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graineasy/di/locator.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
+import 'package:graineasy/model/usermodel.dart';
 import 'package:graineasy/ui/view/router.dart';
 
 import 'manager/api_call/API.dart';
@@ -14,10 +15,12 @@ void main() {
 
 void checkUserLoggedinOrNot() async {
   User user = await UserPreferences.getUser();
+  UserModel users = await UserPreferences.getUserAllDetail();
   if (user != null &&
       user.name != null &&
       await UserPreferences.getToken() != null) {
     API.user = user;
+    API.users = users;
     runApp(MyApp(Screen.Home_screen));
   } else {
     runApp(MyApp(Screen.Login));

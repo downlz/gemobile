@@ -73,4 +73,31 @@ class AppWidget {
     return AppTextStyle.getLargeHeading(false, Palette.whiteTextColor);
   }
 
+  static whiteTextField(String hint) {
+    return InputDecoration(
+//                            contentPadding: EdgeInsets.only(top: 25, left: 7),
+
+      hintText: hint,
+      disabledBorder: new UnderlineInputBorder(
+        borderSide: new BorderSide(color: Palette.whiteTextColor),
+      ),
+      focusedBorder: new UnderlineInputBorder(
+        borderSide: new BorderSide(color: Palette.whiteTextColor),
+      ),
+      enabledBorder: new UnderlineInputBorder(
+        borderSide: new BorderSide(color: Palette.whiteTextColor),
+      ),
+      errorBorder: new UnderlineInputBorder(
+        borderSide: new BorderSide(color: Palette.whiteTextColor),
+      ),
+      border: new UnderlineInputBorder(
+        borderSide: new BorderSide(color: Palette.whiteTextColor),
+      ),
+
+//                            border: OutlineInputBorder(
+//                                borderRadius: BorderRadius.circular(25.0)),
+      hintStyle: AppTextStyle.getLargeHeading(false, Colors.white24),
+    );
+  }
+
 }

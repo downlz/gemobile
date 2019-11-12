@@ -1,18 +1,16 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:graineasy/Cart_Screen.dart';
 import 'package:graineasy/help_screen.dart';
 import 'package:graineasy/item_screen.dart';
+import 'package:graineasy/login_page.dart';
 import 'package:graineasy/manager/api_call/api_config/api_config.dart';
 import 'package:graineasy/model/itemname.dart';
-import 'package:graineasy/ui/view/login/login_view.dart';
-import 'package:graineasy/orderhistory_screen.dart';
 import 'package:graineasy/setting_screen.dart';
-import 'package:graineasy/login_page.dart';
-import 'package:flutter/material.dart';
-import 'package:loader_search_bar/loader_search_bar.dart';
-import 'package:flutter/foundation.dart';
-import 'Account_screen.dart';
+import 'package:graineasy/ui/view/account/account_view.dart';
+import 'package:graineasy/ui/view/login/login_view.dart';
+import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
 import 'package:http/http.dart' as http;
 
 const String _kGalleryAssetsPackage = 'flutter_gallery_assets';
@@ -170,7 +168,8 @@ class home extends State<Home_screen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Account_Screen()));
+//                          builder: (context) => Account_Screen()));
+                          builder: (context) => AccountVIew()));
                 },
                 decoration: new BoxDecoration(
                   backgroundBlendMode: BlendMode.difference,
@@ -203,7 +202,8 @@ class home extends State<Home_screen> {
 
 
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> Oder_History(toolbarname: ' Order History',)));
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) => OrderHistoryView()));
 
                       }),
                   new ListTile(

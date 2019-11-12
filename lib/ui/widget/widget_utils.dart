@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_networkimage/provider.dart';
@@ -9,7 +8,6 @@ class WidgetUtils
 {
   static getCategoryImage(String imageUrl)
   {
-    print('Image URL ==> $imageUrl');
     return TransitionToImage(
         image: AdvancedNetworkImage(imageUrl,
         loadedCallback: () {
@@ -27,4 +25,6 @@ class WidgetUtils
   {
     return Center(child: Text(message,style: TextStyle(color:Palette.assetColor,fontSize: 20),),);
   }
+
+
 }

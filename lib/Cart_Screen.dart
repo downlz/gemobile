@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:graineasy/checkout_screen.dart';
 import 'package:graineasy/item_screen.dart';
-import 'package:flutter/material.dart';
 
 enum DialogDemoAction {
   cancel,
@@ -13,48 +13,51 @@ class Cart_screen extends StatefulWidget {
   State<StatefulWidget> createState() => Cart();
 }
 
-class Item {
+class Items {
   final String itemImage;
   final String itemName;
   final String itemQun;
   final String itemPrice;
 
-  Item({this.itemImage, this.itemName, this.itemQun, this.itemPrice});
+  Items({this.itemImage, this.itemName, this.itemQun, this.itemPrice});
 }
 
 class Cart extends State<Cart_screen> {
-  List<Item> itemList = <Item>[
-    Item(
+
+  List<Items> itemList = <Items>[
+    Items(
         itemImage: 'images/grapes.jpg',
         itemName: 'Black Grape',
         itemQun: 'Qty:1',
         itemPrice: '\₹ 100'),
-    Item(
+    Items(
         itemImage: 'images/tomato.jpg',
         itemName: 'Tomato',
         itemQun: 'Qty:3',
         itemPrice: '\₹ 112'),
-    Item(
+    Items(
         itemImage: 'images/guava.jpg',
         itemName: 'Guava',
         itemQun: 'Qty:2',
         itemPrice: '\₹ 105'),
-    Item(
+    Items(
         itemImage: 'images/kiwi.jpg',
         itemName: 'Kiwi',
         itemQun: 'Qty:1',
         itemPrice: '\₹ 90'),
-    Item(
+    Items(
         itemImage: 'images/lemons.jpg',
         itemName: 'Lemon',
         itemQun: 'Qty:2',
         itemPrice: '\₹ 70'),
-    Item(
+    Items(
         itemImage: 'images/apple.jpg',
         itemName: 'Apple',
         itemQun: 'Qty:1',
         itemPrice: '\₹ 50'),
   ];
+
+
   String toolbarname = 'My Cart (4)';
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -73,6 +76,7 @@ class Cart extends State<Cart_screen> {
   }
 
   String pincode;
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -207,17 +211,17 @@ class Cart extends State<Cart_screen> {
                                                   'Location/Area Pincode'),
                                               content:SizedBox(
                                                 height: 24.0,
-                                              child: TextFormField(
-                                                  keyboardType: TextInputType.emailAddress, // Use email input type for emails.
-                                                  decoration: new InputDecoration(
-                                                      hintText: '******',
-                                                      labelText: 'Pincode'
-                                                  ),
-                                                //  validator: this._validateEmail,
-                                                  onSaved: (String value) {
-                                                    this.pincode = value;
-                                                  }
-                                              ),),
+                                                child: TextFormField(
+                                                    keyboardType: TextInputType.emailAddress, // Use email input type for emails.
+                                                    decoration: new InputDecoration(
+                                                        hintText: '******',
+                                                        labelText: 'Pincode'
+                                                    ),
+                                                    //  validator: this._validateEmail,
+                                                    onSaved: (String value) {
+                                                      this.pincode = value;
+                                                    }
+                                                ),),
 
                                               actions: <Widget>[
                                                 FlatButton(

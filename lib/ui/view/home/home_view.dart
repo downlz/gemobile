@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/base_view.dart';
-import 'package:graineasy/model/user.dart';
+import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/ui/theme/app_responsive.dart';
+import 'package:graineasy/ui/view/account/account_view.dart';
 import 'package:graineasy/ui/view/category/category_view.dart';
+import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
 import 'package:graineasy/ui/view/router.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 
-import '../../../Account_screen.dart';
 import '../../../help_screen.dart';
 import '../../../login_page.dart';
-import '../../../orderhistory_screen.dart';
 import '../../../setting_screen.dart';
 import 'home_view_model.dart';
 
@@ -24,9 +23,8 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> with CommonAppBar {
-  User user;
   @override
-  Future initState()  {
+  void initState() {
     super.initState();
   }
   @override
@@ -38,7 +36,7 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
       return new Scaffold(
         drawer: getDrawerWidget(),
         appBar: new AppBar(
-          title: Text('Grain Easy'),
+          title: Text('Graineasy'),
           backgroundColor: Colors.white,
         ),
         body: _getBody(model),
@@ -51,7 +49,8 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
   Widget _getBody(HomeViewModel model) {
     return Stack(
       children: <Widget>[
-        _getBaseContainer(model),
+        model.items != null ? _getBaseContainer(model) : Container(),
+//        _getBaseContainer(model),
         getProgressBar(model.state)
       ],
     );
@@ -72,12 +71,13 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
 
   _getBaseContainer(HomeViewModel model)
   {
-
-    return getCategoryWidget(model);
+    return model.items != null ? getCategoryWidget(model) : Container();
+//    return getCategoryWidget(model);
   }
 
   getCategoryWidget(HomeViewModel model) {
-    return SingleChildScrollView(child:   new GridView.builder(
+    return SingleChildScrollView(child:
+    new GridView.builder(
           itemCount: model.items.length,
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
@@ -154,18 +154,17 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
         children: <Widget>[
           new Card(
             child: UserAccountsDrawerHeader(
-              accountName: new Text(API.user.name),
-              accountEmail: new Text(API.user.phone),
+              accountName: new Text('Admin Account'),
+              accountEmail: new Text('+911111111111'),
               onDetailsPressed: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Account_Screen()));
+                        builder: (context) => AccountVIew()));
               },
               decoration: new BoxDecoration(
                 backgroundBlendMode: BlendMode.difference,
                 color: Colors.white30,
-
                 /* image: new DecorationImage(
                //   image: new ExactAssetImage('assets/images/lake.jpeg'),
                   fit: BoxFit.cover,
@@ -187,7 +186,8 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
 
 
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> Oder_History(toolbarname: ' Order History',)));
+                      Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => OrderHistoryView()));
 
                     }),
                 new ListTile(
@@ -258,6 +258,7 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
                   new TextStyle(color: Colors.redAccent, fontSize: 17.0),
                 ),
                 onTap: () {
+                  UserPreferences.logOut();
                   Navigator.pushNamedAndRemoveUntil(context, Screen.Login.toString(), (Route<dynamic> route) => false);
 
                 }),

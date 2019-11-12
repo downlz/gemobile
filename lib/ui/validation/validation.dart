@@ -1,3 +1,5 @@
+import 'package:graineasy/model/Item.dart';
+
 class Validation
 {
 
@@ -35,7 +37,7 @@ class Validation
   }
 
   static String validatePassword(String value) {
-    if (!(value.length > 6) ) {
+    if (!(value.length > 5)) {
       return "Incorrect password";
     }
     else if (value.isEmpty) {
@@ -53,6 +55,7 @@ class Validation
     }
     return null;
   }
+
   static String validateEmail(String value) {
     Pattern pattern =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -66,24 +69,20 @@ class Validation
       return null;
   }
 
- static validateEmptyPhone(String value)
-  {
+  static validateEmptyPhone(String value) {
     if (value.isEmpty) {
       return 'Phone Number Required';
     }
     else
       return null;
-
   }
-static  validateEmptyPassword(String value)
-  {
-    if (value.isEmpty) {
-      return 'Password Required';
-    }
-    else
-      return null;
-
+static  validateEmptyPassword(String value) {
+  if (value.isEmpty) {
+    return 'Password Required';
   }
+  else
+    return null;
+}
 
   static validateItemQty(String value, int qty) {
     int selectedQty = int.parse(value);
@@ -97,6 +96,34 @@ static  validateEmptyPassword(String value)
     if (selectedQty > qty) {
       return 'only $qty stock is availabel';
     }
+  }
+
+
+  static validateEmptyItemQty(String value, Item itemDetails) {
+    if (value.isEmpty)
+      return 'Quntity equired';
+    else if (itemDetails.qty < int.parse(value))
+      return '${itemDetails.qty} qty availabel';
+    else
+      return null;
+  }
+
+  static validateGstInNumber(String value) {
+    if ((value.length < 15)) {
+      return "Incorrect GSTIN";
+    }
+    else if (value.isEmpty) {
+      return "Incorrect GSTIN";
+    }
+    return null;
+  }
+
+  static validatePin(String value) {
+    if (value.isEmpty) {
+      return 'Incorrect Pincode';
+    }
+    else
+      return null;
   }
 
 }

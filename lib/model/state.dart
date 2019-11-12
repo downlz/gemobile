@@ -1,21 +1,27 @@
 import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable(nullable: true)
-class State {
+class States {
   String name;
   String id;
-  String code;
+  int code;
 
-  State({this.name,
+  States({this.name,
     this.id,
     this.code
   });
 
-  factory State.fromJson(Map<String, dynamic> json) {
-    return State(
+  factory States.fromJson(Map<String, dynamic> json) {
+    return States(
         name: json['name'],
         id: json['_id'],
-        code: json['code']
+        code: json['code'] as int
     );
+  }
+
+  static List<States> fromJsonArray(List<dynamic> json) {
+    List<States> addresses = json.map<States>((json) => States.fromJson(json))
+        .toList();
+    return addresses;
   }
 }

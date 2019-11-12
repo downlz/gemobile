@@ -1,4 +1,5 @@
 import 'package:connectivity/connectivity.dart';
+import 'package:intl/intl.dart';
 
 
 class Utility
@@ -13,5 +14,12 @@ class Utility
     }
   }
 
+  static String dateTimeToString(DateTime dateTime) {
+    return DateFormat('dd-MM-yyyy').format(dateTime);
+  }
+
+  static DateTime convertStringDateToDateTime(String dateTime) {
+    return new DateFormat("yyyy-MM-ddThh:mm:s.sssZ").parse(dateTime);
+  }
 
 }

@@ -1,10 +1,10 @@
-import 'package:graineasy/model/unit.dart';
-import 'package:graineasy/model/category.dart';
-import 'package:graineasy/model/itemname.dart';
-import 'package:graineasy/model/city.dart';
-import 'package:graineasy/model/manufacturer.dart';
-import 'package:graineasy/model/usermodel.dart';
 import 'package:graineasy/model/address.dart';
+import 'package:graineasy/model/category.dart';
+import 'package:graineasy/model/city.dart';
+import 'package:graineasy/model/itemname.dart';
+import 'package:graineasy/model/manufacturer.dart';
+import 'package:graineasy/model/unit.dart';
+import 'package:graineasy/model/usermodel.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable(nullable: true)
@@ -29,8 +29,8 @@ class Item {
   final bool isLive;
   final bool isTaxable;
   final Manufacturer manufacturer;
-  final userModel addedBy;
-  final userModel seller;
+  final UserModel addedBy;
+  final UserModel seller;
   final Specs specs;
   final Address address;
 
@@ -84,7 +84,7 @@ class Item {
         city: City.fromJson(json['city']),
         manufacturer: Manufacturer.fromJson(json['manufacturer']),
 //        addedBy: userModel.fromJson(json['addedby']),
-        seller: userModel.fromJson(json['seller']),
+      seller: UserModel.fromJson(json['seller']),
         specs: Specs.fromJson(json['specs']),
         address: Address.fromJson(json['address']), // Issue with null data
     );
