@@ -93,6 +93,27 @@ class API extends BaseRepository
     return [];
   }
 
+  static calcPrice(int qty, String item, String buyer,String seller) async {
+    var data = {
+      'qty': qty,
+      'itemId': item,
+      'buyerId': buyer,
+      'sellerId': seller
+    };
+
+    var response = await http.post(ApiConfig.price,
+        headers: await ApiConfig.getHeaderWithToken(),
+        body: convert.jsonEncode(data));
+    if (response.statusCode == ApiConfig.successStatusCode) {
+//      print(response.body);
+      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+
+      return response.body;
+    } else {
+      return null;
+    }
+  }
+
   static Future<List<States>> getStateList() async {
     var response = await http.get(ApiConfig.getState,
         headers: await ApiConfig.getHeader());
