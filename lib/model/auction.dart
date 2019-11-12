@@ -27,7 +27,7 @@ class Auction {
   DateTime startTime;
   DateTime endTime;
   bool approved;
-  UserModel user;
+  UserModel user;       // Object Id
   String remarks;
   UserModel createdBy;
   DateTime createdAt;
