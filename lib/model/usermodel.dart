@@ -1,42 +1,43 @@
 import 'package:graineasy/model/address.dart';
 
-class userModel {
+class UserModel {
 
-  final String vendorCode;
-  final bool isActive;
-  final String id;
-  final String name;
-  final String email;
-  final String phone;
-  final String pan;
-  final String gst;
-  final int sellerFeePerKg;
-  final int buyerBackMarginPercent;
-  final int buyerCreditCostPercent;
-  final int buyerFeePerKg;
-  final int buyerNetLossPercent;
-  final int buyerMarginPerKg;
-  final int buyerDiscount1Percent;
-  final int buyerDiscount2PerKg;
-  final int buyerDiscount3Lumpsump;
-  final int buyerFinePerKg;
-  final bool isSeller;
-  final bool isAdmin;
-  final bool isAgent;
-  final bool isBuyer;
-  final Address address;
+  String vendorCode;
+  bool isActive;
+  String id;
+  String name;
+  String email;
+  String phone;
+  String pan;
+  String gst;
+  double sellerFeePerKg;
+  int buyerBackMarginPercent;
+  int buyerCreditCostPercent;
+  int buyerFeePerKg;
+  int buyerNetLossPercent;
+  int buyerMarginPerKg;
+  int buyerDiscount1Percent;
+  int buyerDiscount2PerKg;
+  int buyerDiscount3Lumpsump;
+  int buyerFinePerKg;
+  bool isSeller;
+  bool isAdmin;
+  bool isAgent;
+  bool isBuyer;
+  List<Address> addresses;
 
-  userModel({this.vendorCode,this.id,this.name,this.email,this.isActive,this.phone,
+  UserModel(
+      {this.vendorCode, this.id, this.name, this.email, this.isActive, this.phone,
     this.pan,this.gst,this.isBuyer,this.sellerFeePerKg,this.buyerBackMarginPercent,
     this.buyerCreditCostPercent,this.buyerFeePerKg,this.buyerNetLossPercent,this.buyerMarginPerKg,
     this.buyerDiscount1Percent,this.buyerDiscount2PerKg,this.buyerDiscount3Lumpsump,this.buyerFinePerKg,
-    this.isAdmin,this.isSeller,this.isAgent,this.address
+        this.isAdmin, this.isSeller, this.isAgent, this.addresses
 
 //    this.address
   });
 
-  factory userModel.fromJson(Map<String, dynamic> json) {
-    return userModel(
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
         name: json['name'],
         id: json['_id'],
         email: json['email'],
@@ -44,7 +45,7 @@ class userModel {
         vendorCode: json['vendorCode'],
         pan: json['pan'],
         gst: json['GST'],
-    sellerFeePerKg: json['sellerFeePerKg'],
+        sellerFeePerKg: json['sellerFeePerKg'].toDouble(),
     buyerBackMarginPercent: json['buyerBackMarginPercent'],
     buyerCreditCostPercent: json['buyerCreditCostPercent'],
     buyerFeePerKg: json['buyerFeePerKg'],
@@ -59,7 +60,8 @@ class userModel {
     isSeller: json['isSeller'],
     isAgent: json['isAgent'],
         isActive: json['isactive'],
-//    address: Address.fromJson(json['Addresses'][0]) // This should be fixed
+        addresses: Address.fromJsonArray(
+            json['Addresses']) // This should be fixed
     );
   }
 }

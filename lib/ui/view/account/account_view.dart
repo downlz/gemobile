@@ -1,0 +1,322 @@
+import 'package:flutter/material.dart';
+import 'package:graineasy/manager/base/base_view.dart';
+import 'package:graineasy/model/address.dart';
+import 'package:graineasy/ui/widget/AppBar.dart';
+
+import 'account_view_model.dart';
+
+const URL = "https://graineasy.com";
+
+class AccountVIew extends StatefulWidget {
+  AccountVIew();
+
+  @override
+  _AccountVIewState createState() => _AccountVIewState();
+}
+
+class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseView<AccountViewModel>(builder: (context, model, child) {
+      model.init();
+      return new Scaffold(
+        appBar: new AppBar(
+          title: Text('My Account'),
+          backgroundColor: Colors.white,
+        ),
+        body: _getBody(model),
+      );
+    });
+  }
+
+  Widget _getBody(AccountViewModel model) {
+    return Stack(
+      children: <Widget>[
+        model.isFirstTime ? Container() : _getBaseContainer(model),
+        getProgressBar(model.state)
+      ],
+    );
+  }
+
+  void showMessage(AccountViewModel model) {
+    try {
+      Future.delayed(const Duration(milliseconds: 500), () {
+        if (model.shouldShowMessage) {
+          model.messageIsShown();
+          showErrorMessage(context, model.message, model.isError);
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  _getBaseContainer(AccountViewModel model) {
+    Icon ofericon = new Icon(
+      Icons.edit,
+      color: Colors.black38,
+    );
+    Icon keyloch = new Icon(
+      Icons.vpn_key,
+      color: Colors.black38,
+    );
+    Icon clear = new Icon(
+      Icons.history,
+      color: Colors.black38,
+    );
+    Icon logout = new Icon(
+      Icons.do_not_disturb_on,
+      color: Colors.black38,
+    );
+
+    return new ListView(
+      children: <Widget>[
+        new Container(
+          margin: EdgeInsets.all(7.0),
+          alignment: Alignment.topCenter,
+          child: new Card(
+            elevation: 3.0,
+            child: Column(
+              children: <Widget>[
+                new Container(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      width: 100.0,
+                      height: 100.0,
+                      margin: const EdgeInsets.all(10.0),
+                      // padding: const EdgeInsets.all(3.0),
+                      child: ClipOval(
+                        child: Image.network(
+                            'https://www.fakenamegenerator.com/images/sil-female.png'),
+                      ),
+                    )),
+
+                new FlatButton(
+                  onPressed: null,
+                  child: Text(
+                    'Change',
+                    style: TextStyle(fontSize: 13.0, color: Colors.blueAccent),
+                  ),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(30.0),
+                      side: BorderSide(color: Colors.blueAccent)),
+                ),
+
+                new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    new Container(
+                      margin: EdgeInsets.only(
+                          left: 10.0, top: 20.0, right: 5.0, bottom: 5.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          new Text(
+                            model.userModel.name,
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                          _verticalDivider(),
+                          new Text(
+                            model.userModel.email,
+                            style: TextStyle(
+                                color: Colors.black45,
+                                fontSize: 13.0,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 0.5),
+                          ),
+                          _verticalDivider(),
+                          new Text(
+                            model.userModel.phone,
+                            style: TextStyle(
+                                color: Colors.black45,
+                                fontSize: 13.0,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 0.5),
+                          )
+                        ],
+                      ),
+                    ),
+                    new Container(
+                      alignment: Alignment.centerLeft,
+                      child: IconButton(
+                          icon: ofericon,
+                          color: Colors.blueAccent,
+                          onPressed: null),
+                    )
+                  ],
+                ),
+                // VerticalDivider(),
+              ],
+            ),
+          ),
+        ),
+        new Container(
+          margin:
+              EdgeInsets.only(left: 12.0, top: 5.0, right: 0.0, bottom: 5.0),
+          child: new Text(
+            'Addresses',
+            style: TextStyle(
+                color: Colors.black87,
+                fontWeight: FontWeight.bold,
+                fontSize: 18.0),
+          ),
+        ),
+        addressList(model),
+        new Container(
+          margin: EdgeInsets.all(7.0),
+          child: Card(
+            elevation: 1.0,
+            child: Row(
+              children: <Widget>[
+                new IconButton(icon: keyloch, onPressed: null),
+                _verticalD(),
+                new Text(
+                  'Change Password',
+                  style: TextStyle(fontSize: 15.0, color: Colors.black87),
+                )
+              ],
+            ),
+          ),
+        ),
+        new Container(
+          margin: EdgeInsets.all(7.0),
+          child: Card(
+            elevation: 1.0,
+            child: Row(
+              children: <Widget>[
+                new IconButton(icon: clear, onPressed: null),
+                _verticalD(),
+                new Text(
+                  'Clear History',
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    color: Colors.black87,
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+        new Container(
+          margin: EdgeInsets.all(7.0),
+          child: Card(
+            elevation: 1.0,
+            child: Row(
+              children: <Widget>[
+                new IconButton(icon: logout, onPressed: null),
+                _verticalD(),
+                new Text(
+                  'Deactivate Account',
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    color: Colors.redAccent,
+                  ),
+                )
+              ],
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  _verticalDivider() => Container(
+        padding: EdgeInsets.all(2.0),
+      );
+
+  _verticalD() => Container(
+        margin: EdgeInsets.only(left: 3.0, right: 0.0, top: 0.0, bottom: 0.0),
+      );
+
+  addressWidget(Address address) {
+    return Card(
+        elevation: 3.0,
+        margin: EdgeInsets.all(10),
+        child: Container(
+            padding: EdgeInsets.all(10),
+            child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                new Text(
+                  address.text,
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+                _verticalDivider(),
+                new Text(
+                  address.city.name + ', ' + address.city.state.name,
+                  style: TextStyle(
+                      color: Colors.black45,
+                      fontSize: 13.0,
+                      letterSpacing: 0.5),
+                ),
+                _verticalDivider(),
+                new Text(
+                  address.pin,
+                  style: TextStyle(
+                      color: Colors.black45,
+                      fontSize: 13.0,
+                      letterSpacing: 0.5),
+                ),
+                new Container(
+                  margin: EdgeInsets.only(
+                      left: 00.0, top: 05.0, right: 0.0, bottom: 5.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      new Text(
+                        'Delivery Address',
+                        style: TextStyle(
+                          fontSize: 15.0,
+                          color: Colors.black26,
+                        ),
+                      ),
+                      _verticalD(),
+
+//                            new Checkbox(
+//                              value: checkboxValueA,
+//                              onChanged: (bool value) {
+//                                setState(() {
+//                                  checkboxValueA = value;
+//                                });
+//                              },
+//                            ),
+                    ],
+                  ),
+                )
+              ],
+            )));
+  }
+
+  addressList(AccountViewModel model) {
+    return SizedBox(
+      height: 140.0,
+      child: ListView.builder(
+        physics: ClampingScrollPhysics(),
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemCount: model.userModel.addresses.length,
+        itemBuilder: (BuildContext cont, int ind) {
+          return addressWidget(model.userModel.addresses[ind]);
+        },
+      ),
+    );
+  }
+}

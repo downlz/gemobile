@@ -16,7 +16,6 @@ class Item {
   final String itemname;
   final String imagename;
   final String itmprice;
-
   Item({this.itemname, this.imagename, this.itmprice});
 }
 
@@ -386,9 +385,6 @@ class item extends State<Item_Screen> {
                                               fontSize: 13.0,
                                               letterSpacing: 0.5),
                                         ),
-
-
-
                                       ],
                                     ),
                                   ),
@@ -409,14 +405,11 @@ class item extends State<Item_Screen> {
 
                             children: <Widget>[
                               new Column(
-
-
                                 children: <Widget>[
                                   new Container(
                                     padding: EdgeInsets.all(10.0),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
-
                                       children: <Widget>[
                                         new Text(
                                           'HEGHEST',
@@ -1094,9 +1087,6 @@ class item extends State<Item_Screen> {
                                               fontSize: 13.0,
                                               letterSpacing: 0.5),
                                         ),
-
-
-
 
                                       ],
                                     ),

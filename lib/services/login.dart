@@ -20,11 +20,12 @@ class LoginService{
 
 //    print(body);
 //    Map<String, String> headers = {"Content-type": "application/json"};
-    var url='http://192.168.0.105:3000/api/auth';
+    var url='http://3.16.57.93:3000/api/auth';
     var response= await http.post(url,
         headers: {"Content-Type":"application/json"},
         body: body
     );
+    print(response.body);
     return response;
   }
 

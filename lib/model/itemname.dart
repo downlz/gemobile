@@ -1,4 +1,4 @@
-class Itemname {
+class ItemName {
   String name;
   String id;
   String hsn;
@@ -6,10 +6,10 @@ class Itemname {
   int tax;
   int insurance;
 
-  Itemname({this.name,this.id,this.hsn,this.tax,this.insurance,this.image});
+  ItemName({this.name,this.id,this.hsn,this.tax,this.insurance,this.image});
 
-  factory Itemname.fromJson(Map<String, dynamic> json) {
-    return Itemname(
+  factory ItemName.fromJson(Map<dynamic, dynamic> json) {
+    return ItemName(
         name: json['name'],
         id: json['_id'],
         hsn:json['hsn'],
@@ -18,4 +18,14 @@ class Itemname {
         insurance: json['insurance']
     );
   }
+
+
+
+  static List<ItemName> fromJsonArray(  List<dynamic>  json) {
+    List<ItemName> bannerLists = json.map<ItemName>((json) => ItemName.fromJson(json))
+        .toList();
+    return bannerLists;
+  }
+
+
 }
