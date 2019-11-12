@@ -14,6 +14,7 @@ class ApiConfig {
   static String getOrderList = baseURL + 'order';
   static String getState = baseURL + 'state';
   static String getCity = baseURL + 'city';
+  static String price = baseURL + 'price';
 
   static int successStatusCode = 200;
 
