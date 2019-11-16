@@ -12,6 +12,9 @@ class StateObject {
   });
 
   factory StateObject.fromJson(Map<String, dynamic> json) {
+    if (json == null)
+      return null;
+
     return StateObject(
         name: json['name'],
         id: json['_id'],

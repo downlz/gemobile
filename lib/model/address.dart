@@ -10,7 +10,7 @@ class Address {
   StateObject state;
 
 //  int pos=0;
-//  String addedby;
+  String addedby;
   String pin;
   String addresstype;
   String phone;
@@ -18,7 +18,7 @@ class Address {
 
 
   Address({this.text,this.id,this.state,this.city,
-//    this.addedby,
+    this.addedby,
     this.pin,
     this.addresstype,
     this.phone,
@@ -32,8 +32,8 @@ class Address {
     return Address(
       text: json['text'],
       id: json['_id'],
-//        addedby: json['addedby'],
-//        state: State.fromJson(json['state']),
+        addedby: json['addedby'],
+        state: StateObject.fromJson(json['state']),
       city: City.fromJson(json['city']),
       pin: json['pin'],
       addresstype: json['addresstype'],

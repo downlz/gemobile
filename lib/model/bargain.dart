@@ -20,6 +20,7 @@ class Bargain {
   String bargainstatus;
   DateTime lastupdated;
   pauseBargain pausebargain;
+  String addedby;
 
   Bargain(
       {this.id,
@@ -33,7 +34,8 @@ class Bargain {
       this.quantity,
       this.secondquote,
       this.seller,
-      this.thirdquote});
+      this.thirdquote,
+      this.addedby});
 
   factory Bargain.fromJson(Map<String, dynamic> json) {
     if (json == null) return null;
@@ -50,6 +52,7 @@ class Bargain {
       bargainstatus: json['bargainstatus'],
       lastupdated: Utility.convertStringDateToDateTime(json['lastupdated']),
       pausebargain: pauseBargain.fromJson(json['firstquote']),
+      addedby: json['addedby']
     );
   }
 }
@@ -80,21 +83,24 @@ class pauseBargain {
   int pausehrs;
   DateTime pausestarttime;
   DateTime pauseendtime;
-
+  String pausedby;
   pauseBargain(
       {this.isPaused,
       this.pauseendtime,
       this.pausehrs,
       this.pausestarttime,
-      this.pausetype});
+      this.pausetype,
+      this.pausedby});
 
   factory pauseBargain.fromJson(Map<String, dynamic> json) {
+    if (json == null) return null;
     return pauseBargain(
       isPaused: json['isPaused'],
       pausetype: json['pausetype'],
       pausehrs: json['pausehrs'],
       pausestarttime: json['pausestarttime'],
       pauseendtime: json['pauseendtime'],
+        pausedby: json['pausedby']
     );
   }
 }

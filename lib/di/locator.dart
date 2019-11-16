@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:graineasy/ui/view/Bargein/bargain_view_model.dart';
+import 'package:graineasy/ui/view/Bargain/bargain_view_model.dart';
 import 'package:graineasy/ui/view/account/account_view_model.dart';
 import 'package:graineasy/ui/view/account/add_update_address/add_update_addresses_view_model.dart';
 import 'package:graineasy/ui/view/cart_screen/cart_view_model.dart';
