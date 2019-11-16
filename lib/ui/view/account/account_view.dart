@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/model/address.dart';
+import 'package:graineasy/model/user.dart';
+import 'package:graineasy/ui/view/account/add_update_address/add_update_addresses_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 
 import 'account_view_model.dart';
 
-const URL = "https://graineasy.com";
 
 class AccountVIew extends StatefulWidget {
-  AccountVIew();
+  User user;
+
+  AccountVIew(this.user);
+
 
   @override
   _AccountVIewState createState() => _AccountVIewState();
@@ -16,14 +21,9 @@ class AccountVIew extends StatefulWidget {
 
 class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BaseView<AccountViewModel>(builder: (context, model, child) {
-      model.init();
+      model.init(API.user.phone, API.user.id);
       return new Scaffold(
         appBar: new AppBar(
           title: Text('My Account'),
@@ -57,6 +57,7 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
   }
 
   _getBaseContainer(AccountViewModel model) {
+    model.getUserDetail();
     Icon ofericon = new Icon(
       Icons.edit,
       color: Colors.black38,
@@ -73,88 +74,50 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
       Icons.do_not_disturb_on,
       color: Colors.black38,
     );
-
     return new ListView(
       children: <Widget>[
-        new Container(
-          margin: EdgeInsets.all(7.0),
+        new Container(height: 150,
           alignment: Alignment.topCenter,
           child: new Card(
             elevation: 3.0,
-            child: Column(
+            child: Column(mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 new Container(
-                    alignment: Alignment.topCenter,
-                    child: Container(
-                      width: 100.0,
-                      height: 100.0,
-                      margin: const EdgeInsets.all(10.0),
-                      // padding: const EdgeInsets.all(3.0),
-                      child: ClipOval(
-                        child: Image.network(
-                            'https://www.fakenamegenerator.com/images/sil-female.png'),
+                  margin: EdgeInsets.only(
+                      left: 10.0, top: 20.0, right: 5.0, bottom: 5.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      new Text(
+                        widget.user.name,
+                        style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.5,
+                        ),
                       ),
-                    )),
-
-                new FlatButton(
-                  onPressed: null,
-                  child: Text(
-                    'Change',
-                    style: TextStyle(fontSize: 13.0, color: Colors.blueAccent),
+                      _verticalDivider(),
+                      new Text(
+                        'Admin Email',
+                        style: TextStyle(
+                            color: Colors.black45,
+                            fontSize: 13.0,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.5),
+                      ),
+                      _verticalDivider(),
+                      new Text(
+                        widget.user.phone,
+                        style: TextStyle(
+                            color: Colors.black45,
+                            fontSize: 13.0,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.5),
+                      )
+                    ],
                   ),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(30.0),
-                      side: BorderSide(color: Colors.blueAccent)),
-                ),
-
-                new Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    new Container(
-                      margin: EdgeInsets.only(
-                          left: 10.0, top: 20.0, right: 5.0, bottom: 5.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          new Text(
-                            model.userModel.name,
-                            style: TextStyle(
-                              color: Colors.black87,
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 0.5,
-                            ),
-                          ),
-                          _verticalDivider(),
-                          new Text(
-                            model.userModel.email,
-                            style: TextStyle(
-                                color: Colors.black45,
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 0.5),
-                          ),
-                          _verticalDivider(),
-                          new Text(
-                            model.userModel.phone,
-                            style: TextStyle(
-                                color: Colors.black45,
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 0.5),
-                          )
-                        ],
-                      ),
-                    ),
-                    new Container(
-                      alignment: Alignment.centerLeft,
-                      child: IconButton(
-                          icon: ofericon,
-                          color: Colors.blueAccent,
-                          onPressed: null),
-                    )
-                  ],
                 ),
                 // VerticalDivider(),
               ],
@@ -164,12 +127,23 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
         new Container(
           margin:
               EdgeInsets.only(left: 12.0, top: 5.0, right: 0.0, bottom: 5.0),
-          child: new Text(
-            'Addresses',
-            style: TextStyle(
-                color: Colors.black87,
-                fontWeight: FontWeight.bold,
-                fontSize: 18.0),
+          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              new Text(
+                'Addresses',
+                style: TextStyle(
+                    color: Colors.black87,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.0),
+              ),
+              IconButton(icon: Icon(Icons.add_circle), onPressed: () {
+                print('click');
+                Navigator.push(context,
+                    MaterialPageRoute(
+                        builder: (context) => AddUpdateAddressView()
+                    ));
+              })
+            ],
           ),
         ),
         addressList(model),
@@ -243,66 +217,75 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
     return Card(
         elevation: 3.0,
         margin: EdgeInsets.all(10),
-        child: Container(
-            padding: EdgeInsets.all(10),
-            child: new Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                new Text(
-                  address.text,
-                  style: TextStyle(
-                    color: Colors.black87,
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-                _verticalDivider(),
-                new Text(
-                  address.city.name + ', ' + address.city.state.name,
-                  style: TextStyle(
-                      color: Colors.black45,
-                      fontSize: 13.0,
-                      letterSpacing: 0.5),
-                ),
-                _verticalDivider(),
-                new Text(
-                  address.pin,
-                  style: TextStyle(
-                      color: Colors.black45,
-                      fontSize: 13.0,
-                      letterSpacing: 0.5),
-                ),
-                new Container(
-                  margin: EdgeInsets.only(
-                      left: 00.0, top: 05.0, right: 0.0, bottom: 5.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      new Text(
-                        'Delivery Address',
-                        style: TextStyle(
-                          fontSize: 15.0,
-                          color: Colors.black26,
-                        ),
+        child: Row(
+          children: <Widget>[
+            Container(
+                padding: EdgeInsets.all(10),
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    new Text(
+                      address.text,
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.5,
                       ),
-                      _verticalD(),
+                    ),
+                    _verticalDivider(),
+                    new Text(
+                      address.city != null ? address.city.name + ', ' +
+                          address.city.state.name : '',
+                      style: TextStyle(
+                          color: Colors.black45,
+                          fontSize: 13.0,
+                          letterSpacing: 0.5),
+                    ),
+                    _verticalDivider(),
+                    new Text(
+                      address.pin,
+                      style: TextStyle(
+                          color: Colors.black45,
+                          fontSize: 13.0,
+                          letterSpacing: 0.5),
+                    ),
+                    new Container(
+                      margin: EdgeInsets.only(
+                          left: 00.0, top: 05.0, right: 0.0, bottom: 5.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          new Text(
+                            address.addresstype,
+                            style: TextStyle(
+                              fontSize: 15.0,
+                              color: Colors.black26,
+                            ),
+                          ),
+                          _verticalD(),
 
-//                            new Checkbox(
-//                              value: checkboxValueA,
-//                              onChanged: (bool value) {
-//                                setState(() {
-//                                  checkboxValueA = value;
-//                                });
-//                              },
-//                            ),
-                    ],
-                  ),
-                )
-              ],
-            )));
+                        ],
+                      ),
+                    )
+                  ],
+                )),
+
+            Align(alignment: Alignment.topRight
+                ,
+                child: address.addresstype != 'registered' ? IconButton(
+                    icon: Icon(Icons.edit), onPressed: () {
+                  print(address.phone);
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (context) =>
+                          AddUpdateAddressView(addresses: address,)
+                  ));
+                }) : Container())
+          ],
+        )
+    );
   }
 
   addressList(AccountViewModel model) {
@@ -312,9 +295,9 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
         physics: ClampingScrollPhysics(),
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
-        itemCount: model.userModel.addresses.length,
+        itemCount: model.addresses.length,
         itemBuilder: (BuildContext cont, int ind) {
-          return addressWidget(model.userModel.addresses[ind]);
+          return addressWidget(model.addresses[ind]);
         },
       ),
     );

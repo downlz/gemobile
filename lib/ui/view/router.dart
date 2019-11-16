@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:graineasy/HomeScreen.dart';
 import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/ui/view/registration/registration_view.dart';
 

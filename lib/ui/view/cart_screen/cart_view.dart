@@ -4,6 +4,7 @@ import 'package:graineasy/model/address.dart';
 import 'package:graineasy/model/cart_item.dart';
 import 'package:graineasy/ui/theme/palette.dart';
 import 'package:graineasy/ui/view/cart_screen/cart_view_model.dart';
+import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:graineasy/utils/ui_helper.dart';
@@ -12,7 +13,6 @@ const URL = "https://graineasy.com";
 
 class CartView extends StatefulWidget {
   final List<CartItem> cartItems;
-
   CartView(this.cartItems);
 
   @override
@@ -20,6 +20,7 @@ class CartView extends StatefulWidget {
 }
 
 class _CartViewState extends State<CartView> with CommonAppBar {
+
   @override
   void initState() {
     super.initState();
@@ -27,11 +28,12 @@ class _CartViewState extends State<CartView> with CommonAppBar {
 
   @override
   Widget build(BuildContext context) {
+
     return BaseView<CartViewModel>(builder: (context, model, child) {
       model.init(widget.cartItems);
       return new Scaffold(
         appBar: new AppBar(
-          title: Text('Cart'),
+          title: Text('Place Order'),
           backgroundColor: Colors.white,
         ),
         body: _getBody(model),
@@ -42,8 +44,7 @@ class _CartViewState extends State<CartView> with CommonAppBar {
   Widget _getBody(CartViewModel model) {
     return Stack(
       children: <Widget>[
-        model.userModel != null ? _getBaseContainer(model) : Container(),
-//        _getBaseContainer(model),
+        model.addresses != null ? _getBaseContainer(model) : Container(),
         getProgressBar(model.state)
       ],
     );
@@ -85,7 +86,7 @@ class _CartViewState extends State<CartView> with CommonAppBar {
             UIHelper.horizontalSpaceSmall,
             Padding(
               padding: const EdgeInsets.only(right: 15),
-              child: Text('${model.totalPriceOfTheOrder}',
+              child: Text(widget.cartItems[0].totalPrice.toString(),
                   style: TextStyle(
                       color: Palette.assetColor,
                       fontSize: 18,
@@ -111,21 +112,30 @@ class _CartViewState extends State<CartView> with CommonAppBar {
               physics: ClampingScrollPhysics(),
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: model.userModel.addresses.length,
+              itemCount: model.addresses.length,
               itemBuilder: (BuildContext cont, int ind) {
-                return addressWidget(model.userModel.addresses[ind]);
+                return Column(
+                  children: <Widget>[
+                    addressWidget(model.addresses[ind], ind, model),
+                  ],
+                );
               },
             ),
           ),
         ),
         Container(
             width: double.infinity,
-            padding: EdgeInsets.only(left: 10, right: 10, top: 15),
+            padding: EdgeInsets.only(left: 10, right: 10, top: 30),
             child: RaisedButton(
               color: Palette.assetColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(7)),
-              onPressed: () {},
+              onPressed: () {
+//              model.getLastOrderNumber();
+                model.createOrder(widget.cartItems[0].item);
+                Navigator.pushReplacement(context, MaterialPageRoute(
+                    builder: (context) => OrderHistoryView()));
+              },
               child: Text('Place Order',
                   style: TextStyle(
                       color: Palette.whiteTextColor,
@@ -140,7 +150,7 @@ class _CartViewState extends State<CartView> with CommonAppBar {
         padding: EdgeInsets.all(2.0),
       );
 
-  addressWidget(Address address) {
+  addressWidget(Address address, int ind, CartViewModel model) {
     return Card(
         elevation: 3.0,
         margin: EdgeInsets.all(10),
@@ -161,7 +171,8 @@ class _CartViewState extends State<CartView> with CommonAppBar {
                 ),
                 _verticalDivider(),
                 new Text(
-                  address.city.name + ', ' + address.city.state.name,
+                  address.city != null ? address.city.name + ', ' +
+                      address.city.state.name : '',
                   style: TextStyle(
                       color: Palette.assetColor,
                       fontSize: 13.0,
@@ -175,35 +186,42 @@ class _CartViewState extends State<CartView> with CommonAppBar {
                       fontSize: 13.0,
                       letterSpacing: 0.5),
                 ),
-                new Container(
-                  margin: EdgeInsets.only(
-                      left: 00.0, top: 05.0, right: 0.0, bottom: 5.0),
-                  child: Row(
+                Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
+
                       new Text(
-                        'Delivery Address',
+                        address.addresstype.toLowerCase(),
                         style: TextStyle(
                             fontSize: 15.0,
                             color: Palette.assetColor,
                             fontWeight: FontWeight.w200),
                       ),
-                      _verticalD(),
+//                      model.addressPosition==?
                       new Checkbox(
-                        value: true,
+                        value: model.selectedAddressPosition == ind,
                         onChanged: (bool value) {
                           setState(() {
-//                            checkboxValue = value;
+                            model.selectedAddressPosition = ind;
                           });
-                        },
-                      ),
+                        },)
+//                      ): new Checkbox(
+//                        value: checkSecAddress,
+//                        onChanged: (bool value) {
+//                          setState(() {
+//                            checkSecAddress = value;
+//                            newAddress=model.addresses[ind];
+//                          });
+//                        },
+//                      )
                     ],
                   ),
-                ),
+
               ],
             )));
   }
+
 
   _verticalD() => Container(
         margin: EdgeInsets.only(left: 3.0, right: 0.0, top: 0.0, bottom: 0.0),
@@ -274,33 +292,6 @@ class _CartViewState extends State<CartView> with CommonAppBar {
                         ),
                       ],
                     ),
-                    /*Column(mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-
-                            new Text(
-                              widget.data[ind].name,
-                              style: TextStyle(
-                                  fontSize: 18.0,
-                                  color: Palette.assetColor,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            new Text(
-                              widget.data[ind].price.toString()+'(per kg)',
-                              style: TextStyle(
-                                  fontSize: 15.0,
-                                  color: Palette.assetColor,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            new Text(
-                              widget.qty +'(qty)'+ ' * ' +  widget.data[ind].price.toString()+'(per kg)',
-                              style: TextStyle(
-                                  fontSize: 15.0,
-                                  color: Palette.assetColor,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),*/
                   ),
                 )
               ],

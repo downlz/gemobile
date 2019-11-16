@@ -1,32 +1,58 @@
 import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/basemodel.dart';
+import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
+import 'package:graineasy/model/Item.dart';
+import 'package:graineasy/model/address.dart';
 import 'package:graineasy/model/cart_item.dart';
-import 'package:graineasy/model/usermodel.dart';
+import 'package:graineasy/model/order.dart';
+import 'package:graineasy/model/user.dart';
+
 
 class CartViewModel extends BaseModel {
   List<CartItem> cartItems;
-  UserModel userModel;
+  List<Address> addresses;
+  List<Order> order;
   bool isFirstTime = true;
   double totalPriceOfTheOrder = 0;
+  int selectedAddressPosition = 0;
 
-  void init(List<CartItem> cartItems) {
+  Future init(List<CartItem> cartItems) async {
     if (isFirstTime) {
       isFirstTime = false;
       this.cartItems = cartItems;
-      calculateTotalPrice(this.cartItems);
-      getAddress();
+//      calculateTotalPrice(this.cartItems);
+      User user = await UserPreferences.getUser();
+      getAddresses(user.phone, user.id);
     }
   }
 
-  void getAddress() async {
+  void getAddresses(String phone, String id) async {
     setState(ViewState.Busy);
-    userModel = await API.getUserDetail();
+    addresses = await API.getAddress(phone, id);
     setState(ViewState.Idle);
   }
 
-  void calculateTotalPrice(List<CartItem> cartItems) {
-    for (CartItem cartItem in cartItems) {
-      totalPriceOfTheOrder = totalPriceOfTheOrder + cartItem.totalPrice;
-    }
+//  void getLastOrderNumber() async {
+//    setState(ViewState.Busy);
+//    order = await API.getLastOrderNumber();
+//    calculateOrderNumber(order);
+//    setState(ViewState.Idle);
+//  }
+
+
+  createOrder(Item item) async {
+    User user = await UserPreferences.getUser();
+    setState(ViewState.Busy);
+    await API.placeOrder(
+        cartItems[0], addresses[selectedAddressPosition], user.id);
+    setState(ViewState.Idle);
+
   }
+
+
+//  void calculateTotalPrice(List<CartItem> cartItems) {
+//    for (CartItem cartItem in cartItems) {
+//      totalPriceOfTheOrder = totalPriceOfTheOrder + cartItem.totalPrice;
+//    }
+//  }
 }

@@ -8,7 +8,6 @@ import 'package:graineasy/login_page.dart';
 import 'package:graineasy/manager/api_call/api_config/api_config.dart';
 import 'package:graineasy/model/itemname.dart';
 import 'package:graineasy/setting_screen.dart';
-import 'package:graineasy/ui/view/account/account_view.dart';
 import 'package:graineasy/ui/view/login/login_view.dart';
 import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
 import 'package:http/http.dart' as http;
@@ -165,11 +164,11 @@ class home extends State<Home_screen> {
                 accountName: new Text("Naomi A. Schultz"),
                 accountEmail: new Text("NaomiASchultz@armyspy.com"),
                 onDetailsPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-//                          builder: (context) => Account_Screen()));
-                          builder: (context) => AccountVIew()));
+//                  Navigator.push(
+//                      context,
+//                      MaterialPageRoute(
+////                          builder: (context) => Account_Screen()));
+//                          builder: (context) => AccountVIew()));
                 },
                 decoration: new BoxDecoration(
                   backgroundBlendMode: BlendMode.difference,
