@@ -37,7 +37,7 @@ class Validation
   }
 
   static String validatePassword(String value) {
-    if (!(value.length > 5)) {
+    if (!(value.length > 7)) {
       return "Incorrect password";
     }
     else if (value.isEmpty) {
@@ -119,11 +119,13 @@ static  validateEmptyPassword(String value) {
   }
 
   static validatePin(String value) {
-    if (value.isEmpty) {
-      return 'Incorrect Pincode';
+    if (!(value.length > 4)) {
+      return "Incorrect Pincode";
     }
-    else
-      return null;
+    else if (value.isEmpty) {
+      return "Incorrect Pincode";
+    }
+    return null;
   }
 
 }

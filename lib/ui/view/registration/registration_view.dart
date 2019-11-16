@@ -30,29 +30,27 @@ class _RegistrationViewState extends State<RegistrationView>  with CommonAppBar 
   final regFormKey = GlobalKey<FormState>();
 
   TextEditingController nameController = new TextEditingController();
-  TextEditingController gstinController = new TextEditingController();
+  TextEditingController gstInController = new TextEditingController();
   TextEditingController emailController=new TextEditingController();
   TextEditingController phoneNumberController=new TextEditingController();
   TextEditingController addressController = new TextEditingController();
   TextEditingController passwordController=new TextEditingController();
-  TextEditingController pincodeController = new TextEditingController();
+  TextEditingController pinCodeController = new TextEditingController();
 
   var phoneFocus=new FocusNode();
   var passwordFocus=new FocusNode();
-  var firstNameFocus=new FocusNode();
-  var gstinFocus = new FocusNode();
+  var nameFocus = new FocusNode();
+  var gstInFocus = new FocusNode();
   var emailFocus=new FocusNode();
   var addressFocus = new FocusNode();
-  var pincodeFocus = new FocusNode();
+  var pinCodeFocus = new FocusNode();
 
   String selectedUser;
-  List<Users> users = <Users>[ Users('India')];
-  String _value;
-  List<States> _region = [];
+  List<StateObject> _region = [];
   List<City> _list = [];
   bool checkboxValue = false;
 
-  States stateUser;
+  StateObject stateUser;
   City cityUser;
 
   @override
@@ -129,7 +127,7 @@ class _RegistrationViewState extends State<RegistrationView>  with CommonAppBar 
                         UIHelper.verticalSpaceSmall1,
                         TextFormField(
                           controller: nameController,
-                          focusNode: firstNameFocus,
+                          focusNode: nameFocus,
                           style: AppWidget.darkWhiteTextFieldTextStyle(),
                           keyboardType: TextInputType.text,
                           decoration: AppWidget.whiteTextField('Your Name'),
@@ -177,8 +175,8 @@ class _RegistrationViewState extends State<RegistrationView>  with CommonAppBar 
 
                         UIHelper.verticalSpaceSmall1,
                         TextFormField(
-                            controller: gstinController,
-                            focusNode: gstinFocus,
+                            controller: gstInController,
+                            focusNode: gstInFocus,
                             style: AppWidget.darkWhiteTextFieldTextStyle(),
                             keyboardType: TextInputType.text,
                             validator: (value) {
@@ -193,7 +191,6 @@ class _RegistrationViewState extends State<RegistrationView>  with CommonAppBar 
                             focusNode: addressFocus,
                             style: AppWidget.darkWhiteTextFieldTextStyle(),
                             keyboardType: TextInputType.text,
-                            maxLines: 3,
                             validator: (value) {
                               return Validation.validateAddress(value);
                             },
@@ -202,41 +199,6 @@ class _RegistrationViewState extends State<RegistrationView>  with CommonAppBar 
                         UIHelper.verticalSpaceSmall1,
 
 
-                        Theme(data: Theme.of(context).copyWith(
-                            canvasColor: Palette.blackTextColor),
-                          child: DropdownButton<States>(
-                            underline: Container(decoration: BoxDecoration(
-                                border: Border(
-                                    bottom: BorderSide(color: Colors.white))
-                            ),),
-                            isExpanded: true,
-                            elevation: 4,
-                            icon: Icon(
-                              Icons.arrow_drop_down,
-                              color: Colors.white,
-                            ),
-                            hint: new Text("Select State",
-                              style: AppTextStyle.getLargeHeading(false,
-                                  Colors.white24),),
-                            value: stateUser,
-                            onChanged: (States newValue) {
-                              setState(() {
-                                stateUser = newValue;
-                              });
-                            },
-                            items: _region.map((States user) {
-                              return new DropdownMenuItem<States>(
-                                value: user,
-                                child: new Text(
-                                  user.name,
-                                  style: new TextStyle(
-                                      color: Palette.whiteTextColor),
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                        UIHelper.verticalSpaceSmall1,
                         Theme(data: Theme.of(context).copyWith(
                             canvasColor: Palette.blackTextColor),
                           child: DropdownButton<City>(
@@ -272,10 +234,22 @@ class _RegistrationViewState extends State<RegistrationView>  with CommonAppBar 
                           ),
                         ),
                         UIHelper.verticalSpaceSmall1,
+                        Container(height: 25,
+                            decoration: BoxDecoration(
+                                border: Border(
+                                    bottom: BorderSide(color: Colors.white))
+                            ),
+                            child: Text(
+                              cityUser == null ? 'StateName' : cityUser.state
+                                  .name,
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 15),
+                            )),
+                        UIHelper.verticalSpaceSmall1,
 
                         TextFormField(
-                            controller: pincodeController,
-                            focusNode: pincodeFocus,
+                            controller: pinCodeController,
+                            focusNode: pinCodeFocus,
                             style: AppWidget.darkWhiteTextFieldTextStyle(),
                             keyboardType: TextInputType.number,
                             validator: (value) {
@@ -290,7 +264,11 @@ class _RegistrationViewState extends State<RegistrationView>  with CommonAppBar 
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            new Checkbox(activeColor: Colors.white,
+                            Theme(
+                              data: ThemeData(unselectedWidgetColor: Colors
+                                  .white60)
+                              , child: new Checkbox(activeColor: Colors.white,
+                              tristate: false,
                               checkColor: Colors.black,
                               value: checkboxValue,
                               onChanged: (bool value) {
@@ -298,6 +276,7 @@ class _RegistrationViewState extends State<RegistrationView>  with CommonAppBar 
                                   checkboxValue = value;
                                 });
                               },
+                            ),
                             ),
                             new Text(
                               'I agree to the ',
@@ -342,7 +321,17 @@ class _RegistrationViewState extends State<RegistrationView>  with CommonAppBar 
 //                          _submit();
                             if (regFormKey.currentState.validate()) {
                               FocusScope.of(context).requestFocus(FocusNode());
-//                            model.registerBtnIsClicked(nameController.text,emailController.text,phoneNumberController.text,passwordController.text,gstinController.text,addressController.text,cityUser.toString(),stateUser.toString(),pincodeController.toString());
+                              print('click');
+                              model.registerBtnIsClicked(
+                                  nameController.text,
+                                  emailController.text,
+                                  phoneNumberController.text,
+                                  passwordController.text,
+                                  gstInController.text,
+                                  addressController.text,
+                                  cityUser.id,
+                                  cityUser.state.id,
+                                  pinCodeController.text);
                             }
                           },
                         ),

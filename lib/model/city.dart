@@ -3,7 +3,7 @@ import 'package:graineasy/model/state.dart';
 class City {
   String name;
   String id;
-  States state;
+  StateObject state;
   Object location;
 
   City({this.name,this.id,this.state,this.location});
@@ -15,7 +15,7 @@ class City {
         name: json['name'],
         id: json['_id'],
         location: json['location'],
-        state: States.fromJson(json['state'])
+        state: StateObject.fromJson(json['state'])
     );
   }
 

@@ -34,7 +34,7 @@ class BaseModel extends ChangeNotifier {
     _shouldShowMessage = false;
   }
 
-  getState() {
+  getCity() {
     return _state;
   }
 

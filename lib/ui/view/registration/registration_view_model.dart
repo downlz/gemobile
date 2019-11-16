@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/basemodel.dart';
 import 'package:graineasy/model/city.dart';
@@ -6,12 +7,12 @@ import 'package:graineasy/model/state.dart';
 class RegistrationViewModel extends BaseModel
 {
   bool isListEmpty = false;
-  List<States> stateList = [];
+  List<StateObject> stateList = [];
   List<City> cityList = [];
 
   bool isFirstTime = true;
 
-  getState() async
+  getCity() async
   {
 //    setState(ViewState.Busy);
     stateList = await API.getStateList();
@@ -25,14 +26,14 @@ class RegistrationViewModel extends BaseModel
 
   void init() {
     if (isFirstTime) {
-      getState();
+      getCity();
       isFirstTime = false;
     }
   }
 
   registerBtnIsClicked(String name, String email, String phone, String password,
       String gst, String address, String city, String state,
-      String pincode) async {
+      String pinCode) async {
     setState(ViewState.Busy);
     await API.register(
         name,
@@ -43,8 +44,9 @@ class RegistrationViewModel extends BaseModel
         address,
         city,
         state,
-        pincode);
+        pinCode);
     setState(ViewState.Idle);
+    Navigator.pop(context);
   }
 
 

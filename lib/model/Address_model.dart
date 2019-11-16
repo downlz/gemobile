@@ -13,13 +13,10 @@ class address {
     print(list.runtimeType);
     List<Data> dataList = list.map((i) => Data.fromJson(i)).toList();
 
-
     return address(
         status: parsedJson['status'],
         message: parsedJson['message'],
-        data: dataList
-
-    );
+        data: dataList);
   }
 
 }

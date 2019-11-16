@@ -7,7 +7,9 @@ class Address {
   String text;
   City city;
   String id;
-  States state;
+  StateObject state;
+
+//  int pos=0;
 //  String addedby;
   String pin;
   String addresstype;
@@ -26,6 +28,7 @@ class Address {
   factory Address.fromJson(Map<String, dynamic> json) {
     if (json == null)
       return null;
+
     return Address(
       text: json['text'],
       id: json['_id'],
@@ -63,11 +66,11 @@ class Addridentifier {
     );
   }
 
-  static List<Addridentifier> fromJsonArray(List<dynamic> json) {
-    List<Addridentifier> addresses = json.map<Addridentifier>((json) =>
-        Addridentifier.fromJson(json))
-        .toList();
-    return addresses;
-  }
+//  static List<Addridentifier> fromJsonArray(List<dynamic> json) {
+//    List<Addridentifier> addresses = json.map<Addridentifier>((json) =>
+//        Addridentifier.fromJson(json))
+//        .toList();
+//    return addresses;
+//  }
 
 }

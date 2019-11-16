@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graineasy/manager/base/base_view.dart';
+import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
-import 'package:graineasy/model/cart_item.dart';
+import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/theme/widget.dart';
 import 'package:graineasy/ui/validation/validation.dart';
-import 'package:graineasy/ui/view/cart_screen/cart_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 
@@ -165,28 +165,17 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                                               color: Colors.amber.shade500),
                                           child: const Text('Add'),
                                           textColor: Colors.amber.shade500,
-                                          onPressed: () {
-                                            List<Item> data = [];
-                                            Item itemss = new Item(
-                                                image: model.itemDetails.image,
-                                                name: model.itemDetails.name,
-                                                price: model.itemDetails.price);
-                                            data.add(itemss);
-                                            print('dataaaaa==>${data[0].name}');
+                                          onPressed: () async {
+
                                             if (qtyFormKey.currentState
                                                 .validate()) {
-                                              int totalQty = int.parse(
-                                                  quantityController.text);
-                                              double totalPrice = totalQty *
-                                                  model.itemDetails.price;
-                                              List<CartItem> cartItems = [];
-                                              cartItems.add(CartItem(
-                                                  totalQty, totalPrice,
-                                                  model.itemDetails));
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          CartView(cartItems)));
+                                              User user = await UserPreferences
+                                                  .getUser();
+                                              model.calculatePrice(
+                                                  model.itemDetails,
+                                                  model.itemDetails.seller.id,
+                                                  user.id, int.parse(
+                                                  quantityController.text));
                                             }
                                           },
                                           shape: new OutlineInputBorder(
@@ -226,4 +215,5 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                       style: TextStyle(fontSize: 13.0, color: Colors.black38))),
             ])));
   }
+
 }

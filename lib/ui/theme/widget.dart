@@ -96,7 +96,7 @@ class AppWidget {
 
 //                            border: OutlineInputBorder(
 //                                borderRadius: BorderRadius.circular(25.0)),
-      hintStyle: AppTextStyle.getLargeHeading(false, Colors.white24),
+      hintStyle: AppTextStyle.getLargeHeading(false, Colors.white38),
     );
   }
 
