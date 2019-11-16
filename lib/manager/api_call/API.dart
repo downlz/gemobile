@@ -60,10 +60,10 @@ class API extends BaseRepository
   }
 
   static Future<List<Address>> getAddress(String phone, String id) async {
-    var response = await http.get(
-        'http://3.16.57.93:3000/api/address/byuser/${id}/phone/${phone}',
+    var response = await http.get(ApiConfig.getUserAddresses+'/byuser/'+id+'/phone/'+phone,
+//        'http://3.16.57.93:3000/api/address/byuser/${id}/phone/${phone}',
         headers: await ApiConfig.getHeaderWithToken());
-    print(response.body);
+//    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<Address> items = Address.fromJsonArray(jsonDecode(response.body));
       return items;
@@ -280,7 +280,6 @@ class API extends BaseRepository
 
   static placeOrder(CartItem cart, Address address, String userID) async {
     var data = {
-//      'orderNo': orderNo,
       'quantity': cart.qty,
       'unit': cart.item.unit.mass,
       'cost': cart.item.price,
@@ -290,22 +289,38 @@ class API extends BaseRepository
       'buyerId': userID,
       'sellerId': cart.item.seller.id,
       'placedTime': new DateTime.now().millisecondsSinceEpoch,
-      'ordertype': "new",
-      'status': "regular",
-      'isshippingbillingsame': true,
+      'ordertype': "regular",                                     // To be updated based on type of order
+      'status': "new",
+      'isshippingbillingsame': false,
       'partyname': address.addridentifier.partyname,
       'gstin': address.addridentifier.gstin,
       'address': address.text,
-      'stateId': address.city.state.id,
+      'state': address.state.id,
       'phone': address.phone,
       'addresstype': address.addresstype,
       'addedby': userID,
+      'addressreference' : address.id,
+      'isExistingAddr' : true
     };
+    // This is done to generate valid purchase order and calculate GST. Buyer may be buying on behalf of someone and hence it would be billed to that party
+    if (address.addresstype != 'registered'){
+
+        data['isshippingbillingdiff'] = true;
+        data['partyname'] = address.addridentifier.partyname;
+        data['gstin'] = address.addridentifier.gstin;
+        data['address'] =  address.text;
+        data['pincode'] = address.pin;
+        data['state'] = address.state.id;
+        data['phone'] = address.phone;
+        data['addresstype'] = address.addresstype;
+        data['city'] = address.city.id;
+    }
+
     var response = await http.post(ApiConfig.createOrder,
         headers: {"Content-Type": "application/json",
           "Authorization": 'Bearer ' + await UserPreferences.getToken()},
         body: jsonEncode(data));
-    print(response.body);
+//    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
       print(response.body);
       Map<String, dynamic> responseBody = jsonDecode(response.body);

@@ -2,7 +2,7 @@
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 
 class ApiConfig {
-  static final String baseURL = 'http://3.16.57.93:3000/api/';
+  static final String baseURL = 'http://3.16.57.93:3000:3000/api/';    // Any idea to store different URL for PROD and DEV!
   static String login =baseURL +'auth';
   static String register = baseURL + 'user';
   static String forgotPassword =baseURL +'user/resetpassword';
@@ -16,11 +16,12 @@ class ApiConfig {
   static String getCity = baseURL + 'city';
   static String price = baseURL + 'price';
   static String addAddresses = baseURL + 'address';
+  static String getUserAddresses = baseURL + 'address';
   static String getCalculatePrice = baseURL + 'price';
   static String updateAddress = baseURL + 'address/';
   static String getLastOrderNumber = baseURL + 'order/orderno';
   static String createOrder = baseURL + 'order';
-  static String getAddressByIdAndPhone = baseURL + 'address/byuser/phone/';
+  static String getAddressByIdAndPhone = baseURL + 'address/byuser/phone/';       // Replaced with getUserAddresses
   static int successStatusCode = 200;
 
 
