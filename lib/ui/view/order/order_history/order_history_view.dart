@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/ui/view/order/order_history/order_history_view_model.dart';
+import 'package:graineasy/ui/view/order_detail/order_detail_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:graineasy/utils/check_internet/utility.dart';
@@ -53,6 +54,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
 
   _getBaseContainer(OrderHistoryViewModel model) {
     return model.orderList != null ? getCategoryWidget(model) : Container();
+
   }
 
   getCategoryWidget(OrderHistoryViewModel model) {
@@ -63,87 +65,94 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
             itemBuilder: (BuildContext cont, int ind) {
               return Container(
                   margin: EdgeInsets.only(left: 5.0, right: 5.0, bottom: 5.0),
-                  child: Card(
-                      elevation: 4.0,
-                      child: Container(
-                          padding:
-                              const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              // three line description
-                              Container(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  model.orderList[ind].item.name,
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontStyle: FontStyle.normal,
-                                    color: Colors.black87,
+                  child: GestureDetector(onTap: () {
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) =>
+                            OrderDetailView(model.orderList[ind])));
+                  },
+                    child: Card(
+                        elevation: 4.0,
+                        child: Container(
+                            padding:
+                            const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                // three line description
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    model.orderList[ind].item.name,
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontStyle: FontStyle.normal,
+                                      color: Colors.black87,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 3.0),
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  'To Deliver On :' +
-                                      Utility.dateTimeToString(
-                                          model.orderList[ind].placedTime),
-                                  style: TextStyle(
-                                      fontSize: 13.0, color: Colors.black54),
+                                Container(
+                                  margin: EdgeInsets.only(top: 3.0),
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    'To Deliver On :' +
+                                        Utility.dateTimeToString(
+                                            model.orderList[ind].placedTime),
+                                    style: TextStyle(
+                                        fontSize: 13.0, color: Colors.black54),
+                                  ),
                                 ),
-                              ),
-                              Divider(
-                                height: 10.0,
-                                color: Colors.amber.shade500,
-                              ),
+                                Divider(
+                                  height: 10.0,
+                                  color: Colors.amber.shade500,
+                                ),
 
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  rowWidget(
-                                      'Order id', model.orderList[ind].orderno),
-                                  rowWidget('Order Amount',
-                                      model.orderList[ind].cost.toString()),
-                                  rowWidget('Payment Type',
-                                      model.orderList[ind].ordertype),
-                                ],
-                              ),
-                              model.orderList[ind].address == null
-                                  ? Container()
-                                  : Divider(
-                                      height: 10.0,
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    rowWidget(
+                                        'Order id', model.orderList[ind]
+                                        .orderno),
+                                    rowWidget('Order Amount',
+                                        model.orderList[ind].cost.toString()),
+                                    rowWidget('Payment Type',
+                                        model.orderList[ind].ordertype),
+                                  ],
+                                ),
+                                model.orderList[ind].address == null
+                                    ? Container()
+                                    : Divider(
+                                  height: 10.0,
+                                  color: Colors.amber.shade500,
+                                ),
+
+                                model.orderList[ind].address == null
+                                    ? Container()
+                                    : Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.location_on,
+                                      size: 20.0,
                                       color: Colors.amber.shade500,
                                     ),
-
-                              model.orderList[ind].address == null
-                                  ? Container()
-                                  : Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Icon(
-                                          Icons.location_on,
-                                          size: 20.0,
-                                          color: Colors.amber.shade500,
-                                        ),
-                                        Text(model.orderList[ind].address,
-                                            style: TextStyle(
-                                                fontSize: 13.0,
-                                                color: Colors.black54)),
-                                      ],
-                                    ),
-                              Divider(
-                                height: 10.0,
-                                color: Colors.amber.shade500,
-                              ),
-                              _status(model.orderList[ind].status)
-                            ],
-                          ))));
+                                    Text(model.orderList[ind].address,
+                                        style: TextStyle(
+                                            fontSize: 13.0,
+                                            color: Colors.black54)),
+                                  ],
+                                ),
+                                Divider(
+                                  height: 10.0,
+                                  color: Colors.amber.shade500,
+                                ),
+                                _status(model.orderList[ind].status)
+                              ],
+                            ))),
+                  ));
             });
   }
 

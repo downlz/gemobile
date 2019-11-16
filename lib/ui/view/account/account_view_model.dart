@@ -1,24 +1,31 @@
 import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/basemodel.dart';
-import 'package:graineasy/model/usermodel.dart';
+import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
+import 'package:graineasy/model/address.dart';
+import 'package:graineasy/model/user.dart';
 
 class AccountViewModel extends BaseModel {
-  UserModel userModel;
+  List<Address> addresses = [];
+
 
   bool isFirstTime = true;
 
-  getAddress() async {
+  getAddress(String phone, String id) async {
     setState(ViewState.Busy);
-    userModel = await API.getUserDetail();
-    isFirstTime = false;
+    addresses = await API.getAddress(phone, id);
     setState(ViewState.Idle);
   }
 
-  void init() {
+  Future init(String phone, String id) async {
     if (isFirstTime) {
-      getAddress();
-//        isFirstTime = false;
-
+      isFirstTime = false;
+      getAddress(phone, id);
     }
+  }
+
+  getUserDetail() async {
+    User user = await UserPreferences.getUser();
+    print(user.name);
+
   }
 }

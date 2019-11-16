@@ -7,7 +7,6 @@ import 'package:graineasy/ui/widget/widget_utils.dart';
 
 import 'category_view_model.dart';
 
-const URL = "https://graineasy.com";
 
 class CategoryView extends StatefulWidget {
   final ItemName itemName;
@@ -18,6 +17,7 @@ class CategoryView extends StatefulWidget {
 }
 
 class _CategoryViewState extends State<CategoryView> with CommonAppBar {
+
   @override
   void initState() {
     super.initState();
@@ -107,18 +107,6 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
-
-                            /*Positioned(
-                                    child: FittedBox(
-
-                                     fit: BoxFit.fill,
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(photos[index].title,
-                                        style: TextStyle(color: Colors.black87,fontSize: 15.0),
-                                      ),
-
-                                  )
-                                  )*/
                           ],
                         ),
                       ));

@@ -5,6 +5,7 @@ import 'package:graineasy/manager/base/base_repository.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
 import 'package:graineasy/model/address.dart';
+import 'package:graineasy/model/cart_item.dart';
 import 'package:graineasy/model/city.dart';
 import 'package:graineasy/model/itemname.dart';
 import 'package:graineasy/model/order.dart';
@@ -20,6 +21,18 @@ class API extends BaseRepository
 {
   static User user;
   static UserModel users;
+
+  static List<String> addressType = [
+    'factory',
+    'outlet',
+    'retail',
+    'warehouse',
+    'others',
+    'registered',
+    'delivery'
+  ];
+
+
 
   static Future<List<ItemName>> getItemName()async{
     var response = await http.get(ApiConfig.getCategoryName,
@@ -46,10 +59,11 @@ class API extends BaseRepository
     return [];
   }
 
-  static Future<List<Address>> getAddress() async {
-    var response = await http.get(ApiConfig.getAddress,
+  static Future<List<Address>> getAddress(String phone, String id) async {
+    var response = await http.get(ApiConfig.getUserAddresses+'/byuser/'+id+'/phone/'+phone,
+//        'http://3.16.57.93:3000/api/address/byuser/${id}/phone/${phone}',
         headers: await ApiConfig.getHeaderWithToken());
-    print(response.body);
+//    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<Address> items = Address.fromJsonArray(jsonDecode(response.body));
       return items;
@@ -93,7 +107,20 @@ class API extends BaseRepository
     return [];
   }
 
-  static calcPrice(int qty, String item, String buyer,String seller) async {
+  static Future<List<Order>> getLastOrderNumber() async {
+    var response = await http.get(ApiConfig.getLastOrderNumber,
+        headers: await ApiConfig.getHeaderWithToken());
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<Order> orders = Order.fromJsonArray(jsonDecode(response.body));
+      return orders;
+    }
+    return [];
+  }
+
+
+  static calculatePrice(int qty, String item, String buyer,
+      String seller) async {
     var data = {
       'qty': qty,
       'itemId': item,
@@ -114,12 +141,13 @@ class API extends BaseRepository
     }
   }
 
-  static Future<List<States>> getStateList() async {
+  static Future<List<StateObject>> getStateList() async {
     var response = await http.get(ApiConfig.getState,
         headers: await ApiConfig.getHeader());
     print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
-      List<States> items = States.fromJsonArray(jsonDecode(response.body));
+      List<StateObject> items = StateObject.fromJsonArray(
+          jsonDecode(response.body));
       print('sadasassa->${items.length}');
       return items;
     }
@@ -142,27 +170,163 @@ class API extends BaseRepository
       String gst, String address, String city, String state,
       String pincode) async {
     var data = {
-      'name': name,
-      'email': email,
-      'phone': phone,
-      'password': password,
       'GST': gst,
       'address': address,
       'cityId': city,
+      'email': email,
+      'name': name,
+      'phone': '+91' + phone,
+      'pin': pincode,
       'stateId': state,
-      'pin': pincode
+      'password': password
     };
 
     var response = await http.post(ApiConfig.register,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(data));
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      print(response.body);
+      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+      return 'Register User';
+    } else {
+      return 'error';
+    }
+  }
+
+  static addAddresses(String partyName, String phone, String gstInNo,
+      String address, String selectedState, String selectedCity,
+      String selectedAddressType, String pinCode) async {
+    User user = await UserPreferences.getUser();
+
+    var data = {
+      "text": address,
+      "pin": pinCode,
+      "city": selectedCity,
+      "addressbasicdtl": {
+        "partyname": partyName,
+        "gstin": gstInNo
+      },
+      "state": selectedState,
+      "phone": '+91' + phone,
+      "addresstype": selectedAddressType,
+      "addedby": user.id
+    };
+
+    var response = await http.post(ApiConfig.addAddresses,
+        headers: await ApiConfig.getHeaderWithToken(),
+        body: convert.jsonEncode(data));
+    print('response ${data}');
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      print(response.body);
+      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+      return 'Add Address';
+    } else {
+      return null;
+    }
+  }
+
+  static getCalculatePrice(String id, String sellerId, String buyerId,
+      int qty) async {
+    var data = {
+      'itemId': id,
+      'buyerId': buyerId,
+      'sellerId': sellerId,
+      'qty': qty,
+    };
+
+    var response = await http.post(ApiConfig.getCalculatePrice,
         headers: await ApiConfig.getHeaderWithToken(),
         body: convert.jsonEncode(data));
     if (response.statusCode == ApiConfig.successStatusCode) {
       print(response.body);
       Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
-
-      return 'Welcome back, ${responseBody['name']}';
+      return responseBody['net_payable'] as int;
     } else {
-      return null;
+      return 0;
+    }
+  }
+
+//
+  static updateAddress(String id, String address,
+      String pin, String cityId, String stateId, String phone,
+      String addressType) async {
+    getCityList();
+
+    User user = await UserPreferences.getUser();
+    var data = {
+      'text': address,
+      'pin': pin,
+      'city': cityId,
+      'state': stateId,
+      'phone': phone,
+      'addresstype': addressType,
+      'addedby': user.id,
+    };
+
+    var response = await http.put(ApiConfig.updateAddress + id,
+        headers: await ApiConfig.getHeaderWithToken(),
+        body: convert.jsonEncode(data));
+    print(response.statusCode);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      print('update===${response.body}');
+      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+      return 'Update User';
+    } else {
+      return 'error';
+    }
+  }
+
+  static placeOrder(CartItem cart, Address address, String userID) async {
+    var data = {
+      'quantity': cart.qty,
+      'unit': cart.item.unit.mass,
+      'cost': cart.item.price,
+      'price': cart.totalPrice,
+      'itemId': cart.item.id,
+      'addressId': address.id,
+      'buyerId': userID,
+      'sellerId': cart.item.seller.id,
+      'placedTime': new DateTime.now().millisecondsSinceEpoch,
+      'ordertype': "regular",                                     // To be updated based on type of order
+      'status': "new",
+      'isshippingbillingsame': false,
+      'partyname': address.addridentifier.partyname,
+      'gstin': address.addridentifier.gstin,
+      'address': address.text,
+      'state': address.state.id,
+      'phone': address.phone,
+      'addresstype': address.addresstype,
+      'addedby': userID,
+      'addressreference' : address.id,
+      'isExistingAddr' : true
+    };
+    // This is done to generate valid purchase order and calculate GST. Buyer may be buying on behalf of someone and hence it would be billed to that party
+    if (address.addresstype != 'registered'){
+
+        data['isshippingbillingdiff'] = true;
+        data['partyname'] = address.addridentifier.partyname;
+        data['gstin'] = address.addridentifier.gstin;
+        data['address'] =  address.text;
+        data['pincode'] = address.pin;
+        data['state'] = address.state.id;
+        data['phone'] = address.phone;
+        data['addresstype'] = address.addresstype;
+        data['city'] = address.city.id;
+    }
+
+    var response = await http.post(ApiConfig.createOrder,
+        headers: {"Content-Type": "application/json",
+          "Authorization": 'Bearer ' + await UserPreferences.getToken()},
+        body: jsonEncode(data));
+//    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      print(response.body);
+      Map<String, dynamic> responseBody = jsonDecode(response.body);
+      return 'Create Order';
+    } else {
+      return 'error';
     }
   }
 

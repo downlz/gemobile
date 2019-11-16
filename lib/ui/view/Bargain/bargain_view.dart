@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/model/itemname.dart';
-import 'package:graineasy/ui/view/Bargein/bargain_view_model.dart';
+import 'package:graineasy/ui/view/Bargain/bargain_view_model.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 
 class BargainView extends StatefulWidget {

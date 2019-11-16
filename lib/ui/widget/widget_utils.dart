@@ -13,10 +13,8 @@ class WidgetUtils
         loadedCallback: () {
       print('It works!');
     },),
-
   fit: BoxFit.cover,
   placeholder: const Icon(Icons.refresh),
-
   enableRefresh: true,
   );
   }

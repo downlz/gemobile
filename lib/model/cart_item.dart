@@ -2,7 +2,7 @@ import 'Item.dart';
 
 class CartItem {
   int qty;
-  double totalPrice;
+  int totalPrice;
 
   Item item;
 

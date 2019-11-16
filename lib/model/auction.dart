@@ -15,7 +15,7 @@ class Auction {
   String auctionType;
   String address;
   String pincode;
-  States state;
+  StateObject state;
   int availableQty;
   int maxQty;
   int minQty;
@@ -68,7 +68,7 @@ class Auction {
         auctionType: json['auctionType'],
         address: json['address'],
         pincode: json['pincode'],
-        state: States.fromJson(json['state']),
+        state: StateObject.fromJson(json['state']),
         availableQty: json['availableQty'],
         maxQty: json['minQty'],
         minQty: json['maxQty'],
