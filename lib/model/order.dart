@@ -86,6 +86,9 @@ class Order {
   }
 
   factory Order.fromJson(Map<String, dynamic> json) {
+    if (json == null)
+      return null;
+
     return Order(
         id: json['_id'],
         orderno: json['orderno'],

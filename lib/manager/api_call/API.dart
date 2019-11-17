@@ -5,6 +5,7 @@ import 'package:graineasy/manager/base/base_repository.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
 import 'package:graineasy/model/address.dart';
+import 'package:graineasy/model/bargain.dart';
 import 'package:graineasy/model/cart_item.dart';
 import 'package:graineasy/model/city.dart';
 import 'package:graineasy/model/itemname.dart';
@@ -283,7 +284,7 @@ class API extends BaseRepository
       'quantity': cart.qty,
       'unit': cart.item.unit.mass,
       'cost': cart.item.price,
-      'price': cart.totalPrice,
+      'price': cart.totalPrice,                                   // Price is shown correctly in screen but incorrect value coming here
       'itemId': cart.item.id,
       'addressId': address.id,
       'buyerId': userID,
@@ -330,6 +331,155 @@ class API extends BaseRepository
     }
   }
 
+  static updateOrderStatus(String id, String status, String remarks) async {
 
+    User user = await UserPreferences.getUser();
+    var data = {
+      'status': status,
+      'remarks' : remarks,
+      'lastUpdated': new DateTime.now().millisecondsSinceEpoch
+    };
+
+    var response = await http.put(ApiConfig.updateOrderStatus + id,
+        headers: await ApiConfig.getHeaderWithToken(),
+        body: convert.jsonEncode(data));
+    print(response.statusCode);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      print('update===${response.body}');
+      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+      return 'Successfully updated order status';
+    } else {
+      return 'error';
+    }
+  }
+
+
+  static Future<List<StateObject>> getManualOrderBill(String id) async {
+    var response = await http.get(ApiConfig.getManualBill + id,
+        headers: await ApiConfig.getHeader());
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      // Add Code to read output json for bill link
+//      List<StateObject> items = StateObject.fromJsonArray(
+//          jsonDecode(response.body));
+//      print('sadasassa->${items.length}');
+//      return items;
+    }
+    return [];
+  }
+
+  static Future<List<StateObject>> uploadManualOrderBill(String id) async {
+    var response = await http.post(ApiConfig.addManualBill + id,
+        headers: await ApiConfig.getHeader());
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      // Add Code to add a file to an order
+//      List<StateObject> items = StateObject.fromJsonArray(
+//          jsonDecode(response.body));
+//      print('sadasassa->${items.length}');
+//      return items;
+    }
+    return [];
+  }
+
+  static Future<List<StateObject>> updateManualOrderBill(String id) async {
+    var response = await http.put(ApiConfig.updateManualBill + id,
+        headers: await ApiConfig.getHeader());
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      // Add Code to update a file to an order
+//      List<StateObject> items = StateObject.fromJsonArray(
+//          jsonDecode(response.body));
+//      print('sadasassa->${items.length}');
+//      return items;
+    }
+    return [];
+  }
+
+  static Future<List<StateObject>> getUserOrders(String id) async {
+    var response = await http.get(ApiConfig.getUserOrders + id,
+        headers: await ApiConfig.getHeader());
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      // Add Code to read output json for bill link
+//      List<StateObject> items = StateObject.fromJsonArray(
+//          jsonDecode(response.body));
+//      print('sadasassa->${items.length}');
+//      return items;
+    }
+    return [];
+  }
+
+  //Bargain APIs Calls
+
+  static Future<List<StateObject>> createBargainRequest() async {
+    var response = await http.post(ApiConfig.raiseBargainRequest,
+        headers: await ApiConfig.getHeader());
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      // Add Code to read output json for bill link
+//      List<StateObject> items = StateObject.fromJsonArray(
+//          jsonDecode(response.body));
+//      print('sadasassa->${items.length}');
+//      return items;
+    }
+    return [];
+  }
+
+  static Future<List<StateObject>> updateBargainRequest(String id) async {
+    var response = await http.put(ApiConfig.updateBargainRequest + id,
+        headers: await ApiConfig.getHeader());
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      // Add Code to read output json for bill link
+//      List<StateObject> items = StateObject.fromJsonArray(
+//          jsonDecode(response.body));
+//      print('sadasassa->${items.length}');
+//      return items;
+    }
+    return [];
+  }
+
+  static Future<List<StateObject>> getBargainDtl(String id) async {
+    var response = await http.get(ApiConfig.getBargainDtl + id,
+        headers: await ApiConfig.getHeader());
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      // Add Code to read output json for bill link
+//      List<StateObject> items = StateObject.fromJsonArray(
+//          jsonDecode(response.body));
+//      print('sadasassa->${items.length}');
+//      return items;
+    }
+    return [];
+  }
+
+  static Future<List<StateObject>> pauseBargainRequest(String id) async {
+    var response = await http.put(ApiConfig.pauseBargain + id,
+        headers: await ApiConfig.getHeader());
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      // Add Code to read output json for bill link
+//      List<StateObject> items = StateObject.fromJsonArray(
+//          jsonDecode(response.body));
+//      print('sadasassa->${items.length}');
+//      return items;
+    }
+    return [];
+  }
+
+  static Future<List<StateObject>> releaseBargainRequest(String id) async {
+    var response = await http.put(ApiConfig.releaseBargain + id,
+        headers: await ApiConfig.getHeader());
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      // Add Code to read output json for bill link
+//      List<StateObject> items = StateObject.fromJsonArray(
+//          jsonDecode(response.body));
+//      print('sadasassa->${items.length}');
+//      return items;
+    }
+    return [];
+  }
 
 }
