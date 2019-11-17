@@ -2,7 +2,7 @@
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 
 class ApiConfig {
-  static final String baseURL = 'http://3.16.57.93:3000/api/';    // Any idea to store different URL for PROD and DEV!
+  static final String baseURL = 'http://3.16.57.93:3000/api/';    // Any idea to store different URL for PROD and DEV! 3.16.57.93
   static String login =baseURL +'auth';
   static String register = baseURL + 'user';
   static String forgotPassword =baseURL +'user/resetpassword';
@@ -19,9 +19,25 @@ class ApiConfig {
   static String getUserAddresses = baseURL + 'address';
   static String getCalculatePrice = baseURL + 'price';
   static String updateAddress = baseURL + 'address/';
+
+  // Order APIs
   static String getLastOrderNumber = baseURL + 'order/orderno';
   static String createOrder = baseURL + 'order';
-  static String getAddressByIdAndPhone = baseURL + 'address/byuser/phone/';       // Replaced with getUserAddresses
+  static String getAddressByIdAndPhone = baseURL + 'address/byuser/phone/';       // Replaced with getUserAddresses,No longer needed
+  static String updateOrderStatus = baseURL + 'order/';
+  static String addManualBill = baseURL + 'uploadbill/';
+  static String updateManualBill = baseURL + 'uploadbill/';
+  static String getManualBill = baseURL + 'uploadbill/';
+  static String getUserOrders = baseURL + 'order/user/';
+  static String getAgentOrders = baseURL + 'order/agent/:id';
+
+  // Bargain APIs
+  static String raiseBargainRequest = baseURL + 'bargain';
+  static String updateBargainRequest = baseURL + 'bargain';
+  static String getBargainDtl = baseURL + 'uploadbill/';
+  static String pauseBargain = baseURL + 'uploadbill/';
+  static String releaseBargain = baseURL + 'uploadbill/';
+
   static int successStatusCode = 200;
 
 

@@ -25,18 +25,22 @@ class UserModel {
   bool isAgent;
   bool isBuyer;
   List<Address> addresses;
+  String fcmkey;
+  String devicedtl;
 
   UserModel(
       {this.vendorCode, this.id, this.name, this.email, this.isActive, this.phone,
     this.pan,this.gst,this.isBuyer,this.sellerFeePerKg,this.buyerBackMarginPercent,
     this.buyerCreditCostPercent,this.buyerFeePerKg,this.buyerNetLossPercent,this.buyerMarginPerKg,
     this.buyerDiscount1Percent,this.buyerDiscount2PerKg,this.buyerDiscount3Lumpsump,this.buyerFinePerKg,
-        this.isAdmin, this.isSeller, this.isAgent, this.addresses
+        this.isAdmin, this.isSeller, this.isAgent, this.addresses,this.devicedtl,this.fcmkey
 
 //    this.address
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
+    if (json == null)
+      return null;
     return UserModel(
         name: json['name'],
         id: json['_id'],
@@ -59,6 +63,8 @@ class UserModel {
       isBuyer: json['isBuyer'],
     isSeller: json['isSeller'],
     isAgent: json['isAgent'],
+        fcmkey: json['fcmkey'],
+        devicedtl: json['devicedtl'],
         isActive: json['isactive'],
         addresses: Address.fromJsonArray(
             json['Addresses']) // This should be fixed
