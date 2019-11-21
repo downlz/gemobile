@@ -21,11 +21,11 @@ class User {
       : name = json['name'],
         id = json['_id'],
         phone = json['phone'],
-        isSeller = json['isSeller'],
-        isAgent = json['isAgent'],
-        isAdmin = json['isAdmin'],
-        isBuyer = json['isBuyer'],
-        isActive = json['isActive'],
+        isSeller = checkBool(json, 'isSeller'),
+        isAgent = checkBool(json, 'isAgent'),
+        isAdmin = checkBool(json, 'isAdmin'),
+        isBuyer = checkBool(json, 'isBuyer'),
+        isActive = checkBool(json, 'isActive'),
         token = json['token'];
 
   Map<String, dynamic> toJson() =>
@@ -40,4 +40,10 @@ class User {
         'isAdmin': isAdmin,
         'isActive': isActive,
       };
+
+  static checkBool(Map<String, dynamic> json, String data) {
+    if (json.containsKey(data))
+      return json[data];
+    return false;
+  }
 }

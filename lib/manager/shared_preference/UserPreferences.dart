@@ -49,7 +49,7 @@ class UserPreferences {
     user.id = prefs.getString("_id");
     user.isAdmin = prefs.getBool("isAdmin");
     user.isSeller = prefs.getBool("isSeller");
-    user.isBuyer = prefs.getBool("isBuyerm");
+    user.isBuyer = prefs.getBool("isBuyer");
     user.isAgent = prefs.getBool("isAgent");
     user.isActive = prefs.getBool("isActive");
     user.token = prefs.getString("token");

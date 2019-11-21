@@ -536,11 +536,19 @@ class API extends BaseRepository
     return false;
   }
 
-  static updateSellerBargainRequest(String id) async {
+
+  static updateBuyerBargainRequest(String id, String quote,
+      bool isBuyer) async {
+
     var data = {
-      "sellerquote": 47.5,
+      "buyerquote": quote,
       "action": "countered"
     };
+    if (!isBuyer)
+      data = {
+        "sellerquote": quote,
+        "action": "countered"
+      };
     var response = await http.put(ApiConfig.updateBargainRequest + id,
         headers: await ApiConfig.getHeaderWithToken(),
         body: convert.jsonEncode(data));
@@ -548,15 +556,13 @@ class API extends BaseRepository
     if (response.statusCode == ApiConfig.successStatusCode) {
       Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
       print(responseBody);
-
     }
     return [];
   }
 
-  static updateBuyerBargainRequest(String id) async {
+  static updateBuyerStatus(String id, String status) async {
     var data = {
-      "buyerquote": 45.5,
-      "action": "countered"
+      "action": status
     };
     var response = await http.put(ApiConfig.updateBargainRequest + id,
         headers: await ApiConfig.getHeaderWithToken(),
@@ -569,51 +575,9 @@ class API extends BaseRepository
     return [];
   }
 
-  static updateBuyerStatus(String id) async {
-    var data = {
-      "action": "accepted"
-    };
-    var response = await http.put(ApiConfig.updateBargainRequest + id,
-        headers: await ApiConfig.getHeaderWithToken(),
-        body: convert.jsonEncode(data));
-    print(response.body);
-    if (response.statusCode == ApiConfig.successStatusCode) {
-      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
-      print(responseBody);
-    }
-    return [];
-  }
-
-  static updateBuyerRejectStatus(String id) async {
-    var data = {
-      "action": "rejected"
-    };
-    var response = await http.put(ApiConfig.updateBargainRequest + id,
-        headers: await ApiConfig.getHeaderWithToken(),
-        body: convert.jsonEncode(data));
-    print(response.body);
-    if (response.statusCode == ApiConfig.successStatusCode) {
-      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
-      print(responseBody);
-
-    }
-    return [];
-  }
 
 
-  static Future<List<StateObject>> getBargainDtl(String bargainId) async {
-    var response = await http.get(ApiConfig.getBargainDtl + bargainId,
-        headers: await ApiConfig.getHeader());
-    print(response.body);
-    if (response.statusCode == ApiConfig.successStatusCode) {
-      // Add Code to read output json for bill link
-//      List<StateObject> items = StateObject.fromJsonArray(
-//          jsonDecode(response.body));
-//      print('sadasassa->${items.length}');
-//      return items;
-    }
-    return [];
-  }
+
 
   static pauseBargainRequest(String bargainId) async {
     User user = await UserPreferences.getUser();
