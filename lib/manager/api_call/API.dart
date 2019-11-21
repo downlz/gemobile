@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:convert' as convert;
 
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:graineasy/manager/base/base_repository.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
@@ -13,6 +15,8 @@ import 'package:graineasy/model/order.dart';
 import 'package:graineasy/model/state.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/model/usermodel.dart';
+import 'package:graineasy/ui/view/home/home_view.dart';
+import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
 import 'package:http/http.dart' as http;
 
 import 'api_config/api_config.dart';
@@ -33,7 +37,58 @@ class API extends BaseRepository
     'delivery'
   ];
 
+  static List<String> orderStatus = [
+    'new',
+    'confirmed',
+    'cancelled',
+    'ready',
+    'shipped',
+    'delivered'
+  ];
 
+  static List<String> bargainAction = [
+    'placed',
+    'negotiation',
+    'lastbestprice',
+    'accepted',
+    'rejected',
+    'paused',
+    'expired'
+  ];
+
+
+  static void alertMessage(String message, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          content: new Text(message),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Yes"),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(
+                        builder: (context) => OrderHistoryView()
+                    ));
+              },
+            ),
+            new FlatButton(
+              child: new Text("No"),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(
+                        builder: (context) => HomeView()
+                    ));
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   static Future<List<ItemName>> getItemName()async{
     var response = await http.get(ApiConfig.getCategoryName,
@@ -56,7 +111,6 @@ class API extends BaseRepository
       List<Item> items = Item.fromJsonArray(jsonDecode(response.body));
       return items;
     }
-
     return [];
   }
 
@@ -243,7 +297,7 @@ class API extends BaseRepository
     if (response.statusCode == ApiConfig.successStatusCode) {
       print(response.body);
       Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
-      return responseBody['net_payable'] as int;
+      return responseBody['price'];
     } else {
       return 0;
     }
@@ -279,12 +333,34 @@ class API extends BaseRepository
     }
   }
 
+  static updateUserApiToGetFCMKey() async {
+    getCityList();
+    var data = {
+      'fcmkey': await FirebaseMessaging().getToken()
+    };
+    User user = await UserPreferences.getUser();
+
+    var response = await http.put(ApiConfig.updateUserApiForGetFcmKey + user.id,
+        headers: await ApiConfig.getHeaderWithToken());
+    print(response.statusCode);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      print('update===${response.body}');
+      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+      UserModel userModel = UserModel.fromJson(responseBody);
+      UserPreferences.saveFCMDeviceDtl(userModel);
+      return 'Update User';
+    } else {
+      return 'error';
+    }
+  }
+
   static placeOrder(CartItem cart, Address address, String userID) async {
     var data = {
       'quantity': cart.qty,
       'unit': cart.item.unit.mass,
       'cost': cart.item.price,
-      'price': cart.totalPrice,                                   // Price is shown correctly in screen but incorrect value coming here
+      'price': cart.totalPrice.toString(),
+      // Price is shown correctly in screen but incorrect value coming here
       'itemId': cart.item.id,
       'addressId': address.id,
       'buyerId': userID,
@@ -331,9 +407,9 @@ class API extends BaseRepository
     }
   }
 
+
   static updateOrderStatus(String id, String status, String remarks) async {
 
-    User user = await UserPreferences.getUser();
     var data = {
       'status': status,
       'remarks' : remarks,
@@ -352,6 +428,7 @@ class API extends BaseRepository
       return 'error';
     }
   }
+
 
 
   static Future<List<StateObject>> getManualOrderBill(String id) async {
@@ -412,58 +489,110 @@ class API extends BaseRepository
 
   //Bargain APIs Calls
 
-  static Future<List<StateObject>> createBargainRequest() async {
+
+  static Future<Bargain> checkBuyerRequestActiveOrNot(String itemId,
+      String buyerId) async
+  {
+    var response = await http.get(
+        ApiConfig.raiseBargainRequest + '/buyer/' + buyerId + '/item/' + itemId,
+        headers: await ApiConfig.getHeaderWithToken());
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      Bargain bargain = Bargain.fromJsonArray(jsonDecode(response.body))[0];
+      return bargain;
+    }
+    return null;
+  }
+
+  static Future<Bargain> checkSellerRequestActiveOrNot(String itemId,
+      String sellerId) async
+  {
+    var response = await http.get(
+        ApiConfig.raiseBargainRequest + '/seller/' + sellerId + '/item/' +
+            itemId,
+        headers: await ApiConfig.getHeaderWithToken());
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      Bargain bargain = Bargain.fromJsonArray(jsonDecode(response.body))[0];
+      return bargain;
+    }
+    return null;
+  }
+
+  static createBargainRequest(String itemId, String buyerId, String buyerQuote,
+      String quantity) async
+  {
+    var data = {
+      'itemId': itemId,
+      'buyerId': buyerId,
+      'buyerquote': int.parse(buyerQuote),
+      'quantity': int.parse(quantity)
+    };
     var response = await http.post(ApiConfig.raiseBargainRequest,
-        headers: await ApiConfig.getHeader());
+        headers: await ApiConfig.getHeaderWithToken(),
+        body: convert.jsonEncode(data));
     print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
-      // Add Code to read output json for bill link
-//      List<StateObject> items = StateObject.fromJsonArray(
-//          jsonDecode(response.body));
-//      print('sadasassa->${items.length}');
-//      return items;
+      return true;
     }
-    return [];
+    return false;
   }
 
-  static Future<List<StateObject>> updateBargainRequest(String id) async {
+
+  static updateBuyerBargainRequest(String id, String quote,
+      bool isBuyer) async {
+
+    var data = {
+      "buyerquote": quote,
+      "action": "countered"
+    };
+    if (!isBuyer)
+      data = {
+        "sellerquote": quote,
+        "action": "countered"
+      };
     var response = await http.put(ApiConfig.updateBargainRequest + id,
-        headers: await ApiConfig.getHeader());
+        headers: await ApiConfig.getHeaderWithToken(),
+        body: convert.jsonEncode(data));
     print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
-      // Add Code to read output json for bill link
-//      List<StateObject> items = StateObject.fromJsonArray(
-//          jsonDecode(response.body));
-//      print('sadasassa->${items.length}');
-//      return items;
+      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+      print(responseBody);
     }
     return [];
   }
 
-  static Future<List<StateObject>> getBargainDtl(String id) async {
-    var response = await http.get(ApiConfig.getBargainDtl + id,
-        headers: await ApiConfig.getHeader());
+  static updateBuyerStatus(String id, String status) async {
+    var data = {
+      "action": status
+    };
+    var response = await http.put(ApiConfig.updateBargainRequest + id,
+        headers: await ApiConfig.getHeaderWithToken(),
+        body: convert.jsonEncode(data));
     print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
-      // Add Code to read output json for bill link
-//      List<StateObject> items = StateObject.fromJsonArray(
-//          jsonDecode(response.body));
-//      print('sadasassa->${items.length}');
-//      return items;
+      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+      print(responseBody);
     }
     return [];
   }
 
-  static Future<List<StateObject>> pauseBargainRequest(String id) async {
-    var response = await http.put(ApiConfig.pauseBargain + id,
-        headers: await ApiConfig.getHeader());
+
+
+
+
+  static pauseBargainRequest(String bargainId) async {
+    User user = await UserPreferences.getUser();
+    var data = {
+      'pausetype': 'hours',
+      'pausehrs': 6,
+      'pausedby': user.id
+    };
+    var response = await http.put(ApiConfig.pauseBargain + bargainId,
+        headers: await ApiConfig.getHeaderWithToken(),
+        body: convert.jsonEncode(data));
     print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
-      // Add Code to read output json for bill link
-//      List<StateObject> items = StateObject.fromJsonArray(
-//          jsonDecode(response.body));
-//      print('sadasassa->${items.length}');
-//      return items;
+      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+      print(responseBody);
     }
     return [];
   }
@@ -473,13 +602,9 @@ class API extends BaseRepository
         headers: await ApiConfig.getHeader());
     print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
-      // Add Code to read output json for bill link
-//      List<StateObject> items = StateObject.fromJsonArray(
-//          jsonDecode(response.body));
-//      print('sadasassa->${items.length}');
-//      return items;
     }
     return [];
   }
+
 
 }

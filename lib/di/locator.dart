@@ -8,6 +8,8 @@ import 'package:graineasy/ui/view/forgot_password/forgot_password_model.dart';
 import 'package:graineasy/ui/view/home/home_view_model.dart';
 import 'package:graineasy/ui/view/item_details/details_view_model.dart';
 import 'package:graineasy/ui/view/login/login_view_model.dart';
+import 'package:graineasy/ui/view/manage_order/manage_order/manage_order_view_model.dart';
+import 'package:graineasy/ui/view/manage_order_detail/manage_order_detail_model.dart';
 import 'package:graineasy/ui/view/order/order_history/order_history_view_model.dart';
 import 'package:graineasy/ui/view/order_detail/order_detail_model.dart';
 import 'package:graineasy/ui/view/registration/registration_view_model.dart';
@@ -61,5 +63,13 @@ void setupLocator() {
 
   locator.registerFactory(() {
     return OrderDetailViewModel();
+  });
+
+  locator.registerFactory(() {
+    return ManageOrderViewModel();
+  });
+
+  locator.registerFactory(() {
+    return ManageOrderDetailViewModel();
   });
 }

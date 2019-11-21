@@ -16,6 +16,7 @@ void main() {
 void checkUserLoggedinOrNot() async {
   User user = await UserPreferences.getUser();
   UserModel users = await UserPreferences.getUserAllDetail();
+//  await getFCMKey();
   if (user != null &&
       user.name != null &&
       await UserPreferences.getToken() != null) {
@@ -26,6 +27,14 @@ void checkUserLoggedinOrNot() async {
     runApp(MyApp(Screen.Login));
   }
 }
+//
+//getFCMKey()
+//async {
+//  String token = await FirebaseMessaging().getToken();
+//
+//  print('Token=======>${token}');
+//
+//}
 
 class MyApp extends StatelessWidget {
   Screen screenName;

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/basemodel.dart';
+import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/city.dart';
 import 'package:graineasy/model/state.dart';
+import 'package:graineasy/model/usermodel.dart';
 
 class RegistrationViewModel extends BaseModel
 {
@@ -45,7 +47,12 @@ class RegistrationViewModel extends BaseModel
         city,
         state,
         pinCode);
+    API.updateUserApiToGetFCMKey();
+    UserModel users = await UserPreferences.getFCMDeviceDtl();
+    print('FCM KEY=========>${users.fcmkey}');
+    print('FCM KEY=========>${users.devicedtl}');
     setState(ViewState.Idle);
+
     Navigator.pop(context);
   }
 

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:graineasy/HomeScreen.dart';
+import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/basemodel.dart';
 import 'package:graineasy/manager/listeners/login_listener.dart';
+import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
+import 'package:graineasy/model/usermodel.dart';
 import 'package:graineasy/ui/localization/app_localization.dart';
 import 'package:graineasy/ui/view/router.dart';
 import 'package:graineasy/utils/check_internet/utility.dart';
@@ -17,9 +19,13 @@ class LoginViewModel extends BaseModel implements LoginListener
   }
 
   @override
-  void goToLogin(String result) {
+  Future goToLogin(String result) async {
     setState(ViewState.Idle);
     showMessage(result, isError);
+    API.updateUserApiToGetFCMKey();
+    UserModel users = await UserPreferences.getFCMDeviceDtl();
+    print('FCM KEY=========>${users.fcmkey}');
+    print('DeviceDetail KEY=========>${users.devicedtl}');
     Navigator.pushNamedAndRemoveUntil(
         context, Screen.Home_screen.toString(), (Route<dynamic> route) => false);
   }

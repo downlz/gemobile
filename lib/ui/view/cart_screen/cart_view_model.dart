@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/basemodel.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
@@ -6,6 +7,7 @@ import 'package:graineasy/model/address.dart';
 import 'package:graineasy/model/cart_item.dart';
 import 'package:graineasy/model/order.dart';
 import 'package:graineasy/model/user.dart';
+import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
 
 
 class CartViewModel extends BaseModel {
@@ -46,7 +48,8 @@ class CartViewModel extends BaseModel {
     await API.placeOrder(
         cartItems[0], addresses[selectedAddressPosition], user.id);
     setState(ViewState.Idle);
-
+    Navigator.pushReplacement(context, MaterialPageRoute(
+        builder: (context) => OrderHistoryView()));
   }
 
 
