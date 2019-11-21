@@ -1,9 +1,11 @@
 import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/basemodel.dart';
 import 'package:graineasy/model/order.dart';
+import 'package:graineasy/model/user.dart';
 
 class ManageOrderViewModel extends BaseModel {
   bool isListEmpty = false;
+  User user;
   List<Order> orderList;
 
   bool isFirstTime = true;

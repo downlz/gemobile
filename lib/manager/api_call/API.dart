@@ -538,16 +538,16 @@ class API extends BaseRepository
 
 
   static updateBuyerBargainRequest(String id, String quote,
-      bool isBuyer) async {
+      bool isBuyer, String action) async {
 
     var data = {
       "buyerquote": quote,
-      "action": "countered"
+      "action": action
     };
     if (!isBuyer)
       data = {
         "sellerquote": quote,
-        "action": "countered"
+        "action": action
       };
     var response = await http.put(ApiConfig.updateBargainRequest + id,
         headers: await ApiConfig.getHeaderWithToken(),
@@ -559,11 +559,35 @@ class API extends BaseRepository
     }
     return [];
   }
-
-  static updateBuyerStatus(String id, String status) async {
-    var data = {
-      "action": status
-    };
+// -1 -> rejected quote, 1 -> accepted quote, 0 is not accepted in req body
+  static updateBuyerStatus(String id, String status,bool isBuyer) async {
+    var data = {};
+    if (isBuyer){
+      if (status == 'accepted'){
+        data = {
+          'buyerquote' : 1,
+          'action' : 'accepted'
+        };
+      } else {
+        data = {
+          'buyerquote' : -1,
+          'action' : 'rejected'
+        };
+      }
+    } else {
+      if (status == 'accepted'){
+        data = {
+          'sellerquote' : 1,
+          'action' : 'accepted'
+        };
+      } else {
+        data = {
+          'sellerquote' : -1,
+          'action' : 'rejected'
+        };
+      }
+    }
+  print(data);
     var response = await http.put(ApiConfig.updateBargainRequest + id,
         headers: await ApiConfig.getHeaderWithToken(),
         body: convert.jsonEncode(data));

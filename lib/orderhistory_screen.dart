@@ -225,7 +225,7 @@ class oder_history extends State<Oder_History> {
                                               MainAxisAlignment.center,
                                           children: <Widget>[
                                             Text(
-                                              'Payment Type',
+                                              'Order Type',
                                               style: TextStyle(
                                                   fontSize: 13.0,
                                                   color: Colors.black54),

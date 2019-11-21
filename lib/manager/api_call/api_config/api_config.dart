@@ -2,7 +2,7 @@
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 
 class ApiConfig {
-  static final String baseURL = 'http://3.16.57.93:3000/api/';    // Any idea to store different URL for PROD and DEV! 3.16.57.93
+  static final String baseURL = 'http://192.168.0.105:3000/api/';    // Any idea to store different URL for PROD and DEV! 3.16.57.93
   static String login =baseURL +'auth';
   static String register = baseURL + 'user';
   static String forgotPassword =baseURL +'user/resetpassword';

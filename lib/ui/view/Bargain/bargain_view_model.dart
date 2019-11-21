@@ -25,9 +25,10 @@ class BargainViewModel extends BaseModel {
     }
   }
 
-  Future counterBtnClick(String quote) async {
+  Future counterBtnClick(String quote,String action) async {
+
     setState(ViewState.Busy);
-    await API.updateBuyerBargainRequest(bargainDetail.id, quote, user.isBuyer);
+    await API.updateBuyerBargainRequest(bargainDetail.id, quote, user.isBuyer,action);
     setState(ViewState.Idle);
   }
 
@@ -41,7 +42,7 @@ class BargainViewModel extends BaseModel {
 
   Future acceptReject(String status) async {
     setState(ViewState.Busy);
-    await API.updateBuyerStatus(bargainDetail.id, status);
+    await API.updateBuyerStatus(bargainDetail.id, status,user.isBuyer);
     setState(ViewState.Idle);
     if (status == 'accepted')
       Navigator.pushReplacement(
