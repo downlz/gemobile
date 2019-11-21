@@ -113,7 +113,7 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
                     onPressed: () async {
                       if (buyerQuoteFormKey.currentState.validate()) {
                         model.counterBtnClick(
-                            buyerQuoteController.text);
+                            buyerQuoteController.text,'countered');
                       }
                     },
                     shape: new OutlineInputBorder(
@@ -366,5 +366,23 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
       textAlign: TextAlign.center,
       style: TextStyle(color: Colors.black, fontSize: 20),
     ),);
+  }
+
+  void counterBargain() async{
+//    Map<dynamic,dynamic> data;
+//    data = {'phone': '1111111111','password':'addapass'};
+////     print(data);
+//
+//    var response=await LoginService.userLogin(data);
+//    //print(val);
+//    if(response.statusCode==200){
+//      print(response.body);
+//      var decodeResponse=jsonDecode(response.body);
+//      storage.setItem('GEUser', decodeResponse);
+//    }
+//    else{
+//      print(response.body);
+//      print("Login ERROR");
+//    }
   }
 }

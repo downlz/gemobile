@@ -117,7 +117,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
                                         .orderno),
                                     rowWidget('Order Amount',
                                         model.orderList[ind].cost.toString()),
-                                    rowWidget('Payment Type',
+                                    rowWidget('Order Type',
                                         model.orderList[ind].ordertype),
                                   ],
                                 ),
