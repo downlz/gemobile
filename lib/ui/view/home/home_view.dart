@@ -7,13 +7,13 @@ import 'package:graineasy/ui/theme/app_responsive.dart';
 import 'package:graineasy/ui/theme/palette.dart';
 import 'package:graineasy/ui/view/account/account_view.dart';
 import 'package:graineasy/ui/view/category/category_view.dart';
+import 'package:graineasy/ui/view/manage_order/manage_order/manage_order_view.dart';
 import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
 import 'package:graineasy/ui/view/router.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 
 import '../../../help_screen.dart';
-import '../../../login_page.dart';
 import '../../../setting_screen.dart';
 import 'home_view_model.dart';
 
@@ -26,6 +26,8 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> with CommonAppBar {
+
+
   @override
   void initState() {
     super.initState();
@@ -38,7 +40,7 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
     return BaseView<HomeViewModel>(builder: (context, model, child) {
       model.init();
       return new Scaffold(
-        drawer: getDrawerWidget(),
+        drawer: getDrawerWidget(model),
         appBar: new AppBar(
           title: Text('Graineasy'),
           backgroundColor: Colors.white,
@@ -145,7 +147,9 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
     );
   }
 
-  getDrawerWidget() {
+  getDrawerWidget(HomeViewModel model) {
+//    userDetail();
+
     return new Drawer(
       child: new ListView(
         children: <Widget>[
@@ -196,7 +200,8 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
           ),
           new Column(
             children: <Widget>[
-
+              if(model.user != null)
+                !model.user.isSeller ?
               new ListTile(
                   leading: Icon(Icons.history, color: Palette.assetColor,),
                   title: new Text("Order History",
@@ -206,7 +211,9 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) => OrderHistoryView()));
-                  }),
+                  }) : Container(),
+              if(model.user != null)
+                model.user.isSeller ?
               new ListTile(
                   leading: Icon(Icons.sim_card, color: Palette.assetColor),
                   title: new Text("Order Manage", style: TextStyle(
@@ -218,10 +225,10 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) =>
-                            LoginPage(toolbarname: ' User Login Test',)));
+                            ManageOrderView()));
 //                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Payment_Screen()));
 
-                  }),
+                  }) : Container(),
               new ListTile(
                   leading: Icon(Icons.settings, color: Palette.assetColor),
                   title: new Text("Settings", style: TextStyle(
@@ -284,4 +291,11 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
       ), elevation: 4.0,
     );
   }
+//  Future userDetail()
+//  async {
+//
+//     user = await UserPreferences.getUser();
+//
+//  }
+
 }

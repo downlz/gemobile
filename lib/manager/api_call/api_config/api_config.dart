@@ -33,10 +33,13 @@ class ApiConfig {
 
   // Bargain APIs
   static String raiseBargainRequest = baseURL + 'bargain';
-  static String updateBargainRequest = baseURL + 'bargain';
+  static String updateBargainRequest = baseURL + 'bargain/';
   static String getBargainDtl = baseURL + 'uploadbill/';
-  static String pauseBargain = baseURL + 'uploadbill/';
+  static String pauseBargain = baseURL + 'bargain/pause/';
   static String releaseBargain = baseURL + 'uploadbill/';
+
+  //get FCM Key
+  static String updateUserApiForGetFcmKey = baseURL + 'user/';
 
   static int successStatusCode = 200;
 

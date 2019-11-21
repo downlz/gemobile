@@ -4,10 +4,10 @@ class User {
   String name;
   String id;
   bool isAdmin;
-  bool isBuyer;
   bool isSeller;
   bool isAgent;
   bool isActive;
+  bool isBuyer;
   String token;
   String phone;
 
@@ -21,10 +21,10 @@ class User {
       : name = json['name'],
         id = json['_id'],
         phone = json['phone'],
-        isBuyer = json['isBuyer'],
         isSeller = json['isSeller'],
         isAgent = json['isAgent'],
         isAdmin = json['isAdmin'],
+        isBuyer = json['isBuyer'],
         isActive = json['isActive'],
         token = json['token'];
 
@@ -34,8 +34,8 @@ class User {
         '_id': id,
         'token': token,
         'phone': phone,
-        'isBuyer': isBuyer,
         'isSeller': isSeller,
+        'isBuyer': isBuyer,
         'isAgent': isAgent,
         'isAdmin': isAdmin,
         'isActive': isActive,
