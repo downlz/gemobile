@@ -6,7 +6,6 @@ import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:graineasy/utils/check_internet/utility.dart';
 
-const URL = "https://graineasy.com";
 
 class ManageOrderView extends StatefulWidget {
   @override
@@ -25,7 +24,7 @@ class _ManageOrderViewState extends State<ManageOrderView> with CommonAppBar {
       model.init();
       return new Scaffold(
         appBar: new AppBar(
-          title: Text('Manage Orders'),
+          title: Text('My Orders'),
           backgroundColor: Colors.white,
         ),
         body: _getBody(model),

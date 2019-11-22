@@ -50,8 +50,8 @@ class ApiConfig {
 
   static getHeaderWithToken() async
   {
-    return {"Content-Type": "application/json",
-    "Authorization":'Bearer '+await UserPreferences.getToken()};
+    return {
+      "Authorization": await UserPreferences.getToken()};
   }
 
 

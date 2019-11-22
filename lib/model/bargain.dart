@@ -1,7 +1,8 @@
-import 'package:graineasy/model/item.dart';
 import 'package:graineasy/model/usermodel.dart';
 import 'package:graineasy/utils/check_internet/utility.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'Item.dart';
 
 //import 'package:graineasy/model/address.dart';
 //import 'package:graineasy/model/auction.dart';

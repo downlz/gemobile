@@ -11,7 +11,6 @@ class BargainViewModel extends BaseModel {
   Bargain bargainDetail;
   User user;
   bool isFirstTime = true;
-
   bool isBargainOn = true;
 
   void init(Bargain bargainDetail) async {

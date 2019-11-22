@@ -42,7 +42,8 @@ class CartViewModel extends BaseModel {
 //  }
 
 
-  createOrder(Item item) async {
+  createOrder(Item item) async
+  {
     User user = await UserPreferences.getUser();
     setState(ViewState.Busy);
     await API.placeOrder(

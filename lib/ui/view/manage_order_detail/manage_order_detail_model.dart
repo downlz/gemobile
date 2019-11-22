@@ -10,9 +10,10 @@ class ManageOrderDetailViewModel extends BaseModel {
   TextEditingController remarkController = new TextEditingController();
   var remarkFocus = new FocusNode();
 
-  updateStatus(String id, String status) async {
+
+  updateStatus(String id) async {
     setState(ViewState.Busy);
-    await API.updateOrderStatus(id, status, remarkController.text);
+    await API.updateOrderStatus(id, selectedOrderStatus, remarkController.text);
     setState(ViewState.Idle);
     Navigator.pop(context);
     Navigator.pushReplacement(

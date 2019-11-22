@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/base_view.dart';
+import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/bargain.dart';
+import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/theme/app_responsive.dart';
 import 'package:graineasy/ui/theme/palette.dart';
 import 'package:graineasy/ui/theme/text_style.dart';
@@ -203,7 +206,12 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
                                 },
                                 child: Text('Yes')),
                             new FlatButton(
-                                onPressed: () {
+
+                                onPressed: () async {
+                                  User user = await UserPreferences.getUser();
+
+                                  API.getUserDetailForPushNotification(
+                                      'title', 'body', user.id);
                                   Navigator.of(context).pop();
                                 },
                                 child: Text('No'))

@@ -5,6 +5,7 @@ import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/theme/app_responsive.dart';
 import 'package:graineasy/ui/theme/palette.dart';
+import 'package:graineasy/ui/view/BargainDetail/bargain_history_view.dart';
 import 'package:graineasy/ui/view/account/account_view.dart';
 import 'package:graineasy/ui/view/category/category_view.dart';
 import 'package:graineasy/ui/view/manage_order/manage_order/manage_order_view.dart';
@@ -215,7 +216,7 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
               if(model.user != null)
                 model.user.isSeller ?
               new ListTile(
-                  leading: Icon(Icons.sim_card, color: Palette.assetColor),
+                  leading: Icon(Icons.credit_card, color: Palette.assetColor),
                   title: new Text("Order Manage", style: TextStyle(
                       color: Palette.assetColor, fontSize: 15)),
                   trailing: Icon(
@@ -229,6 +230,21 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
 //                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Payment_Screen()));
 
                   }) : Container(),
+
+              new ListTile(
+//                // Image.asset('images/bargain.png'),
+                  leading: Icon(
+                      Icons.monetization_on, color: Palette.assetColor),
+                  title: new Text("Bargain History", style: TextStyle(
+                      color: Palette.assetColor, fontSize: 15)),
+                  trailing: Icon(
+                    Icons.arrow_forward, color: Palette.assetColor,),
+
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) =>
+                            BargainHistoryView()));
+                  }),
               new ListTile(
                   leading: Icon(Icons.settings, color: Palette.assetColor),
                   title: new Text("Settings", style: TextStyle(
@@ -241,6 +257,20 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
                         builder: (context) =>
                             Setting_Screen(toolbarname: 'Setting',)));
                   }),
+
+//              new ListTile(
+//                  leading: Icon(Icons.settings, color: Palette.assetColor),
+//                  title: new Text("getUserDetail", style: TextStyle(
+//                      color: Palette.assetColor, fontSize: 15)),
+//                  trailing: Icon(
+//                    Icons.arrow_forward, color: Palette.assetColor,),
+//
+//                  onTap: () async {
+//                    User user = await UserPreferences.getUser();
+//
+//                    API.getUserDetailForPushNotification('message', user.id);
+//                  }),
+
               new ListTile(
                   leading: Icon(Icons.help, color: Palette.assetColor),
                   title: new Text("Help", style: TextStyle(
@@ -273,10 +303,34 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
                   ),
                   onTap:
                       () {
-                    UserPreferences.logOut();
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, Screen.Login.toString(), (
-                        Route<dynamic> route) => false);
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        // return object of type Dialog
+                        return AlertDialog(
+                          content: new Text('Are you sure want to Logout'),
+                          actions: <Widget>[
+                            // usually buttons at the bottom of the dialog
+                            new FlatButton(
+                              child: new Text("Yes"),
+                              onPressed: () {
+                                UserPreferences.logOut();
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, Screen.Login.toString(), (
+                                    Route<dynamic> route) => false);
+                              },
+                            ),
+                            new FlatButton(
+                              child: new Text("No"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+
                   },
                 ),
               ),
