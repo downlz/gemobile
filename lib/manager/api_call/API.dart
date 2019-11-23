@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:convert' as convert;
+import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +26,9 @@ import 'api_config/api_config.dart';
 
 class API extends BaseRepository
 {
+
+  final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+
   static User user;
   static UserModel users;
 
@@ -108,6 +113,7 @@ class API extends BaseRepository
         headers:  await ApiConfig.getHeaderWithToken());
     var add = 'data';
     if (response.statusCode == ApiConfig.successStatusCode) {
+      print("cat=====>${response.body}");
       List<Item> items = Item.fromJsonArray(jsonDecode(response.body));
       return items;
     }
@@ -307,8 +313,6 @@ class API extends BaseRepository
   static updateAddress(String id, String address,
       String pin, String cityId, String stateId, String phone,
       String addressType) async {
-    getCityList();
-
     User user = await UserPreferences.getUser();
     var data = {
       'text': address,
@@ -334,24 +338,20 @@ class API extends BaseRepository
   }
 
   static updateUserApiToGetFCMKey() async {
-    getCityList();
+    String devicedtl = 'iOS';
+    if (Platform.isAndroid) {
+      devicedtl = 'andriod';
+    }
     var data = {
-      'fcmkey': await FirebaseMessaging().getToken()
+      'fcmkey': await FirebaseMessaging().getToken(),
+      "devicedtl": devicedtl
     };
     User user = await UserPreferences.getUser();
 
     var response = await http.put(ApiConfig.updateUserApiForGetFcmKey + user.id,
-        headers: await ApiConfig.getHeaderWithToken());
-    print(response.statusCode);
-    if (response.statusCode == ApiConfig.successStatusCode) {
-      print('update===${response.body}');
-      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
-      UserModel userModel = UserModel.fromJson(responseBody);
-      UserPreferences.saveFCMDeviceDtl(userModel);
-      return 'Update User';
-    } else {
-      return 'error';
-    }
+        headers: await ApiConfig.getHeaderWithToken(), body: data);
+    print(response);
+    return;
   }
 
   static placeOrder(CartItem cart, Address address, String userID) async {
@@ -381,16 +381,15 @@ class API extends BaseRepository
     };
     // This is done to generate valid purchase order and calculate GST. Buyer may be buying on behalf of someone and hence it would be billed to that party
     if (address.addresstype != 'registered'){
-
-        data['isshippingbillingdiff'] = true;
-        data['partyname'] = address.addridentifier.partyname;
-        data['gstin'] = address.addridentifier.gstin;
-        data['address'] =  address.text;
-        data['pincode'] = address.pin;
-        data['state'] = address.state.id;
-        data['phone'] = address.phone;
-        data['addresstype'] = address.addresstype;
-        data['city'] = address.city.id;
+      data['isshippingbillingdiff'] = true;
+      data['partyname'] = address.addridentifier.partyname;
+      data['gstin'] = address.addridentifier.gstin;
+      data['address'] =  address.text;
+      data['pincode'] = address.pin;
+      data['state'] = address.state.id;
+      data['phone'] = address.phone;
+      data['addresstype'] = address.addresstype;
+      data['city'] = address.city.id;
     }
 
     var response = await http.post(ApiConfig.createOrder,
@@ -409,7 +408,6 @@ class API extends BaseRepository
 
 
   static updateOrderStatus(String id, String status, String remarks) async {
-
     var data = {
       'status': status,
       'remarks' : remarks,
@@ -417,8 +415,9 @@ class API extends BaseRepository
     };
 
     var response = await http.put(ApiConfig.updateOrderStatus + id,
-        headers: await ApiConfig.getHeaderWithToken(),
-        body: convert.jsonEncode(data));
+        headers: {"Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()},
+        body: jsonEncode(data));
     print(response.statusCode);
     if (response.statusCode == ApiConfig.successStatusCode) {
       print('update===${response.body}');
@@ -428,7 +427,6 @@ class API extends BaseRepository
       return 'error';
     }
   }
-
 
 
   static Future<List<StateObject>> getManualOrderBill(String id) async {
@@ -493,25 +491,36 @@ class API extends BaseRepository
   static Future<Bargain> checkBuyerRequestActiveOrNot(String itemId,
       String buyerId) async
   {
+    print("itemId===>${itemId}");
+    print("buyerId===>${buyerId}");
     var response = await http.get(
-        ApiConfig.raiseBargainRequest + '/buyer/' + buyerId + '/item/' + itemId,
-        headers: await ApiConfig.getHeaderWithToken());
+        ApiConfig.raiseBargainRequest + 'buyer/' + buyerId + '/item/' + itemId,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()
+        });
     if (response.statusCode == ApiConfig.successStatusCode) {
       Bargain bargain = Bargain.fromJsonArray(jsonDecode(response.body))[0];
+      print("checkBuyer==${response.body}");
       return bargain;
     }
     return null;
   }
 
   static Future<Bargain> checkSellerRequestActiveOrNot(String itemId,
-      String sellerId) async
-  {
+      String sellerId) async {
+    print("itemId===>${itemId}");
+    print("SellerId===>${sellerId}");
     var response = await http.get(
-        ApiConfig.raiseBargainRequest + '/seller/' + sellerId + '/item/' +
+        ApiConfig.raiseBargainRequest + 'seller/' + sellerId + '/item/' +
             itemId,
-        headers: await ApiConfig.getHeaderWithToken());
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()
+        });
     if (response.statusCode == ApiConfig.successStatusCode) {
       Bargain bargain = Bargain.fromJsonArray(jsonDecode(response.body))[0];
+      print('checkSeller===>${response.body}');
       return bargain;
     }
     return null;
@@ -526,10 +535,15 @@ class API extends BaseRepository
       'buyerquote': int.parse(buyerQuote),
       'quantity': int.parse(quantity)
     };
+    print("itemid${itemId}");
+    print("buyerId${buyerId}");
     var response = await http.post(ApiConfig.raiseBargainRequest,
-        headers: await ApiConfig.getHeaderWithToken(),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()
+        },
         body: convert.jsonEncode(data));
-    print(response.body);
+    print("create=>${response.body}");
     if (response.statusCode == ApiConfig.successStatusCode) {
       return true;
     }
@@ -539,7 +553,6 @@ class API extends BaseRepository
 
   static updateBuyerBargainRequest(String id, String quote,
       bool isBuyer, String action) async {
-
     var data = {
       "buyerquote": quote,
       "action": action
@@ -550,44 +563,17 @@ class API extends BaseRepository
         "action": action
       };
     var response = await http.put(ApiConfig.updateBargainRequest + id,
-        headers: await ApiConfig.getHeaderWithToken(),
+        headers: await ApiConfig.getHeaderWithTokenAndContentType(),
         body: convert.jsonEncode(data));
-    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
-      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
-      print(responseBody);
+      print('response body with hson decode===> ${jsonDecode(response.body)}');
+      Bargain bargain = Bargain.fromJson(jsonDecode(response.body));
+      return bargain;
     }
-    return [];
+    return null;
   }
 // -1 -> rejected quote, 1 -> accepted quote, 0 is not accepted in req body
-  static updateBuyerStatus(String id, String status,bool isBuyer) async {
-    var data = {};
-    if (isBuyer){
-      if (status == 'accepted'){
-        data = {
-          'buyerquote' : 1,
-          'action' : 'accepted'
-        };
-      } else {
-        data = {
-          'buyerquote' : -1,
-          'action' : 'rejected'
-        };
-      }
-    } else {
-      if (status == 'accepted'){
-        data = {
-          'sellerquote' : 1,
-          'action' : 'accepted'
-        };
-      } else {
-        data = {
-          'sellerquote' : -1,
-          'action' : 'rejected'
-        };
-      }
-    }
-  print(data);
+  static updateBuyerStatus(String id, String status, var data) async {
     var response = await http.put(ApiConfig.updateBargainRequest + id,
         headers: await ApiConfig.getHeaderWithToken(),
         body: convert.jsonEncode(data));
@@ -598,9 +584,6 @@ class API extends BaseRepository
     }
     return [];
   }
-
-
-
 
 
   static pauseBargainRequest(String bargainId) async {
@@ -625,9 +608,82 @@ class API extends BaseRepository
     var response = await http.put(ApiConfig.releaseBargain + id,
         headers: await ApiConfig.getHeader());
     print(response.body);
-    if (response.statusCode == ApiConfig.successStatusCode) {
-    }
+    if (response.statusCode == ApiConfig.successStatusCode) {}
     return [];
+  }
+
+  static Future<List<Bargain>> getUserBargainHistory(bool isSeller,
+      String id) async {
+    String url = "http://3.16.57.93:3000/api/bargain/";
+    if (isSeller)
+      url = url + "seller/";
+    else
+      url = url + "buyer/";
+
+    String finalUrl = url + id;
+    var response = await http.get(
+        finalUrl,
+        headers: await ApiConfig.getHeader());
+
+    if (response.statusCode == ApiConfig.successStatusCode) {}
+    return [];
+  }
+
+  static Future<UserModel> getUserDetailForPushNotification(String title,
+      String body, String id) async {
+    var response = await http.get(ApiConfig.getUserDetail,
+        headers: await ApiConfig.getHeaderWithToken());
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      print(response.body);
+      UserModel userDetail = UserModel.fromJson(jsonDecode(response.body));
+      UserModel user = UserModel.fromJson(jsonDecode(response.body));
+      UserPreferences.saveUserAllDetails(user);
+      UserModel userModel = await UserPreferences.getUserAllDetail();
+      String fcmKey = userModel.fcmkey;
+      print(fcmKey);
+      return userDetail;
+    }
+    return null;
+  }
+
+
+  Future<Map<String, dynamic>> sendAndRetrievePushNotification(String title,
+      String body) async
+  {
+    UserModel user = await UserPreferences.getUserAllDetail();
+    String fcmKey = user.fcmkey;
+    await http.post(
+      'https://fcm.googleapis.com/fcm/send',
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key=$fcmKey',
+      },
+      body: jsonEncode(
+        <String, dynamic>{
+          'notification': <String, dynamic>{
+            'body': title,
+            'title': body
+          },
+          'priority': 'high',
+//          'data': <String, dynamic>{
+//            'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+//            'id': '1',
+//            'status': 'done'
+//          },
+          'to': await firebaseMessaging.getToken(),
+        },
+      ),
+    );
+
+    final Completer<Map<String, dynamic>> completer =
+    Completer<Map<String, dynamic>>();
+
+    firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        completer.complete(message);
+      },
+    );
+    return completer.future;
   }
 
 

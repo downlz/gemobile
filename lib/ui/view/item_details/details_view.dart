@@ -12,9 +12,7 @@ import 'package:graineasy/ui/widget/widget_utils.dart';
 
 import 'details_view_model.dart';
 
-const URL = "https://graineasy.com";
 
-//nexttime detail page ma avu tyare and second time bargaining kru tyare
 class DetailsView extends StatefulWidget {
   final Item item;
 

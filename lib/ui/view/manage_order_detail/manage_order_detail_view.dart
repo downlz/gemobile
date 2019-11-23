@@ -23,6 +23,8 @@ class ManageOrderDetailView extends StatefulWidget {
 }
 
 class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
+  String status;
+
   @override
   void initState() {
     super.initState();
@@ -32,14 +34,14 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
   Widget build(BuildContext context) {
     return BaseView<ManageOrderDetailViewModel>(
         builder: (context, model, child) {
-      return new Scaffold(
-        appBar: new AppBar(
-          title: Text('Manage Order Detail'),
-          backgroundColor: Colors.white,
-        ),
-        body: _getBody(model),
-      );
-    });
+          return new Scaffold(
+            appBar: new AppBar(
+              title: Text('Order Detail'),
+              backgroundColor: Colors.white,
+            ),
+            body: _getBody(model),
+          );
+        });
   }
 
   Widget _getBody(ManageOrderDetailViewModel model) {
@@ -65,7 +67,9 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
   }
 
   _getBaseContainer(ManageOrderDetailViewModel model) {
-    String status = widget.orderList.status;
+    String OrderStatus = widget.orderList.status;
+
+
     return SingleChildScrollView(
       child: new Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -87,7 +91,7 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
               underline: Container(
                 decoration: BoxDecoration(
                     border:
-                        Border(bottom: BorderSide(color: Palette.assetColor))),
+                    Border(bottom: BorderSide(color: Palette.assetColor))),
               ),
               isExpanded: true,
               elevation: 4,
@@ -96,7 +100,9 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
                 color: Palette.assetColor,
               ),
               hint: new Text(
-                widget.orderList.status,
+                model.selectedOrderStatus != null
+                    ? model.selectedOrderStatus
+                    : widget.orderList.status,
                 style: AppTextStyle.getLargeHeading(false, Palette.assetColor),
               ),
               value: model.selectedOrderStatus,
@@ -122,9 +128,8 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
                 ? getTextFormField(model)
                 : Container(),
           ),
-          widget.orderList.status != model.selectedOrderStatus
-              ? getUpdateBtn(model)
-              : Container()
+
+          updateOrderButton(model)
         ],
       ),
     );
@@ -143,7 +148,7 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
                 width: double.infinity,
                 height: 200,
                 child:
-                    WidgetUtils.getCategoryImage(widget.orderList.item.image)),
+                WidgetUtils.getCategoryImage(widget.orderList.item.image)),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 5, left: 10),
@@ -291,10 +296,17 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
               FontStyle.normal),
         ),
         onPressed: () {
-          model.updateStatus(widget.orderList.id, model.selectedOrderStatus);
+          model.updateStatus(widget.orderList.id);
           print('data');
         },
       ),
     );
+  }
+
+  updateOrderButton(ManageOrderDetailViewModel model) {
+    if (model.selectedOrderStatus == null)
+      return Container();
+    if (model.selectedOrderStatus != null)
+      return getUpdateBtn(model);
   }
 }

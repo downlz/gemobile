@@ -22,4 +22,7 @@ class Utility
     return new DateFormat("yyyy-MM-ddThh:mm:s.sssZ").parse(dateTime);
   }
 
+  static String dateToString(DateTime dateTime) {
+    return DateFormat('dd-MM-yyyy hh:mm a').format(dateTime);
+  }
 }

@@ -19,10 +19,9 @@ class DetailsViewModel extends BaseModel {
     if (isFirstTime) {
       itemDetails = item;
       user = await UserPreferences.getUser();
-      getItemDetails(itemDetails.id);
+//      getItemDetails(itemDetails.id);
       isFirstTime = false;
       checkBargainActiveOrNot(true);
-
     }
   }
 
@@ -48,6 +47,7 @@ class DetailsViewModel extends BaseModel {
                 CartView(cartItems)));
   }
 
+
   Future initiateBargain(String buyerQuote, String quantity) async {
     setState(ViewState.Busy);
     await API.createBargainRequest(
@@ -55,7 +55,8 @@ class DetailsViewModel extends BaseModel {
     checkBargainActiveOrNot(false);
   }
 
-  Future checkBargainActiveOrNot(bool showProgress) async {
+  Future checkBargainActiveOrNot(bool showProgress) async
+  {
     print('Product id============> ${itemDetails.id}');
     if (showProgress)
       setState(ViewState.Busy);
