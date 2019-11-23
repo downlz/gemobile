@@ -125,14 +125,15 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                             ),
                           ],
                         ))),
-                model.itemDetails.bargainenabled && model.bargainDetail == null
-                    ? Container(
-                  margin: EdgeInsets.all(10.0),
-                  child: Text(
-                    'You can bargain if you want to buy more then ${model
-                        .itemDetails.bargaintrgqty}',
-                    style: TextStyle(color: Colors.red),),)
-                    : Container(),
+// Commented by Shahnawaz
+//                model.itemDetails.bargainenabled && model.bargainDetail == null
+//                    ? Container(
+//                  margin: EdgeInsets.all(10.0),
+//                  child: Text(
+//                    'You can bargain if you want to buy more then ${model
+//                        .itemDetails.bargaintrgqty}',
+//                    style: TextStyle(color: Colors.red),),)
+//                    : Container(),
 
                 Container(
                     margin: EdgeInsets.all(10.0),
@@ -218,7 +219,7 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                     ? Container(
                   margin: EdgeInsets.all(10.0),
                   child: Text(
-                    'You can bargain if you want to buy more then ${model
+                    'You can bargain if you want to buy more than ${model
                         .itemDetails.bargaintrgqty}',
                     style: TextStyle(color: Colors.red),),)
                     : Container(),
