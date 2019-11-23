@@ -19,7 +19,7 @@ class DetailsViewModel extends BaseModel {
     if (isFirstTime) {
       itemDetails = item;
       user = await UserPreferences.getUser();
-      getItemDetails(itemDetails.id);
+//      getItemDetails(itemDetails.id);
       isFirstTime = false;
       checkBargainActiveOrNot(true);
     }

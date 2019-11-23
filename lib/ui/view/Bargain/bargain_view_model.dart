@@ -12,6 +12,8 @@ class BargainViewModel extends BaseModel {
   User user;
   bool isFirstTime = true;
   bool isBargainOn = true;
+  bool isBuyerQuote = true;
+
 
   void init(Bargain bargainDetail) async {
     if (isFirstTime) {
@@ -24,24 +26,43 @@ class BargainViewModel extends BaseModel {
     }
   }
 
-  Future counterBtnClick(String quote,String action) async {
-
+  Future counterBtnClick(String quote, String action) async
+  {
     setState(ViewState.Busy);
-    await API.updateBuyerBargainRequest(bargainDetail.id, quote, user.isBuyer,action);
+    bargainDetail = await API.updateBuyerBargainRequest(
+        bargainDetail.id, quote, user.isBuyer, action);
     setState(ViewState.Idle);
   }
 
   Future pauseBtnClick(Bargain bargainDetail) async {
     setState(ViewState.Busy);
     await API.pauseBargainRequest(bargainDetail.id);
+    bargainDetail = !user.isSeller ?
+    await API.checkBuyerRequestActiveOrNot(bargainDetail.item.id, user.id) :
+    await API.checkSellerRequestActiveOrNot(bargainDetail.item.id, user.id);
     setState(ViewState.Idle);
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => HomeView()));
   }
 
-  Future acceptReject(String status) async {
+  Future acceptReject(String status) async
+  {
     setState(ViewState.Busy);
-    await API.updateBuyerStatus(bargainDetail.id, status,user.isBuyer);
+    var data = {};
+    if (user.isBuyer) {
+      data = {
+        'buyerquote': getBuyerQuote(),
+        'action': status
+      };
+    } else {
+      data = {
+        'sellerquote': getSellerQuote(),
+        'action': status
+      };
+    }
+    print(data);
+
+    await API.updateBuyerStatus(bargainDetail.id, status, data);
     setState(ViewState.Idle);
     if (status == 'accepted')
       Navigator.pushReplacement(
@@ -65,13 +86,39 @@ class BargainViewModel extends BaseModel {
 //    bargainDetail.pausebargain.isPaused = true;
 //    user.isSeller = true;
 //    user.isBuyer = false;
-
 //    user.isSeller = false;
 //    user.isBuyer = true;
-
-
 //    bargainDetail.thirdquote.sellerquote = 0;
 //    bargainDetail.thirdquote=null;
+  }
 
+  getBuyerQuote() {
+    switch (bargainDetail.bargaincounter) {
+      case 1:
+        return bargainDetail.firstquote.buyerquote;
+        break;
+      case 2:
+        return bargainDetail.secondquote.buyerquote;
+        break;
+      case 3:
+        return bargainDetail.thirdquote.buyerquote;
+        break;
+    }
+  }
+
+  getSellerQuote() {
+    switch (bargainDetail.bargaincounter) {
+      case 2:
+        return bargainDetail.firstquote.sellerquote;
+        break;
+      case 3:
+        if (bargainDetail.thirdquote != null &&
+            bargainDetail.thirdquote.sellerquote != null &&
+            bargainDetail.thirdquote.sellerquote > 0)
+          return bargainDetail.thirdquote.sellerquote;
+        else
+          return bargainDetail.secondquote.sellerquote;
+        break;
+    }
   }
 }

@@ -18,7 +18,6 @@ class BargainView extends StatefulWidget {
   Bargain bargainDetail;
 
   BargainView(this.bargainDetail);
-
   @override
   _CategoryViewState createState() => _CategoryViewState();
 }
@@ -26,7 +25,6 @@ class BargainView extends StatefulWidget {
 class _CategoryViewState extends State<BargainView> with CommonAppBar {
   TextEditingController buyerQuoteController = new TextEditingController();
   final buyerQuoteFormKey = GlobalKey<FormState>();
-  bool isBuyerQuote = true;
 
   @override
   void initState() {
@@ -71,18 +69,22 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
       children: <Widget>[
         Expanded(
             child:
-            getBargainDetailWidget()
+            getBargainDetailWidget(model)
         ),
 
         widget.bargainDetail.bargainstatus != 'paused'
             ? new Column(children: <Widget>[ !model.isBargainOn
             ? Text(
-          'Accept or Reject The Quote.',
+          model.user.isBuyer
+              ? 'Accept or Reject the Seller quote'
+              : 'Buyer will Accept or Reject The Quote.',
           style: TextStyle(fontSize: 17),
         )
-            : (model.user.isBuyer && isBuyerQuote) ||
-            (model.user.isSeller && !isBuyerQuote)
-            ? Row(
+            : (model.user.isBuyer && model.isBuyerQuote) ||
+            (model.user.isSeller && !model.isBuyerQuote)
+            ? Column(
+          children: <Widget>[
+            Row(
           children: <Widget>[
             Expanded(
               child: Form(
@@ -111,12 +113,12 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
                 child: OutlineButton(
                     borderSide:
                     BorderSide(color: Colors.amber.shade500),
-                    child: const Text('Initiate Bargain'),
+                    child: const Text('Bargain'),
                     textColor: Colors.amber.shade500,
                     onPressed: () async {
                       if (buyerQuoteFormKey.currentState.validate()) {
                         model.counterBtnClick(
-                            buyerQuoteController.text,'countered');
+                            buyerQuoteController.text, 'countered');
                       }
                     },
                     shape: new OutlineInputBorder(
@@ -125,142 +127,21 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
               ),
             ),
           ],
+            ),
+            acceptRejectWidget(model),
+          ],
         )
-            : Text(
-          model.user.isBuyer && !isBuyerQuote
+            : Padding(
+            padding: EdgeInsets.all(10),
+            child: Text(
+              model.user.isBuyer && !model.isBuyerQuote
               ? 'Waiting For Seller Response'
               : 'Waiting For Buyer Quote',
           style: TextStyle(fontSize: 17),
-        ),
-          Divider(
-            color: Colors.black45,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              RaisedButton(
-                  color: Palette.loginBgColor,
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Text(
-                    'Accept',
-                    style: AppTextStyle.commonTextStyle(
-                        Palette.whiteTextColor,
-                        AppResponsive.getFontSizeOf(30),
-                        FontWeight.bold,
-                        FontStyle.normal),
-                  ),
-                  onPressed: () {
-                    print('accept');
-//                      return API.alertMessage('Are you sure want to accept with this price?',context);
-                    return showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            content: new Text(
-                                'Are you sure want to accept with this price?'),
-                            actions: <Widget>[
-                              new FlatButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                    model.acceptReject('accepted');
-                                  },
-                                  child: Text('Yes')),
-                              new FlatButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text('No'))
-                            ],
-                          );
-                        });
-                  }),
-              RaisedButton(
-                color: Palette.loginBgColor,
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                child: Text(
-                  'Reject',
-                  style: AppTextStyle.commonTextStyle(
-                      Palette.whiteTextColor,
-                      AppResponsive.getFontSizeOf(30),
-                      FontWeight.bold,
-                      FontStyle.normal),
-                ),
-                onPressed: () {
-                  print('reject');
-//                    return API.alertMessage('Are you sure want to reject this quote?',context);
-                  return showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          content:
-                          new Text('Are you sure want to reject this quote?'),
-                          actions: <Widget>[
-                            new FlatButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  model.acceptReject('rejected');
-                                },
-                                child: Text('Yes')),
-                            new FlatButton(
-
-                                onPressed: () async {
-                                  User user = await UserPreferences.getUser();
-
-                                  API.getUserDetailForPushNotification(
-                                      'title', 'body', user.id);
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text('No'))
-                          ],
-                        );
-                      });
-                },
-              ),
-              RaisedButton(
-                  color: Palette.loginBgColor,
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Text(
-                    'Pause',
-                    style: AppTextStyle.commonTextStyle(
-                        Palette.whiteTextColor,
-                        AppResponsive.getFontSizeOf(30),
-                        FontWeight.bold,
-                        FontStyle.normal),
-                  ),
-                  onPressed: () {
-                    print('pause');
-//                      model.pauseBtnClick(widget.bargainDetail);
-//                      return API.alertMessage('Are you sure want to pause this quote?',context);
-
-                    return showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            content: new Text(
-                                'Are you sure want to pause this quote?'),
-                            actions: <Widget>[
-                              new FlatButton(
-                                  onPressed: () {
-                                    model.pauseBtnClick(widget.bargainDetail);
-                                  },
-                                  child: Text('Yes')),
-                              new FlatButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text('No'))
-                            ],
-                          );
-                        });
-                  })
-            ],
-          ),
+            )),
+          !model.isBargainOn && model.user.isBuyer
+              ? acceptRejectWidget(model)
+              : Container()
         ],)
             : Container(
           alignment: Alignment.center,
@@ -271,22 +152,22 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
     );
   }
 
-  getBargainDetailWidget() {
+  getBargainDetailWidget(BargainViewModel model) {
     return ListView(
       children: <Widget>[
-        buyerQuote(widget.bargainDetail.firstquote),
-        sellerQuote(widget.bargainDetail.firstquote),
-        buyerQuote(widget.bargainDetail.secondquote),
-        sellerQuote(widget.bargainDetail.secondquote),
-        buyerQuote(widget.bargainDetail.thirdquote),
-        sellerQuote(widget.bargainDetail.thirdquote),
+        buyerQuote(widget.bargainDetail.firstquote, model),
+        sellerQuote(widget.bargainDetail.firstquote, model),
+        buyerQuote(widget.bargainDetail.secondquote, model),
+        sellerQuote(widget.bargainDetail.secondquote, model),
+        buyerQuote(widget.bargainDetail.thirdquote, model),
+        sellerQuote(widget.bargainDetail.thirdquote, model),
       ],
     );
   }
 
-  sellerQuote(pricerequestSchema quote) {
+  sellerQuote(pricerequestSchema quote, BargainViewModel model) {
     if (quote != null && quote.sellerquote != null && quote.sellerquote > 0) {
-      isBuyerQuote = true;
+      model.isBuyerQuote = true;
     }
 
     return quote == null || quote.sellerquote == null || quote.sellerquote <= 0
@@ -324,9 +205,9 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
     );
   }
 
-  buyerQuote(pricerequestSchema quote) {
+  buyerQuote(pricerequestSchema quote, BargainViewModel model) {
     if (quote != null && quote.buyerquote != null && quote.buyerquote > 0) {
-      isBuyerQuote = false;
+      model.isBuyerQuote = false;
     }
 
     return quote == null
@@ -392,5 +273,133 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
 //      print(response.body);
 //      print("Login ERROR");
 //    }
+  }
+
+  acceptRejectWidget(BargainViewModel model) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        RaisedButton(
+            color: Palette.loginBgColor,
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10)),
+            child: Text(
+              'Accept',
+              style: AppTextStyle.commonTextStyle(
+                  Palette.whiteTextColor,
+                  AppResponsive.getFontSizeOf(30),
+                  FontWeight.bold,
+                  FontStyle.normal),
+            ),
+            onPressed: () {
+              print('accept');
+//                      return API.alertMessage('Are you sure want to accept with this price?',context);
+              return showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      content: new Text(
+                          'Are you sure want to accept with this price?'),
+                      actions: <Widget>[
+                        new FlatButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              model.acceptReject('accepted');
+                            },
+                            child: Text('Yes')),
+                        new FlatButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('No'))
+                      ],
+                    );
+                  });
+            }),
+        RaisedButton(
+          color: Palette.loginBgColor,
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10)),
+          child: Text(
+            'Reject',
+            style: AppTextStyle.commonTextStyle(
+                Palette.whiteTextColor,
+                AppResponsive.getFontSizeOf(30),
+                FontWeight.bold,
+                FontStyle.normal),
+          ),
+          onPressed: () {
+            print('reject');
+//                    return API.alertMessage('Are you sure want to reject this quote?',context);
+            return showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    content:
+                    new Text('Are you sure want to reject this quote?'),
+                    actions: <Widget>[
+                      new FlatButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            model.acceptReject('rejected');
+                          },
+                          child: Text('Yes')),
+                      new FlatButton(
+
+                          onPressed: () async {
+                            User user = await UserPreferences.getUser();
+
+                            API.getUserDetailForPushNotification(
+                                'title', 'body', user.id);
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('No'))
+                    ],
+                  );
+                });
+          },
+        ),
+        RaisedButton(
+            color: Palette.loginBgColor,
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10)),
+            child: Text(
+              'Pause',
+              style: AppTextStyle.commonTextStyle(
+                  Palette.whiteTextColor,
+                  AppResponsive.getFontSizeOf(30),
+                  FontWeight.bold,
+                  FontStyle.normal),
+            ),
+            onPressed: () {
+              print('pause');
+//                      model.pauseBtnClick(widget.bargainDetail);
+//                      return API.alertMessage('Are you sure want to pause this quote?',context);
+              return showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      content: new Text(
+                          'Are you sure want to pause this quote?'),
+                      actions: <Widget>[
+                        new FlatButton(
+                            onPressed: () {
+                              model.pauseBtnClick(widget.bargainDetail);
+                            },
+                            child: Text('Yes')),
+                        new FlatButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('No'))
+                      ],
+                    );
+                  });
+            })
+      ],
+    );
   }
 }
