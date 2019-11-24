@@ -38,6 +38,7 @@ class UserPreferences {
     prefs.setBool('isActive', user.isActive);
     prefs.setString('token', user.token);
     prefs.setString('phone', user.phone);
+    prefs.setString('fcmkey', user.fcmkey);
 
     return true;
   }
@@ -54,6 +55,8 @@ class UserPreferences {
     user.isActive = prefs.getBool("isActive");
     user.token = prefs.getString("token");
     user.phone = prefs.getString("phone");
+    user.fcmkey = prefs.getString("fcmkey");
+
     return user;
   }
 
@@ -62,6 +65,7 @@ class UserPreferences {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('fcmkey', usermodel.fcmkey);
     prefs.setString('devicedtl', usermodel.devicedtl);
+    prefs.setString('devspecs', usermodel.devspecs);
     return true;
   }
 
@@ -71,6 +75,7 @@ class UserPreferences {
     UserModel userModel = new UserModel();
     userModel.fcmkey = prefs.getString("fcmkey");
     userModel.devicedtl = prefs.getString("devicedtl");
+    userModel.devspecs = prefs.getString("devspecs");
 
     return userModel;
   }

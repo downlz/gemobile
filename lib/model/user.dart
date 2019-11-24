@@ -9,9 +9,10 @@ class User {
   bool isActive;
   bool isBuyer;
   String token;
+  String fcmkey;
   String phone;
 
-  User({this.name,this.id,
+  User({this.name,this.id,this.fcmkey,
       this.isActive,this.isAdmin,this.isAgent,this.isBuyer,this.isSeller,
       this.token,this.phone});
 
@@ -26,7 +27,8 @@ class User {
         isAdmin = checkBool(json, 'isAdmin'),
         isBuyer = checkBool(json, 'isBuyer'),
         isActive = checkBool(json, 'isActive'),
-        token = json['token'];
+        token = json['token'],
+        fcmkey = json['fcmkey'];
 
   Map<String, dynamic> toJson() =>
       {
@@ -39,6 +41,7 @@ class User {
         'isAgent': isAgent,
         'isAdmin': isAdmin,
         'isActive': isActive,
+        'fcmkey' : fcmkey
       };
 
   static checkBool(Map<String, dynamic> json, String data) {

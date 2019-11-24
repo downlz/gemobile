@@ -20,7 +20,7 @@ import 'package:graineasy/model/usermodel.dart';
 import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:device_info/device_info.dart';
 import 'api_config/api_config.dart';
 
 
@@ -338,19 +338,39 @@ class API extends BaseRepository
   }
 
   static updateUserApiToGetFCMKey() async {
-    String devicedtl = 'iOS';
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    String devspecs,devicedtl;
     if (Platform.isAndroid) {
       devicedtl = 'andriod';
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      devspecs = androidInfo.model;
+    } else if (Platform.isIOS) {
+      devicedtl = 'iOS';
+      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      devspecs = iosInfo.utsname.machine;
+    } else {
+//      Other options include:
+//      Platform.isFuchsia
+//      Platform.isLinux
+//      Platform.isMacOS
+//      Platform.isWindows
     }
+
     var data = {
       'fcmkey': await FirebaseMessaging().getToken(),
-      "devicedtl": devicedtl
+      "devicedtl": devicedtl,
+      'devspecs': devspecs
     };
     User user = await UserPreferences.getUser();
+    if (data['fcmkey'] !=  user.fcmkey) {
+        var response = await http.put(ApiConfig.updateUserApiForGetFcmKey + user.id,
+            headers: {"Content-Type": "application/json",
+              "Authorization": 'Bearer ' + await UserPreferences.getToken()},
+            body: jsonEncode(data));
 
-    var response = await http.put(ApiConfig.updateUserApiForGetFcmKey + user.id,
-        headers: await ApiConfig.getHeaderWithToken(), body: data);
-    print(response);
+        print(response);
+    }
+
     return;
   }
 
