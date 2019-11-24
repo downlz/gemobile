@@ -27,13 +27,14 @@ class UserModel {
   List<Address> addresses;
   String fcmkey;
   String devicedtl;
+  String devspecs;
 
   UserModel(
       {this.vendorCode, this.id, this.name, this.email, this.isActive, this.phone,
     this.pan,this.gst,this.isBuyer,this.sellerFeePerKg,this.buyerBackMarginPercent,
     this.buyerCreditCostPercent,this.buyerFeePerKg,this.buyerNetLossPercent,this.buyerMarginPerKg,
     this.buyerDiscount1Percent,this.buyerDiscount2PerKg,this.buyerDiscount3Lumpsump,this.buyerFinePerKg,
-        this.isAdmin, this.isSeller, this.isAgent, this.addresses,this.devicedtl,this.fcmkey
+        this.isAdmin, this.isSeller, this.isAgent, this.addresses,this.devicedtl,this.fcmkey,this.devspecs
 
 //    this.address
   });
@@ -65,6 +66,7 @@ class UserModel {
     isAgent: json['isAgent'],
         fcmkey: json['fcmkey'],
         devicedtl: json['devicedtl'],
+        devspecs: json['devspecs'],
         isActive: json['isactive'],
         addresses: Address.fromJsonArray(
             json['Addresses']) // This should be fixed

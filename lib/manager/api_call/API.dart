@@ -20,7 +20,7 @@ import 'package:graineasy/model/usermodel.dart';
 import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:device_info/device_info.dart';
 import 'api_config/api_config.dart';
 
 
@@ -98,7 +98,7 @@ class API extends BaseRepository
   static Future<List<ItemName>> getItemName()async{
     var response = await http.get(ApiConfig.getCategoryName,
         headers:  await ApiConfig.getHeaderWithToken());
-    print(response.body);
+//    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<ItemName> items = ItemName.fromJsonArray(jsonDecode(response.body));
       return items;
@@ -108,12 +108,12 @@ class API extends BaseRepository
 
 
   static Future<List<Item>> getCategoryFromItemName(String itemName)async{
-    print('Item name ==> ${itemName}');
+//    print('Item name ==> ${itemName}');
     var response = await http.get(ApiConfig.getCategoryNameByItemName+itemName,
         headers:  await ApiConfig.getHeaderWithToken());
     var add = 'data';
     if (response.statusCode == ApiConfig.successStatusCode) {
-      print("cat=====>${response.body}");
+//      print("cat=====>${response.body}");
       List<Item> items = Item.fromJsonArray(jsonDecode(response.body));
       return items;
     }
@@ -338,19 +338,39 @@ class API extends BaseRepository
   }
 
   static updateUserApiToGetFCMKey() async {
-    String devicedtl = 'iOS';
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    String devspecs,devicedtl;
     if (Platform.isAndroid) {
       devicedtl = 'andriod';
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      devspecs = androidInfo.model;
+    } else if (Platform.isIOS) {
+      devicedtl = 'iOS';
+      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      devspecs = iosInfo.utsname.machine;
+    } else {
+//      Other options include:
+//      Platform.isFuchsia
+//      Platform.isLinux
+//      Platform.isMacOS
+//      Platform.isWindows
     }
+
     var data = {
       'fcmkey': await FirebaseMessaging().getToken(),
-      "devicedtl": devicedtl
+      "devicedtl": devicedtl,
+      'devspecs': devspecs
     };
     User user = await UserPreferences.getUser();
+    if (data['fcmkey'] !=  user.fcmkey) {
+        var response = await http.put(ApiConfig.updateUserApiForGetFcmKey + user.id,
+            headers: {"Content-Type": "application/json",
+              "Authorization": 'Bearer ' + await UserPreferences.getToken()},
+            body: jsonEncode(data));
 
-    var response = await http.put(ApiConfig.updateUserApiForGetFcmKey + user.id,
-        headers: await ApiConfig.getHeaderWithToken(), body: data);
-    print(response);
+        print(response);
+    }
+
     return;
   }
 
@@ -573,9 +593,41 @@ class API extends BaseRepository
     return null;
   }
 // -1 -> rejected quote, 1 -> accepted quote, 0 is not accepted in req body
-  static updateBuyerStatus(String id, String status, var data) async {
+  static updateBuyerStatus(String id, String status, bool isBuyer) async {
+    print(status);
+    print(isBuyer);
+    var data = {};
+    if (isBuyer){
+      if (status == 'accepted'){
+        data = {
+          'buyerquote' : 1,
+          'action' : 'accepted'
+        };
+      } else {
+        data = {
+          'buyerquote' : -1,
+          'action' : 'rejected'
+        };
+      }
+    } else {
+      if (status == 'accepted'){
+        data = {
+          'sellerquote' : 1,
+          'action' : 'accepted'
+        };
+      } else {
+        data = {
+          'sellerquote' : -1,
+          'action' : 'rejected'
+        };
+      }
+    }
+    print(data);
     var response = await http.put(ApiConfig.updateBargainRequest + id,
-        headers: await ApiConfig.getHeaderWithToken(),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()
+        },
         body: convert.jsonEncode(data));
     print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
@@ -606,7 +658,7 @@ class API extends BaseRepository
 
   static Future<List<StateObject>> releaseBargainRequest(String id) async {
     var response = await http.put(ApiConfig.releaseBargain + id,
-        headers: await ApiConfig.getHeader());
+        headers: await ApiConfig.getHeaderWithToken());
     print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {}
     return [];
@@ -614,17 +666,18 @@ class API extends BaseRepository
 
   static Future<List<Bargain>> getUserBargainHistory(bool isSeller,
       String id) async {
-    String url = "http://3.16.57.93:3000/api/bargain/";
+    String type;
     if (isSeller)
-      url = url + "seller/";
+      type = "seller/";
     else
-      url = url + "buyer/";
+      type = "buyer/";
 
-    String finalUrl = url + id;
+    String finalUrl = ApiConfig.getBargainDtl + type + id;
+    print(finalUrl);
     var response = await http.get(
         finalUrl,
-        headers: await ApiConfig.getHeader());
-
+        headers: await ApiConfig.getHeaderWithToken());
+    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {}
     return [];
   }

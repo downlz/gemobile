@@ -14,6 +14,8 @@ class HomeViewModel extends BaseModel
   List<ItemName> items;
   User user;
   bool isFirstTime = true;
+  String deviceplatform;
+
   FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
 
 
@@ -63,6 +65,7 @@ class HomeViewModel extends BaseModel
   Future userDetail() async {
     user = await UserPreferences.getUser();
   }
+
 
   void init() {
     if(isFirstTime) {

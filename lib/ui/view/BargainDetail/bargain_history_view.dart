@@ -6,14 +6,21 @@ import 'package:graineasy/ui/view/item_details/details_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:graineasy/utils/check_internet/utility.dart';
+import 'package:graineasy/model/bargain.dart';
+import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 
 class BargainHistoryView extends StatefulWidget {
+  Bargain bargainList;
+
+//  BargainHistoryView(this.bargainList);
+
   @override
   _BargainHistoryViewState createState() => _BargainHistoryViewState();
 }
 
 class _BargainHistoryViewState extends State<BargainHistoryView>
     with CommonAppBar {
+
   @override
   Widget build(BuildContext context) {
     return BaseView<BargainHistoryViewModel>(builder: (context, model, child) {

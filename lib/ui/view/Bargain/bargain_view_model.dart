@@ -48,21 +48,21 @@ class BargainViewModel extends BaseModel {
   Future acceptReject(String status) async
   {
     setState(ViewState.Busy);
-    var data = {};
-    if (user.isBuyer) {
-      data = {
-        'buyerquote': getBuyerQuote(),
-        'action': status
-      };
-    } else {
-      data = {
-        'sellerquote': getSellerQuote(),
-        'action': status
-      };
-    }
-    print(data);
+//    var data = {};
+//    if (user.isBuyer) {
+//      data = {
+//        'buyerquote': getBuyerQuote(),
+//        'action': status
+//      };
+//    } else {
+//      data = {
+//        'sellerquote': getSellerQuote(),
+//        'action': status
+//      };
+//    }
+//    print(data);
 
-    await API.updateBuyerStatus(bargainDetail.id, status, data);
+    await API.updateBuyerStatus(bargainDetail.id, status, user.isBuyer);
     setState(ViewState.Idle);
     if (status == 'accepted')
       Navigator.pushReplacement(

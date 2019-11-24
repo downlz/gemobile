@@ -34,7 +34,7 @@ class ApiConfig {
   // Bargain APIs
   static String raiseBargainRequest = baseURL + 'bargain/';
   static String updateBargainRequest = baseURL + 'bargain/';
-  static String getBargainDtl = baseURL + 'uploadbill/';
+  static String getBargainDtl = baseURL + 'bargain/';
   static String pauseBargain = baseURL + 'bargain/pause/';
   static String releaseBargain = baseURL + 'uploadbill/';
 
