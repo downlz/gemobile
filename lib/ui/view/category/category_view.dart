@@ -69,7 +69,7 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
     return
 
       model.items.length <= 0
-        ? WidgetUtils.showMessageAtCenterOfTheScreen('No category found')
+        ? WidgetUtils.showMessageAtCenterOfTheScreen('No items found')
         : SingleChildScrollView(
             child: new GridView.builder(
                 itemCount: model.items.length,
@@ -153,7 +153,7 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
 
 
   Future _launchEmail(Item item) async {
-    launch('mailto:trade@graineasy.com?subject=${"ItemName: " +
+    launch('mailto:?subject=${"ItemName: " +                                  // Modified to remove email to trade@graineasy.com
         item.name}&body=${item.name + "/" + item.category.name + "/" +
         item.image}');
   }

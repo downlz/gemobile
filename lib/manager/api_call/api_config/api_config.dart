@@ -29,7 +29,11 @@ class ApiConfig {
   static String updateManualBill = baseURL + 'uploadbill/';
   static String getManualBill = baseURL + 'uploadbill/';
   static String getUserOrders = baseURL + 'order/user/';
-  static String getAgentOrders = baseURL + 'order/agent/:id';
+  static String getAgentOrders = baseURL + 'order/agent/';
+
+  // Billing APIs
+  static String getPO = baseURL + 'getpo';
+  static String getInvoice = baseURL + 'getinvoice';
 
   // Bargain APIs
   static String raiseBargainRequest = baseURL + 'bargain/';
