@@ -236,7 +236,7 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                           children: <Widget>[
                             // three line description
                             Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
+                              padding: const EdgeInsets.only(bottom: 10.0),
                               child: Text(
                                 'Details',
                                 style: Theme
@@ -251,13 +251,7 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                             ),
                           ],
                         ))),
-                Container(
-                    padding: const EdgeInsets.fromLTRB(20.0, 10.0, 10.0, 10.0),
-                    child: Text(
-                        "Grocery stores also offer non-perishable foods that are packaged in bottles, boxes, and cans; some also have bakeries, butchers, delis, and fresh produce. Large grocery stores that stock significant amounts of non-food products, such as clothing and household items, are called supermarkets. Some large supermarkets also include a pharmacy, and customer service, redemption, and electronics sections.",
-                        maxLines: 10,
-                        style: TextStyle(
-                            fontSize: 13.0, color: Colors.black38))),
+                detailWidget(widget.item)
 
               ])),),
           model.bargainDetail != null ? Padding(
@@ -339,6 +333,33 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
             ],
           ) : Container(),
         ],));
+  }
+
+  detailWidget(Item item) {
+    return Container(
+      padding: EdgeInsets.only(left: 15),
+      alignment: Alignment.centerLeft,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(item.name + ' | ' + item.category.name,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Text("Sample Number: " + item.sampleNo,
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+          ),
+          Text("Origin: " + item.origin,
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+          Text("Manufacturer: " + item.manufacturer.name,
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+          Text("List Price: " + "Rs. " + item.price.toString() + "/" +
+              item.unit.mass,
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+        ],
+      ),
+    );
   }
 
 }

@@ -10,12 +10,14 @@ class BargainHistoryViewModel extends BaseModel {
   User user;
 
   void init() {
-    if (isFirstTime) getBargainHistory();
+    if (isFirstTime)
+      getBargainHistory();
     isFirstTime = false;
   }
 
   Future getBargainHistory() async {
     user = await UserPreferences.getUser();
+    print(user.id);
     setState(ViewState.Busy);
     bargainList = await API.getUserBargainHistory(user.isSeller, user.id);
     setState(ViewState.Idle);

@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
+import 'package:graineasy/model/itemname.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/theme/app_responsive.dart';
 import 'package:graineasy/ui/theme/palette.dart';
@@ -13,12 +15,11 @@ import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
 import 'package:graineasy/ui/view/router.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../help_screen.dart';
 import '../../../setting_screen.dart';
 import 'home_view_model.dart';
-
-const URL = "https://graineasy.com";
 
 
 class HomeView extends StatefulWidget {
@@ -28,7 +29,6 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> with CommonAppBar {
 
-
   @override
   void initState() {
     super.initState();
@@ -37,7 +37,6 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
   @override
   Widget build(BuildContext context) {
     AppResponsive.isTablet(MediaQuery.of(context), context);
-
     return BaseView<HomeViewModel>(builder: (context, model, child) {
       model.init();
       return new Scaffold(
@@ -50,7 +49,6 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
       );
     });
   }
-
 
   Widget _getBody(HomeViewModel model) {
     return Stack(
@@ -108,24 +106,53 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
                     Container(
                       color: Colors.black38,
                     ),
-                    Container(
+                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end
+                      , children: <Widget>[
+                        Container(
+                          //margin: EdgeInsets.only(left: 10.0),
+                          padding: EdgeInsets.only(
+                              left: 3.0, bottom: 3.0),
+                          alignment: Alignment.bottomLeft,
+                          child: new Text(
+                            model.items[index].name,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.white,
+                                fontWeight:
+                                FontWeight.bold),
 
-                      //margin: EdgeInsets.only(left: 10.0),
-                      padding: EdgeInsets.only(
-                          left: 3.0, bottom: 3.0),
-                      alignment: Alignment.bottomLeft,
-
-                      child:  new Text(
-                        model.items[index].name,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.white,
-                            fontWeight:
-                            FontWeight.bold),
-                      ),
-
+                          ),
+                        ),
+//                        Container(
+//                          alignment: Alignment.bottomRight
+//                          ,child: Row(
+//                            mainAxisAlignment: MainAxisAlignment.end,
+//                            crossAxisAlignment: CrossAxisAlignment.end
+//                            ,children: <Widget>[
+//
+//                          Padding(
+//                            padding: const EdgeInsets.only(bottom: 3),
+//                            child: InkWell(child: Image.asset('images/whatsapp.png',width: 30,height: 25,),
+//                            onTap: (){
+//                          _launchWhatsApp(model.items[index]);
+//                            },),
+//                          ),
+//                          Padding(
+//                            padding: const EdgeInsets.only(left: 3,right: 1,bottom: 3),
+//                            child: InkWell(child: Image.asset('images/mail.png',width: 25,height: 25,),
+//                            onTap: (){
+//                              _launchEmail(model.items[index]);
+//
+//                            },),
+//                          )
+//                          ],
+//                          ),
+//                        ),
+                      ],
                     ),
+
 
                     /*Positioned(
                                     child: FittedBox(
@@ -164,9 +191,9 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
                     radius: 35,),
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
-                    child: Text('Admin Account',
+                    child: Text(model.user == null ? ' ' : model.user.name,
                       style: TextStyle(color: Colors.white, fontSize: 16),),),
-                  Text('+911111111111',
+                  Text(model.user == null ? ' ' : model.user.phone,
                     style: TextStyle(color: Colors.white, fontSize: 16),)
                 ],
               ),
@@ -214,14 +241,13 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
                         builder: (context) => OrderHistoryView()));
                   }) : Container(),
               if(model.user != null)
-                model.user.isSeller ?
+                model.user.isSeller || model.user.isAdmin ?
               new ListTile(
                   leading: Icon(Icons.credit_card, color: Palette.assetColor),
-                  title: new Text("Order Manage", style: TextStyle(
+                  title: new Text("Manage Order", style: TextStyle(
                       color: Palette.assetColor, fontSize: 15)),
                   trailing: Icon(
                     Icons.arrow_forward, color: Palette.assetColor,),
-
 
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(
@@ -259,16 +285,19 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
                   }),
 
 //              new ListTile(
-//                  leading: Icon(Icons.settings, color: Palette.assetColor),
-//                  title: new Text("getUserDetail", style: TextStyle(
+//                  leading: Icon(Icons.credit_card, color: Palette.assetColor),
+//                  title: new Text("push Notification", style: TextStyle(
 //                      color: Palette.assetColor, fontSize: 15)),
 //                  trailing: Icon(
 //                    Icons.arrow_forward, color: Palette.assetColor,),
-//
 //                  onTap: () async {
 //                    User user = await UserPreferences.getUser();
 //
-//                    API.getUserDetailForPushNotification('message', user.id);
+//                    API.getUserDetailForPushNotification('TEST', 'TESTING', user.id);
+//                    Future<void> _handleNotification (Map<dynamic, dynamic> message, bool dialog) async {
+//                      var data = message['data'] ?? message;
+//                      String expectedAttribute = data['expectedAttribute'];
+//                    }
 //                  }),
 
               new ListTile(
@@ -334,8 +363,11 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
                   },
                 ),
               ),
-              Text('Version Name:1.0',
-                  style: TextStyle(color: Palette.assetColor))
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: Text('Version Name:1.0',
+                    style: TextStyle(color: Palette.assetColor)),
+              )
 
             ],
           ),
@@ -345,11 +377,15 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
       ), elevation: 4.0,
     );
   }
-//  Future userDetail()
-//  async {
-//
-//     user = await UserPreferences.getUser();
-//
-//  }
+
+  Future _launchEmail(ItemName item) async {
+    launch('mailto:trade@graineasy.com?subject=${"ItemName: " +
+        item.name}&body=${"ItemImage: " + item.image}');
+  }
+
+  Future _launchWhatsApp(ItemName item) async {
+    FlutterShareMe()
+        .shareToWhatsApp(msg: item.name, base64ImageUrl: item.name);
+  }
 
 }

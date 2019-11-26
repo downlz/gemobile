@@ -1,7 +1,8 @@
-import 'package:graineasy/Cart_Screen.dart';
-import 'package:graineasy/item_details.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_range_slider/flutter_range_slider.dart';
+import 'package:graineasy/Cart_Screen.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import 'add_phone_number_screeen.dart';
 
 class Help_Screen extends StatefulWidget {
   final String toolbarname;
@@ -89,6 +90,7 @@ class Help extends State<Help_Screen> {
               Container(
                 margin: EdgeInsets.only(left: 10.0),
                 child: Card(
+                    elevation: 4,
                     child: Container(
                       //  padding: EdgeInsets.only(left: 10.0,top: 15.0,bottom: 5.0,right: 5.0),
 
@@ -116,27 +118,7 @@ class Help extends State<Help_Screen> {
                                   ],
                                 ),
                                 onTap: () {
-                                  showDemoDialog<DialogDemoAction>(
-                                      context: context,
-                                      child: AlertDialog(
-                                          title: const Text('Terms Use'),
-                                          content: Text(
-                                              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-                                              style: dialogTextStyle),
-                                          actions: <Widget>[
-                                            FlatButton(
-                                                child: const Text('DISAGREE'),
-                                                onPressed: () {
-                                                  Navigator.pop(context,
-                                                      DialogDemoAction.disagree);
-                                                }),
-                                            /*  FlatButton(
-                                            child: const Text('AGREE'),
-                                            onPressed: () {
-                                              Navigator.pop(context,
-                                                  DialogDemoAction.agree);
-                                            })*/
-                                          ]));
+                                  _launchEmail();
                                 },
                               )),
                           Divider(
@@ -202,6 +184,7 @@ class Help extends State<Help_Screen> {
                                         style: TextStyle(
                                             fontSize: 17.0, color: Colors.black87),
                                       ),
+
                                     ],
                                   ),
                                   onTap: () {
@@ -227,6 +210,63 @@ class Help extends State<Help_Screen> {
                                               })*/
                                             ]));
                                   })),
+                          Divider(
+                            height: 5.0,
+                          ),
+                          Container(
+                              padding: EdgeInsets.only(
+                                  left: 10.0, top: 15.0, bottom: 15.0),
+                              child: GestureDetector(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Icon(Icons.security,
+                                          color: Colors.black54),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 5.0),
+                                      ),
+                                      Text(
+                                        'Terms Of Use',
+                                        style: TextStyle(
+                                            fontSize: 17.0,
+                                            color: Colors.black87),
+                                      ),
+
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    _launchTermsOfServiceURL();
+                                  }
+                              )),
+                          Divider(
+                            height: 5.0,
+                          ),
+                          Container(
+                              padding: EdgeInsets.only(
+                                  left: 10.0, top: 15.0, bottom: 15.0),
+                              child: GestureDetector(
+                                child: Row(
+                                  children: <Widget>[
+                                    Icon(Icons.call, color: Colors.black54),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 5.0),
+                                    ),
+                                    Text(
+                                      'Phone',
+                                      style: TextStyle(
+                                        fontSize: 17.0,
+                                        color: Colors.black87,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              AddPhoneNumber()));
+                                },
+                              )),
                         ],
                       ),
                     )),
@@ -310,4 +350,19 @@ class Help extends State<Help_Screen> {
       }
     });
   }
+
+  Future _launchTermsOfServiceURL() async {
+    const url = 'https://graineasy.com/termsofuse';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  Future _launchEmail() async {
+    launch('mailto:trade@graineasy.com?subject=TestSubject');
+  }
 }
+
+

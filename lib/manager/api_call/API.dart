@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:convert' as convert;
 import 'dart:io';
 
+import 'package:device_info/device_info.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:graineasy/manager/base/base_repository.dart';
@@ -20,7 +21,7 @@ import 'package:graineasy/model/usermodel.dart';
 import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
 import 'package:http/http.dart' as http;
-import 'package:device_info/device_info.dart';
+
 import 'api_config/api_config.dart';
 
 
@@ -298,7 +299,7 @@ class API extends BaseRepository
     };
 
     var response = await http.post(ApiConfig.getCalculatePrice,
-        headers: await ApiConfig.getHeaderWithToken(),
+        headers: await ApiConfig.getHeaderWithTokenAndContentType(),
         body: convert.jsonEncode(data));
     if (response.statusCode == ApiConfig.successStatusCode) {
       print(response.body);
@@ -565,14 +566,15 @@ class API extends BaseRepository
         body: convert.jsonEncode(data));
     print("create=>${response.body}");
     if (response.statusCode == ApiConfig.successStatusCode) {
-      return true;
+      var responseBody = jsonDecode(response.body);
+      return response.body;
     }
     return false;
   }
 
 
-  static updateBuyerBargainRequest(String id, String quote,
-      bool isBuyer, String action) async {
+  static updateBuyerBargainRequest(String id, String quote, bool isBuyer,
+      String action) async {
     var data = {
       "buyerquote": quote,
       "action": action
@@ -583,7 +585,10 @@ class API extends BaseRepository
         "action": action
       };
     var response = await http.put(ApiConfig.updateBargainRequest + id,
-        headers: await ApiConfig.getHeaderWithTokenAndContentType(),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()
+        },
         body: convert.jsonEncode(data));
     if (response.statusCode == ApiConfig.successStatusCode) {
       print('response body with hson decode===> ${jsonDecode(response.body)}');
@@ -676,9 +681,12 @@ class API extends BaseRepository
     print(finalUrl);
     var response = await http.get(
         finalUrl,
-        headers: await ApiConfig.getHeaderWithToken());
+        headers: await ApiConfig.getHeaderWithTokenAndContentType());
     print(response.body);
-    if (response.statusCode == ApiConfig.successStatusCode) {}
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<Bargain> bargain = Bargain.fromJsonArray(jsonDecode(response.body));
+      return bargain;
+    }
     return [];
   }
 

@@ -7,6 +7,7 @@ import 'package:graineasy/manager/base/basemodel.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/itemname.dart';
 import 'package:graineasy/model/user.dart';
+import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
 
 
 class HomeViewModel extends BaseModel
@@ -26,7 +27,6 @@ class HomeViewModel extends BaseModel
     firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print('on message ${json.encode(message['notification']['title'])}');
-//        print('on message ${message}');
         print('push notification');
 
         return showDialog(
@@ -40,7 +40,9 @@ class HomeViewModel extends BaseModel
                 actions: <Widget>[
                   FlatButton(
                     child: Text('Ok'),
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () =>
+                        Navigator.push(context, MaterialPageRoute(builder: (
+                            context) => OrderHistoryView())),
                   ),
                 ],
               ),

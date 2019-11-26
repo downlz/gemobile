@@ -7,6 +7,7 @@ import 'package:graineasy/ui/view/router.dart';
 import 'manager/api_call/API.dart';
 import 'model/user.dart';
 
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();

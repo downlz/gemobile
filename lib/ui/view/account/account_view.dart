@@ -99,14 +99,15 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
                         ),
                       ),
                       _verticalDivider(),
-                      new Text(
-                        'Admin Email',
-                        style: TextStyle(
-                            color: Colors.black45,
-                            fontSize: 13.0,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 0.5),
-                      ),
+                      Container(),
+//                      new Text(
+//                        'Admin Email',
+//                        style: TextStyle(
+//                            color: Colors.black45,
+//                            fontSize: 13.0,
+//                            fontWeight: FontWeight.bold,
+//                            letterSpacing: 0.5),
+//                      ),
                       _verticalDivider(),
                       new Text(
                         widget.user.phone,
@@ -147,6 +148,18 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
           ),
         ),
         addressList(model),
+        new Container(
+          margin:
+          EdgeInsets.only(left: 12.0, top: 10.0, bottom: 5.0),
+          child: new Text(
+            'Bank Account',
+            style: TextStyle(
+                color: Colors.black87,
+                fontWeight: FontWeight.bold,
+                fontSize: 18.0),
+          ),
+        ),
+        bankAccountList(model),
         new Container(
           margin: EdgeInsets.all(7.0),
           child: Card(
@@ -300,6 +313,66 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
           return addressWidget(model.addresses[ind]);
         },
       ),
+    );
+  }
+
+  bankAccountList(AccountViewModel model) {
+    return SizedBox(
+      height: 120.0,
+      child: ListView.builder(
+        physics: ClampingScrollPhysics(),
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemCount: 3,
+        itemBuilder: (BuildContext cont, int ind) {
+          return bankAccountWidget(model);
+        },
+      ),
+    );
+  }
+
+  bankAccountWidget(AccountViewModel model) {
+    return Card(
+        elevation: 3.0,
+        margin: EdgeInsets.all(10),
+        child: Row(
+          children: <Widget>[
+            Container(
+                padding: EdgeInsets.all(10),
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    new Text(
+                      'Bank Name',
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                    _verticalDivider(),
+                    new Text(
+                      'Bank Address',
+                      style: TextStyle(
+                          color: Colors.black45,
+                          fontSize: 13.0,
+                          letterSpacing: 0.5),
+                    ),
+                    new Text(
+                      'Pincode',
+                      style: TextStyle(
+                          color: Colors.black45,
+                          fontSize: 13.0,
+                          letterSpacing: 0.5),
+                    ),
+
+                  ],
+                )),
+
+          ],
+        )
     );
   }
 }
