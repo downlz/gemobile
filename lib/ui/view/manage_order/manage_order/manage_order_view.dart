@@ -117,7 +117,7 @@ class _ManageOrderViewState extends State<ManageOrderView> with CommonAppBar {
                                         model.orderList[ind].orderno),
                                     rowWidget('Order Amount',
                                         model.orderList[ind].cost.toString()),
-                                    rowWidget('Payment Type',
+                                    rowWidget('Order Type',
                                         model.orderList[ind].ordertype),
                                   ],
                                 ),
