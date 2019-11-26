@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graineasy/manager/api_call/API.dart';
@@ -18,6 +20,7 @@ class BargainView extends StatefulWidget {
   Bargain bargainDetail;
 
   BargainView(this.bargainDetail);
+
   @override
   _CategoryViewState createState() => _CategoryViewState();
 }
@@ -25,6 +28,8 @@ class BargainView extends StatefulWidget {
 class _CategoryViewState extends State<BargainView> with CommonAppBar {
   TextEditingController buyerQuoteController = new TextEditingController();
   final buyerQuoteFormKey = GlobalKey<FormState>();
+  final GlobalKey<RefreshIndicatorState> refreshIndicatorKey =
+  new GlobalKey<RefreshIndicatorState>();
 
   @override
   void initState() {
@@ -85,48 +90,48 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
             ? Column(
           children: <Widget>[
             Row(
-          children: <Widget>[
-            Expanded(
-              child: Form(
-                key: buyerQuoteFormKey,
-                child: TextFormField(
-                  controller: buyerQuoteController,
-                  validator: (value) {
-                    return value.isEmpty ? 'Quote required' : null;
-                  },
-                  inputFormatters: [
-                    LengthLimitingTextInputFormatter(4),
-                  ],
-                  textAlign: TextAlign.center,
-                  style: AppWidget.darkTextFieldTextStyle(),
-                  keyboardType: TextInputType.number,
-                  decoration:
-                  AppWidget.darkTextField('Add Best Quote'),
+              children: <Widget>[
+                Expanded(
+                  child: Form(
+                    key: buyerQuoteFormKey,
+                    child: TextFormField(
+                      controller: buyerQuoteController,
+                      validator: (value) {
+                        return value.isEmpty ? 'Quote required' : null;
+                      },
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(4),
+                      ],
+                      textAlign: TextAlign.center,
+                      style: AppWidget.darkTextFieldTextStyle(),
+                      keyboardType: TextInputType.number,
+                      decoration:
+                      AppWidget.darkTextField('Add Best Quote'),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: 10, top: 10, bottom: 10, right: 10),
-              child: Container(
-                alignment: Alignment.center,
-                child: OutlineButton(
-                    borderSide:
-                    BorderSide(color: Colors.amber.shade500),
-                    child: const Text('Bargain'),
-                    textColor: Colors.amber.shade500,
-                    onPressed: () async {
-                      if (buyerQuoteFormKey.currentState.validate()) {
-                        model.counterBtnClick(
-                            buyerQuoteController.text, 'countered');
-                      }
-                    },
-                    shape: new OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    )),
-              ),
-            ),
-          ],
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: 10, top: 10, bottom: 10, right: 10),
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: OutlineButton(
+                        borderSide:
+                        BorderSide(color: Colors.amber.shade500),
+                        child: const Text('Bargain'),
+                        textColor: Colors.amber.shade500,
+                        onPressed: () {
+                          if (buyerQuoteFormKey.currentState.validate()) {
+                            model.counterBtnClick(
+                                buyerQuoteController.text, 'countered');
+                          }
+                        },
+                        shape: new OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        )),
+                  ),
+                ),
+              ],
             ),
             acceptRejectWidget(model),
           ],
@@ -135,9 +140,9 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
             padding: EdgeInsets.all(10),
             child: Text(
               model.user.isBuyer && !model.isBuyerQuote
-              ? 'Waiting For Seller Response'
-              : 'Waiting For Buyer Quote',
-          style: TextStyle(fontSize: 17),
+                  ? 'Waiting For Seller Response'
+                  : 'Waiting For Buyer Quote',
+              style: TextStyle(fontSize: 17),
             )),
           !model.isBargainOn && model.user.isBuyer
               ? acceptRejectWidget(model)
@@ -155,13 +160,14 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
   getBargainDetailWidget(BargainViewModel model) {
     return ListView(
       children: <Widget>[
-        buyerQuote(widget.bargainDetail.firstquote, model),
-        sellerQuote(widget.bargainDetail.firstquote, model),
-        buyerQuote(widget.bargainDetail.secondquote, model),
-        sellerQuote(widget.bargainDetail.secondquote, model),
-        buyerQuote(widget.bargainDetail.thirdquote, model),
-        sellerQuote(widget.bargainDetail.thirdquote, model),
+        buyerQuote(model.bargainDetail.firstquote, model),
+        sellerQuote(model.bargainDetail.firstquote, model),
+        buyerQuote(model.bargainDetail.secondquote, model),
+        sellerQuote(model.bargainDetail.secondquote, model),
+        buyerQuote(model.bargainDetail.thirdquote, model),
+        sellerQuote(model.bargainDetail.thirdquote, model),
       ],
+
     );
   }
 
@@ -186,7 +192,8 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                quote.sellerquote.toString(),
+                quote.sellerquote.toString() + "/" +
+                    model.bargainDetail.item.unit.mass,
                 style: TextStyle(
                     fontSize: 25, color: Colors.deepOrange),
               ),
@@ -226,7 +233,8 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                quote.buyerquote.toString(),
+                quote.buyerquote.toString() + "/" +
+                    model.bargainDetail.item.unit.mass,
                 style: TextStyle(fontSize: 25, color: Colors.black),
               ),
               UIHelper.verticalSpaceSmall,
@@ -402,4 +410,6 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
       ],
     );
   }
+
+
 }

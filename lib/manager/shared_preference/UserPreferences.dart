@@ -91,6 +91,7 @@ class UserPreferences {
     prefs.setString('GST', user.gst);
     prefs.setBool('isBuyer', user.isBuyer);
     prefs.setString('phone', user.phone);
+    prefs.setString('fcmkey', user.fcmkey);
 
     return true;
   }
@@ -106,6 +107,7 @@ class UserPreferences {
     user.gst = prefs.getString("GST");
     user.isBuyer = prefs.getBool("isActive");
     user.phone = prefs.getString("phone");
+    user.fcmkey = prefs.getString("fcmkey");
     return user;
   }
 

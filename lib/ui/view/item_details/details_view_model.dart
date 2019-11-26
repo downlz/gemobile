@@ -11,7 +11,6 @@ import 'package:graineasy/ui/view/cart_screen/cart_view.dart';
 class DetailsViewModel extends BaseModel {
   Item itemDetails;
   bool isFirstTime = true;
-  static String price;
   Bargain bargainDetail;
   User user;
 
@@ -19,7 +18,7 @@ class DetailsViewModel extends BaseModel {
     if (isFirstTime) {
       itemDetails = item;
       user = await UserPreferences.getUser();
-//      getItemDetails(itemDetails.id);
+      getItemDetails(itemDetails.id);
       isFirstTime = false;
       checkBargainActiveOrNot(true);
     }
@@ -55,6 +54,7 @@ class DetailsViewModel extends BaseModel {
     checkBargainActiveOrNot(false);
   }
 
+
   Future checkBargainActiveOrNot(bool showProgress) async
   {
     print('Product id============> ${itemDetails.id}');
@@ -62,9 +62,9 @@ class DetailsViewModel extends BaseModel {
       setState(ViewState.Busy);
     bargainDetail = !user.isSeller ?
     await API.checkBuyerRequestActiveOrNot(itemDetails.id, user.id) :
-    await API.checkSellerRequestActiveOrNot(itemDetails.id, user.id);
+    await API.checkSellerRequestActiveOrNot(
+        itemDetails.id, itemDetails.seller.id);
     setState(ViewState.Idle);
   }
 }
-
 

@@ -280,7 +280,8 @@ class _CartViewState extends State<CartView> with CommonAppBar {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             setWidgetData('Unit Price',
-                                model.cartItems[ind].item.price.toString()),
+                                model.cartItems[ind].item.price.toString() +
+                                    '/' + model.cartItems[ind].item.unit.mass),
                             setWidgetData(
                                 'Qty', model.cartItems[ind].qty.toString()),
                             setWidgetData('Total',
