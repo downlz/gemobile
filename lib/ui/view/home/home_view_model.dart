@@ -21,14 +21,57 @@ class HomeViewModel extends BaseModel
 
 
   void receivePushNotification() {
+    String payload;
     firebaseMessaging.getToken().then((token) {
       print('FirebaseToken=======>${token}');
     });
+
     firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print('on message ${json.encode(message['notification']['title'])}');
         print('push notification');
+//        print('notification message data=======================>${message}');
+//        var type=message['data']['type'];
+//        var id=message['data']['id'];
+//        print('typeId=======>${type+id}');
+//        print('message payload1========>'+message['notification']['payload']);
+//        print('message payload2========>'+message['payload']);
+//        print('message payload3========>'+'payload');
+        return showDialog(
+          context: context,
+          builder: (context) =>
+              AlertDialog(
+                content: ListTile(
+                  title: Text(message['notification']['title']),
+                  subtitle: Text(message['notification']['body']),
+                ),
+                actions: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      FlatButton(
+                          child: Text('View'),
+                          onPressed: () =>
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => OrderHistoryView()))
+                      ),
+                      FlatButton(
+                          child: Text('Cancel'),
+                          onPressed: () =>
+                              Navigator.pop(context)
+                      ),
+                    ],
+                  ),
 
+                ],
+                elevation: 2,
+              ),
+        );
+      },
+
+      onResume: (Map<String, dynamic> message) async {
+        print('on resume $message');
+        var notification = message['data'];
+        print('resume message data========>' + notification);
         return showDialog(
           context: context,
           builder: (context) =>
@@ -39,20 +82,38 @@ class HomeViewModel extends BaseModel
                 ),
                 actions: <Widget>[
                   FlatButton(
-                    child: Text('Ok'),
-                    onPressed: () =>
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => OrderHistoryView())),
+                      child: Text('Resume'),
+                      onPressed: () =>
+                          Navigator.pop(context)
                   ),
+
                 ],
+                elevation: 2,
               ),
         );
       },
-      onResume: (Map<String, dynamic> message) async {
-        print('on resume $message');
-      },
       onLaunch: (Map<String, dynamic> message) async {
         print('on launch $message');
+        var notification = message['data'];
+        print('launch message data========>' + notification);
+        return showDialog(
+          context: context,
+          builder: (context) =>
+              AlertDialog(
+                content: ListTile(
+                  title: Text(message['notification']['title']),
+                  subtitle: Text(message['notification']['body']),
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                      child: Text('Launch'),
+                      onPressed: () =>
+                          Navigator.pop(context)
+                  ),
+                ],
+                elevation: 2,
+              ),
+        );
       },
     );
   }
