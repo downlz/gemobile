@@ -11,7 +11,7 @@ class ApiConfig {
   static String getItemDetails =baseURL +'item/';
   static String getUserDetail = baseURL + 'user/me';
   static String getAddress = baseURL + 'address/phone/';
-  static String getOrderList = baseURL + 'order';
+  static String getUserOrderList = baseURL + 'order/user/';
   static String getState = baseURL + 'state';
   static String getCity = baseURL + 'city';
   static String price = baseURL + 'price';
@@ -30,6 +30,7 @@ class ApiConfig {
   static String getManualBill = baseURL + 'uploadbill/';
   static String getUserOrders = baseURL + 'order/user/';
   static String getAgentOrders = baseURL + 'order/agent/:id';
+  static String getOrderById = baseURL + 'order/id/';
 
   // Bargain APIs
   static String raiseBargainRequest = baseURL + 'bargain/';

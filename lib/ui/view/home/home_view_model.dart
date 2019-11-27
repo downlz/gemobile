@@ -7,7 +7,10 @@ import 'package:graineasy/manager/base/basemodel.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/itemname.dart';
 import 'package:graineasy/model/user.dart';
-import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
+import 'package:graineasy/ui/view/BargainDetail/bargain_history_view.dart';
+import 'package:graineasy/ui/view/item_details/details_view.dart';
+import 'package:graineasy/ui/view/manage_order_detail/manage_order_detail_view.dart';
+import 'package:graineasy/ui/view/order_detail/order_detail_view.dart';
 
 
 class HomeViewModel extends BaseModel
@@ -18,6 +21,9 @@ class HomeViewModel extends BaseModel
   String deviceplatform;
 
   FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
+
+//  String type;
+  var id;
 
 
   void receivePushNotification() {
@@ -30,42 +36,185 @@ class HomeViewModel extends BaseModel
       onMessage: (Map<String, dynamic> message) async {
         print('on message ${json.encode(message['notification']['title'])}');
         print('push notification');
-//        print('notification message data=======================>${message}');
-//        var type=message['data']['type'];
-//        var id=message['data']['id'];
-//        print('typeId=======>${type+id}');
-//        print('message payload1========>'+message['notification']['payload']);
-//        print('message payload2========>'+message['payload']);
-//        print('message payload3========>'+'payload');
-        return showDialog(
-          context: context,
-          builder: (context) =>
-              AlertDialog(
-                content: ListTile(
-                  title: Text(message['notification']['title']),
-                  subtitle: Text(message['notification']['body']),
-                ),
-                actions: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      FlatButton(
-                          child: Text('View'),
-                          onPressed: () =>
-                              Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => OrderHistoryView()))
-                      ),
-                      FlatButton(
-                          child: Text('Cancel'),
-                          onPressed: () =>
-                              Navigator.pop(context)
-                      ),
-                    ],
-                  ),
+        print(
+            'notification message data=======================>${message['data']}');
 
-                ],
-                elevation: 2,
-              ),
-        );
+//        if(message['data']!=null) {
+//           type = message['data']['type'];
+//          id = message['data']['id'];
+//          print('typeId=======>${"type----" + type + "id-----" + id}');
+//        }
+//        else
+//          {
+//            print('message not show');
+//          }
+        var type = message['data']['type'];
+        id = message['data']['id'];
+
+        if (message['data'] != null && message['data']['type'] != null) {
+          switch (type) {
+            case "OrderDetail":
+              return showDialog(
+                context: context,
+                builder: (context) =>
+                    AlertDialog(
+                      content: ListTile(
+                        title: Text(message['notification']['title']),
+                        subtitle: Text(message['notification']['body']),
+                      ),
+                      actions: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            FlatButton(
+                                child: Text('View'),
+                                onPressed: () =>
+                                    Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) =>
+                                            OrderDetailView(id: id,)))
+                            ),
+                            FlatButton(
+                                child: Text('Cancel'),
+                                onPressed: () =>
+                                    Navigator.pop(context)
+                            ),
+                          ],
+                        ),
+
+                      ],
+                      elevation: 2,
+                    ),
+              );
+              break;
+            case "ProductDetail":
+              return showDialog(
+                context: context,
+                builder: (context) =>
+                    AlertDialog(
+                      content: ListTile(
+                        title: Text(message['notification']['title']),
+                        subtitle: Text(message['notification']['body']),
+                      ),
+                      actions: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            FlatButton(
+                                child: Text('View'),
+                                onPressed: () =>
+                                    Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) =>
+                                            DetailsView()))
+//                                            DetailsView(id:id)))
+                            ),
+                            FlatButton(
+                                child: Text('Cancel'),
+                                onPressed: () =>
+                                    Navigator.pop(context)
+                            ),
+                          ],
+                        ),
+
+                      ],
+                      elevation: 2,
+                    ),
+              );
+              break;
+            case "ManageOrder":
+              return showDialog(
+                context: context,
+                builder: (context) =>
+                    AlertDialog(
+                      content: ListTile(
+                        title: Text(message['notification']['title']),
+                        subtitle: Text(message['notification']['body']),
+                      ),
+                      actions: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            FlatButton(
+                                child: Text('View'),
+                                onPressed: () =>
+                                    Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) =>
+                                            ManageOrderDetailView(id: id,)))
+                            ),
+                            FlatButton(
+                                child: Text('Cancel'),
+                                onPressed: () =>
+                                    Navigator.pop(context)
+                            ),
+                          ],
+                        ),
+
+                      ],
+                      elevation: 2,
+                    ),
+              );
+              break;
+            case "BargainDetail":
+              return showDialog(
+                context: context,
+                builder: (context) =>
+                    AlertDialog(
+                      content: ListTile(
+                        title: Text(message['notification']['title']),
+                        subtitle: Text(message['notification']['body']),
+                      ),
+                      actions: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            FlatButton(
+                                child: Text('View'),
+                                onPressed: () =>
+                                    Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) =>
+                                            BargainHistoryView(id: id,)))
+                            ),
+                            FlatButton(
+                                child: Text('Cancel'),
+                                onPressed: () =>
+                                    Navigator.pop(context)
+                            ),
+                          ],
+                        ),
+
+                      ],
+                      elevation: 2,
+                    ),
+              );
+              break;
+            default:
+              break;
+          }
+        }
+//        return showDialog(
+//          context: context,
+//          builder: (context) =>
+//              AlertDialog(
+//                content: ListTile(
+//                  title: Text(message['notification']['title']),
+//                  subtitle: Text(message['notification']['body']),
+//                ),
+//                actions: <Widget>[
+//                  Row(
+//                    children: <Widget>[
+//                      FlatButton(
+//                          child: Text('View'),
+//                          onPressed: () =>
+//                              Navigator.push(context, MaterialPageRoute(
+//                                  builder: (context) => OrderHistoryView()))
+//                      ),
+//                      FlatButton(
+//                          child: Text('Cancel'),
+//                          onPressed: () =>
+//                              Navigator.pop(context)
+//                      ),
+//                    ],
+//                  ),
+//
+//                ],
+//                elevation: 2,
+//              ),
+//        );
       },
 
       onResume: (Map<String, dynamic> message) async {
@@ -134,6 +283,7 @@ class HomeViewModel extends BaseModel
     if(isFirstTime) {
       getItemName();
       userDetail();
+
       receivePushNotification();
       isFirstTime = false;
     }

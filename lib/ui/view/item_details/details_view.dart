@@ -14,9 +14,11 @@ import 'details_view_model.dart';
 
 
 class DetailsView extends StatefulWidget {
-  final Item item;
+  Item item;
+  String id;
 
-  DetailsView(this.item);
+
+  DetailsView({this.item});
 
   @override
   _DetailsViewState createState() => _DetailsViewState();
@@ -37,7 +39,7 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
   @override
   Widget build(BuildContext context) {
     return BaseView<DetailsViewModel>(builder: (context, model, child) {
-      model.init(widget.item);
+      model.init(widget.item, widget.id);
       return new Scaffold(
         appBar: new AppBar(
           title: Text(widget.item.name),

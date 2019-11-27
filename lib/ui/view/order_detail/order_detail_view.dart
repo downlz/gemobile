@@ -12,8 +12,9 @@ const URL = "https://graineasy.com";
 
 class OrderDetailView extends StatefulWidget {
   Order orderList;
+  String id;
 
-  OrderDetailView(this.orderList);
+  OrderDetailView({this.orderList, this.id});
 
   @override
   _CartViewState createState() => _CartViewState();
@@ -28,6 +29,7 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
   @override
   Widget build(BuildContext context) {
     return BaseView<OrderDetailViewModel>(builder: (context, model, child) {
+      model.init(widget.id, widget.orderList);
       return new Scaffold(
         appBar: new AppBar(
           title: Text('Order Detail'),
@@ -41,7 +43,8 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
   Widget _getBody(OrderDetailViewModel model) {
     return Stack(
       children: <Widget>[
-        widget.orderList != null ? _getBaseContainer(model) : Container(),
+        model.order != null ? model.order.item != null ? _getBaseContainer(
+            model) : Container() : Container(),
         getProgressBar(model.state)
       ],
     );
@@ -82,12 +85,12 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
                 width: double.infinity,
                 height: 200,
                 child:
-                    WidgetUtils.getCategoryImage(widget.orderList.item.image)),
+                WidgetUtils.getCategoryImage(model.order.item.image)),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 5, left: 10),
             child: new Text(
-              widget.orderList.item.name,
+              model.order.item.name,
               style: TextStyle(
                   fontSize: 20.0,
                   color: Palette.assetColor,
@@ -97,7 +100,7 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
-              "OrderId: " + widget.orderList.id,
+              "OrderId: " + model.order.id,
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -107,7 +110,7 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
-              "Amount: " + widget.orderList.cost.toString(),
+              "Amount: " + model.order.cost.toString(),
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -117,7 +120,7 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
-              "Order Type: " + widget.orderList.ordertype,
+              "Order Type: " + model.order.ordertype,
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -128,7 +131,7 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
-              "Status: " + widget.orderList.status,
+              "Status: " + model.order.status,
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -140,9 +143,9 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
               "Address: " +
-                  widget.orderList.item.address.text +
+                  model.order.item.address.text +
                   "" +
-                  widget.orderList.item.address.city.name,
+                  model.order.item.address.city.name,
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -154,7 +157,7 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
             padding: const EdgeInsets.only(left: 10, top: 3),
             child: new Text(
               "OrderDate: " +
-                  Utility.dateTimeToString(widget.orderList.placedTime),
+                  Utility.dateTimeToString(model.order.placedTime),
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -177,4 +180,5 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
       ),
     );
   }
+
 }

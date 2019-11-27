@@ -159,8 +159,19 @@ class API extends BaseRepository
   }
 
   static Future<List<Order>> getOrders() async {
-    var response = await http.get(ApiConfig.getOrderList,
+    var response = await http.get(ApiConfig.getUserOrderList,
         headers: await ApiConfig.getHeaderWithToken());
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<Order> orders = Order.fromJsonArray(jsonDecode(response.body));
+      return orders;
+    }
+    return [];
+  }
+
+  static Future<List<Order>> getParticularUserOrders(String id) async {
+    var response = await http.get(ApiConfig.getUserOrderList + id,
+        headers: await ApiConfig.getHeaderWithTokenAndContentType());
     print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<Order> orders = Order.fromJsonArray(jsonDecode(response.body));
@@ -745,6 +756,22 @@ class API extends BaseRepository
       },
     );
     return completer.future;
+  }
+
+
+  static Future<Order> getOrderById(String id) async {
+    var response = await http.get(
+      ApiConfig.getOrderById + id,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": await UserPreferences.getToken()
+      },);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      Order order = Order.fromJson(jsonDecode(response.body));
+      print(response.body);
+      return order;
+    }
+    return null;
   }
 
 

@@ -69,7 +69,8 @@ class _ManageOrderViewState extends State<ManageOrderView> with CommonAppBar {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  ManageOrderDetailView(model.orderList[ind])));
+                                  ManageOrderDetailView(
+                                    orderList: model.orderList[ind],)));
                     },
                     child: Card(
                         elevation: 4.0,

@@ -83,7 +83,7 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
                             builder: (context) =>
-                                DetailsView(model.items[index])));
+                                DetailsView(item: model.items[index],)));
                       },
                       child: new Card(
                         elevation: 3.0,
