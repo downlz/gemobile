@@ -63,7 +63,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
 
   getCategoryWidget(OrderHistoryViewModel model) {
     return model.orderList.length <= 0
-        ? WidgetUtils.showMessageAtCenterOfTheScreen('No category found')
+        ? WidgetUtils.showMessageAtCenterOfTheScreen('No orders found')
         : ListView.builder(
             itemCount: model.orderList.length,
             itemBuilder: (BuildContext cont, int ind) {

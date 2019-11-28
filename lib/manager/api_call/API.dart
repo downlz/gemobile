@@ -169,6 +169,28 @@ class API extends BaseRepository
     return [];
   }
 
+  static Future<List<Order>> getUserOrders(String id) async {
+    var response = await http.get(ApiConfig.getUserOrders + id,
+        headers: await ApiConfig.getHeaderWithToken());
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<Order> orders = Order.fromJsonArray(jsonDecode(response.body));
+      return orders;
+    }
+    return [];
+  }
+
+  static Future<List<Order>> getAgentOrders(String id) async {
+    var response = await http.get(ApiConfig.getAgentOrders + id,
+        headers: await ApiConfig.getHeaderWithToken());
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<Order> orders = Order.fromJsonArray(jsonDecode(response.body));
+      return orders;
+    }
+    return [];
+  }
+
   static Future<List<Order>> getParticularUserOrders(String id) async {
     var response = await http.get(ApiConfig.getUserOrderList + id,
         headers: await ApiConfig.getHeaderWithTokenAndContentType());
@@ -421,7 +443,11 @@ class API extends BaseRepository
       data['state'] = address.state.id;
       data['phone'] = address.phone;
       data['addresstype'] = address.addresstype;
-      data['city'] = address.city.id;
+//      data['city'] = address.city.id;
+
+      if (address.city.id != null) {                                        // Improve coding standards - Unhandled Exception: NoSuchMethodError: The getter 'id' was called on null.
+          data['city'] = address.city.id;
+      }
     }
 
     var response = await http.post(ApiConfig.createOrder,
@@ -503,19 +529,6 @@ class API extends BaseRepository
     return [];
   }
 
-  static Future<List<StateObject>> getUserOrders(String id) async {
-    var response = await http.get(ApiConfig.getUserOrders + id,
-        headers: await ApiConfig.getHeader());
-    print(response.body);
-    if (response.statusCode == ApiConfig.successStatusCode) {
-      // Add Code to read output json for bill link
-//      List<StateObject> items = StateObject.fromJsonArray(
-//          jsonDecode(response.body));
-//      print('sadasassa->${items.length}');
-//      return items;
-    }
-    return [];
-  }
 
   //Bargain APIs Calls
 

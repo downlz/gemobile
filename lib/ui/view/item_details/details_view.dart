@@ -116,7 +116,8 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 8.0),
                               child: Text(
-                                model.itemDetails.price.toString(),
+                              "\u20B9" + model.itemDetails.price.toString() + "/" +
+                                    model.itemDetails.unit.mass,
                                 style: Theme
                                     .of(context)
                                     .textTheme

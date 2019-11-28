@@ -108,6 +108,7 @@ class _BargainHistoryViewState extends State<BargainHistoryView>
                               Expanded(
                                 child: setBargainHistoryData(
                                     model.bargainList[ind].item.name,
+                                    model.bargainList[ind].bargainstatus,
                                     model.bargainList[ind].lastupdated),
                               ),
                               Padding(
@@ -123,7 +124,7 @@ class _BargainHistoryViewState extends State<BargainHistoryView>
     );
   }
 
-  setBargainHistoryData(String name, DateTime lastUpdated) {
+  setBargainHistoryData(String name, String status,DateTime lastUpdated) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,6 +137,13 @@ class _BargainHistoryViewState extends State<BargainHistoryView>
                 fontSize: 18.0,
                 color: Palette.assetColor,
                 fontWeight: FontWeight.bold),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 5),
+          child: Text(
+            "Status: " + status,
+            style: TextStyle(fontSize: 15, color: Palette.assetColor),
           ),
         ),
         Padding(
