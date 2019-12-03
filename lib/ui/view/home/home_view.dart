@@ -123,7 +123,7 @@ class _HomeViewState extends State<HomeView>
                     Tab(child: Text('All')),
                     Tab(child: Text('New',)),
                     Tab(child: Text('Most Orderd')),
-
+//                    Tab(child: Text('Near Me'))
                   ],
                     controller: tabController,
                   ),
@@ -136,6 +136,8 @@ class _HomeViewState extends State<HomeView>
                         : Container(),
                     model.mostOrder != null ? getMostOrderData(model) : Text(
                         'No Data'),
+//                    model.itemsNear != null ? getItemsNearMe(model) : Text(
+//                        'No Data'),
                   ],
                     controller: tabController,
                   ),
@@ -487,6 +489,60 @@ class _HomeViewState extends State<HomeView>
                           alignment: Alignment.bottomLeft,
                           child: new Text(
                             model.mostOrder[index].name,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.white,
+                                fontWeight:
+                                FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+          );
+        });
+  }
+
+  getItemsNearMe(HomeViewModel model) {
+    return new GridView.builder(
+        itemCount: model.itemsNear.length,
+//        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2),
+        itemBuilder: (BuildContext context, int index) {
+          return new GestureDetector(
+              onTap: () {
+//                Navigator.push(context, MaterialPageRoute(
+//                    builder: (context) =>
+//                        DetailsView(item: model.mostOrder[index],)));
+              },
+
+              child: new Card(
+                elevation: 3.0,
+                child: Stack(
+                  children: <Widget>[
+                    Positioned.fill(
+                        child: model.itemsNear[index].image != null
+                            ? WidgetUtils
+                            .getCategoryImage(model.itemsNear[index].image)
+                            : Icon(
+                            Icons.refresh)),
+                    Container(
+                      color: Colors.black38,
+                    ),
+                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end
+                      , children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.only(
+                              left: 3.0, bottom: 3.0),
+                          alignment: Alignment.bottomLeft,
+                          child: new Text(
+                            model.itemsNear[index].name,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 20.0,
