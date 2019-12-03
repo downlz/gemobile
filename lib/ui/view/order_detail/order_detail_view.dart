@@ -31,6 +31,7 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
   Widget build(BuildContext context) {
     return BaseView<OrderDetailViewModel>(builder: (context, model, child) {
       model.init(widget.id, widget.orderList);
+      print(widget.orderList);
       return new Scaffold(
         appBar: new AppBar(
           title: Text('Order Detail'),
@@ -144,11 +145,11 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
               "Shipping Address: " +
-//                  widget.orderList.item.address.text +
-//                  "" +
-//                  widget.orderList.item.address.city.name +
-//                  "" +
-                  getShippingAddress(widget.orderList),
+                  getShippingAddress(model.order)
+                  +
+                  model.order.item.address.text +
+                  "" +
+                  model.order.item.address.city.name,
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -183,21 +184,20 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
       ),
     );
   }
-
   getShippingAddress(Order orderitem){
     String shipaddr;
     if (orderitem.isshippingbillingdiff == true) {
 
       shipaddr =  orderitem.shippingaddress.addridentifier.partyname +
-     " " +
+          " " +
           orderitem.shippingaddress.addridentifier.gstin +
-    " " +
+          " " +
           orderitem.shippingaddress.text +
-    " " +
+          " " +
           orderitem.shippingaddress.state.name +
-    " " +
+          " " +
           orderitem.shippingaddress.pin +
-    " " +
+          " " +
           orderitem.shippingaddress.phone;
     } else if (orderitem.isshippingbillingdiff == false) {
       shipaddr =  orderitem.shippingaddress.addridentifier.partyname +
@@ -225,5 +225,5 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
           orderitem.buyer.phone;
     }
     return shipaddr;
-    }
+  }
 }

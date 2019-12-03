@@ -270,8 +270,7 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                     Navigator.push(context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                BargainView(
-                                    model.bargainDetail)
+                                BargainView(bargainDetail: model.bargainDetail,)
                         ));
                   },
                   shape: new OutlineInputBorder(

@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:graineasy/manager/base/base_repository.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
+import 'package:graineasy/model/MostOrderItem.dart';
 import 'package:graineasy/model/address.dart';
 import 'package:graineasy/model/bargain.dart';
 import 'package:graineasy/model/cart_item.dart';
@@ -787,5 +788,59 @@ class API extends BaseRepository
     return null;
   }
 
+
+  static Future<Bargain> particularBargainDetail(String id) async {
+    var response = await http.get(
+        ApiConfig.raiseBargainRequest + id,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()
+        });
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      Bargain bargain = Bargain.fromJson(jsonDecode(response.body));
+      print('BargainDetail===>${response.body}');
+      return bargain;
+    }
+    return null;
+  }
+
+
+  static Future<List<Item>> getRecentlyAddedItem() async {
+    var response = await http.get(ApiConfig.getRecentlyAddedItem,
+        headers: await ApiConfig.getHeader());
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<Item> items = Item.fromJsonArray(jsonDecode(response.body));
+      print('Recent=======>${response.body}');
+      return items;
+    }
+    return [];
+  }
+
+  static Future<List<MostOrderItem>> getMostOrder() async
+  {
+    var response = await http.get(ApiConfig.getMostOrdered,
+        headers: await ApiConfig.getHeaderWithTokenAndContentType());
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<MostOrderItem> items = MostOrderItem.fromJsonArray(
+          jsonDecode(response.body));
+      print('most=======>${response.body}');
+      print('mostOrderId=======>${items[0].mostOrderId}');
+      return items;
+    }
+    return [];
+  }
+
+  static Future<List<Item>> searchItem(String name) async {
+    var response = await http.get(ApiConfig.searchItem + name,
+        headers: await ApiConfig.getHeaderWithTokenAndContentType());
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<Item> items = Item.fromJsonArray(jsonDecode(response.body));
+      print(response.body);
+
+      return items;
+    }
+    return [];
+  }
 
 }

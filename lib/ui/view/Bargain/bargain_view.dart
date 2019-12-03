@@ -18,8 +18,9 @@ import 'package:intl/intl.dart';
 
 class BargainView extends StatefulWidget {
   Bargain bargainDetail;
+  String id;
 
-  BargainView(this.bargainDetail);
+  BargainView({this.bargainDetail, this.id});
 
   @override
   _CategoryViewState createState() => _CategoryViewState();
@@ -39,7 +40,7 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
   @override
   Widget build(BuildContext context) {
     return BaseView<BargainViewModel>(builder: (context, model, child) {
-      model.init(widget.bargainDetail);
+      model.init(widget.bargainDetail, widget.id);
       return new Scaffold(
         appBar: new AppBar(
           title: Text('Bargain'),
@@ -52,7 +53,9 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
 
   Widget _getBody(BargainViewModel model) {
     return Stack(
-      children: <Widget>[_getBaseContainer(model), getProgressBar(model.state)],
+      children: <Widget>[
+        model.bargainDetail != null ? _getBaseContainer(model) : Container(),
+        getProgressBar(model.state)],
     );
   }
 
@@ -77,7 +80,7 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
             getBargainDetailWidget(model)
         ),
 
-        widget.bargainDetail.bargainstatus != 'paused'
+        model.bargainDetail.bargainstatus != 'paused'
             ? new Column(children: <Widget>[ !model.isBargainOn
             ? Text(
           model.user.isBuyer
@@ -185,7 +188,7 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
           ? Card(
         elevation: 3,
         child: Container(
-          width: 120,
+          width: 160,
           alignment: Alignment.centerRight,
           padding: EdgeInsets.all(5),
           child: Column(

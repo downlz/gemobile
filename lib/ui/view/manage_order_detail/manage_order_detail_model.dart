@@ -16,15 +16,15 @@ class ManageOrderDetailViewModel extends BaseModel {
 
   Future init(String id, Order orderList) async {
     if (isFirstTime) {
-      this.order = orderList;
       if (id != null) {
         setState(ViewState.Busy);
         orderList = await API.getOrderById(id);
         setState(ViewState.Idle);
         this.order = orderList;
         print('orderId===========>${this.order.status}');
+        isFirstTime = false;
       }
-      isFirstTime = false;
+      this.order = orderList;
     }
   }
   updateStatus(String id) async {

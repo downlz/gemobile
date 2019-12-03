@@ -6,7 +6,7 @@ class ApiConfig {
   static String login =baseURL +'auth';
   static String register = baseURL + 'user';
   static String forgotPassword =baseURL +'user/resetpassword';
-  static String getCategoryName =baseURL +'itemname';
+  static String getCategoryName = baseURL + 'itemName';
   static String getCategoryNameByItemName =baseURL +'item/byItemname/';
   static String getItemDetails =baseURL +'item/';
   static String getUserDetail = baseURL + 'user/me';
@@ -19,6 +19,7 @@ class ApiConfig {
   static String getUserAddresses = baseURL + 'address';
   static String getCalculatePrice = baseURL + 'price';
   static String updateAddress = baseURL + 'address/';
+  static String searchItem = baseURL + 'item/search/';
 
   // Order APIs
   static String getLastOrderNumber = baseURL + 'order/orderno';
@@ -29,7 +30,6 @@ class ApiConfig {
   static String updateManualBill = baseURL + 'uploadbill/';
   static String getManualBill = baseURL + 'uploadbill/';
   static String getUserOrders = baseURL + 'order/user/';
-  static String getAgentOrders = baseURL + 'order/agent/:id';
   static String getOrderById = baseURL + 'order/id/';
   static String getAgentOrders = baseURL + 'order/agent/';
 
@@ -47,6 +47,9 @@ class ApiConfig {
   //get FCM Key
   static String updateUserApiForGetFcmKey = baseURL + 'user/';
   static int successStatusCode = 200;
+
+  static var getRecentlyAddedItem = baseURL + 'item/recent';
+  static var getMostOrdered = baseURL + 'item/ordered/';
 
 
   static getHeader() {

@@ -5,17 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/basemodel.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
+import 'package:graineasy/model/Item.dart';
+import 'package:graineasy/model/MostOrderItem.dart';
 import 'package:graineasy/model/itemname.dart';
 import 'package:graineasy/model/user.dart';
-import 'package:graineasy/ui/view/BargainDetail/bargain_history_view.dart';
+import 'package:graineasy/ui/view/Bargain/bargain_view.dart';
 import 'package:graineasy/ui/view/item_details/details_view.dart';
 import 'package:graineasy/ui/view/manage_order_detail/manage_order_detail_view.dart';
 import 'package:graineasy/ui/view/order_detail/order_detail_view.dart';
 
-
 class HomeViewModel extends BaseModel
 {
   List<ItemName> items;
+  List<Item> recentItem;
+  List<MostOrderItem> mostOrder;
   User user;
   bool isFirstTime = true;
   String deviceplatform;
@@ -167,7 +170,7 @@ class HomeViewModel extends BaseModel
                                 onPressed: () =>
                                     Navigator.push(context, MaterialPageRoute(
                                         builder: (context) =>
-                                            BargainHistoryView(id: id,)))
+                                            BargainView(id: id)))
                             ),
                             FlatButton(
                                 child: Text('Cancel'),
@@ -271,7 +274,7 @@ class HomeViewModel extends BaseModel
   {
     setState(ViewState.Busy);
     items = await API.getItemName();
-    setState(ViewState.Idle);
+    getRecentlyAddedItem();
   }
 
   Future userDetail() async {
@@ -281,12 +284,21 @@ class HomeViewModel extends BaseModel
 
   void init() {
     if(isFirstTime) {
-      getItemName();
       userDetail();
-
+      getItemName();
       receivePushNotification();
       isFirstTime = false;
     }
+  }
+
+  getRecentlyAddedItem() async {
+    recentItem = await API.getRecentlyAddedItem();
+    getMostOrdered();
+  }
+
+  getMostOrdered() async {
+    mostOrder = await API.getMostOrder();
+    setState(ViewState.Idle);
   }
 
 

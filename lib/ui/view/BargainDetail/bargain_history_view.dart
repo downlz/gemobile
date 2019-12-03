@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/model/bargain.dart';
 import 'package:graineasy/ui/theme/palette.dart';
+import 'package:graineasy/ui/view/Bargain/bargain_view.dart';
 import 'package:graineasy/ui/view/BargainDetail/bargain_history_view_model.dart';
-import 'package:graineasy/ui/view/item_details/details_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:graineasy/utils/check_internet/utility.dart';
@@ -88,8 +88,8 @@ class _BargainHistoryViewState extends State<BargainHistoryView>
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    DetailsView(
-                                      item: model.bargainList[ind].item,)));
+                                    BargainView(
+                                      bargainDetail: model.bargainList[ind],)));
                       },
                       child: Card(
                         elevation: 4.0,

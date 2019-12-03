@@ -85,4 +85,12 @@ class Auction {
         createdBy: UserModel.fromJson(json['createdBy']),
         createdAt: json['createdAt']);
   }
+
+  static List<Auction> fromJsonArray(List<dynamic> json) {
+    List<Auction> bannerLists = json.map<Auction>((json) =>
+        Auction.fromJson(json))
+        .toList();
+    return bannerLists;
+  }
+
 }
