@@ -83,7 +83,7 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
                             builder: (context) =>
-                                DetailsView(model.items[index])));
+                                DetailsView(item: model.items[index],)));
                       },
                       child: new Card(
                         elevation: 3.0,
@@ -154,7 +154,7 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
 
   Future _launchEmail(Item item) async {
     launch('mailto:?subject=${"ItemName: " +                                  // Modified to remove email to trade@graineasy.com
-        item.name}&body=${item.name + "/" + item.category.name + "/" +
+        item.name}&body=${item.name + "/" + item.category.name + "\n" +
         item.image}');
   }
 

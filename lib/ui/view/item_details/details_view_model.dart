@@ -14,7 +14,10 @@ class DetailsViewModel extends BaseModel {
   Bargain bargainDetail;
   User user;
 
-  void init(Item item) async {
+  void init(Item item, String id) async {
+//    if(id!=null){
+//      getItemDetails(id);}
+//    else {
     if (isFirstTime) {
       itemDetails = item;
       user = await UserPreferences.getUser();

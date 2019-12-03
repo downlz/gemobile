@@ -15,8 +15,9 @@ const URL = "https://graineasy.com";
 
 class ManageOrderDetailView extends StatefulWidget {
   Order orderList;
+  String id;
 
-  ManageOrderDetailView(this.orderList);
+  ManageOrderDetailView({this.orderList, this.id});
 
   @override
   _CartViewState createState() => _CartViewState();
@@ -34,6 +35,8 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
   Widget build(BuildContext context) {
     return BaseView<ManageOrderDetailViewModel>(
         builder: (context, model, child) {
+          model.init(widget.id, widget.orderList);
+
           return new Scaffold(
             appBar: new AppBar(
               title: Text('Order Detail'),
@@ -47,7 +50,8 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
   Widget _getBody(ManageOrderDetailViewModel model) {
     return Stack(
       children: <Widget>[
-        widget.orderList != null ? _getBaseContainer(model) : Container(),
+        model.order != null ? model.order.item != null ? _getBaseContainer(
+            model) : Container() : Container(),
         getProgressBar(model.state)
       ],
     );
@@ -67,9 +71,6 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
   }
 
   _getBaseContainer(ManageOrderDetailViewModel model) {
-    String OrderStatus = widget.orderList.status;
-
-
     return SingleChildScrollView(
       child: new Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -102,7 +103,7 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
               hint: new Text(
                 model.selectedOrderStatus != null
                     ? model.selectedOrderStatus
-                    : widget.orderList.status,
+                    : model.order.status,
                 style: AppTextStyle.getLargeHeading(false, Palette.assetColor),
               ),
               value: model.selectedOrderStatus,
@@ -148,12 +149,12 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
                 width: double.infinity,
                 height: 200,
                 child:
-                WidgetUtils.getCategoryImage(widget.orderList.item.image)),
+                WidgetUtils.getCategoryImage(model.order.item.image)),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 5, left: 10),
             child: new Text(
-              widget.orderList.item.name,
+              model.order.item.name,
               style: TextStyle(
                   fontSize: 20.0,
                   color: Palette.assetColor,
@@ -163,7 +164,7 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
-              "OrderId: " + widget.orderList.id,
+              "OrderId: " + model.order.id,
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -173,7 +174,7 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
-              "Amount: " + widget.orderList.cost.toString(),
+              "Amount: " + model.order.cost.toString(),
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -183,7 +184,7 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
-              "Order Type: " + widget.orderList.ordertype,
+              "Order Type: " + model.order.ordertype,
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -194,7 +195,7 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
-              "Status: " + widget.orderList.status,
+              "Status: " + model.order.status,
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -206,9 +207,9 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
               "Address: " +
-                  widget.orderList.item.address.text +
+                  model.order.item.address.text +
                   "" +
-                  widget.orderList.item.address.city.name,
+                  model.order.item.address.city.name,
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -220,7 +221,7 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
             padding: const EdgeInsets.only(left: 10, top: 3),
             child: new Text(
               "OrderDate: " +
-                  Utility.dateTimeToString(widget.orderList.placedTime),
+                  Utility.dateTimeToString(model.order.placedTime),
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -296,7 +297,7 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
               FontStyle.normal),
         ),
         onPressed: () {
-          model.updateStatus(widget.orderList.id);
+          model.updateStatus(model.order.id);
           print('data');
         },
       ),

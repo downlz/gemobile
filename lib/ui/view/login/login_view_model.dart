@@ -25,7 +25,6 @@ class LoginViewModel extends BaseModel implements LoginListener
     API.updateUserApiToGetFCMKey();
     UserModel users = await UserPreferences.getFCMDeviceDtl();
     print('FCM KEY=========>${users.fcmkey}');
-    print('DeviceDetail KEY=========>${users.devicedtl}');
     Navigator.pushNamedAndRemoveUntil(
         context, Screen.Home_screen.toString(), (Route<dynamic> route) => false);
   }

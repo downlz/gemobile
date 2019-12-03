@@ -9,6 +9,10 @@ import 'package:graineasy/utils/check_internet/utility.dart';
 const URL = "https://graineasy.com";
 
 class OrderHistoryView extends StatefulWidget {
+  String id;
+
+  OrderHistoryView();
+
   @override
   _OrderHistoryViewState createState() => _OrderHistoryViewState();
 }
@@ -22,7 +26,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
   @override
   Widget build(BuildContext context) {
     return BaseView<OrderHistoryViewModel>(builder: (context, model, child) {
-      model.init();
+      model.init(widget.id);
       return new Scaffold(
         appBar: new AppBar(
           title: Text('My Orders'),
@@ -68,7 +72,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
                   child: GestureDetector(onTap: () {
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) =>
-                            OrderDetailView(model.orderList[ind])));
+                            OrderDetailView(orderList: model.orderList[ind],)));
                   },
                     child: Card(
                         elevation: 4.0,

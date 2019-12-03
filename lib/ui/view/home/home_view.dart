@@ -1,21 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_share_me/flutter_share_me.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
-import 'package:graineasy/model/itemname.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/theme/app_responsive.dart';
 import 'package:graineasy/ui/theme/palette.dart';
 import 'package:graineasy/ui/view/BargainDetail/bargain_history_view.dart';
 import 'package:graineasy/ui/view/account/account_view.dart';
 import 'package:graineasy/ui/view/category/category_view.dart';
+import 'package:graineasy/ui/view/item_details/details_view.dart';
 import 'package:graineasy/ui/view/manage_order/manage_order/manage_order_view.dart';
 import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
 import 'package:graineasy/ui/view/router.dart';
+import 'package:graineasy/ui/view/search/search_item_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../help_screen.dart';
 import '../../../setting_screen.dart';
@@ -27,13 +27,31 @@ class HomeView extends StatefulWidget {
   _HomeViewState createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> with CommonAppBar {
+class _HomeViewState extends State<HomeView>
+    with CommonAppBar, SingleTickerProviderStateMixin {
+  TabController tabController;
+  int tabIndex = 0;
+
+
 
   @override
   void initState() {
     super.initState();
+    tabController = TabController(vsync: this, length: 3);
+    tabController.addListener(toggleTab);
   }
 
+  void toggleTab() {
+    setState(() {
+      tabIndex = tabController.index;
+    });
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     AppResponsive.isTablet(MediaQuery.of(context), context);
@@ -44,8 +62,20 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
         appBar: new AppBar(
           title: Text('Graineasy'),
           backgroundColor: Colors.white,
+          actions: <Widget>[
+            // action button
+            IconButton(
+              icon: Icon(Icons.search, color: Palette.assetColor,),
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SearchItemView()));
+              },
+            ),
+            // action butto
+          ],
         ),
         body: _getBody(model),
+
       );
     });
   }
@@ -74,24 +104,63 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
   }
 
   _getBaseContainer(HomeViewModel model) {
-    return model.items != null ? getCategoryWidget(model) : Container();
+    return Column(mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Container(child: getBanner(model),
+          height: 200,
+        ),
+
+        Expanded(child: Container(
+
+          child: DefaultTabController(
+            length: 3,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  child:
+                  TabBar(tabs: [
+                    Tab(child: Text('All')),
+                    Tab(child: Text('New',)),
+                    Tab(child: Text('Most Orderd')),
+
+                  ],
+                    controller: tabController,
+                  ),
+                ),
+                Expanded(
+                  child: TabBarView(children: [
+                    getCategoryWidget(model),
+                    model.recentItem != null
+                        ? getRecentlyAddedData(model)
+                        : Container(),
+                    model.mostOrder != null ? getMostOrderData(model) : Text(
+                        'No Data'),
+                  ],
+                    controller: tabController,
+                  ),
+
+                ),
+              ],
+            ),
+          ),
+        ),)
+
+      ],
+    );
 //    return getCategoryWidget(model);
   }
 
   getCategoryWidget(HomeViewModel model) {
-    return SingleChildScrollView(child:
-    new GridView.builder(
+    return new GridView.builder(
         itemCount: model.items.length,
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(5.0),
+//        physics: NeverScrollableScrollPhysics(),
         gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2),
         itemBuilder: (BuildContext context, int index) {
           return new GestureDetector(
               onTap: (){
 //                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Item_Screen(toolbarname: 'Fruits & Vegetables',)));
-
                 Navigator.push(context, MaterialPageRoute(builder: (context)=> CategoryView(model.items[index])));
               },
 
@@ -125,54 +194,16 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
 
                           ),
                         ),
-//                        Container(
-//                          alignment: Alignment.bottomRight
-//                          ,child: Row(
-//                            mainAxisAlignment: MainAxisAlignment.end,
-//                            crossAxisAlignment: CrossAxisAlignment.end
-//                            ,children: <Widget>[
-//
-//                          Padding(
-//                            padding: const EdgeInsets.only(bottom: 3),
-//                            child: InkWell(child: Image.asset('images/whatsapp.png',width: 30,height: 25,),
-//                            onTap: (){
-//                          _launchWhatsApp(model.items[index]);
-//                            },),
-//                          ),
-//                          Padding(
-//                            padding: const EdgeInsets.only(left: 3,right: 1,bottom: 3),
-//                            child: InkWell(child: Image.asset('images/mail.png',width: 25,height: 25,),
-//                            onTap: (){
-//                              _launchEmail(model.items[index]);
-//
-//                            },),
-//                          )
-//                          ],
-//                          ),
-//                        ),
                       ],
                     ),
 
-
-                    /*Positioned(
-                                    child: FittedBox(
-
-                                     fit: BoxFit.fill,
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(photos[index].title,
-                                        style: TextStyle(color: Colors.black87,fontSize: 15.0),
-                                      ),
-
-                                  )
-                                  )*/
                   ],
                 ),
 
               )
 
           );
-        }),
-    );
+        });
   }
 
   getDrawerWidget(HomeViewModel model) {
@@ -197,24 +228,6 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
                     style: TextStyle(color: Colors.white, fontSize: 16),)
                 ],
               ),
-
-//            UserAccountsDrawerHeader(
-//              accountName: new Text('Admin Account'),
-//              accountEmail: new Text('+911111111111'),
-//              onDetailsPressed: () {
-//
-//              },
-//              decoration: new BoxDecoration(
-//               color: Palette.assetColor,
-//                /* image: new DecorationImage(
-//               //   image: new ExactAssetImage('assets/images/lake.jpeg'),
-//                  fit: BoxFit.cover,
-//                ),*/
-//              ),
-//              currentAccountPicture: CircleAvatar(
-//                  backgroundImage: NetworkImage(
-//                      "https://www.fakenamegenerator.com/images/sil-female.png")),
-//            ),
 
               color: Palette.assetColor,
             ),
@@ -241,10 +254,10 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
                         builder: (context) => OrderHistoryView()));
                   }) : Container(),
               if(model.user != null)
-                model.user.isSeller || model.user.isAdmin ?
+                model.user.isSeller ?
               new ListTile(
                   leading: Icon(Icons.credit_card, color: Palette.assetColor),
-                  title: new Text("Manage Order", style: TextStyle(
+                  title: new Text("Manage Orders", style: TextStyle(
                       color: Palette.assetColor, fontSize: 15)),
                   trailing: Icon(
                     Icons.arrow_forward, color: Palette.assetColor,),
@@ -284,29 +297,12 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
                             Setting_Screen(toolbarname: 'Setting',)));
                   }),
 
-//              new ListTile(
-//                  leading: Icon(Icons.credit_card, color: Palette.assetColor),
-//                  title: new Text("push Notification", style: TextStyle(
-//                      color: Palette.assetColor, fontSize: 15)),
-//                  trailing: Icon(
-//                    Icons.arrow_forward, color: Palette.assetColor,),
-//                  onTap: () async {
-//                    User user = await UserPreferences.getUser();
-//
-//                    API.getUserDetailForPushNotification('TEST', 'TESTING', user.id);
-//                    Future<void> _handleNotification (Map<dynamic, dynamic> message, bool dialog) async {
-//                      var data = message['data'] ?? message;
-//                      String expectedAttribute = data['expectedAttribute'];
-//                    }
-//                  }),
-
               new ListTile(
                   leading: Icon(Icons.help, color: Palette.assetColor),
                   title: new Text("Help", style: TextStyle(
                       color: Palette.assetColor, fontSize: 15)),
                   trailing: Icon(
                     Icons.arrow_forward, color: Palette.assetColor,),
-
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) =>
@@ -378,14 +374,135 @@ class _HomeViewState extends State<HomeView> with CommonAppBar {
     );
   }
 
-  Future _launchEmail(ItemName item) async {
-    launch('mailto:trade@graineasy.com?subject=${"ItemName: " +
-        item.name}&body=${"ItemImage: " + item.image}');
+  getBanner(HomeViewModel model) {
+    return Swiper(
+        itemBuilder: (BuildContext context, int index) {
+          return Image.network(
+            "https://res.cloudinary.com/dkhlc6xlj/image/upload/v1556040912/fuixzwtzjuzagnslv2qh.jpg",
+            fit: BoxFit.cover, width: double.infinity,);
+        },
+        itemCount: 3,
+        pagination: new SwiperPagination(
+            builder: new DotSwiperPaginationBuilder(
+                color: Colors.grey, activeColor: Colors.blue)),
+        loop: false,
+        autoplay: true,
+        autoplayDelay: 2000
+    );
   }
 
-  Future _launchWhatsApp(ItemName item) async {
-    FlutterShareMe()
-        .shareToWhatsApp(msg: item.name, base64ImageUrl: item.name);
+  getRecentlyAddedData(HomeViewModel model) {
+    return new GridView.builder(
+        itemCount: model.recentItem.length,
+        shrinkWrap: true,
+//        physics: NeverScrollableScrollPhysics(),
+        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2),
+        itemBuilder: (BuildContext context, int index) {
+          return new GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (context) =>
+                        DetailsView(item: model.recentItem[index],)));
+//                Navigator.push(context, MaterialPageRoute(builder: (context)=> CategoryView(model.items[index])));
+              },
+
+              child: new Card(
+                elevation: 3.0,
+                child: Stack(
+                  children: <Widget>[
+                    Positioned.fill(
+                        child: model.recentItem[index].image != null
+                            ? WidgetUtils
+                            .getCategoryImage(model.recentItem[index].image)
+                            : Icon(
+                            Icons.refresh)),
+                    Container(
+                      color: Colors.black38,
+                    ),
+                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end
+                      , children: <Widget>[
+                        Container(
+                          //margin: EdgeInsets.only(left: 10.0),
+                          padding: EdgeInsets.only(
+                              left: 3.0, bottom: 3.0),
+                          alignment: Alignment.bottomLeft,
+                          child: new Text(
+                            model.recentItem[index].name,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.white,
+                                fontWeight:
+                                FontWeight.bold),
+
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+
+              )
+
+          );
+        });
   }
 
+  getMostOrderData(HomeViewModel model) {
+    return new GridView.builder(
+        itemCount: model.mostOrder.length,
+//        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2),
+        itemBuilder: (BuildContext context, int index) {
+          return new GestureDetector(
+              onTap: () {
+//                Navigator.push(context, MaterialPageRoute(
+//                    builder: (context) =>
+//                        DetailsView(item: model.mostOrder[index],)));
+              },
+
+              child: new Card(
+                elevation: 3.0,
+                child: Stack(
+                  children: <Widget>[
+                    Positioned.fill(
+                        child: model.mostOrder[index].image != null
+                            ? WidgetUtils
+                            .getCategoryImage(model.mostOrder[index].image)
+                            : Icon(
+                            Icons.refresh)),
+                    Container(
+                      color: Colors.black38,
+                    ),
+                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end
+                      , children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.only(
+                              left: 3.0, bottom: 3.0),
+                          alignment: Alignment.bottomLeft,
+                          child: new Text(
+                            model.mostOrder[index].name,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.white,
+                                fontWeight:
+                                FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+          );
+        });
+  }
 }
+
+

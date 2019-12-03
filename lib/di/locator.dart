@@ -14,6 +14,7 @@ import 'package:graineasy/ui/view/manage_order_detail/manage_order_detail_model.
 import 'package:graineasy/ui/view/order/order_history/order_history_view_model.dart';
 import 'package:graineasy/ui/view/order_detail/order_detail_model.dart';
 import 'package:graineasy/ui/view/registration/registration_view_model.dart';
+import 'package:graineasy/ui/view/search/search_item_view_model.dart';
 
 GetIt locator = GetIt();
 
@@ -76,5 +77,9 @@ void setupLocator() {
 
   locator.registerFactory(() {
     return BargainHistoryViewModel();
+  });
+
+  locator.registerFactory(() {
+    return SearchItemViewModel();
   });
 }

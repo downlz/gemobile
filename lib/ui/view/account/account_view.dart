@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/model/address.dart';
 import 'package:graineasy/model/user.dart';
@@ -11,7 +10,6 @@ import 'account_view_model.dart';
 
 class AccountVIew extends StatefulWidget {
   User user;
-
   AccountVIew(this.user);
 
 
@@ -23,7 +21,7 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
   @override
   Widget build(BuildContext context) {
     return BaseView<AccountViewModel>(builder: (context, model, child) {
-      model.init(API.user.phone, API.user.id);
+      model.init(widget.user.phone, widget.user.id);
       return new Scaffold(
         appBar: new AppBar(
           title: Text('My Account'),
@@ -57,7 +55,7 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
   }
 
   _getBaseContainer(AccountViewModel model) {
-    model.getUserDetail();
+//    model.getUserDetail();
     Icon ofericon = new Icon(
       Icons.edit,
       color: Colors.black38,
