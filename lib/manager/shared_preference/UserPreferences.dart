@@ -30,15 +30,15 @@ class UserPreferences {
   static Future<bool> saveUserDetails(User user) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('name', user.name);
-
     prefs.setString('_id', user.id);
-    prefs.setBool('isAdmin', user.isAdmin);
     prefs.setBool('isBuyer', user.isBuyer);
+    prefs.setBool('isAdmin', user.isAdmin);
     prefs.setBool('isSeller', user.isSeller);
     prefs.setBool('isAgent', user.isAgent);
     prefs.setBool('isActive', user.isActive);
     prefs.setString('token', user.token);
     prefs.setString('phone', user.phone);
+    prefs.setString('fcmkey', user.fcmkey);
 
     return true;
   }
@@ -49,16 +49,36 @@ class UserPreferences {
     user.name = prefs.getString("name");
     user.id = prefs.getString("_id");
     user.isAdmin = prefs.getBool("isAdmin");
-    user.isBuyer = prefs.getBool("isBuyer");
     user.isSeller = prefs.getBool("isSeller");
+    user.isBuyer = prefs.getBool("isBuyer");
     user.isAgent = prefs.getBool("isAgent");
     user.isActive = prefs.getBool("isActive");
     user.token = prefs.getString("token");
     user.phone = prefs.getString("phone");
+    user.fcmkey = prefs.getString("fcmkey");
+
     return user;
   }
 
 
+  static Future<bool> saveFCMDeviceDtl(UserModel usermodel) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('fcmkey', usermodel.fcmkey);
+    prefs.setString('devicedtl', usermodel.devicedtl);
+    prefs.setString('devspecs', usermodel.devspecs);
+    return true;
+  }
+
+
+  static Future<UserModel> getFCMDeviceDtl() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    UserModel userModel = new UserModel();
+    userModel.fcmkey = prefs.getString("fcmkey");
+    userModel.devicedtl = prefs.getString("devicedtl");
+    userModel.devspecs = prefs.getString("devspecs");
+
+    return userModel;
+  }
   static Future<bool> saveUserAllDetails(UserModel user) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('vendorCode', user.vendorCode);
@@ -71,6 +91,7 @@ class UserPreferences {
     prefs.setString('GST', user.gst);
     prefs.setBool('isBuyer', user.isBuyer);
     prefs.setString('phone', user.phone);
+    prefs.setString('fcmkey', user.fcmkey);
 
     return true;
   }
@@ -86,6 +107,7 @@ class UserPreferences {
     user.gst = prefs.getString("GST");
     user.isBuyer = prefs.getBool("isActive");
     user.phone = prefs.getString("phone");
+    user.fcmkey = prefs.getString("fcmkey");
     return user;
   }
 

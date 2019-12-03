@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:graineasy/manager/base/base_view.dart';
-import 'package:graineasy/ui/view/order/order_history/order_history_view_model.dart';
-import 'package:graineasy/ui/view/order_detail/order_detail_view.dart';
+import 'package:graineasy/ui/view/manage_order/manage_order/manage_order_view_model.dart';
+import 'package:graineasy/ui/view/manage_order_detail/manage_order_detail_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:graineasy/utils/check_internet/utility.dart';
 
-const URL = "https://graineasy.com";
 
-class OrderHistoryView extends StatefulWidget {
+class ManageOrderView extends StatefulWidget {
   @override
-  _OrderHistoryViewState createState() => _OrderHistoryViewState();
+  _ManageOrderViewState createState() => _ManageOrderViewState();
 }
 
-class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
+class _ManageOrderViewState extends State<ManageOrderView> with CommonAppBar {
   @override
   void initState() {
     super.initState();
@@ -21,7 +20,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<OrderHistoryViewModel>(builder: (context, model, child) {
+    return BaseView<ManageOrderViewModel>(builder: (context, model, child) {
       model.init();
       return new Scaffold(
         appBar: new AppBar(
@@ -33,13 +32,13 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
     });
   }
 
-  Widget _getBody(OrderHistoryViewModel model) {
+  Widget _getBody(ManageOrderViewModel model) {
     return Stack(
       children: <Widget>[_getBaseContainer(model), getProgressBar(model.state)],
     );
   }
 
-  void showMessage(OrderHistoryViewModel model) {
+  void showMessage(ManageOrderViewModel model) {
     try {
       Future.delayed(const Duration(milliseconds: 500), () {
         if (model.shouldShowMessage) {
@@ -52,29 +51,31 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
     }
   }
 
-  _getBaseContainer(OrderHistoryViewModel model) {
+  _getBaseContainer(ManageOrderViewModel model) {
     return model.orderList != null ? getCategoryWidget(model) : Container();
-
   }
 
-  getCategoryWidget(OrderHistoryViewModel model) {
+  getCategoryWidget(ManageOrderViewModel model) {
     return model.orderList.length <= 0
-        ? WidgetUtils.showMessageAtCenterOfTheScreen('No orders found')
+        ? WidgetUtils.showMessageAtCenterOfTheScreen('No category found')
         : ListView.builder(
             itemCount: model.orderList.length,
             itemBuilder: (BuildContext cont, int ind) {
               return Container(
                   margin: EdgeInsets.only(left: 5.0, right: 5.0, bottom: 5.0),
-                  child: GestureDetector(onTap: () {
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) =>
-                            OrderDetailView(model.orderList[ind])));
-                  },
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ManageOrderDetailView(model.orderList[ind])));
+                    },
                     child: Card(
                         elevation: 4.0,
                         child: Container(
-                            padding:
-                            const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                            padding: const EdgeInsets.fromLTRB(
+                                10.0, 10.0, 10.0, 10.0),
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -110,11 +111,10 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
                                 Row(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    rowWidget(
-                                        'Order id', model.orderList[ind]
-                                        .orderno),
+                                    rowWidget('Order id',
+                                        model.orderList[ind].orderno),
                                     rowWidget('Order Amount',
                                         model.orderList[ind].cost.toString()),
                                     rowWidget('Order Type',
@@ -124,27 +124,27 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
                                 model.orderList[ind].address == null
                                     ? Container()
                                     : Divider(
-                                  height: 10.0,
-                                  color: Colors.amber.shade500,
-                                ),
+                                        height: 10.0,
+                                        color: Colors.amber.shade500,
+                                      ),
 
                                 model.orderList[ind].address == null
                                     ? Container()
                                     : Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.location_on,
-                                      size: 20.0,
-                                      color: Colors.amber.shade500,
-                                    ),
-                                    Text(model.orderList[ind].address,
-                                        style: TextStyle(
-                                            fontSize: 13.0,
-                                            color: Colors.black54)),
-                                  ],
-                                ),
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Icon(
+                                            Icons.location_on,
+                                            size: 20.0,
+                                            color: Colors.amber.shade500,
+                                          ),
+                                          Text(model.orderList[ind].address,
+                                              style: TextStyle(
+                                                  fontSize: 13.0,
+                                                  color: Colors.black54)),
+                                        ],
+                                      ),
                                 Divider(
                                   height: 10.0,
                                   color: Colors.amber.shade500,

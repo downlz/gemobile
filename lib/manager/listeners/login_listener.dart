@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:graineasy/exception/data_exception.dart';
 import 'package:graineasy/manager/api_call/login_user.dart';
 
@@ -14,6 +13,7 @@ class LoginDataManager {
 
   void login(String phone, String password) async {
     LoginUser user = LoginUser();
+
     user.loginUser(phone, password).then((users) {
       // TODO change logic
       if (user != null) {

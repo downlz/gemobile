@@ -4,14 +4,15 @@ class User {
   String name;
   String id;
   bool isAdmin;
-  bool isBuyer;
   bool isSeller;
   bool isAgent;
   bool isActive;
+  bool isBuyer;
   String token;
+  String fcmkey;
   String phone;
 
-  User({this.name,this.id,
+  User({this.name,this.id,this.fcmkey,
       this.isActive,this.isAdmin,this.isAgent,this.isBuyer,this.isSeller,
       this.token,this.phone});
 
@@ -21,12 +22,13 @@ class User {
       : name = json['name'],
         id = json['_id'],
         phone = json['phone'],
-        isBuyer = json['isBuyer'],
-        isSeller = json['isSeller'],
-        isAgent = json['isAgent'],
-        isAdmin = json['isAdmin'],
-        isActive = json['isActive'],
-        token = json['token'];
+        isSeller = checkBool(json, 'isSeller'),
+        isAgent = checkBool(json, 'isAgent'),
+        isAdmin = checkBool(json, 'isAdmin'),
+        isBuyer = checkBool(json, 'isBuyer'),
+        isActive = checkBool(json, 'isActive'),
+        token = json['token'],
+        fcmkey = json['fcmkey'];
 
   Map<String, dynamic> toJson() =>
       {
@@ -34,10 +36,17 @@ class User {
         '_id': id,
         'token': token,
         'phone': phone,
-        'isBuyer': isBuyer,
         'isSeller': isSeller,
+        'isBuyer': isBuyer,
         'isAgent': isAgent,
         'isAdmin': isAdmin,
         'isActive': isActive,
+        'fcmkey' : fcmkey
       };
+
+  static checkBool(Map<String, dynamic> json, String data) {
+    if (json.containsKey(data))
+      return json[data];
+    return false;
+  }
 }

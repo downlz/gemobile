@@ -11,8 +11,8 @@ import 'package:graineasy/utils/ui_helper.dart';
 const URL = "https://graineasy.com";
 
 class OrderDetailView extends StatefulWidget {
-  Order orderList;
 
+  Order orderList;
   OrderDetailView(this.orderList);
 
   @override
@@ -97,7 +97,7 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
-              "OrderId: " + widget.orderList.id,
+              "OrderId: " + widget.orderList.orderno,
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -139,10 +139,12 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
-              "Address: " +
-                  widget.orderList.item.address.text +
-                  "" +
-                  widget.orderList.item.address.city.name,
+              "Shipping Address: " +
+//                  widget.orderList.item.address.text +
+//                  "" +
+//                  widget.orderList.item.address.city.name +
+//                  "" +
+                  getShippingAddress(widget.orderList),
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -177,4 +179,47 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
       ),
     );
   }
+
+  getShippingAddress(Order orderitem){
+    String shipaddr;
+    if (orderitem.isshippingbillingdiff == true) {
+
+      shipaddr =  orderitem.shippingaddress.addridentifier.partyname +
+     " " +
+          orderitem.shippingaddress.addridentifier.gstin +
+    " " +
+          orderitem.shippingaddress.text +
+    " " +
+          orderitem.shippingaddress.state.name +
+    " " +
+          orderitem.shippingaddress.pin +
+    " " +
+          orderitem.shippingaddress.phone;
+    } else if (orderitem.isshippingbillingdiff == false) {
+      shipaddr =  orderitem.shippingaddress.addridentifier.partyname +
+          " " +
+          orderitem.buyer.name +
+          " " +
+          orderitem.buyer.gst +
+          " " +
+          orderitem.address +
+          " " +
+          orderitem.buyer.phone;
+    } else {
+      shipaddr =  orderitem.buyer.name +
+          " " +
+          orderitem.buyer.gst +
+          " " +
+          orderitem.buyer.addresses[0].text +
+          " " +
+          orderitem.buyer.addresses[0].city.name +
+          " " +
+          orderitem.buyer.addresses[0].city.state.name +
+          " " +
+          orderitem.buyer.addresses[0].pin +
+          " " +
+          orderitem.buyer.phone;
+    }
+    return shipaddr;
+    }
 }

@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/basemodel.dart';
+import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
+import 'package:graineasy/model/bargain.dart';
 import 'package:graineasy/model/cart_item.dart';
+import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/view/cart_screen/cart_view.dart';
 
 class DetailsViewModel extends BaseModel {
   Item itemDetails;
   bool isFirstTime = true;
-  static String price;
+  Bargain bargainDetail;
+  User user;
 
-  void init(String id) {
+  void init(Item item) async {
     if (isFirstTime) {
-      getItemDetails(id);
+      itemDetails = item;
+      user = await UserPreferences.getUser();
+      getItemDetails(itemDetails.id);
       isFirstTime = false;
+      checkBargainActiveOrNot(true);
     }
   }
 
@@ -32,11 +39,32 @@ class DetailsViewModel extends BaseModel {
     List<CartItem> cartItems = [];
     cartItems.add(new CartItem(qty, totalPrice, item));
     setState(ViewState.Idle);
-
+    print(totalPrice);
     Navigator.push(context,
         MaterialPageRoute(
             builder: (context) =>
                 CartView(cartItems)));
   }
 
+
+  Future initiateBargain(String buyerQuote, String quantity) async {
+    setState(ViewState.Busy);
+    await API.createBargainRequest(
+        itemDetails.id, user.id, buyerQuote, quantity);
+    checkBargainActiveOrNot(false);
+  }
+
+
+  Future checkBargainActiveOrNot(bool showProgress) async
+  {
+    print('Product id============> ${itemDetails.id}');
+    if (showProgress)
+      setState(ViewState.Busy);
+    bargainDetail = !user.isSeller ?
+    await API.checkBuyerRequestActiveOrNot(itemDetails.id, user.id) :
+    await API.checkSellerRequestActiveOrNot(
+        itemDetails.id, itemDetails.seller.id);
+    setState(ViewState.Idle);
+  }
 }
+

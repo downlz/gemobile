@@ -102,11 +102,26 @@ static  validateEmptyPassword(String value) {
   static validateEmptyItemQty(String value, Item itemDetails) {
     if (value.isEmpty)
       return 'Quntity equired';
-    else if (itemDetails.qty < int.parse(value))
+
+    if (itemDetails.qty < int.parse(value))
       return '${itemDetails.qty} qty availabel';
     else
       return null;
   }
+
+
+  static validateItemQtyAndPrice(String value, Item itemDetails) {
+    if (value.isEmpty)
+      return 'Quote equired';
+
+    if (int.parse(value) == 0)
+      return 'Enter valid Quote amount';
+    else
+      return null;
+  }
+
+
+
 
   static validateGstInNumber(String value) {
     if ((value.length < 15)) {

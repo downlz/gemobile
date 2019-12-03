@@ -4,7 +4,6 @@ import 'package:graineasy/model/address.dart';
 import 'package:graineasy/model/cart_item.dart';
 import 'package:graineasy/ui/theme/palette.dart';
 import 'package:graineasy/ui/view/cart_screen/cart_view_model.dart';
-import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:graineasy/utils/ui_helper.dart';
@@ -133,8 +132,6 @@ class _CartViewState extends State<CartView> with CommonAppBar {
               onPressed: () {
 //              model.getLastOrderNumber();
                 model.createOrder(widget.cartItems[0].item);
-                Navigator.pushReplacement(context, MaterialPageRoute(
-                    builder: (context) => OrderHistoryView()));
               },
               child: Text('Place Order',
                   style: TextStyle(
@@ -283,11 +280,12 @@ class _CartViewState extends State<CartView> with CommonAppBar {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             setWidgetData('Unit Price',
-                                model.cartItems[ind].item.price.toString()),
+                            "\u20B9" + model.cartItems[ind].item.price.toString() +
+                                    '/' + model.cartItems[ind].item.unit.mass),
                             setWidgetData(
                                 'Qty', model.cartItems[ind].qty.toString()),
                             setWidgetData('Total',
-                                model.cartItems[ind].totalPrice.toString()),
+                                "\u20B9" + model.cartItems[ind].totalPrice.toString()),
                           ],
                         ),
                       ],

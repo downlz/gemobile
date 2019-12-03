@@ -2,7 +2,7 @@
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 
 class ApiConfig {
-  static final String baseURL = 'http://3.16.57.93:3000/api/';    // Any idea to store different URL for PROD and DEV! 3.16.57.93
+  static final String baseURL = 'http://3.16.57.93:3000/api/'; // Any idea to store different URL for PROD and DEV! 3.16.57.93
   static String login =baseURL +'auth';
   static String register = baseURL + 'user';
   static String forgotPassword =baseURL +'user/resetpassword';
@@ -29,15 +29,21 @@ class ApiConfig {
   static String updateManualBill = baseURL + 'uploadbill/';
   static String getManualBill = baseURL + 'uploadbill/';
   static String getUserOrders = baseURL + 'order/user/';
-  static String getAgentOrders = baseURL + 'order/agent/:id';
+  static String getAgentOrders = baseURL + 'order/agent/';
+
+  // Billing APIs
+  static String getPO = baseURL + 'getpo';
+  static String getInvoice = baseURL + 'getinvoice';
 
   // Bargain APIs
-  static String raiseBargainRequest = baseURL + 'bargain';
-  static String updateBargainRequest = baseURL + 'bargain';
-  static String getBargainDtl = baseURL + 'uploadbill/';
-  static String pauseBargain = baseURL + 'uploadbill/';
+  static String raiseBargainRequest = baseURL + 'bargain/';
+  static String updateBargainRequest = baseURL + 'bargain/';
+  static String getBargainDtl = baseURL + 'bargain/';
+  static String pauseBargain = baseURL + 'bargain/pause/';
   static String releaseBargain = baseURL + 'uploadbill/';
 
+  //get FCM Key
+  static String updateUserApiForGetFcmKey = baseURL + 'user/';
   static int successStatusCode = 200;
 
 
@@ -47,9 +53,15 @@ class ApiConfig {
 
   static getHeaderWithToken() async
   {
-    return {"Content-Type": "application/json",
-    "Authorization":'Bearer '+await UserPreferences.getToken()};
+    return {
+      "Authorization": await UserPreferences.getToken()};
   }
 
+  static getHeaderWithTokenAndContentType() async
+  {
+    return {
+      "Content-Type": "application/json",
+      "Authorization": await UserPreferences.getToken()};
+  }
 
 }

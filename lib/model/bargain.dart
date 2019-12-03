@@ -1,7 +1,8 @@
-import 'package:graineasy/model/item.dart';
 import 'package:graineasy/model/usermodel.dart';
 import 'package:graineasy/utils/check_internet/utility.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'Item.dart';
 
 //import 'package:graineasy/model/address.dart';
 //import 'package:graineasy/model/auction.dart';
@@ -55,6 +56,14 @@ class Bargain {
       addedby: json['addedby']
     );
   }
+
+
+  static List<Bargain> fromJsonArray(List<dynamic> json) {
+    List<Bargain> bargainLists = json.map<Bargain>((json) =>
+        Bargain.fromJson(json))
+        .toList();
+    return bargainLists;
+  }
 }
 
 class pricerequestSchema {
@@ -70,8 +79,12 @@ class pricerequestSchema {
     if (json == null) return null;
     return pricerequestSchema(
       requestedon: Utility.convertStringDateToDateTime(json['requestedon']),
-      buyerquote: json['buyerquote'].toDouble(),
-      sellerquote: json['sellerquote'].toDouble(),
+      buyerquote: json['buyerquote'] != null
+          ? json['buyerquote'].toDouble()
+          : 0.0,
+      sellerquote: json['sellerquote'] != null
+          ? json['sellerquote'].toDouble()
+          : 0.0,
       status: json['status'],
     );
   }

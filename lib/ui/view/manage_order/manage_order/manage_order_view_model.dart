@@ -4,15 +4,17 @@ import 'package:graineasy/model/order.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 
-class OrderHistoryViewModel extends BaseModel {
+class ManageOrderViewModel extends BaseModel {
   bool isListEmpty = false;
+  User user;
   List<Order> orderList;
+
   bool isFirstTime = true;
 
   getOrders() async {
     setState(ViewState.Busy);
     User user = await UserPreferences.getUser();
-    if (user.isSeller || user.isBuyer) {                // Ideally seller would not have any orders
+    if (user.isSeller) {                // Ideally seller would not have any orders
       orderList = await API.getUserOrders(user.id);
     } else if (user.isAdmin){
       orderList = await API.getOrders();
