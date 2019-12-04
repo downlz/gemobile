@@ -79,7 +79,7 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
               padding: EdgeInsets.only(left: 10),
               alignment: Alignment.centerLeft,
               child: Text(
-                'Select OrderStatus:',
+                'Update Order Status:',
                 style: TextStyle(
                     color: Palette.assetColor,
                     fontSize: 18,
@@ -163,7 +163,7 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
-              "OrderId: " + model.order.id,
+              "OrderId: " + model.order.orderno,
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -281,6 +281,14 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
   }
 
   getUpdateBtn(ManageOrderDetailViewModel model) {
+    var _onPressed;
+
+    if (model.order.status != 'cancelled'){
+        _onPressed = () {
+        model.updateStatus(model.order.id);
+        print('data');
+      };
+    }
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: RaisedButton(
@@ -295,10 +303,7 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
               FontWeight.bold,
               FontStyle.normal),
         ),
-        onPressed: () {
-          model.updateStatus(model.order.id);
-          print('data');
-        },
+        onPressed: _onPressed,
       ),
     );
   }
@@ -308,5 +313,7 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
       return Container();
     if (model.selectedOrderStatus != null)
       return getUpdateBtn(model);
+//    if (model.selectedOrderStatus == 'cancelled')
+//      return Container();
   }
 }

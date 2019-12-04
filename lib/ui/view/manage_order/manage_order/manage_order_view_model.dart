@@ -15,11 +15,11 @@ class ManageOrderViewModel extends BaseModel {
     setState(ViewState.Busy);
     User user = await UserPreferences.getUser();
     if (user.isSeller) {                // Ideally seller would not have any orders
-      orderList = await API.getParticularUserOrders(user.id);
+      orderList = await API.getUserOrders(user.id);
     } else if (user.isAdmin){
       orderList = await API.getOrders();
     } else if (user.isAgent){
-      orderList = await API.getParticularUserOrders(user.id);
+      orderList = await API.getAgentOrders(user.id);
     } else {
       // Will think in future
     }

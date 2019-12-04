@@ -86,12 +86,12 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(model.bargainDetail.item.itemname.name + ' | ' +
-                      model.bargainDetail.item.category.name,
+                      model.bargainDetail.item.category.name + ' | ' + model.bargainDetail.item.sampleNo,
                     style: TextStyle(
                         fontSize: 20, fontWeight: FontWeight.bold),),
-                  Text("Sample Number: " + model.bargainDetail.item.sampleNo,
-                    style: TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.w400),),
+//                  Text("Sample Number: " + model.bargainDetail.item.sampleNo,
+//                    style: TextStyle(
+//                        fontSize: 18, fontWeight: FontWeight.w400),),
                   Text("Origin: " + model.bargainDetail.item.origin,
                       style: TextStyle(
                           fontSize: 18, fontWeight: FontWeight.w400)),
