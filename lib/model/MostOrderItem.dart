@@ -23,7 +23,7 @@ class MostOrderItem {
   final int bargaintrgqty;
   final bool bargainenabled;
   final Unit unit;
-  final int price;
+  final double price;
   final String sampleNo;
   final City city;
   final String origin;
@@ -80,7 +80,7 @@ class MostOrderItem {
       origin: json['item']['origin'],
       isLive: json['item']['isLive'],
       isTaxable: json['item']['isTaxable'],
-      price: json['item']['price'],
+      price: json['item']['price'].toDouble(),
       itemname: ItemName.fromJson(json['item']['name']),
       unit: Unit.fromJson(json['item']['unit']),
       category: Category.fromJson(json['item']['category']),

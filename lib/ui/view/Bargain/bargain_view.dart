@@ -75,6 +75,43 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
   _getBaseContainer(BargainViewModel model) {
     return Column(
       children: <Widget>[
+        Container(
+          width: double.infinity,
+          padding: EdgeInsets.only(top: 10, left: 10, right: 10),
+          child: Card(
+            elevation: 5,
+            child: Padding(
+              padding: const EdgeInsets.all(5),
+              child: Column(mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(model.bargainDetail.item.itemname.name + ' | ' +
+                      model.bargainDetail.item.category.name,
+                    style: TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),),
+                  Text("Sample Number: " + model.bargainDetail.item.sampleNo,
+                    style: TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w400),),
+                  Text("Origin: " + model.bargainDetail.item.origin,
+                      style: TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w400)),
+                  Text("Manufacturer: " +
+                      model.bargainDetail.item.manufacturer.name,
+                      style: TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w400)),
+                  Text("List Price: " +
+                      model.bargainDetail.item.price.toString() + "/" +
+                      model.bargainDetail.item.unit.mass, style: TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w400)),
+                  Text("Requested Qty: " +
+                      model.bargainDetail.quantity.toString(), style: TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w400)),
+
+                ],
+              ),
+            ),
+          ),
+        ),
         Expanded(
             child:
             getBargainDetailWidget(model)
@@ -194,12 +231,17 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(
-                quote.sellerquote.toString() + "/" +
-                    model.bargainDetail.item.unit.mass,
+              Row(children: <Widget>[Text(
+                quote.sellerquote.toString(),
                 style: TextStyle(
                     fontSize: 25, color: Colors.deepOrange),
+              ), Text(
+                "/" +
+                    model.bargainDetail.item.unit.mass,
+                style: TextStyle(
+                    fontSize: 15, color: Colors.deepOrangeAccent),
               ),
+              ],),
               UIHelper.verticalSpaceSmall,
               Text(
                 'By Seller',
@@ -229,17 +271,28 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
           ? Card(
         elevation: 3,
         child: Container(
-          width: 120,
+          width: 150,
           alignment: Alignment.centerLeft,
           padding: EdgeInsets.all(5),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(
-                quote.buyerquote.toString() + "/" +
+              Row(children: <Widget>[Text(
+                quote.buyerquote.toString(),
+                style: TextStyle(
+                    fontSize: 25, color: Colors.black),
+              ), Text(
+                "/" +
                     model.bargainDetail.item.unit.mass,
-                style: TextStyle(fontSize: 25, color: Colors.black),
+                style: TextStyle(
+                    fontSize: 15, color: Colors.grey),
               ),
+              ],),
+//              Text(
+//                quote.buyerquote.toString() + "/" +
+//                    model.bargainDetail.item.unit.mass,
+//                style: TextStyle(fontSize: 25, color: Colors.black),
+//              ),
               UIHelper.verticalSpaceSmall,
               Text(
                 'By Buyer',

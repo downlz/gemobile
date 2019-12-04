@@ -15,16 +15,27 @@ class DetailsViewModel extends BaseModel {
   User user;
 
   void init(Item item, String id) async {
-//    if(id!=null){
-//      getItemDetails(id);}
-//    else {
-    if (isFirstTime) {
-      itemDetails = item;
-      user = await UserPreferences.getUser();
-      getItemDetails(itemDetails.id);
-      isFirstTime = false;
-      checkBargainActiveOrNot(true);
+    if (isFirstTime)
+      if (id != null) {
+        user = await UserPreferences.getUser();
+        setState(ViewState.Busy);
+        itemDetails = await API.getItemFromId(id);
+        setState(ViewState.Idle);
+        isFirstTime = false;
+//              checkBargainActiveOrNot(false);
+
+
     }
+      else {
+        if (isFirstTime) {
+          itemDetails = item;
+          user = await UserPreferences.getUser();
+          getItemDetails(itemDetails.id);
+          isFirstTime = false;
+          checkBargainActiveOrNot(true);
+        }
+      }
+
   }
 
   void getItemDetails(String id) async {
@@ -32,12 +43,14 @@ class DetailsViewModel extends BaseModel {
     setState(ViewState.Busy);
     itemDetails = await API.getItemFromId(id);
     setState(ViewState.Idle);
+    print('selected==${itemDetails.price}');
   }
 
   void calculatePrice(Item item, String sellerId, String buyerId,
       int qty) async {
     setState(ViewState.Busy);
-    int totalPrice = await API.getCalculatePrice(
+
+    var totalPrice = await API.getCalculatePrice(
         item.id, sellerId, buyerId, qty);
     List<CartItem> cartItems = [];
     cartItems.add(new CartItem(qty, totalPrice, item));

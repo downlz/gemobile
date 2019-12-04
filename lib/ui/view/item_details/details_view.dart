@@ -18,7 +18,7 @@ class DetailsView extends StatefulWidget {
   String id;
 
 
-  DetailsView({this.item});
+  DetailsView({this.item, this.id});
 
   @override
   _DetailsViewState createState() => _DetailsViewState();
@@ -42,7 +42,10 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
       model.init(widget.item, widget.id);
       return new Scaffold(
         appBar: new AppBar(
-          title: Text(widget.item.name),
+          title: Text(
+              widget.item != null ? widget.item.name : model.itemDetails != null
+                  ? model.itemDetails.name
+                  : ''),
           backgroundColor: Colors.white,
         ),
         body: _getBody(model),
@@ -238,23 +241,23 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             // three line description
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 10.0),
-                              child: Text(
-                                'Details',
-                                style: Theme
-                                    .of(context)
-                                    .textTheme
-                                    .subhead
-                                    .copyWith(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black87),
-                              ),
-                            ),
+//                            Padding(
+//                              padding: const EdgeInsets.only(bottom: 10.0),
+//                              child: Text(
+//                                'Details',
+//                                style: Theme
+//                                    .of(context)
+//                                    .textTheme
+//                                    .subhead
+//                                    .copyWith(
+//                                    fontSize: 20.0,
+//                                    fontWeight: FontWeight.bold,
+//                                    color: Colors.black87),
+//                              ),
+//                            ),
                           ],
                         ))),
-                detailWidget(widget.item)
+                detailWidget(model.itemDetails)
 
               ])),),
           model.bargainDetail != null ? Padding(
@@ -345,13 +348,15 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(item.name + ' | ' + item.category.name,
+          Text(item.name,
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Text("Sample Number: " + item.sampleNo,
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           ),
+          Text("Category: " + item.category.name,
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text("Origin: " + item.origin,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text("Manufacturer: " + item.manufacturer.name,

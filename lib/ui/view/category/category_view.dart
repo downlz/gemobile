@@ -95,9 +95,62 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                             Container(
                               color: Colors.black38,
                             ),
-                            Row(
+                            Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 2, right: 1),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceBetween,
+                                    children: <Widget>[
+                                      model.items[index].bargainenabled == true
+                                          ? Container(
+                                        alignment: Alignment.topLeft,
+                                        child: Text('Bargain Enabled',
+                                          style: TextStyle(color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 12),),
+                                      )
+                                          : Container(
+                                          alignment: Alignment.topLeft),
+                                      Container(
+                                        alignment: Alignment.topRight
+                                        , child: Row(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .end,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .end,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 3),
+                                            child: InkWell(child: Image.asset(
+                                              'images/whatsapp.png', width: 30,
+                                              height: 25,),
+                                              onTap: () {
+                                                _launchWhatsApp(
+                                                    model.items[index]);
+                                              },),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 3, bottom: 3),
+                                            child: InkWell(child: Image.asset(
+                                              'images/mail.png', width: 25,
+                                              height: 25,),
+                                              onTap: () {
+                                                _launchEmail(
+                                                    model.items[index]);
+                                              },),
+                                          )
+                                        ],
+                                      ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                                 Container(
                                   //margin: EdgeInsets.only(left: 10.0),
                                   padding: EdgeInsets.only(
@@ -112,35 +165,6 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                ),
-                                Container(
-                                  alignment: Alignment.bottomRight
-                                  , child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.end
-                                  , children: <Widget>[
-
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 3),
-                                    child: InkWell(child: Image.asset(
-                                      'images/whatsapp.png', width: 30,
-                                      height: 25,),
-                                      onTap: () {
-                                        _launchWhatsApp(model.items[index]);
-                                      },),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 3, right: 1, bottom: 3),
-                                    child: InkWell(child: Image.asset(
-                                      'images/mail.png', width: 25,
-                                      height: 25,),
-                                      onTap: () {
-                                        _launchEmail(model.items[index]);
-                                      },),
-                                  )
-                                ],
-                                ),
                                 ),
                               ],
                             ),

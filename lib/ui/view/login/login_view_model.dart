@@ -11,6 +11,7 @@ import 'package:graineasy/utils/check_internet/utility.dart';
 class LoginViewModel extends BaseModel implements LoginListener
 {
   String phone, password;
+  String selectedChooseRole;
 
   @override
   void errorObtained(String error, int errorCode, String methodName) {
