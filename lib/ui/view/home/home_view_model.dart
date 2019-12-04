@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as prefix0;
 import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/basemodel.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
@@ -71,10 +72,12 @@ class HomeViewModel extends BaseModel
                           children: <Widget>[
                             FlatButton(
                                 child: Text('View'),
-                                onPressed: () =>
-                                    Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) =>
-                                            OrderDetailView(id: id,)))
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) =>
+                                          OrderDetailView(id: id,)));
+                                }
                             ),
                             FlatButton(
                                 child: Text('Cancel'),
@@ -103,11 +106,12 @@ class HomeViewModel extends BaseModel
                           children: <Widget>[
                             FlatButton(
                                 child: Text('View'),
-                                onPressed: () =>
-                                    Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) =>
-                                            DetailsView()))
-//                                            DetailsView(id:id)))
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) =>
+                                          DetailsView(id: id,)));
+                                }
                             ),
                             FlatButton(
                                 child: Text('Cancel'),
@@ -136,10 +140,12 @@ class HomeViewModel extends BaseModel
                           children: <Widget>[
                             FlatButton(
                                 child: Text('View'),
-                                onPressed: () =>
-                                    Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) =>
-                                            ManageOrderDetailView(id: id,)))
+                                onPressed: () {
+                                  prefix0.Navigator.pop(context);
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) =>
+                                          ManageOrderDetailView(id: id,)));
+                                }
                             ),
                             FlatButton(
                                 child: Text('Cancel'),
@@ -168,10 +174,12 @@ class HomeViewModel extends BaseModel
                           children: <Widget>[
                             FlatButton(
                                 child: Text('View'),
-                                onPressed: () =>
-                                    Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) =>
-                                            BargainView(id: id)))
+                                onPressed: () {
+                                  prefix0.Navigator.pop(context);
+                                  Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) =>
+                                          BargainView(id: id)));
+                                }
                             ),
                             FlatButton(
                                 child: Text('Cancel'),
@@ -281,7 +289,6 @@ class HomeViewModel extends BaseModel
   Future userDetail() async {
     user = await UserPreferences.getUser();
   }
-
 
   void init() {
     if(isFirstTime) {

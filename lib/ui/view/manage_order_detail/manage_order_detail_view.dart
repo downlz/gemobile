@@ -36,7 +36,6 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
     return BaseView<ManageOrderDetailViewModel>(
         builder: (context, model, child) {
           model.init(widget.id, widget.orderList);
-
           return new Scaffold(
             appBar: new AppBar(
               title: Text('Order Detail'),

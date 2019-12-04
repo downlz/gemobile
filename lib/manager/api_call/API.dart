@@ -53,6 +53,14 @@ class API extends BaseRepository
     'delivered'
   ];
 
+  static List<String> chooseRole = [
+    'Default',
+    'Buyer',
+    'Seller',
+    'Partner',
+    'Transporter (Only for Transporters)'
+  ];
+
   static List<String> bargainAction = [
     'placed',
     'negotiation',
@@ -122,7 +130,8 @@ class API extends BaseRepository
     return [];
   }
 
-  static Future<List<Address>> getAddress(String phone, String id) async {
+  static Future<List<Address>> getAddress(String phone, String id) async
+  {
     var response = await http.get(ApiConfig.getUserAddresses+'/byuser/'+id+'/phone/'+phone,
 //        'http://3.16.57.93:3000/api/address/byuser/${id}/phone/${phone}',
         headers: await ApiConfig.getHeaderWithToken());
@@ -452,18 +461,18 @@ class API extends BaseRepository
       }
     }
 
-//    var response = await http.post(ApiConfig.createOrder,
-//        headers: {"Content-Type": "application/json",
-//          "Authorization": 'Bearer ' + await UserPreferences.getToken()},
-//        body: jsonEncode(data));
-////    print(response.body);
-//    if (response.statusCode == ApiConfig.successStatusCode) {
-//      print(response.body);
-//      Map<String, dynamic> responseBody = jsonDecode(response.body);
-//      return 'Create Order';
-//    } else {
-//      return 'error';
-//    }
+    var response = await http.post(ApiConfig.createOrder,
+        headers: {"Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()},
+        body: jsonEncode(data));
+//    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      print(response.body);
+      Map<String, dynamic> responseBody = jsonDecode(response.body);
+      return 'Create Order';
+    } else {
+      return 'error';
+    }
   }
 
 
