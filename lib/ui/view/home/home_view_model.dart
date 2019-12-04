@@ -19,6 +19,7 @@ class HomeViewModel extends BaseModel
   List<ItemName> items;
   List<Item> recentItem;
   List<MostOrderItem> mostOrder;
+  List<MostOrderItem> itemsNear;
   User user;
   bool isFirstTime = true;
   String deviceplatform;
@@ -294,6 +295,7 @@ class HomeViewModel extends BaseModel
   getRecentlyAddedItem() async {
     recentItem = await API.getRecentlyAddedItem();
     getMostOrdered();
+    getItemsNearMe();
   }
 
   getMostOrdered() async {
@@ -301,5 +303,9 @@ class HomeViewModel extends BaseModel
     setState(ViewState.Idle);
   }
 
+  getItemsNearMe() async {
+    itemsNear = await API.getItemsNear();
+    setState(ViewState.Idle);
+  }
 
 }

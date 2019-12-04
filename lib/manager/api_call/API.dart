@@ -413,8 +413,8 @@ class API extends BaseRepository
     var data = {
       'quantity': cart.qty,
       'unit': cart.item.unit.mass,
-      'cost': cart.item.price,
-      'price': cart.totalPrice.toString(),
+      'cost': cart.totalPrice,
+      'price': cart.item.price,
       // Price is shown correctly in screen but incorrect value coming here
       'itemId': cart.item.id,
       'addressId': address.id,
@@ -446,23 +446,24 @@ class API extends BaseRepository
       data['addresstype'] = address.addresstype;
 //      data['city'] = address.city.id;
 
+      print(address.city.id);
       if (address.city.id != null) {                                        // Improve coding standards - Unhandled Exception: NoSuchMethodError: The getter 'id' was called on null.
           data['city'] = address.city.id;
       }
     }
 
-    var response = await http.post(ApiConfig.createOrder,
-        headers: {"Content-Type": "application/json",
-          "Authorization": 'Bearer ' + await UserPreferences.getToken()},
-        body: jsonEncode(data));
-//    print(response.body);
-    if (response.statusCode == ApiConfig.successStatusCode) {
-      print(response.body);
-      Map<String, dynamic> responseBody = jsonDecode(response.body);
-      return 'Create Order';
-    } else {
-      return 'error';
-    }
+//    var response = await http.post(ApiConfig.createOrder,
+//        headers: {"Content-Type": "application/json",
+//          "Authorization": 'Bearer ' + await UserPreferences.getToken()},
+//        body: jsonEncode(data));
+////    print(response.body);
+//    if (response.statusCode == ApiConfig.successStatusCode) {
+//      print(response.body);
+//      Map<String, dynamic> responseBody = jsonDecode(response.body);
+//      return 'Create Order';
+//    } else {
+//      return 'error';
+//    }
   }
 
 
@@ -826,6 +827,21 @@ class API extends BaseRepository
           jsonDecode(response.body));
       print('most=======>${response.body}');
       print('mostOrderId=======>${items[0].mostOrderId}');
+      return items;
+    }
+    return [];
+  }
+
+  static Future<List<MostOrderItem>> getItemsNear() async
+  {
+    var response = await http.post(ApiConfig.getItemNear,
+        headers: await ApiConfig.getHeaderWithTokenAndContentType());
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<MostOrderItem> items = MostOrderItem.fromJsonArray(
+          jsonDecode(response.body));
+      print('near=======>${response.body}');
+      print('itemsnearme=======>${items[0].mostOrderId}');
       return items;
     }
     return [];

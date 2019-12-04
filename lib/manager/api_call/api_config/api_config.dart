@@ -50,6 +50,7 @@ class ApiConfig {
 
   static var getRecentlyAddedItem = baseURL + 'item/recent';
   static var getMostOrdered = baseURL + 'item/ordered/';
+  static var getItemNear = baseURL + 'item/nearme/';
 
 
   static getHeader() {
