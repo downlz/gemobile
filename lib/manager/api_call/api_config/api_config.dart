@@ -12,6 +12,7 @@ class ApiConfig {
   static String getUserDetail = baseURL + 'user/me';
   static String getAddress = baseURL + 'address/phone/';
   static String getUserOrderList = baseURL + 'order/user/';
+  static String getOrderList = baseURL + 'order';
   static String getState = baseURL + 'state';
   static String getCity = baseURL + 'city';
   static String price = baseURL + 'price';

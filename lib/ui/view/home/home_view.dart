@@ -125,9 +125,9 @@ class _HomeViewState extends State<HomeView>
                   child:
                   TabBar(tabs: [
                     Tab(child: Text('All')),
-                    Tab(child: Text('New',)),
-                    Tab(child: Text('Most Orderd')),
-                    Tab(child: Text('NearBy')),
+                    Tab(child: Text('New')),
+                    Tab(child: Text('Most Ordered')),
+                    Tab(child: Text('Near Me')),
                   ],
 //                    isScrollable: true,
                     controller: tabController,
@@ -140,9 +140,9 @@ class _HomeViewState extends State<HomeView>
                         ? getRecentlyAddedData(model)
                         : Container(),
                     model.mostOrder != null ? getMostOrderData(model) : Text(
-                        'No Data'),
+                        'No items found'),
                     model.itemsNear != null ? getItemsNearMe(model) : Text(
-                        'No Data'),
+                        'No items found'),
                   ],
                     controller: tabController,
                   ),
@@ -261,7 +261,7 @@ class _HomeViewState extends State<HomeView>
                         builder: (context) => OrderHistoryView()));
                   }) : Container(),
               if(model.user != null)
-                model.user.isSeller ?
+                model.user.isSeller || model.user.isAdmin ?
               new ListTile(
                   leading: Icon(Icons.credit_card, color: Palette.assetColor),
                   title: new Text("Manage Orders", style: TextStyle(
@@ -551,15 +551,16 @@ class _HomeViewState extends State<HomeView>
   getMostOrderData(HomeViewModel model) {
     return new GridView.builder(
         itemCount: model.mostOrder.length,
-//        shrinkWrap: true,
+        shrinkWrap: true,
+//        physics: NeverScrollableScrollPhysics(),
         gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2),
         itemBuilder: (BuildContext context, int index) {
           return new GestureDetector(
               onTap: () {
-//                Navigator.push(context, MaterialPageRoute(
-//                    builder: (context) =>
-//                        DetailsView(item: model.mostOrder[index],)));
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (context) =>
+                        DetailsView(item: model.mostOrder[index],)));
               },
 
               child: new Card(
@@ -603,8 +604,7 @@ class _HomeViewState extends State<HomeView>
                                       'images/whatsapp.png', width: 30,
                                       height: 25,),
                                       onTap: () {
-                                        launchWhatsAppMostOrder(
-                                            model.mostOrder[index]);
+                                        launchWhatsApp(model.mostOrder[index]);
                                       },),
                                   ),
                                   Padding(
@@ -614,8 +614,7 @@ class _HomeViewState extends State<HomeView>
                                       'images/mail.png', width: 25,
                                       height: 25,),
                                       onTap: () {
-                                        launchEmailMostOrder(
-                                            model.mostOrder[index]);
+                                        launchEmail(model.mostOrder[index]);
                                       },),
                                   )
                                 ],
@@ -640,22 +639,24 @@ class _HomeViewState extends State<HomeView>
                           ),
                         ),
                       ],
-                    ),
+                    )
 //                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
 //                      crossAxisAlignment: CrossAxisAlignment.end
 //                      , children: <Widget>[
 //                        Container(
+//                          //margin: EdgeInsets.only(left: 10.0),
 //                          padding: EdgeInsets.only(
 //                              left: 3.0, bottom: 3.0),
 //                          alignment: Alignment.bottomLeft,
 //                          child: new Text(
-//                            model.mostOrder[index].name,
+//                            model.recentItem[index].name,
 //                            textAlign: TextAlign.center,
 //                            style: TextStyle(
 //                                fontSize: 20.0,
 //                                color: Colors.white,
 //                                fontWeight:
 //                                FontWeight.bold),
+//
 //                          ),
 //                        ),
 //                        Container(
@@ -690,24 +691,175 @@ class _HomeViewState extends State<HomeView>
 //                    ),
                   ],
                 ),
+
               )
+
           );
         });
   }
 
+/*Shahnawaz-> Disabling section as its not required to create a separate model for most ordered */
+// nearby,mostordered and recent items will always return response which is based on item model
+//  getMostOrderData(HomeViewModel model) {
+//    return new GridView.builder(
+//        itemCount: model.mostOrder.length,
+////        shrinkWrap: true,
+//        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+//            crossAxisCount: 2),
+//        itemBuilder: (BuildContext context, int index) {
+//          return new GestureDetector(
+//              onTap: () {
+////                Navigator.push(context, MaterialPageRoute(
+////                    builder: (context) =>
+////                        DetailsView(item: model.mostOrder[index],)));
+//              },
+//
+//              child: new Card(
+//                elevation: 3.0,
+//                child: Stack(
+//                  children: <Widget>[
+//                    Positioned.fill(
+//                        child: model.mostOrder[index].image != null
+//                            ? WidgetUtils
+//                            .getCategoryImage(model.mostOrder[index].image)
+//                            : Icon(
+//                            Icons.refresh)),
+//                    Container(
+//                      color: Colors.black38,
+//                    ),
+//                    Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                      children: <Widget>[
+//                        Padding(
+//                          padding: const EdgeInsets.only(left: 2, right: 1),
+//                          child: Row(
+//                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                            children: <Widget>[
+//                              model.mostOrder[index].bargainenabled == true
+//                                  ? Container(
+//                                alignment: Alignment.topLeft,
+//                                child: Text('Bargain Enabled',
+//                                  style: TextStyle(color: Colors.white,
+//                                      fontWeight: FontWeight.bold,
+//                                      fontSize: 12),),
+//                              )
+//                                  : Container(alignment: Alignment.topLeft),
+//                              Container(
+//                                alignment: Alignment.topRight
+//                                , child: Row(
+//                                mainAxisAlignment: MainAxisAlignment.end,
+//                                crossAxisAlignment: CrossAxisAlignment.end,
+//                                children: <Widget>[
+//                                  Padding(
+//                                    padding: const EdgeInsets.only(bottom: 3),
+//                                    child: InkWell(child: Image.asset(
+//                                      'images/whatsapp.png', width: 30,
+//                                      height: 25,),
+//                                      onTap: () {
+//                                        launchWhatsAppMostOrder(
+//                                            model.mostOrder[index]);
+//                                      },),
+//                                  ),
+//                                  Padding(
+//                                    padding: const EdgeInsets.only(
+//                                        left: 3, bottom: 3),
+//                                    child: InkWell(child: Image.asset(
+//                                      'images/mail.png', width: 25,
+//                                      height: 25,),
+//                                      onTap: () {
+//                                        launchEmailMostOrder(
+//                                            model.mostOrder[index]);
+//                                      },),
+//                                  )
+//                                ],
+//                              ),
+//                              ),
+//                            ],
+//                          ),
+//                        ),
+//                        Container(
+//                          //margin: EdgeInsets.only(left: 10.0),
+//                          padding: EdgeInsets.only(
+//                              left: 3.0, bottom: 3.0),
+//                          alignment: Alignment.bottomLeft,
+//
+//                          child: new Text(
+//                            model.mostOrder[index].name,
+//                            textAlign: TextAlign.center,
+//                            style: TextStyle(
+//                                fontSize: 20.0,
+//                                color: Colors.white,
+//                                fontWeight: FontWeight.bold),
+//                          ),
+//                        ),
+//                      ],
+//                    ),
+////                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+////                      crossAxisAlignment: CrossAxisAlignment.end
+////                      , children: <Widget>[
+////                        Container(
+////                          padding: EdgeInsets.only(
+////                              left: 3.0, bottom: 3.0),
+////                          alignment: Alignment.bottomLeft,
+////                          child: new Text(
+////                            model.mostOrder[index].name,
+////                            textAlign: TextAlign.center,
+////                            style: TextStyle(
+////                                fontSize: 20.0,
+////                                color: Colors.white,
+////                                fontWeight:
+////                                FontWeight.bold),
+////                          ),
+////                        ),
+////                        Container(
+////                          alignment: Alignment.bottomRight
+////                          , child: Row(
+////                          mainAxisAlignment: MainAxisAlignment.end,
+////                          crossAxisAlignment: CrossAxisAlignment.end
+////                          , children: <Widget>[
+////                          Padding(
+////                            padding: const EdgeInsets.only(bottom: 3),
+////                            child: InkWell(child: Image.asset(
+////                              'images/whatsapp.png', width: 30,
+////                              height: 25,),
+////                              onTap: () {
+////                                launchWhatsAppMostOrder(model.mostOrder[index]);
+////                              },),
+////                          ),
+////                          Padding(
+////                            padding: const EdgeInsets.only(
+////                                left: 3, right: 1, bottom: 3),
+////                            child: InkWell(child: Image.asset(
+////                              'images/mail.png', width: 25,
+////                              height: 25,),
+////                              onTap: () {
+////                                launchEmailMostOrder(model.mostOrder[index]);
+////                              },),
+////                          )
+////                        ],
+////                        ),
+////                        )
+////                      ],
+////                    ),
+//                  ],
+//                ),
+//              )
+//          );
+//        });
+//  }
+
   getItemsNearMe(HomeViewModel model) {
     return new GridView.builder(
         itemCount: model.itemsNear.length,
-//        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+//        physics: NeverScrollableScrollPhysics(),
         gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2),
         itemBuilder: (BuildContext context, int index) {
           return new GestureDetector(
               onTap: () {
-//                Navigator.push(context, MaterialPageRoute(
-//                    builder: (context) =>
-//                        DetailsView(item: model.mostOrder[index],)));
+                Navigator.push(context, MaterialPageRoute(
+                    builder: (context) =>
+                        DetailsView(item: model.itemsNear[index],)));
               },
 
               child: new Card(
@@ -723,28 +875,124 @@ class _HomeViewState extends State<HomeView>
                     Container(
                       color: Colors.black38,
                     ),
-                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end
-                      , children: <Widget>[
+                    Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(left: 2, right: 1),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              model.itemsNear[index].bargainenabled == true
+                                  ? Container(
+                                alignment: Alignment.topLeft,
+                                child: Text('Bargain Enabled',
+                                  style: TextStyle(color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12),),
+                              )
+                                  : Container(alignment: Alignment.topLeft),
+                              Container(
+                                alignment: Alignment.topRight
+                                , child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 3),
+                                    child: InkWell(child: Image.asset(
+                                      'images/whatsapp.png', width: 30,
+                                      height: 25,),
+                                      onTap: () {
+                                        launchWhatsApp(model.itemsNear[index]);
+                                      },),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 3, bottom: 3),
+                                    child: InkWell(child: Image.asset(
+                                      'images/mail.png', width: 25,
+                                      height: 25,),
+                                      onTap: () {
+                                        launchEmail(model.itemsNear[index]);
+                                      },),
+                                  )
+                                ],
+                              ),
+                              ),
+                            ],
+                          ),
+                        ),
                         Container(
+                          //margin: EdgeInsets.only(left: 10.0),
                           padding: EdgeInsets.only(
                               left: 3.0, bottom: 3.0),
                           alignment: Alignment.bottomLeft,
+
                           child: new Text(
                             model.itemsNear[index].name,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 20.0,
                                 color: Colors.white,
-                                fontWeight:
-                                FontWeight.bold),
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
                       ],
-                    ),
+                    )
+//                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                      crossAxisAlignment: CrossAxisAlignment.end
+//                      , children: <Widget>[
+//                        Container(
+//                          //margin: EdgeInsets.only(left: 10.0),
+//                          padding: EdgeInsets.only(
+//                              left: 3.0, bottom: 3.0),
+//                          alignment: Alignment.bottomLeft,
+//                          child: new Text(
+//                            model.recentItem[index].name,
+//                            textAlign: TextAlign.center,
+//                            style: TextStyle(
+//                                fontSize: 20.0,
+//                                color: Colors.white,
+//                                fontWeight:
+//                                FontWeight.bold),
+//
+//                          ),
+//                        ),
+//                        Container(
+//                          alignment: Alignment.bottomRight
+//                          , child: Row(
+//                          mainAxisAlignment: MainAxisAlignment.end,
+//                          crossAxisAlignment: CrossAxisAlignment.end
+//                          , children: <Widget>[
+//                          Padding(
+//                            padding: const EdgeInsets.only(bottom: 3),
+//                            child: InkWell(child: Image.asset(
+//                              'images/whatsapp.png', width: 30,
+//                              height: 25,),
+//                              onTap: () {
+//                                launchWhatsAppMostOrder(model.mostOrder[index]);
+//                              },),
+//                          ),
+//                          Padding(
+//                            padding: const EdgeInsets.only(
+//                                left: 3, right: 1, bottom: 3),
+//                            child: InkWell(child: Image.asset(
+//                              'images/mail.png', width: 25,
+//                              height: 25,),
+//                              onTap: () {
+//                                launchEmailMostOrder(model.mostOrder[index]);
+//                              },),
+//                          )
+//                        ],
+//                        ),
+//                        )
+//                      ],
+//                    ),
                   ],
                 ),
+
               )
+
           );
         });
   }

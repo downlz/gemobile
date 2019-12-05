@@ -19,8 +19,9 @@ class HomeViewModel extends BaseModel
 {
   List<ItemName> items;
   List<Item> recentItem;
-  List<MostOrderItem> mostOrder;
-  List<MostOrderItem> itemsNear;
+//  List<MostOrderItem> mostOrder;
+  List<Item> mostOrder;
+  List<Item> itemsNear;
   User user;
   bool isFirstTime = true;
   String deviceplatform;

@@ -23,7 +23,7 @@ class OrderHistoryViewModel extends BaseModel {
     } else {
       // Will think in future
     }
-    orderList = await API.getParticularUserOrders(user.id);
+//    orderList = await API.getParticularUserOrders(user.id);
     setState(ViewState.Idle);
   }
 

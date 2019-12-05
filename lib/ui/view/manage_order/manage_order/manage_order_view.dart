@@ -57,7 +57,7 @@ class _ManageOrderViewState extends State<ManageOrderView> with CommonAppBar {
 
   getCategoryWidget(ManageOrderViewModel model) {
     return model.orderList.length <= 0
-        ? WidgetUtils.showMessageAtCenterOfTheScreen('No category found')
+        ? WidgetUtils.showMessageAtCenterOfTheScreen('No orders found')
         : ListView.builder(
             itemCount: model.orderList.length,
             itemBuilder: (BuildContext cont, int ind) {

@@ -47,10 +47,10 @@ class API extends BaseRepository
   static List<String> orderStatus = [
     'new',
     'confirmed',
-    'cancelled',
     'ready',
     'shipped',
-    'delivered'
+    'delivered',
+    'cancelled',
   ];
 
   static List<String> chooseRole = [
@@ -168,8 +168,9 @@ class API extends BaseRepository
     return null;
   }
 
+
   static Future<List<Order>> getOrders() async {
-    var response = await http.get(ApiConfig.getUserOrderList,
+    var response = await http.get(ApiConfig.getOrderList,
         headers: await ApiConfig.getHeaderWithToken());
     print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
@@ -178,6 +179,7 @@ class API extends BaseRepository
     }
     return [];
   }
+
 
   static Future<List<Order>> getUserOrders(String id) async {
     var response = await http.get(ApiConfig.getUserOrders + id,
@@ -201,16 +203,16 @@ class API extends BaseRepository
     return [];
   }
 
-  static Future<List<Order>> getParticularUserOrders(String id) async {
-    var response = await http.get(ApiConfig.getUserOrderList + id,
-        headers: await ApiConfig.getHeaderWithTokenAndContentType());
-    print(response.body);
-    if (response.statusCode == ApiConfig.successStatusCode) {
-      List<Order> orders = Order.fromJsonArray(jsonDecode(response.body));
-      return orders;
-    }
-    return [];
-  }
+//  static Future<List<Order>> getParticularUserOrders(String id) async {
+//    var response = await http.get(ApiConfig.getUserOrderList + id,
+//        headers: await ApiConfig.getHeaderWithTokenAndContentType());
+//    print(response.body);
+//    if (response.statusCode == ApiConfig.successStatusCode) {
+//      List<Order> orders = Order.fromJsonArray(jsonDecode(response.body));
+//      return orders;
+//    }
+//    return [];
+//  }
 
   static Future<List<Order>> getLastOrderNumber() async {
     var response = await http.get(ApiConfig.getLastOrderNumber,
@@ -477,12 +479,14 @@ class API extends BaseRepository
 
 
   static updateOrderStatus(String id, String status, String remarks) async {
+    if (remarks == '') {
+      remarks = 'Cancelled without notes';
+    }
     var data = {
       'status': status,
       'remarks' : remarks,
       'lastUpdated': new DateTime.now().millisecondsSinceEpoch
     };
-
     var response = await http.put(ApiConfig.updateOrderStatus + id,
         headers: {"Content-Type": "application/json",
           "Authorization": await UserPreferences.getToken()},
@@ -826,31 +830,29 @@ class API extends BaseRepository
     return [];
   }
 
-  static Future<List<MostOrderItem>> getMostOrder() async
+  static Future<List<Item>> getMostOrder() async
   {
     var response = await http.get(ApiConfig.getMostOrdered,
-        headers: await ApiConfig.getHeaderWithTokenAndContentType());
-    print(response.body);
+        headers: await ApiConfig.getHeader());
+//    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
-      List<MostOrderItem> items = MostOrderItem.fromJsonArray(
+      List<Item> items = Item.fromJsonArray(
           jsonDecode(response.body));
-      print('most=======>${response.body}');
-      print('mostOrderId=======>${items[0].mostOrderId}');
+//      print('most=======>${response.body}');
+//      print('mostOrderId=======>${items[0].mostOrderId}');
       return items;
     }
     return [];
   }
 
-  static Future<List<MostOrderItem>> getItemsNear() async
+  static Future<List<Item>> getItemsNear() async
   {
     var response = await http.post(ApiConfig.getItemNear,
-        headers: await ApiConfig.getHeaderWithTokenAndContentType());
-    print(response.body);
+        headers: {"Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()});
     if (response.statusCode == ApiConfig.successStatusCode) {
-      List<MostOrderItem> items = MostOrderItem.fromJsonArray(
-          jsonDecode(response.body));
-      print('near=======>${response.body}');
-      print('itemsnearme=======>${items[0].mostOrderId}');
+      List<Item> items = Item.fromJsonArray(jsonDecode(response.body));
+      print('Near=======>${response.body}');
       return items;
     }
     return [];

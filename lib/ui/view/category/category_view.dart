@@ -157,14 +157,33 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                                       left: 3.0, bottom: 3.0),
                                   alignment: Alignment.bottomLeft,
 
-                                  child: new Text(
-                                    model.items[index].name,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 20.0,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold),
+
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(model.items[index].name,
+                                        style: TextStyle(fontSize: 16,color: Colors.white, fontWeight: FontWeight.bold),),
+                                      Text(model.items[index].manufacturer.name,
+                                          style: TextStyle(fontSize: 16,color: Colors.white, fontWeight: FontWeight.w500)),
+                                      Text("Origin: " + model.items[index].origin,
+                                          style: TextStyle(fontSize: 14,color: Colors.white, fontWeight: FontWeight.w500)),
+                                    ],
                                   ),
+
+
+// Commented by Shahnawaz
+//                                  child: new Text(
+//                                    model.items[index].name + ' ' + model.items[index].origin,
+//                                    textAlign: TextAlign.center,
+//                                    style: TextStyle(
+//                                        fontSize: 20.0,
+//                                        color: Colors.white,
+//                                        fontWeight: FontWeight.bold),
+//                                  ),
+
+
+
                                 ),
                               ],
                             ),
