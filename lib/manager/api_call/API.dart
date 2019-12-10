@@ -9,12 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:graineasy/manager/base/base_repository.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
-import 'package:graineasy/model/MostOrderItem.dart';
 import 'package:graineasy/model/address.dart';
 import 'package:graineasy/model/bargain.dart';
 import 'package:graineasy/model/cart_item.dart';
 import 'package:graineasy/model/city.dart';
 import 'package:graineasy/model/itemname.dart';
+import 'package:graineasy/model/manufacturer.dart';
 import 'package:graineasy/model/order.dart';
 import 'package:graineasy/model/state.dart';
 import 'package:graineasy/model/user.dart';
@@ -59,6 +59,13 @@ class API extends BaseRepository
     'Seller',
     'Partner',
     'Transporter (Only for Transporters)'
+  ];
+
+  static List<String> grade = [
+    'A',
+    'B',
+    'C',
+    'D'
   ];
 
   static List<String> bargainAction = [
@@ -825,6 +832,18 @@ class API extends BaseRepository
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<Item> items = Item.fromJsonArray(jsonDecode(response.body));
       print('Recent=======>${response.body}');
+      return items;
+    }
+    return [];
+  }
+
+  static Future<List<Manufacturer>> getManufacturerItem() async {
+    var response = await http.get(ApiConfig.getManufacturerData,
+        headers: await ApiConfig.getHeaderWithTokenAndContentType());
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<Manufacturer> items = Manufacturer.fromJsonArray(
+          jsonDecode(response.body));
+      print('manf=======>${response.body}');
       return items;
     }
     return [];

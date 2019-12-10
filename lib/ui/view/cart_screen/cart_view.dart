@@ -4,6 +4,7 @@ import 'package:graineasy/model/address.dart';
 import 'package:graineasy/model/cart_item.dart';
 import 'package:graineasy/ui/theme/palette.dart';
 import 'package:graineasy/ui/view/cart_screen/cart_view_model.dart';
+import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:graineasy/utils/ui_helper.dart';
@@ -34,6 +35,15 @@ class _CartViewState extends State<CartView> with CommonAppBar {
         appBar: new AppBar(
           title: Text('Place Order'),
           backgroundColor: Colors.white,
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.home, color: Colors.black87,), onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(
+                      builder: (context) => HomeView()
+                  ));
+            })
+          ],
         ),
         body: _getBody(model),
       );

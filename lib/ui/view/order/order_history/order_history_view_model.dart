@@ -9,12 +9,15 @@ class OrderHistoryViewModel extends BaseModel {
   List<Order> orderList;
 
   bool isFirstTime = true;
+  int present = 0;
+  int perPage = 5;
+  var isPageLoading = false;
 
-  getOrders() async {
+  getOrders(String id, List<Order> order, int present, int perPage) async {
     setState(ViewState.Busy);
     User user = await UserPreferences.getUser();
     print('userid====>${user.id}');
-    if (user.isSeller || user.isBuyer) {                // Ideally seller would not have any orders
+    if (user.isSeller || user.isBuyer) {
       orderList = await API.getUserOrders(user.id);
     } else if (user.isAdmin){
       orderList = await API.getOrders();
@@ -25,11 +28,16 @@ class OrderHistoryViewModel extends BaseModel {
     }
 //    orderList = await API.getParticularUserOrders(user.id);
     setState(ViewState.Idle);
+    if (orderList.length != 0) {
+      order.addAll(orderList.getRange(present, present + perPage));
+      present = present + perPage;
+    }
   }
 
-  void init(String id) {
+  void init(String id, List<Order> order, int perPage, int present) {
     if (isFirstTime) {
-      getOrders();
+      getOrders(id, order, present, perPage);
+
       isFirstTime = false;
     }
   }
