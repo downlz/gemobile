@@ -111,8 +111,14 @@ class _HomeViewState extends State<HomeView>
     return Column(mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Container(child: getBanner(model),
-          height: 200,
+        Center(
+          child: Container(child: getBanner(model),
+            height: 200,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width - 100,
+          ),
         ),
 
         Expanded(child: Container(
@@ -139,8 +145,9 @@ class _HomeViewState extends State<HomeView>
                     model.recentItem != null
                         ? getRecentlyAddedData(model)
                         : Container(),
-                    model.mostOrder != null ? getMostOrderData(model) : Text(
-                        'No items found'),
+                    model.mostOrder != null ? getMostOrderData(model) : Center(
+                      child: Text('No items found'),
+                    ),
                     model.itemsNear != null ? getItemsNearMe(model) : Text(
                         'No items found'),
                   ],

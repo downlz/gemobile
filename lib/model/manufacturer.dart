@@ -16,4 +16,10 @@ class Manufacturer {
         phone: json['phone']
     );
   }
+
+  static List<Manufacturer> fromJsonArray(List<dynamic> json) {
+    List<Manufacturer> bannerLists =
+    json.map<Manufacturer>((json) => Manufacturer.fromJson(json)).toList();
+    return bannerLists;
+  }
 }

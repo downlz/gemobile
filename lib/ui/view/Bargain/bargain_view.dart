@@ -85,6 +85,22 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
               child: Column(mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(1.0),
+                        ), color: Colors.white
+                    ),
+                    child: Center(
+                      child: Text(
+                        model.bargainDetail.item.bargainenabled == true
+                            ? 'Bargain enabled'
+                            : '',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w400),),
+                    ),
+                  ),
                   Text(model.bargainDetail.item.itemname.name + ' | ' +
                       model.bargainDetail.item.category.name + ' | ' + model.bargainDetail.item.sampleNo,
                     style: TextStyle(
@@ -178,12 +194,13 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
         )
             : Padding(
             padding: EdgeInsets.all(10),
-            child: Text(
+            child: model.bargainDetail.bargainstatus != 'expired' &&
+                model.bargainDetail.bargainstatus != 'rejected' ? Text(
               model.user.isBuyer && !model.isBuyerQuote
                   ? 'Waiting For Seller Response'
                   : 'Waiting For Buyer Quote',
               style: TextStyle(fontSize: 17),
-            )),
+            ) : Container()),
           !model.isBargainOn && model.user.isBuyer
               ? acceptRejectWidget(model)
               : Container()
