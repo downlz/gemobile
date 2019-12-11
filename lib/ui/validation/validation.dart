@@ -84,6 +84,14 @@ static  validateEmptyPassword(String value) {
     return null;
 }
 
+  static validateRemark(String value) {
+    if (value.isEmpty) {
+      return 'Remark Required';
+    }
+    else
+      return null;
+  }
+
   static validateItemQty(String value, int qty) {
     int selectedQty = int.parse(value);
     if (qty <= selectedQty) {

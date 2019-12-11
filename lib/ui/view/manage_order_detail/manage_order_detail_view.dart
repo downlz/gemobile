@@ -5,6 +5,7 @@ import 'package:graineasy/model/order.dart';
 import 'package:graineasy/ui/theme/app_responsive.dart';
 import 'package:graineasy/ui/theme/palette.dart';
 import 'package:graineasy/ui/theme/text_style.dart';
+import 'package:graineasy/ui/validation/validation.dart';
 import 'package:graineasy/ui/view/manage_order_detail/manage_order_detail_model.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
@@ -16,7 +17,6 @@ const URL = "https://graineasy.com";
 class ManageOrderDetailView extends StatefulWidget {
   Order orderList;
   String id;
-
   ManageOrderDetailView({this.orderList, this.id});
 
   @override
@@ -25,6 +25,7 @@ class ManageOrderDetailView extends StatefulWidget {
 
 class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
   String status;
+  final orderKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -245,36 +246,41 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
   }
 
   getTextFormField(ManageOrderDetailViewModel model) {
-    return TextFormField(
-      controller: model.remarkController,
-      focusNode: model.remarkFocus,
-      style: TextStyle(
-        color: Palette.assetColor,
-      ),
-      keyboardType: TextInputType.text,
-      decoration: InputDecoration(
-        hintText: 'Remark',
-
-        disabledBorder: new UnderlineInputBorder(
-          borderSide: new BorderSide(color: Palette.assetColor),
+    return Form(
+      key: orderKey,
+      child: TextFormField(
+        controller: model.remarkController,
+        focusNode: model.remarkFocus,
+        validator: (value) {
+          return Validation.validateRemark(value);
+        },
+        style: TextStyle(
+          color: Palette.assetColor,
         ),
-        focusedBorder: new UnderlineInputBorder(
-          borderSide: new BorderSide(color: Palette.assetColor),
-        ),
-        enabledBorder: new UnderlineInputBorder(
-          borderSide: new BorderSide(color: Palette.assetColor),
-        ),
-        errorBorder: new UnderlineInputBorder(
-          borderSide: new BorderSide(color: Palette.assetColor),
-        ),
-        border: new UnderlineInputBorder(
-          borderSide: new BorderSide(color: Palette.assetColor),
-        ),
+        keyboardType: TextInputType.text,
+        decoration: InputDecoration(
+          hintText: 'Remark',
+          disabledBorder: new UnderlineInputBorder(
+            borderSide: new BorderSide(color: Palette.assetColor),
+          ),
+          focusedBorder: new UnderlineInputBorder(
+            borderSide: new BorderSide(color: Palette.assetColor),
+          ),
+          enabledBorder: new UnderlineInputBorder(
+            borderSide: new BorderSide(color: Palette.assetColor),
+          ),
+          errorBorder: new UnderlineInputBorder(
+            borderSide: new BorderSide(color: Palette.assetColor),
+          ),
+          border: new UnderlineInputBorder(
+            borderSide: new BorderSide(color: Palette.assetColor),
+          ),
 
 //                            border: OutlineInputBorder(
 //                                borderRadius: BorderRadius.circular(25.0)),
-        hintStyle: TextStyle(
-          color: Palette.assetColor,
+          hintStyle: TextStyle(
+            color: Palette.assetColor,
+          ),
         ),
       ),
     );
@@ -285,8 +291,9 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
 
     if (model.order.status != 'cancelled'){
         _onPressed = () {
-        model.updateStatus(model.order.id);
-        print('data');
+          if (orderKey.currentState.validate())
+            model.updateStatus(model.order.id);
+          print('data');
       };
     }
     return Padding(
