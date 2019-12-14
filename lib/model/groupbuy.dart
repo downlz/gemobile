@@ -52,4 +52,10 @@ class Groupbuy {
         isactive: json['isactive'],
         remarks: json['remarks']);
   }
+
+  static List<Groupbuy> fromJsonArray(List<dynamic> json) {
+    List<Groupbuy> bannerLists =
+    json.map<Groupbuy>((json) => Groupbuy.fromJson(json)).toList();
+    return bannerLists;
+  }
 }

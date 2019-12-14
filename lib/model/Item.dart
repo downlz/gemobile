@@ -100,7 +100,7 @@ class Item {
 }
 
 getPriceInDouble(var price) {
-  print('Price ==========> $price');
+//  print('Price ==========> $price');
   if (price == null)
     return 0;
   try {

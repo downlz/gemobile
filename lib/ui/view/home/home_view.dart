@@ -6,6 +6,7 @@ import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
 import 'package:graineasy/model/MostOrderItem.dart';
+import 'package:graineasy/model/MostOrderedItem.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/theme/app_responsive.dart';
 import 'package:graineasy/ui/theme/palette.dart';
@@ -113,11 +114,11 @@ class _HomeViewState extends State<HomeView>
       children: <Widget>[
         Center(
           child: Container(child: getBanner(model),
-            height: 200,
+            height: 150,
             width: MediaQuery
                 .of(context)
                 .size
-                .width - 100,
+                .width - 25,
           ),
         ),
 
@@ -283,6 +284,21 @@ class _HomeViewState extends State<HomeView>
 //                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Payment_Screen()));
 
                   }) : Container(),
+
+              new ListTile(
+//                // Image.asset('images/bargain.png'),
+                  leading: Icon(
+                      Icons.monetization_on, color: Palette.assetColor),
+                  title: new Text("Group Buy", style: TextStyle(
+                      color: Palette.assetColor, fontSize: 15)),
+                  trailing: Icon(
+                    Icons.arrow_forward, color: Palette.assetColor,),
+
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) =>
+                            BargainHistoryView()));
+                  }),
 
               new ListTile(
 //                // Image.asset('images/bargain.png'),
@@ -567,7 +583,7 @@ class _HomeViewState extends State<HomeView>
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) =>
-                        DetailsView(item: model.mostOrder[index],)));
+                        DetailsView(item: model.recentItem[index],)));
               },
 
               child: new Card(
@@ -575,9 +591,9 @@ class _HomeViewState extends State<HomeView>
                 child: Stack(
                   children: <Widget>[
                     Positioned.fill(
-                        child: model.mostOrder[index].image != null
+                        child: model.mostOrder[index].name.image != null
                             ? WidgetUtils
-                            .getCategoryImage(model.mostOrder[index].image)
+                            .getCategoryImage(model.mostOrder[index].name.image)
                             : Icon(
                             Icons.refresh)),
                     Container(
@@ -590,7 +606,7 @@ class _HomeViewState extends State<HomeView>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              model.mostOrder[index].bargainenabled == true
+                              model.mostOrder[index].name.bargainenabled == true
                                   ? Container(
                                 alignment: Alignment.topLeft,
                                 child: Text('Bargain Enabled',
@@ -611,7 +627,7 @@ class _HomeViewState extends State<HomeView>
                                       'images/whatsapp.png', width: 30,
                                       height: 25,),
                                       onTap: () {
-                                        launchWhatsApp(model.mostOrder[index]);
+//                                        launchWhatsApp(model.mostOrder[index]);
                                       },),
                                   ),
                                   Padding(
@@ -621,7 +637,7 @@ class _HomeViewState extends State<HomeView>
                                       'images/mail.png', width: 25,
                                       height: 25,),
                                       onTap: () {
-                                        launchEmail(model.mostOrder[index]);
+                                        launchEmailMostOrder(model.mostOrder[index]);
                                       },),
                                   )
                                 ],
@@ -637,7 +653,7 @@ class _HomeViewState extends State<HomeView>
                           alignment: Alignment.bottomLeft,
 
                           child: new Text(
-                            model.mostOrder[index].name,
+                            model.mostOrder[index].name.name,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 20.0,
@@ -1017,11 +1033,11 @@ class _HomeViewState extends State<HomeView>
             recentItem.image);
   }
 
-  Future launchEmailMostOrder(MostOrderItem mostOrder) async {
+  Future launchEmailMostOrder(MostOrderedItem mostOrder) async {
     launch('mailto:?subject=${"ItemName: " +
-        mostOrder.name}&body=${mostOrder.name + "/" + mostOrder.category.name +
+        mostOrder.name.name}&body=${mostOrder.name.name + "/" + mostOrder.name.category.name +
         "\n" +
-        mostOrder.image}');
+        mostOrder.name.image}');
   }
 
   Future launchWhatsAppMostOrder(MostOrderItem mostOrder) async {

@@ -13,9 +13,9 @@ class ItemName {
         name: json['name'],
         id: json['_id'],
         hsn:json['hsn'],
-//        tax: json['tax'] as int,
+        tax: json['tax'] as int,
         image: json['image'],
-//        insurance: json['insurance'] as int
+        insurance: json['insurance'] as int
     );
   }
 
