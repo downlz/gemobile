@@ -8,10 +8,12 @@ import 'package:graineasy/manager/base/basemodel.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
 import 'package:graineasy/model/itemname.dart';
+import 'package:graineasy/model/groupbuy.dart';
 import 'package:graineasy/model/MostOrderItem.dart';
 import 'package:graineasy/model/MostOrderedItem.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/view/Bargain/bargain_view.dart';
+
 import 'package:graineasy/ui/view/item_details/details_view.dart';
 import 'package:graineasy/ui/view/manage_order_detail/manage_order_detail_view.dart';
 import 'package:graineasy/ui/view/order_detail/order_detail_view.dart';
@@ -21,7 +23,8 @@ class HomeViewModel extends BaseModel
   List<ItemName> items;
   List<Item> recentItem;
 //  List<MostOrderItem> mostOrder;
-    List<MostOrderedItem> mostOrder;
+//    List<MostOrderedItem> mostOrder;
+  List<Groupbuy> mostOrder;
 //  List<Item> mostOrder;
   List<Item> itemsNear;
   User user;
@@ -308,7 +311,8 @@ class HomeViewModel extends BaseModel
   }
 
   getMostOrdered() async {
-    mostOrder = await API.getMostOrder();
+//    mostOrder = await API.getMostOrder();
+    mostOrder = await API.getGBListings();
 
     setState(ViewState.Idle);
   }

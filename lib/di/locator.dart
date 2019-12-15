@@ -6,10 +6,11 @@ import 'package:graineasy/ui/view/account/add_update_address/add_update_addresse
 import 'package:graineasy/ui/view/cart_screen/cart_view_model.dart';
 import 'package:graineasy/ui/view/category/category_view_model.dart';
 import 'package:graineasy/ui/view/forgot_password/forgot_password_model.dart';
+import 'package:graineasy/ui/view/group-buy/groupbuy_view_model.dart';
 import 'package:graineasy/ui/view/home/home_view_model.dart';
 import 'package:graineasy/ui/view/item_details/details_view_model.dart';
-import 'package:graineasy/ui/view/group-buy/group_buy_view.dart';
-import 'package:graineasy/ui/view/group-buy/group_buy_model.dart';
+import 'package:graineasy/ui/view/group-buy/gbitem_details/gbdetails_view_model.dart';
+import 'package:graineasy/ui/view/group-buy/groupbuy_view_model.dart';
 import 'package:graineasy/ui/view/login/login_view_model.dart';
 import 'package:graineasy/ui/view/manage_order/manage_order/manage_order_view_model.dart';
 import 'package:graineasy/ui/view/manage_order_detail/manage_order_detail_model.dart';
@@ -44,6 +45,10 @@ void setupLocator() {
 
   locator.registerFactory(() {
     return DetailsViewModel();
+  });
+
+  locator.registerFactory(() {
+    return GBDetailsViewModel();
   });
 
   locator.registerFactory(() {
@@ -87,10 +92,6 @@ void setupLocator() {
   });
 
   locator.registerFactory(() {
-    return GBDetailsViewModel();
-  });
-
-  locator.registerFactory(() {
-    return GBDetailsView();
+    return GroupbuyViewModel();
   });
 }

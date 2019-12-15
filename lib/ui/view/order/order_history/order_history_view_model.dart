@@ -10,7 +10,7 @@ class OrderHistoryViewModel extends BaseModel {
 
   bool isFirstTime = true;
   int present = 0;
-  int perPage = 5;
+  int perPage = 8;
   var isPageLoading = false;
 
   getOrders(String id, List<Order> order, int present, int perPage) async {

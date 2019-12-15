@@ -23,10 +23,12 @@ class BargainHistoryView extends StatefulWidget {
 class _BargainHistoryViewState extends State<BargainHistoryView>
     with CommonAppBar {
 
+  List<Bargain> bargain = new List<Bargain>();
+
   @override
   Widget build(BuildContext context) {
     return BaseView<BargainHistoryViewModel>(builder: (context, model, child) {
-      model.init();
+      model.init(widget.id, bargain, model.perPage, model.present);
       return new Scaffold(
         appBar: new AppBar(
           title: Text('Bargain History'),
@@ -79,7 +81,9 @@ class _BargainHistoryViewState extends State<BargainHistoryView>
                   ),
                 )
               : ListView.builder(
-                  itemCount: model.bargainList.length,
+                  itemCount: (bargain.length <= model.bargainList.length)
+                      ? bargain.length + 1
+                      : model.bargainList.length,
                   shrinkWrap: true,
                   itemBuilder: (BuildContext cont, int ind) {
                     return InkWell(
@@ -91,7 +95,19 @@ class _BargainHistoryViewState extends State<BargainHistoryView>
                                     BargainView(
                                       bargainDetail: model.bargainList[ind],)));
                       },
-                      child: Card(
+                      child: (ind == bargain.length) ?
+                      Container(
+                        color: Palette.assetColor,
+                        child: FlatButton(
+                          child: Text("Load More",
+                            style: TextStyle(color: Palette.whiteTextColor,
+                                fontSize: 15),),
+                          onPressed: () {
+                            loadMoreData(model);
+                          },
+                        ),
+                      ) :
+                      Card(
                         elevation: 4.0,
                         child: Container(
                           padding: EdgeInsets.only(
@@ -156,4 +172,18 @@ class _BargainHistoryViewState extends State<BargainHistoryView>
       ],
     );
   }
+
+  void loadMoreData(BargainHistoryViewModel model) {
+    setState(() {
+      if ((model.present + model.perPage) > model.bargainList.length) {
+        bargain.addAll(
+            bargain.getRange(model.present, model.bargainList.length));
+      } else {
+        bargain.addAll(
+            bargain.getRange(model.present, model.present + model.perPage));
+      }
+      model.present = model.present + model.perPage;
+    });
+  }
+
 }

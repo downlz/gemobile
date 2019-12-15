@@ -834,7 +834,7 @@ class API extends BaseRepository
         headers: await ApiConfig.getHeader());
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<Item> items = Item.fromJsonArray(jsonDecode(response.body));
-      print('Recent=======>${response.body}');
+//      print('Recent=======>${response.body}');
       return items;
     }
     return [];
@@ -846,7 +846,7 @@ class API extends BaseRepository
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<Manufacturer> items = Manufacturer.fromJsonArray(
           jsonDecode(response.body));
-      print('manf=======>${response.body}');
+//      print('manf=======>${response.body}');
       return items;
     }
     return [];
@@ -859,7 +859,7 @@ class API extends BaseRepository
 
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<MostOrderedItem> items = MostOrderedItem.fromJsonArray(jsonDecode(response.body));
-      print('Most=======>${response.body}');
+//      print('Most=======>${response.body}');
       return items;
     }
     return [];
@@ -872,7 +872,7 @@ class API extends BaseRepository
           "Authorization": await UserPreferences.getToken()});
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<Item> items = Item.fromJsonArray(jsonDecode(response.body));
-      print('Near=======>${response.body}');
+//      print('Near=======>${response.body}');
       return items;
     }
     return [];
@@ -903,40 +903,54 @@ class API extends BaseRepository
 //    return [];
 //  }
 
-  static Future<Groupbuy> getGBListings() async {
+//  static Future<Groupbuy> getGBListings() async {
+//    var response = await http.get(ApiConfig.getGBListings,
+//        headers:  await ApiConfig.getHeader());
+//    print('respo==>  ${response.body}');
+//    if (response.statusCode == ApiConfig.successStatusCode) {
+//      Groupbuy gbitem = Groupbuy.fromJson(jsonDecode(response.body));
+//      return gbitem;
+//    }
+//    return null;
+//  }
+
+  static Future<List<Groupbuy>> getGBListings()async{
     var response = await http.get(ApiConfig.getGBListings,
-        headers:  await ApiConfig.getHeader());
-    print('respo==>  ${response.body}');
+        headers:  await ApiConfig.getHeaderWithToken());
+    var add = 'data';
     if (response.statusCode == ApiConfig.successStatusCode) {
-      Groupbuy gbitem = Groupbuy.fromJson(jsonDecode(response.body));
+//      print("GBListings=====>${response.body}");
+      List<Groupbuy> gbitem = Groupbuy.fromJsonArray(jsonDecode(response.body));
       return gbitem;
     }
-    return null;
+    return [];
   }
 
 
-  static Future<List<Groupbuy>> getGBListingDtl(String id) async {
+  static Future<Groupbuy> getGBListingDtl(String id) async {
     var response = await http.get(ApiConfig.getGBListingDtl + id,
         headers: await ApiConfig.getHeaderWithTokenAndContentType());
     print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
-      List<Groupbuy> gbitemdtl = Groupbuy.fromJsonArray(jsonDecode(response.body));
+      Groupbuy gbitemdtl = Groupbuy.fromJson(jsonDecode(response.body));
       print('GB Item Detail=======>${response.body}');
       return gbitemdtl;
     }
-    return [];
+    return null;
   }
 
-  static Future<List<Groupbuy>> getAvlQty(String id) async {
+  static getAvlQty(String id) async {
     var response = await http.get(ApiConfig.getAvlQty + id,
         headers: await ApiConfig.getHeaderWithTokenAndContentType());
     print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
-      List<Groupbuy> gbitemdtl = Groupbuy.fromJsonArray(jsonDecode(response.body));
-      print('GB Item Avl Qty=======>${response.body}');
-      return gbitemdtl;
+//      print(response.body);
+      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+
+      return response.body;
+    } else {
+      return null;
     }
-    return [];
   }
 
   static Future<List<Groupbuy>> getBookedQty(String id) async {

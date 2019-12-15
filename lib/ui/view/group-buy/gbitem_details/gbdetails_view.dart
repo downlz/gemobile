@@ -11,7 +11,7 @@ import 'package:graineasy/ui/view/Bargain/bargain_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 
-import 'group_buy_model.dart';
+import 'gbdetails_view_model.dart';
 
 
 class GBDetailsView extends StatefulWidget {
@@ -120,7 +120,7 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 8.0),
                               child: Text(
-                              "\u20B9" + model.gbitemDetails.dealprice.toString() + "/" +
+                                "\u20B9" + model.gbitemDetails.dealprice.toString() + "/" +
                                     model.gbitemDetails.unit.mass,
                                 style: Theme
                                     .of(context)
@@ -166,13 +166,13 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
                                           width: 50,
                                           child: TextFormField(
                                             controller: quantityController,
-                                            validator: (value) {
+//                                            validator: (value) {
 //                                        return Validation.validateItemQty(
 //                                            value, model.gbitemDetails.qty);
-                                              return Validation
-                                                  .validateEmptyGBItemQty(
-                                                  value, model.gbitemDetails);
-                                            },
+//                                              return Validation
+//                                                  .validateEmptyItemQty(
+//                                                  value, model.gbitemDetails);
+//                                            },
                                             inputFormatters: [
                                               LengthLimitingTextInputFormatter(
                                                   4),
@@ -208,8 +208,8 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
                                                 User user = await UserPreferences
                                                     .getUser();
 //                                                model.calculatePrice(
-//                                                    model.gbitemDetails.dealprice,
-//                                                    model.gbitemDetails.item.seller.id,
+//                                                    model.gbitemDetails,
+//                                                    model.gbitemDetails.seller.id,
 //                                                    user.id, int.parse(
 //                                                    quantityController.text));
                                               }
@@ -222,125 +222,69 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
                                     ),
                                   ],
                                 ))))),
-//                model.gbitemDetails.bargainenabled && model.bargainDetail == null
-//                    ? Container(
-//                  margin: EdgeInsets.all(10.0),
-//                  child: Text(
-//                    'You can bargain if you want to buy more than ${model
-//                        .gbitemDetails.bargaintrgqty}',
-//                    style: TextStyle(color: Colors.red),),
-//                )
-//                    : Container(),
-//                Container(
-//                    padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
-//                    child: DefaultTextStyle(
-//                        style: Theme
-//                            .of(context)
-//                            .textTheme
-//                            .subhead,
-//                        child: Row(
-//                          mainAxisSize: MainAxisSize.max,
-//                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                          children: <Widget>[
-//                            // three line description
-////                            Padding(
-////                              padding: const EdgeInsets.only(bottom: 10.0),
-////                              child: Text(
-////                                'Details',
-////                                style: Theme
-////                                    .of(context)
-////                                    .textTheme
-////                                    .subhead
-////                                    .copyWith(
-////                                    fontSize: 20.0,
-////                                    fontWeight: FontWeight.bold,
-////                                    color: Colors.black87),
-////                              ),
-////                            ),
-//                          ],
-//                        ))
-//                ),
-//                detailWidget(model.gbitemDetails)
-//
-//              ])),),
-//          model.bargainDetail != null ? Padding(
-//            padding: EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 10),
-//            child: Container(
-//              alignment: Alignment.center,
-//              child: OutlineButton(
-//                  borderSide: BorderSide(
-//                      color: Colors.amber.shade500),
-//                  child: const Text('Bargain View'),
-//                  textColor: Colors.amber.shade500,
-//                  onPressed: () async {
-//                    Navigator.push(context,
-//                        MaterialPageRoute(
-//                            builder: (context) =>
-//                                BargainView(bargainDetail: model.bargainDetail,)
-//                        ));
-//                  },
-//                  shape: new OutlineInputBorder(
-//                    borderRadius:
-//                    BorderRadius.circular(30.0),
-//                  )),
-//            ),) : Container(),
-//          model.gbitemDetails.bargainenabled && model.bargainDetail == null &&
-//              model.gbitemDetails.bargaintrgqty <= curretnQty
-//              ? Divider()
-//              : Container(),
-//          model.gbitemDetails.bargainenabled && model.bargainDetail == null &&
-//              model.gbitemDetails.bargaintrgqty <= curretnQty ? Row(
-//            mainAxisAlignment: MainAxisAlignment.spaceAround,
-//            children: <Widget>[
-//              Expanded(
-//                child: Form(
-//                  key: buyerQuoteFormKey,
-//                  child: TextFormField(
-//                    controller: buyerQuoteController,
-//                    validator: (value) {
-//                      return Validation
-//                          .validateItemQtyAndPrice(
-//                          value, model.gbitemDetails);
-//                    },
-//
-//                    inputFormatters: [
-//                      LengthLimitingTextInputFormatter(4),
-//                    ],
-//                    textAlign: TextAlign.center,
-//                    style: AppWidget
-//                        .darkTextFieldTextStyle(),
-//                    keyboardType: TextInputType.number,
-//                    decoration: AppWidget.darkTextField(
-//                        'Add Best Quote'),
-//                  ),
-//                ),
-//
-//              ),
-//              Padding(
-//                padding: EdgeInsets.only(
-//                    left: 10, top: 10, bottom: 10, right: 10),
-//                child: Container(
-//                  alignment: Alignment.center,
-//                  child: OutlineButton(
-//                      borderSide: BorderSide(
-//                          color: Colors.amber.shade500),
-//                      child: const Text('Initiate Bargain'),
-//                      textColor: Colors.amber.shade500,
-//                      onPressed: () async {
-//                        if (buyerQuoteFormKey.currentState.validate()) {
-//                          model.initiateBargain(buyerQuoteController.text,
-//                              quantityController.text);
-//                        }
-//                      },
-//                      shape: new OutlineInputBorder(
-//                        borderRadius:
-//                        BorderRadius.circular(30.0),
-//                      )),
-//                ),
-//              ),
-//            ],
-//          ) : Container(),
-        ],)))]));
+                model.gbitemDetails.item.bargainenabled && model.bargainDetail == null
+                    ?
+                Container(
+                  margin: EdgeInsets.all(10.0),
+                  child: Text(
+                    'You can bargain if you want to buy more than ${model
+                        .gbitemDetails.item.bargaintrgqty}',
+                    style: TextStyle(color: Colors.red),),)
+                    : Container(),
+                Container(
+                    padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+                    child: DefaultTextStyle(
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .subhead,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            // three line description
+//                            Padding(
+//                              padding: const EdgeInsets.only(bottom: 10.0),
+//                              child: Text(
+//                                'Details',
+//                                style: Theme
+//                                    .of(context)
+//                                    .textTheme
+//                                    .subhead
+//                                    .copyWith(
+//                                    fontSize: 20.0,
+//                                    fontWeight: FontWeight.bold,
+//                                    color: Colors.black87),
+//                              ),
+//                            ),
+                          ],
+                        ))),
+                detailWidget(model.gbitemDetails)
+
+              ])),),
+          model.bargainDetail != null ? Padding(
+            padding: EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 10),
+            child: Container(
+              alignment: Alignment.center,
+              child: OutlineButton(
+                  borderSide: BorderSide(
+                      color: Colors.amber.shade500),
+                  child: const Text('Bargain View'),
+                  textColor: Colors.amber.shade500,
+                  onPressed: () async {
+                    Navigator.push(context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                BargainView(bargainDetail: model.bargainDetail,)
+                        ));
+                  },
+                  shape: new OutlineInputBorder(
+                    borderRadius:
+                    BorderRadius.circular(30.0),
+                  )),
+            ),) : Container(),
+
+        ],));
   }
 
   detailWidget(Groupbuy gbitem) {
@@ -364,7 +308,7 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text("Manufacturer: " + gbitem.item.manufacturer.name,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
-          Text("List Price: " + "Rs. " + gbitem.dealprice.toString() + "/" +
+          Text("List Price: " + "Rs. " + gbitem.item.price.toString() + "/" +
               gbitem.unit.mass,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
         ],
