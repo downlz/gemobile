@@ -14,6 +14,9 @@ import 'package:graineasy/model/bargain.dart';
 import 'package:graineasy/model/cart_item.dart';
 import 'package:graineasy/model/city.dart';
 import 'package:graineasy/model/itemname.dart';
+import 'package:graineasy/model/groupbuy.dart';
+import 'package:graineasy/model/MostOrderItem.dart';
+import 'package:graineasy/model/MostOrderedItem.dart';
 import 'package:graineasy/model/manufacturer.dart';
 import 'package:graineasy/model/order.dart';
 import 'package:graineasy/model/state.dart';
@@ -831,7 +834,7 @@ class API extends BaseRepository
         headers: await ApiConfig.getHeader());
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<Item> items = Item.fromJsonArray(jsonDecode(response.body));
-      print('Recent=======>${response.body}');
+//      print('Recent=======>${response.body}');
       return items;
     }
     return [];
@@ -843,22 +846,20 @@ class API extends BaseRepository
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<Manufacturer> items = Manufacturer.fromJsonArray(
           jsonDecode(response.body));
-      print('manf=======>${response.body}');
+//      print('manf=======>${response.body}');
       return items;
     }
     return [];
   }
 
-  static Future<List<Item>> getMostOrder() async
-  {
+  static Future<List<MostOrderedItem>> getMostOrder() async {
     var response = await http.get(ApiConfig.getMostOrdered,
-        headers: await ApiConfig.getHeader());
-//    print(response.body);
+        headers: {"Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()});
+
     if (response.statusCode == ApiConfig.successStatusCode) {
-      List<Item> items = Item.fromJsonArray(
-          jsonDecode(response.body));
-//      print('most=======>${response.body}');
-//      print('mostOrderId=======>${items[0].mostOrderId}');
+      List<MostOrderedItem> items = MostOrderedItem.fromJsonArray(jsonDecode(response.body));
+//      print('Most=======>${response.body}');
       return items;
     }
     return [];
@@ -871,7 +872,7 @@ class API extends BaseRepository
           "Authorization": await UserPreferences.getToken()});
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<Item> items = Item.fromJsonArray(jsonDecode(response.body));
-      print('Near=======>${response.body}');
+//      print('Near=======>${response.body}');
       return items;
     }
     return [];
@@ -885,6 +886,81 @@ class API extends BaseRepository
       print(response.body);
 
       return items;
+    }
+    return [];
+  }
+
+  // Group Buy API Calls
+
+//  static Future<List<Groupbuy>> getGBListings() async {
+//    var response = await http.get(ApiConfig.getGBListings,
+//        headers: await ApiConfig.getHeader());
+//    if (response.statusCode == ApiConfig.successStatusCode) {
+//      List<Groupbuy> items = Groupbuy.fromJsonArray(jsonDecode(response.body));
+//      print('GBListings=======>${response.body}');
+//      return items;
+//    }
+//    return [];
+//  }
+
+//  static Future<Groupbuy> getGBListings() async {
+//    var response = await http.get(ApiConfig.getGBListings,
+//        headers:  await ApiConfig.getHeader());
+//    print('respo==>  ${response.body}');
+//    if (response.statusCode == ApiConfig.successStatusCode) {
+//      Groupbuy gbitem = Groupbuy.fromJson(jsonDecode(response.body));
+//      return gbitem;
+//    }
+//    return null;
+//  }
+
+  static Future<List<Groupbuy>> getGBListings()async{
+    var response = await http.get(ApiConfig.getGBListings,
+        headers:  await ApiConfig.getHeaderWithToken());
+    var add = 'data';
+    if (response.statusCode == ApiConfig.successStatusCode) {
+//      print("GBListings=====>${response.body}");
+      List<Groupbuy> gbitem = Groupbuy.fromJsonArray(jsonDecode(response.body));
+      return gbitem;
+    }
+    return [];
+  }
+
+
+  static Future<Groupbuy> getGBListingDtl(String id) async {
+    var response = await http.get(ApiConfig.getGBListingDtl + id,
+        headers: await ApiConfig.getHeaderWithTokenAndContentType());
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      Groupbuy gbitemdtl = Groupbuy.fromJson(jsonDecode(response.body));
+      print('GB Item Detail=======>${response.body}');
+      return gbitemdtl;
+    }
+    return null;
+  }
+
+  static getAvlQty(String id) async {
+    var response = await http.get(ApiConfig.getAvlQty + id,
+        headers: await ApiConfig.getHeaderWithTokenAndContentType());
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+//      print(response.body);
+      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+
+      return response.body;
+    } else {
+      return null;
+    }
+  }
+
+  static Future<List<Groupbuy>> getBookedQty(String id) async {
+    var response = await http.get(ApiConfig.getBookedQty + id,
+        headers: await ApiConfig.getHeaderWithTokenAndContentType());
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<Groupbuy> gbitemdtl = Groupbuy.fromJsonArray(jsonDecode(response.body));
+      print('GBItemBookedQty=======>${response.body}');
+      return gbitemdtl;
     }
     return [];
   }

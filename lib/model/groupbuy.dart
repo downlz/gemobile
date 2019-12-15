@@ -16,7 +16,7 @@ class Groupbuy {
   String sampleno;
   int totalqty;
   Unit unit;
-  int taxrate;
+  double taxrate;
   bool isactive;
   String remarks;
 
@@ -48,8 +48,14 @@ class Groupbuy {
         sampleno: json['sampleno'],
         totalqty: json['totalqty'],
         unit: Unit.fromJson(json['unit']),
-        taxrate: json['taxrate'],
+        taxrate: json['taxrate'].toDouble(),
         isactive: json['isactive'],
         remarks: json['remarks']);
+  }
+
+  static List<Groupbuy> fromJsonArray(List<dynamic> json) {
+    List<Groupbuy> bannerLists =
+    json.map<Groupbuy>((json) => Groupbuy.fromJson(json)).toList();
+    return bannerLists;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:graineasy/model/Item.dart';
+import 'package:graineasy/model/groupbuy.dart';
 
 class Validation
 {
@@ -102,7 +103,7 @@ static  validateEmptyPassword(String value) {
     }
 
     if (selectedQty > qty) {
-      return 'only $qty stock is availabel';
+      return 'only $qty stock is available';
     }
   }
 
@@ -112,7 +113,17 @@ static  validateEmptyPassword(String value) {
       return 'Quntity equired';
 
     if (itemDetails.qty < int.parse(value))
-      return '${itemDetails.qty} qty availabel';
+      return '${itemDetails.qty} qty available';
+    else
+      return null;
+  }
+
+  static validateEmptyGBItemQty(String value, Groupbuy gbitemDetails) {
+    if (value.isEmpty)
+      return 'Quntity equired';
+
+    if (gbitemDetails.maxqty < int.parse(value))
+      return '${gbitemDetails.maxqty} qty available';           // Check logic for available qty
     else
       return null;
   }

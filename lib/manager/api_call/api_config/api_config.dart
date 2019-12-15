@@ -45,6 +45,14 @@ class ApiConfig {
   static String pauseBargain = baseURL + 'bargain/pause/';
   static String releaseBargain = baseURL + 'uploadbill/';
 
+  // Group Buy APIs
+  static String getGBListings = baseURL + 'gblisting/';
+  static String getActiveGBListings = baseURL + 'gblisting/active/';
+  static String getGBListingDtl = baseURL + 'gblisting/';
+  static String getAvlQty = baseURL + 'gblisting/getqty/avl/';
+  static String getBookedQty = baseURL + 'gblisting/getqty/booked/';
+
+
   //get FCM Key
   static String updateUserApiForGetFcmKey = baseURL + 'user/';
   static int successStatusCode = 200;
