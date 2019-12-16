@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:graineasy/manager/base/base_view.dart';
-import 'package:graineasy/model/Item.dart';
 import 'package:graineasy/model/groupbuy.dart';
-import 'package:graineasy/model/itemname.dart';
-import 'package:graineasy/ui/view/item_details/details_view.dart';
-import 'package:graineasy/ui/view/group-buy/gbitem_details/gbdetails_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -63,18 +59,18 @@ class _GroupbuyViewState extends State<GroupbuyView> with CommonAppBar {
 
   _getBaseContainer(GroupbuyViewModel model) {
     return
-      model.gbitems!=null?
+      model.gbItems != null ?
       getCategoryWidget(model):Container();
   }
 
   getCategoryWidget(GroupbuyViewModel model) {
     return
 
-      model.gbitems.length <= 0
+      model.gbItems.length <= 0
         ? WidgetUtils.showMessageAtCenterOfTheScreen('No items found')
         : SingleChildScrollView(
             child: new GridView.builder(
-                itemCount: model.gbitems.length,
+                itemCount: model.gbItems.length,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 padding: const EdgeInsets.all(5.0),
@@ -93,7 +89,7 @@ class _GroupbuyViewState extends State<GroupbuyView> with CommonAppBar {
                           children: <Widget>[
                             Positioned.fill(
                                 child: WidgetUtils.getCategoryImage(
-                                    model.gbitems[index].item.image)),
+                                    model.gbItems[index].item.image)),
                             Container(
                               color: Colors.black38,
                             ),
@@ -107,7 +103,8 @@ class _GroupbuyViewState extends State<GroupbuyView> with CommonAppBar {
                                     mainAxisAlignment: MainAxisAlignment
                                         .spaceBetween,
                                     children: <Widget>[
-                                      model.gbitems[index].item.bargainenabled == true
+                                      model.gbItems[index].item
+                                          .bargainenabled == true
                                           ? Container(
                                         alignment: Alignment.topLeft,
                                         child: Text('Bargain Enabled',
@@ -133,7 +130,7 @@ class _GroupbuyViewState extends State<GroupbuyView> with CommonAppBar {
                                               height: 25,),
                                               onTap: () {
                                                 _launchWhatsApp(
-                                                    model.gbitems[index]);
+                                                    model.gbItems[index]);
                                               },),
                                           ),
                                           Padding(
@@ -144,7 +141,7 @@ class _GroupbuyViewState extends State<GroupbuyView> with CommonAppBar {
                                               height: 25,),
                                               onTap: () {
                                                 _launchEmail(
-                                                    model.gbitems[index]);
+                                                    model.gbItems[index]);
                                               },),
                                           )
                                         ],
@@ -164,11 +161,14 @@ class _GroupbuyViewState extends State<GroupbuyView> with CommonAppBar {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Text(model.gbitems[index].item.name,
+                                      Text(model.gbItems[index].item.name,
                                         style: TextStyle(fontSize: 16,color: Colors.white, fontWeight: FontWeight.bold),),
-                                      Text(model.gbitems[index].item.manufacturer.name,
+                                      Text(
+                                          model.gbItems[index].item.manufacturer
+                                              .name,
                                           style: TextStyle(fontSize: 16,color: Colors.white, fontWeight: FontWeight.w500)),
-                                      Text("Origin: " + model.gbitems[index].item.origin,
+                                      Text("Origin: " +
+                                          model.gbItems[index].item.origin,
                                           style: TextStyle(fontSize: 14,color: Colors.white, fontWeight: FontWeight.w500)),
                                     ],
                                   ),

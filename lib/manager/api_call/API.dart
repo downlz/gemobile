@@ -9,14 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:graineasy/manager/base/base_repository.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
+import 'package:graineasy/model/MostOrderedItem.dart';
 import 'package:graineasy/model/address.dart';
+import 'package:graineasy/model/bannerItem.dart';
 import 'package:graineasy/model/bargain.dart';
 import 'package:graineasy/model/cart_item.dart';
 import 'package:graineasy/model/city.dart';
-import 'package:graineasy/model/itemname.dart';
 import 'package:graineasy/model/groupbuy.dart';
-import 'package:graineasy/model/MostOrderItem.dart';
-import 'package:graineasy/model/MostOrderedItem.dart';
+import 'package:graineasy/model/itemname.dart';
 import 'package:graineasy/model/manufacturer.dart';
 import 'package:graineasy/model/order.dart';
 import 'package:graineasy/model/state.dart';
@@ -36,6 +36,7 @@ class API extends BaseRepository
 
   static User user;
   static UserModel users;
+
 
   static List<String> addressType = [
     'factory',
@@ -81,6 +82,8 @@ class API extends BaseRepository
     'expired'
   ];
 
+
+  static List<BannerItem> bannerLists = [];
 
   static void alertMessage(String message, BuildContext context) {
     showDialog(
@@ -965,4 +968,27 @@ class API extends BaseRepository
     return [];
   }
 
+  static Future<List<BannerItem>> getBannerItem() async {
+    for (int i = 0; i < 3; i++) {
+      bannerLists.add(new BannerItem(id: '1',
+          imageUrl: 'https://res.cloudinary.com/dkhlc6xlj/image/upload/v1556040912/fuixzwtzjuzagnslv2qh.jpg'));
+    }
+    return bannerLists;
+  }
+
+  static Future<List<BannerItem>> getBanners() async {
+    var response = await http.get(ApiConfig.banners,
+        headers: await ApiConfig.getHeader());
+    print('Banner=======>${response.body}');
+
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<BannerItem> bannerItem = bannerLists;
+      print('Banner=======>${response.body}');
+      return bannerItem;
+    }
+    else {
+      getBannerItem();
+      return bannerLists;
+    }
+  }
 }

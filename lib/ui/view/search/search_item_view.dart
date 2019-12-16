@@ -21,6 +21,8 @@ class _SearchItemViewState extends State<SearchItemView> with CommonAppBar {
   bool firstCheckBox = false;
   bool secondCheckBox = false;
 
+  int index = 0;
+
   @override
   Widget build(BuildContext context) {
     return BaseView<SearchItemViewModel>(builder: (context, model, child) {
@@ -59,7 +61,7 @@ class _SearchItemViewState extends State<SearchItemView> with CommonAppBar {
                   child: Column(
                     children: <Widget>[
                       Theme(data: Theme.of(context).copyWith(
-                          canvasColor: Palette.blackTextColor),
+                          canvasColor: Palette.whiteTextColor),
                         child: DropdownButton<Manufacturer>(
                           underline: Container(decoration: BoxDecoration(
                               border: Border(
@@ -78,6 +80,8 @@ class _SearchItemViewState extends State<SearchItemView> with CommonAppBar {
                           onChanged: (Manufacturer newValue) {
                             setState(() {
                               model.selectedManufacturer = newValue;
+                              model.searchText(model.selectedManufacturer.name);
+//                              searchItemController.text = model.selectedManufacturer.name;
                             });
                           },
                           items: model.manufacturerList.map((Manufacturer mfg) {
@@ -114,7 +118,7 @@ class _SearchItemViewState extends State<SearchItemView> with CommonAppBar {
                           setState(() {
                             model.selectedGrade = selectedOrderStatus;
                             model.searchText(model.selectedGrade);
-                            searchItemController.text = model.selectedGrade;
+//                            searchItemController.text = model.selectedGrade;
                           });
                         },
                         items: API.grade.map((String status) {
@@ -136,8 +140,22 @@ class _SearchItemViewState extends State<SearchItemView> with CommonAppBar {
                             'Search by name, sku, id'),
                         onChanged: (String searchString) {
                           if (searchString.length > 0) {
-                            model.searchText(model.selectedGrade);
+                            model.searchText(searchString);
                           }
+//                         else if(model.selectedManufacturer.name!=null)
+////                              model.searchText(model.selectedManufacturer.name);
+//                              {
+//                           for(index=0;index<model.recentItem.length;index++)
+//                            {
+//                              print('itemData index=====>${model.recentItem[index].category.itemname.name}');
+//                               if(searchItemController.text.contains(model.recentItem[index].category.itemname.name.toLowerCase())
+//                               || searchItemController.text.contains(model.recentItem[index].sampleNo.toLowerCase())
+//                               || searchItemController.text.contains(model.recentItem[index].id))
+//                              {
+//                                model.searchText(model.recentItem[index].name);
+//                              }
+//                            }
+//                          }
                         },
                       ),
                     ],

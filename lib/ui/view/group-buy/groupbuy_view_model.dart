@@ -5,20 +5,20 @@ import 'package:graineasy/model/groupbuy.dart';
 
 class GroupbuyViewModel extends BaseModel
 {
-  bool isListEmpty =  false;
   List<Item> items ;
-  List<Groupbuy> gbitems;
 
+  List<Groupbuy> gbItems;
   bool isFirstTime = true;
 
   void init() {
-    print('here');
+    if (isFirstTime)
     getActiveGroupBuyItems();
+    isFirstTime = false;
   }
 
   getActiveGroupBuyItems() async {
     setState(ViewState.Busy);
-    gbitems = await API.getGBListings();
+    gbItems = await API.getGBListings();
     setState(ViewState.Idle);
   }
 
