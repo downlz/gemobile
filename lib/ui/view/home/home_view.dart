@@ -5,8 +5,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
-import 'package:graineasy/model/MostOrderItem.dart';
-import 'package:graineasy/model/MostOrderedItem.dart';
+import 'package:graineasy/model/bannerItem.dart';
 import 'package:graineasy/model/groupbuy.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/theme/app_responsive.dart';
@@ -14,9 +13,9 @@ import 'package:graineasy/ui/theme/palette.dart';
 import 'package:graineasy/ui/view/BargainDetail/bargain_history_view.dart';
 import 'package:graineasy/ui/view/account/account_view.dart';
 import 'package:graineasy/ui/view/category/category_view.dart';
-import 'package:graineasy/ui/view/item_details/details_view.dart';
-import 'package:graineasy/ui/view/group-buy/groupbuy_view.dart';
 import 'package:graineasy/ui/view/group-buy/gbitem_details/gbdetails_view.dart';
+import 'package:graineasy/ui/view/group-buy/groupbuy_view.dart';
+import 'package:graineasy/ui/view/item_details/details_view.dart';
 import 'package:graineasy/ui/view/manage_order/manage_order/manage_order_view.dart';
 import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
 import 'package:graineasy/ui/view/router.dart';
@@ -39,8 +38,6 @@ class _HomeViewState extends State<HomeView>
     with CommonAppBar, SingleTickerProviderStateMixin {
   TabController tabController;
   int tabIndex = 0;
-
-
 
   @override
   void initState() {
@@ -116,7 +113,7 @@ class _HomeViewState extends State<HomeView>
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Center(
-          child: Container(child: getBanner(model),
+          child: Container(child: getBanner(model.bannerList),
             height: 125,
             width: MediaQuery
                 .of(context)
@@ -400,21 +397,19 @@ class _HomeViewState extends State<HomeView>
 
             ],
           ),
-
-
         ],
       ), elevation: 4.0,
     );
   }
 
-  getBanner(HomeViewModel model) {
+  getBanner(List<BannerItem> bannerList) {
     return Swiper(
         itemBuilder: (BuildContext context, int index) {
           return Image.network(
-            "https://res.cloudinary.com/dkhlc6xlj/image/upload/v1556040912/fuixzwtzjuzagnslv2qh.jpg",
+            bannerList[index].imageUrl,
             fit: BoxFit.cover, width: double.infinity,);
         },
-        itemCount: 3,
+        itemCount: bannerList.length,
         pagination: new SwiperPagination(
             builder: new DotSwiperPaginationBuilder(
                 color: Colors.grey, activeColor: Colors.blue)),
@@ -568,7 +563,7 @@ class _HomeViewState extends State<HomeView>
                   ],
                 ),
 
-              )
+              ),
 
           );
         });

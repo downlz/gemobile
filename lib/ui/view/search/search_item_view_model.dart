@@ -5,12 +5,12 @@ import 'package:graineasy/model/manufacturer.dart';
 
 class SearchItemViewModel extends BaseModel {
   List<Item> items = [];
-  List<Item> recentItem;
+  List<Item> recentItem = [];
   List<Manufacturer> manufacturerItem = [];
   String selectedGrade;
   Manufacturer selectedManufacturer;
   List<Manufacturer> manufacturerList = [];
-
+  Item itemData;
   bool isFirstTime = true;
 
 
@@ -19,7 +19,10 @@ class SearchItemViewModel extends BaseModel {
     items = await API.searchItem(searchString);
     print('Item length ===? ${items.length}');
     setState(ViewState.Idle);
+    recentItem.addAll(items);
+    print('recent==>${recentItem}');
   }
+
 
   getRecentlyAddedItem() async {
     setState(ViewState.Busy);
