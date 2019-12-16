@@ -5,6 +5,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
+import 'package:graineasy/model/MostOrderedItem.dart';
 import 'package:graineasy/model/bannerItem.dart';
 import 'package:graineasy/model/groupbuy.dart';
 import 'package:graineasy/model/user.dart';
@@ -42,7 +43,7 @@ class _HomeViewState extends State<HomeView>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(vsync: this, length: 4);
+    tabController = TabController(vsync: this, length: 3);
     tabController.addListener(toggleTab);
   }
 
@@ -125,7 +126,7 @@ class _HomeViewState extends State<HomeView>
         Expanded(child: Container(
 
           child: DefaultTabController(
-            length: 4,
+            length: 3,
             child: Column(
               children: <Widget>[
                 Container(
@@ -133,7 +134,7 @@ class _HomeViewState extends State<HomeView>
                   TabBar(tabs: [
                     Tab(child: Text('All')),
                     Tab(child: Text('New')),
-                    Tab(child: Text('Group Buy')),
+//                    Tab(child: Text('Group Buy')),
                     Tab(child: Text('Near Me')),
                   ],
 //                    isScrollable: true,
@@ -146,9 +147,9 @@ class _HomeViewState extends State<HomeView>
                     model.recentItem != null
                         ? getRecentlyAddedData(model)
                         : Container(),
-                    model.mostOrder != null ? getMostOrderData(model) : Center(
-                      child: Text('No items found'),
-                    ),
+//                    model.mostOrder != null ? getMostOrderData(model) : Center(
+//                      child: Text('No items found'),
+//                    ),
                     model.itemsNear != null ? getItemsNearMe(model) : Text(
                         'No items found'),
                   ],
@@ -240,7 +241,9 @@ class _HomeViewState extends State<HomeView>
                     child: Text(model.user == null ? ' ' : model.user.name,
                       style: TextStyle(color: Colors.white, fontSize: 16),),),
                   Text(model.user == null ? ' ' : model.user.phone,
-                    style: TextStyle(color: Colors.white, fontSize: 16),)
+                    style: TextStyle(color: Colors.white, fontSize: 16),),
+//                  Text(model.user == null ? ' ' : model.user.email,
+//                    style: TextStyle(color: Colors.white, fontSize: 16),)
                 ],
               ),
 
@@ -288,7 +291,7 @@ class _HomeViewState extends State<HomeView>
               new ListTile(
 //                // Image.asset('images/bargain.png'),
                   leading: Icon(
-                      Icons.monetization_on, color: Palette.assetColor),
+                      Icons.people, color: Palette.assetColor),
                   title: new Text("Group Buy", style: TextStyle(
                       color: Palette.assetColor, fontSize: 15)),
                   trailing: Icon(
@@ -880,9 +883,9 @@ class _HomeViewState extends State<HomeView>
         itemBuilder: (BuildContext context, int index) {
           return new GestureDetector(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (context) =>
-                        GBDetailsView(gbitem: model.mostOrder[index],)));
+//                Navigator.push(context, MaterialPageRoute(
+//                    builder: (context) =>
+//                        DetailsView(item: model.mostOrder[index],)));
               },
 
               child: new Card(
@@ -890,9 +893,9 @@ class _HomeViewState extends State<HomeView>
                 child: Stack(
                   children: <Widget>[
                     Positioned.fill(
-                        child: model.mostOrder[index].item.image != null
+                        child: model.mostOrder[index].name.image != null
                             ? WidgetUtils
-                            .getCategoryImage(model.mostOrder[index].item.image)
+                            .getCategoryImage(model.mostOrder[index].name.image)
                             : Icon(
                             Icons.refresh)),
                     Container(
@@ -905,7 +908,7 @@ class _HomeViewState extends State<HomeView>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              model.mostOrder[index].item.bargainenabled == true
+                              model.mostOrder[index].name.bargainenabled == true
                                   ? Container(
                                 alignment: Alignment.topLeft,
                                 child: Text('Bargain Enabled',
@@ -952,7 +955,7 @@ class _HomeViewState extends State<HomeView>
                           alignment: Alignment.bottomLeft,
 
                           child: new Text(
-                            model.mostOrder[index].item.name,
+                            model.mostOrder[index].name.name,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 20.0,
@@ -1134,17 +1137,17 @@ class _HomeViewState extends State<HomeView>
             recentItem.image);
   }
 
-  Future launchEmailMostOrder(Groupbuy mostOrder) async {
+  Future launchEmailMostOrder(MostOrderedItem mostOrder) async {
     launch('mailto:?subject=${"ItemName: " +
-        mostOrder.item.name}&body=${mostOrder.item.name + "/" + mostOrder.item.category.name +
+        mostOrder.name.name}&body=${mostOrder.name.name + "/" + mostOrder.name.category.name +
         "\n" +
-        mostOrder.item.image}');
+        mostOrder.name.image}');
   }
 
-  Future launchWhatsAppMostOrder(Groupbuy mostOrder) async {
+  Future launchWhatsAppMostOrder(MostOrderedItem mostOrder) async {
     FlutterShareMe().shareToWhatsApp(
-        msg: mostOrder.item.name + "/" + mostOrder.item.category.name + "\n" +
-            mostOrder.item.image);
+        msg: mostOrder.name.name + "/" + mostOrder.name.category.name + "\n" +
+            mostOrder.name.image);
   }
 }
 

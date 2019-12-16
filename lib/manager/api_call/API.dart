@@ -14,6 +14,7 @@ import 'package:graineasy/model/address.dart';
 import 'package:graineasy/model/bannerItem.dart';
 import 'package:graineasy/model/bargain.dart';
 import 'package:graineasy/model/cart_item.dart';
+import 'package:graineasy/model/gbcart_item.dart';
 import 'package:graineasy/model/city.dart';
 import 'package:graineasy/model/groupbuy.dart';
 import 'package:graineasy/model/itemname.dart';
@@ -268,7 +269,7 @@ class API extends BaseRepository
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<StateObject> items = StateObject.fromJsonArray(
           jsonDecode(response.body));
-      print('sadasassa->${items.length}');
+//      print('sadasassa->${items.length}');
       return items;
     }
     return [];
@@ -280,7 +281,7 @@ class API extends BaseRepository
     print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<City> items = City.fromJsonArray(jsonDecode(response.body));
-      print('sadasassa->${items.length}');
+//      print('sadasassa->${items.length}');
       return items;
     }
     return [];
@@ -433,7 +434,58 @@ class API extends BaseRepository
     return;
   }
 
-  static placeOrder(CartItem cart, Address address, String userID) async {
+
+  static placeGBOrder(GBCartItem cart, Address address, String userID,String type) async {
+    var data = {
+      'quantity': cart.qty,
+      'unit': cart.gbitem.unit.mass,
+      'cost': cart.totalPrice,
+      'price': cart.gbitem.dealprice,
+      // Price is shown correctly in screen but incorrect value coming here
+      'itemId': cart.gbitem.item.id,
+      'addressId': address.id,
+      'buyerId': userID,
+      'sellerId': cart.gbitem.item.seller.id,
+      'placedTime': new DateTime.now().millisecondsSinceEpoch,
+      'ordertype': "groupbuying",                                     // To be updated based on type of order
+      'status': "new",
+      'isshippingbillingsame': false,
+      'addedby': userID,
+      'referenceGBId' : cart.gbitem.id
+    };
+    // This is done to generate valid purchase order and calculate GST. Buyer may be buying on behalf of someone and hence it would be billed to that party
+//    if (address.addresstype != 'registered'){
+//      data['isshippingbillingdiff'] = true;
+//      data['partyname'] = address.addridentifier.partyname;
+//      data['gstin'] = address.addridentifier.gstin;
+//      data['address'] =  address.text;
+//      data['pincode'] = address.pin;
+//      data['state'] = address.state.id;
+//      data['phone'] = address.phone;
+//      data['addresstype'] = address.addresstype;
+////      data['city'] = address.city.id;
+//
+//      print(address.city.id);
+//      if (address.city.id != null) {                                        // Improve coding standards - Unhandled Exception: NoSuchMethodError: The getter 'id' was called on null.
+//        data['city'] = address.city.id;
+//      }
+//    }
+
+    var response = await http.post(ApiConfig.createOrder,
+        headers: {"Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()},
+        body: jsonEncode(data));
+//    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      print(response.body);
+      Map<String, dynamic> responseBody = jsonDecode(response.body);
+      return 'Create Order';
+    } else {
+      return 'error';
+    }
+  }
+
+  static placeOrder(CartItem cart, Address address, String userID,String type) async {
     var data = {
       'quantity': cart.qty,
       'unit': cart.item.unit.mass,
@@ -945,12 +997,11 @@ class API extends BaseRepository
   static getAvlQty(String id) async {
     var response = await http.get(ApiConfig.getAvlQty + id,
         headers: await ApiConfig.getHeaderWithTokenAndContentType());
-    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
-//      print(response.body);
+      print(response.body);
       Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
-
-      return response.body;
+//      print(response.body);
+      return jsonDecode(response.body)['availableQty'];
     } else {
       return null;
     }
@@ -973,6 +1024,7 @@ class API extends BaseRepository
       bannerLists.add(new BannerItem(id: '1',
           imageUrl: 'https://res.cloudinary.com/dkhlc6xlj/image/upload/v1556040912/fuixzwtzjuzagnslv2qh.jpg'));
     }
+    print(bannerLists);
     return bannerLists;
   }
 

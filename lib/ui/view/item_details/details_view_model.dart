@@ -19,8 +19,6 @@ class DetailsViewModel extends BaseModel {
       if (id != null) {
         user = await UserPreferences.getUser();
         setState(ViewState.Busy);
-        print('hello');
-        print(id);
         itemDetails = await API.getItemFromId(id);
         setState(ViewState.Idle);
         isFirstTime = false;

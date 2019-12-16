@@ -132,16 +132,6 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
                             ),
                           ],
                         ))),
-// Commented by Shahnawaz
-//                model.gbitemDetails.bargainenabled && model.bargainDetail == null
-//                    ? Container(
-//                  margin: EdgeInsets.all(10.0),
-//                  child: Text(
-//                    'You can bargain if you want to buy more then ${model
-//                        .gbitemDetails.bargaintrgqty}',
-//                    style: TextStyle(color: Colors.red),),)
-//                    : Container(),
-
                 Container(
                     margin: EdgeInsets.all(10.0),
                     child: Card(
@@ -207,11 +197,10 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
                                                   .validate()) {
                                                 User user = await UserPreferences
                                                     .getUser();
-//                                                model.calculatePrice(
-//                                                    model.gbitemDetails,
-//                                                    model.gbitemDetails.seller.id,
-//                                                    user.id, int.parse(
-//                                                    quantityController.text));
+                                                model.calculateGBPrice(
+                                                    model.gbitemDetails.dealprice,
+                                                    user.id, model.gbitemDetails,int.parse(
+                                                    quantityController.text));
                                               }
                                             },
                                             shape: new OutlineInputBorder(
@@ -222,14 +211,14 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
                                     ),
                                   ],
                                 ))))),
-                model.gbitemDetails.item.bargainenabled && model.bargainDetail == null
-                    ?
-                Container(
+                // Commented by Shahnawaz
+                model.avlQty != 0
+                    ? Container(
                   margin: EdgeInsets.all(10.0),
                   child: Text(
-                    'You can bargain if you want to buy more than ${model
-                        .gbitemDetails.item.bargaintrgqty}',
-                    style: TextStyle(color: Colors.red),),)
+                    'Available Quantity ${model
+                        .avlQty}',
+                    style: TextStyle(color: Colors.red,fontSize: 18.0),),)
                     : Container(),
                 Container(
                     padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
@@ -262,27 +251,27 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
                 detailWidget(model.gbitemDetails)
 
               ])),),
-          model.bargainDetail != null ? Padding(
-            padding: EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 10),
-            child: Container(
-              alignment: Alignment.center,
-              child: OutlineButton(
-                  borderSide: BorderSide(
-                      color: Colors.amber.shade500),
-                  child: const Text('Bargain View'),
-                  textColor: Colors.amber.shade500,
-                  onPressed: () async {
-                    Navigator.push(context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                BargainView(bargainDetail: model.bargainDetail,)
-                        ));
-                  },
-                  shape: new OutlineInputBorder(
-                    borderRadius:
-                    BorderRadius.circular(30.0),
-                  )),
-            ),) : Container(),
+//          model.bargainDetail != null ? Padding(
+//            padding: EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 10),
+//            child: Container(
+//              alignment: Alignment.center,
+//              child: OutlineButton(
+//                  borderSide: BorderSide(
+//                      color: Colors.amber.shade500),
+//                  child: const Text('Bargain View'),
+//                  textColor: Colors.amber.shade500,
+//                  onPressed: () async {
+//                    Navigator.push(context,
+//                        MaterialPageRoute(
+//                            builder: (context) =>
+//                                BargainView(bargainDetail: model.bargainDetail,)
+//                        ));
+//                  },
+//                  shape: new OutlineInputBorder(
+//                    borderRadius:
+//                    BorderRadius.circular(30.0),
+//                  )),
+//            ),) : Container(),
 
         ],));
   }

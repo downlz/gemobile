@@ -4,6 +4,7 @@ class User {
   String name;
   String id;
   bool isAdmin;
+  String email;
   bool isSeller;
   bool isAgent;
   bool isActive;
@@ -12,7 +13,7 @@ class User {
   String fcmkey;
   String phone;
 
-  User({this.name,this.id,this.fcmkey,
+  User({this.name,this.id,this.fcmkey,this.email,
       this.isActive,this.isAdmin,this.isAgent,this.isBuyer,this.isSeller,
       this.token,this.phone});
 
@@ -22,6 +23,7 @@ class User {
       : name = json['name'],
         id = json['_id'],
         phone = json['phone'],
+        email = json['email'],
         isSeller = checkBool(json, 'isSeller'),
         isAgent = checkBool(json, 'isAgent'),
         isAdmin = checkBool(json, 'isAdmin'),

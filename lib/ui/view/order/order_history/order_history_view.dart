@@ -6,6 +6,7 @@ import 'package:graineasy/ui/view/order/order_history/order_history_view_model.d
 import 'package:graineasy/ui/view/order_detail/order_detail_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
+import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/utils/check_internet/utility.dart';
 
 const URL = "https://graineasy.com";
@@ -36,6 +37,15 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
         appBar: new AppBar(
           title: Text('My Orders'),
           backgroundColor: Colors.white,
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.home, color: Colors.black87,), onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(
+                      builder: (context) => HomeView()
+                  ));
+            })
+          ],
         ),
         body: _getBody(model),
       );

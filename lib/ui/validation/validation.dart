@@ -1,5 +1,6 @@
 import 'package:graineasy/model/Item.dart';
 import 'package:graineasy/model/groupbuy.dart';
+import 'package:graineasy/helpers/showDialogSingleButton.dart';
 
 class Validation
 {
@@ -110,7 +111,9 @@ static  validateEmptyPassword(String value) {
 
   static validateEmptyItemQty(String value, Item itemDetails) {
     if (value.isEmpty)
-      return 'Quntity equired';
+      return 'Quantity required';
+
+//    showDialogSingleButton(context, "Unable to get Order Details", "Faced connectivity issue while pulling order details or authenticated failure", "OK");
 
     if (itemDetails.qty < int.parse(value))
       return '${itemDetails.qty} qty available';
@@ -120,7 +123,7 @@ static  validateEmptyPassword(String value) {
 
   static validateEmptyGBItemQty(String value, Groupbuy gbitemDetails) {
     if (value.isEmpty)
-      return 'Quntity equired';
+      return 'Quantity equired';
 
     if (gbitemDetails.maxqty < int.parse(value))
       return '${gbitemDetails.maxqty} qty available';           // Check logic for available qty

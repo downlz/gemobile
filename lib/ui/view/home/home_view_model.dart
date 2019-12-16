@@ -9,6 +9,7 @@ import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
 import 'package:graineasy/model/bannerItem.dart';
 import 'package:graineasy/model/groupbuy.dart';
+import 'package:graineasy/model/MostOrderedItem.dart';
 import 'package:graineasy/model/itemname.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/view/Bargain/bargain_view.dart';
@@ -21,10 +22,10 @@ class HomeViewModel extends BaseModel
   List<ItemName> items;
   List<Item> recentItem;
 //  List<MostOrderItem> mostOrder;
-//    List<MostOrderedItem> mostOrder;
+    List<MostOrderedItem> mostOrder;
   List<BannerItem> bannerList = [];
 
-  List<Groupbuy> mostOrder;
+//  List<Groupbuy> mostOrder;
 //  List<Item> mostOrder;
   List<Item> itemsNear;
   User user;
@@ -51,7 +52,7 @@ class HomeViewModel extends BaseModel
 
 //        if(message['data']!=null) {
 //           type = message['data']['type'];
-//          id = message['data']['id'];
+//          id GBDetailsView= message['data']['id'];
 //          print('typeId=======>${"type----" + type + "id-----" + id}');
 //        }
 //        else
@@ -317,8 +318,8 @@ class HomeViewModel extends BaseModel
   }
 
   getMostOrdered() async {
-//    mostOrder = await API.getMostOrder();
-    mostOrder = await API.getGBListings();
+    mostOrder = await API.getMostOrder();
+//    mostOrder = await API.getGBListings();
     setState(ViewState.Idle);
   }
 

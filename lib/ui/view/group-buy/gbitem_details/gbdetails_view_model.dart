@@ -5,9 +5,9 @@ import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
 import 'package:graineasy/model/groupbuy.dart';
 import 'package:graineasy/model/bargain.dart';
-import 'package:graineasy/model/cart_item.dart';
+import 'package:graineasy/model/gbcart_item.dart';
 import 'package:graineasy/model/user.dart';
-import 'package:graineasy/ui/view/cart_screen/cart_view.dart';
+import 'package:graineasy/ui/view/gbcart_screen/gbcart_view.dart';
 
 class GBDetailsViewModel extends BaseModel {
   Groupbuy gbitemDetails;
@@ -15,16 +15,19 @@ class GBDetailsViewModel extends BaseModel {
   bool isFirstTime = true;
   Bargain bargainDetail;
   User user;
+  int avlQty;
 
   Future init(Groupbuy gbitem, String id) async {
-//    if (isFirstTime)
+    if (isFirstTime) {
 //      if (id != null) {
 //        setState(ViewState.Busy);
-        gbitemDetails = gbitem;
-        print(gbitemDetails.id);
-        user = await UserPreferences.getUser();
+      gbitemDetails = gbitem;
+      user = await UserPreferences.getUser();
 //        gbitemDetails = await API.getGBListingDtl(id);
-        setState(ViewState.Idle);
+      getAvlQty(gbitemDetails.id);
+      print(avlQty);
+      setState(ViewState.Idle);
+      isFirstTime = false;
 //        isFirstTime = false;
 //              checkBargainActiveOrNot(false);
 
@@ -39,13 +42,13 @@ class GBDetailsViewModel extends BaseModel {
 //          checkBargainActiveOrNot(true);
 //        }
 //      }
-
+    }
   }
 
   void getAvlQty(String id) async {
 
     setState(ViewState.Busy);
-    var avlQty = await API.getAvlQty(id);
+    avlQty = await API.getAvlQty(id);
     setState(ViewState.Idle);
   }
 
@@ -57,20 +60,21 @@ class GBDetailsViewModel extends BaseModel {
     print('selected==${itemDetails.price}');
   }
 
-  void calculatePrice(Item item, String sellerId, String buyerId,
+  void calculateGBPrice(double dealprice, String buyerId,Groupbuy gbitem,
       int qty) async {
     setState(ViewState.Busy);
 
-    var totalPrice = await API.getCalculatePrice(
-        item.id, sellerId, buyerId, qty);
-    List<CartItem> cartItems = [];
-    cartItems.add(new CartItem(qty, totalPrice, item));
+//    var totalPrice = await API.getCalculatePrice(
+//        item.id, sellerId, buyerId, qty);
+    var totalPrice = (dealprice * qty).toString();
+    List<GBCartItem> cartItems = [];
+    cartItems.add(new GBCartItem(qty, totalPrice, gbitem));
     setState(ViewState.Idle);
     print(totalPrice);
     Navigator.push(context,
         MaterialPageRoute(
             builder: (context) =>
-                CartView(cartItems)));
+                GBCartView(cartItems)));
   }
 
 

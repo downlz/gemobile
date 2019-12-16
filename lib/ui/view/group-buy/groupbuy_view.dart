@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/model/groupbuy.dart';
+import 'package:graineasy/ui/view/group-buy/gbitem_details/gbdetails_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -30,7 +31,7 @@ class _GroupbuyViewState extends State<GroupbuyView> with CommonAppBar {
       model.init();
       return new Scaffold(
         appBar: new AppBar(
-          title: Text('Test GB'),
+          title: Text('Group Buy Items'),
           backgroundColor: Colors.white,
         ),
         body: _getBody(model),
@@ -79,9 +80,9 @@ class _GroupbuyViewState extends State<GroupbuyView> with CommonAppBar {
                 itemBuilder: (BuildContext context, int index) {
                   return new GestureDetector(
                       onTap: () {
-//                        Navigator.push(context, MaterialPageRoute(
-//                            builder: (context) =>
-//                                GBDetailsView(gbitems: model.gbitems[index],)));
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) =>
+                                GBDetailsView(gbitem: model.gbItems[index],)));
                       },
                       child: new Card(
                         elevation: 3.0,
