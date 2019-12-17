@@ -11,6 +11,7 @@ import 'package:graineasy/utils/check_internet/utility.dart';
 class LoginViewModel extends BaseModel implements LoginListener
 {
   String phone, password;
+  String selectedChooseRole;
 
   @override
   void errorObtained(String error, int errorCode, String methodName) {
@@ -25,7 +26,6 @@ class LoginViewModel extends BaseModel implements LoginListener
     API.updateUserApiToGetFCMKey();
     UserModel users = await UserPreferences.getFCMDeviceDtl();
     print('FCM KEY=========>${users.fcmkey}');
-    print('DeviceDetail KEY=========>${users.devicedtl}');
     Navigator.pushNamedAndRemoveUntil(
         context, Screen.Home_screen.toString(), (Route<dynamic> route) => false);
   }

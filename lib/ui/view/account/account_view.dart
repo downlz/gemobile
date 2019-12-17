@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/model/address.dart';
+import 'package:graineasy/model/bankaccount.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/view/account/add_update_address/add_update_addresses_view.dart';
+import 'package:graineasy/ui/view/account/add_update_bankacc/add_update_bankacc_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 
 import 'account_view_model.dart';
@@ -11,7 +12,6 @@ import 'account_view_model.dart';
 
 class AccountVIew extends StatefulWidget {
   User user;
-
   AccountVIew(this.user);
 
 
@@ -23,7 +23,7 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
   @override
   Widget build(BuildContext context) {
     return BaseView<AccountViewModel>(builder: (context, model, child) {
-      model.init(API.user.phone, API.user.id);
+      model.init(widget.user.phone, widget.user.id);
       return new Scaffold(
         appBar: new AppBar(
           title: Text('My Account'),
@@ -57,7 +57,7 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
   }
 
   _getBaseContainer(AccountViewModel model) {
-    model.getUserDetail();
+//    model.getUserDetail();
     Icon ofericon = new Icon(
       Icons.edit,
       color: Colors.black38,
@@ -101,14 +101,14 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
                       _verticalDivider(),
                       Container(),
 //                      new Text(
-//                        'Admin Email',
+//                        widget.user.email,
 //                        style: TextStyle(
 //                            color: Colors.black45,
 //                            fontSize: 13.0,
 //                            fontWeight: FontWeight.bold,
 //                            letterSpacing: 0.5),
-//                      ),
-                      _verticalDivider(),
+//                      ), Container(),
+//                      _verticalDivider(),
                       new Text(
                         widget.user.phone,
                         style: TextStyle(
@@ -151,13 +151,23 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
         new Container(
           margin:
           EdgeInsets.only(left: 12.0, top: 10.0, bottom: 5.0),
-          child: new Text(
+          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+          new Text(
             'Bank Account',
             style: TextStyle(
                 color: Colors.black87,
                 fontWeight: FontWeight.bold,
                 fontSize: 18.0),
           ),
+              IconButton(icon: Icon(Icons.add_circle), onPressed: () {
+                print('click');
+                Navigator.push(context,
+                    MaterialPageRoute(
+                        builder: (context) => AddUpdateBankAccView()
+                    ));
+              })
+          ])
         ),
         bankAccountList(model),
         new Container(
@@ -171,9 +181,13 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
                 new Text(
                   'Change Password',
                   style: TextStyle(fontSize: 15.0, color: Colors.black87),
-                )
+
+                ),
+
               ],
+
             ),
+
           ),
         ),
         new Container(
@@ -323,15 +337,60 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
         physics: ClampingScrollPhysics(),
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
-        itemCount: 3,
+        itemCount: model.bankacc.length,
         itemBuilder: (BuildContext cont, int ind) {
-          return bankAccountWidget(model);
+          return bankAccountWidget(model.bankacc[ind]);
         },
       ),
     );
   }
 
-  bankAccountWidget(AccountViewModel model) {
+//  bankAccountWidget(AccountViewModel model) {
+//    return Card(
+//        elevation: 3.0,
+//        margin: EdgeInsets.all(10),
+//        child: Row(
+//          children: <Widget>[
+//            Container(
+//                padding: EdgeInsets.all(10),
+//                child: new Column(
+//                  crossAxisAlignment: CrossAxisAlignment.start,
+//                  mainAxisAlignment: MainAxisAlignment.start,
+//                  children: <Widget>[
+//                    new Text(
+//                      'Bank Name',
+//                      style: TextStyle(
+//                        color: Colors.black87,
+//                        fontSize: 15.0,
+//                        fontWeight: FontWeight.bold,
+//                        letterSpacing: 0.5,
+//                      ),
+//                    ),
+//                    _verticalDivider(),
+//                    new Text(
+//                      'Bank Address',
+//                      style: TextStyle(
+//                          color: Colors.black45,
+//                          fontSize: 13.0,
+//                          letterSpacing: 0.5),
+//                    ),
+//                    new Text(
+//                      'Pincode',
+//                      style: TextStyle(
+//                          color: Colors.black45,
+//                          fontSize: 13.0,
+//                          letterSpacing: 0.5),
+//                    ),
+//
+//                  ],
+//                )),
+//
+//          ],
+//        )
+//    );
+//  }
+
+  bankAccountWidget(BankAccount bankacc) {
     return Card(
         elevation: 3.0,
         margin: EdgeInsets.all(10),
@@ -344,7 +403,7 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     new Text(
-                      'Bank Name',
+                      bankacc.name,
                       style: TextStyle(
                         color: Colors.black87,
                         fontSize: 15.0,
@@ -354,23 +413,51 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
                     ),
                     _verticalDivider(),
                     new Text(
-                      'Bank Address',
+                      bankacc.accountNo,
                       style: TextStyle(
                           color: Colors.black45,
                           fontSize: 13.0,
                           letterSpacing: 0.5),
                     ),
+                    _verticalDivider(),
                     new Text(
-                      'Pincode',
+                      bankacc.ifsc,
                       style: TextStyle(
                           color: Colors.black45,
                           fontSize: 13.0,
                           letterSpacing: 0.5),
                     ),
-
+//                    new Container(
+//                      margin: EdgeInsets.only(
+//                          left: 00.0, top: 05.0, right: 0.0, bottom: 5.0),
+//                      child: Row(
+//                        crossAxisAlignment: CrossAxisAlignment.center,
+//                        mainAxisAlignment: MainAxisAlignment.start,
+//                        children: <Widget>[
+//                          new Text(
+//                            address.addresstype,
+//                            style: TextStyle(
+//                              fontSize: 15.0,
+//                              color: Colors.black26,
+//                            ),
+//                          ),
+//                          _verticalD(),
+//
+//                        ],
+//                      ),
+//                    )
                   ],
                 )),
 
+            Align(alignment: Alignment.topRight
+                ,
+                child: IconButton(icon: Icon(Icons.edit), onPressed: () {
+//                  print(address.phone);
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (context) =>
+                          AddUpdateBankAccView(bankacc: bankacc,)
+                  ));
+                }))
           ],
         )
     );

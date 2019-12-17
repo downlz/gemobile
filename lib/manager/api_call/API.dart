@@ -9,11 +9,17 @@ import 'package:flutter/material.dart';
 import 'package:graineasy/manager/base/base_repository.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
+import 'package:graineasy/model/MostOrderedItem.dart';
 import 'package:graineasy/model/address.dart';
+import 'package:graineasy/model/bankaccount.dart';
+import 'package:graineasy/model/bannerItem.dart';
 import 'package:graineasy/model/bargain.dart';
 import 'package:graineasy/model/cart_item.dart';
+import 'package:graineasy/model/gbcart_item.dart';
 import 'package:graineasy/model/city.dart';
+import 'package:graineasy/model/groupbuy.dart';
 import 'package:graineasy/model/itemname.dart';
+import 'package:graineasy/model/manufacturer.dart';
 import 'package:graineasy/model/order.dart';
 import 'package:graineasy/model/state.dart';
 import 'package:graineasy/model/user.dart';
@@ -33,6 +39,7 @@ class API extends BaseRepository
   static User user;
   static UserModel users;
 
+
   static List<String> addressType = [
     'factory',
     'outlet',
@@ -46,10 +53,25 @@ class API extends BaseRepository
   static List<String> orderStatus = [
     'new',
     'confirmed',
-    'cancelled',
     'ready',
     'shipped',
-    'delivered'
+    'delivered',
+    'cancelled',
+  ];
+
+  static List<String> chooseRole = [
+    'Default',
+    'Buyer',
+    'Seller',
+    'Partner',
+    'Transporter (Only for Transporters)'
+  ];
+
+  static List<String> grade = [
+    'A',
+    'B',
+    'C',
+    'D'
   ];
 
   static List<String> bargainAction = [
@@ -62,6 +84,8 @@ class API extends BaseRepository
     'expired'
   ];
 
+
+  static List<BannerItem> bannerLists = [];
 
   static void alertMessage(String message, BuildContext context) {
     showDialog(
@@ -121,7 +145,8 @@ class API extends BaseRepository
     return [];
   }
 
-  static Future<List<Address>> getAddress(String phone, String id) async {
+  static Future<List<Address>> getAddress(String phone, String id) async
+  {
     var response = await http.get(ApiConfig.getUserAddresses+'/byuser/'+id+'/phone/'+phone,
 //        'http://3.16.57.93:3000/api/address/byuser/${id}/phone/${phone}',
         headers: await ApiConfig.getHeaderWithToken());
@@ -158,6 +183,7 @@ class API extends BaseRepository
     return null;
   }
 
+
   static Future<List<Order>> getOrders() async {
     var response = await http.get(ApiConfig.getOrderList,
         headers: await ApiConfig.getHeaderWithToken());
@@ -168,6 +194,7 @@ class API extends BaseRepository
     }
     return [];
   }
+
 
   static Future<List<Order>> getUserOrders(String id) async {
     var response = await http.get(ApiConfig.getUserOrders + id,
@@ -190,6 +217,17 @@ class API extends BaseRepository
     }
     return [];
   }
+
+//  static Future<List<Order>> getParticularUserOrders(String id) async {
+//    var response = await http.get(ApiConfig.getUserOrderList + id,
+//        headers: await ApiConfig.getHeaderWithTokenAndContentType());
+//    print(response.body);
+//    if (response.statusCode == ApiConfig.successStatusCode) {
+//      List<Order> orders = Order.fromJsonArray(jsonDecode(response.body));
+//      return orders;
+//    }
+//    return [];
+//  }
 
   static Future<List<Order>> getLastOrderNumber() async {
     var response = await http.get(ApiConfig.getLastOrderNumber,
@@ -232,7 +270,7 @@ class API extends BaseRepository
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<StateObject> items = StateObject.fromJsonArray(
           jsonDecode(response.body));
-      print('sadasassa->${items.length}');
+//      print('sadasassa->${items.length}');
       return items;
     }
     return [];
@@ -244,7 +282,7 @@ class API extends BaseRepository
     print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<City> items = City.fromJsonArray(jsonDecode(response.body));
-      print('sadasassa->${items.length}');
+//      print('sadasassa->${items.length}');
       return items;
     }
     return [];
@@ -397,7 +435,58 @@ class API extends BaseRepository
     return;
   }
 
-  static placeOrder(CartItem cart, Address address, String userID) async {
+
+  static placeGBOrder(GBCartItem cart, Address address, String userID,String type) async {
+    var data = {
+      'quantity': cart.qty,
+      'unit': cart.gbitem.unit.mass,
+      'cost': cart.totalPrice,
+      'price': cart.gbitem.dealprice,
+      // Price is shown correctly in screen but incorrect value coming here
+      'itemId': cart.gbitem.item.id,
+      'addressId': address.id,
+      'buyerId': userID,
+      'sellerId': cart.gbitem.item.seller.id,
+      'placedTime': new DateTime.now().millisecondsSinceEpoch,
+      'ordertype': "groupbuying",                                     // To be updated based on type of order
+      'status': "new",
+      'isshippingbillingsame': false,
+      'addedby': userID,
+      'referenceGBId' : cart.gbitem.id
+    };
+    // This is done to generate valid purchase order and calculate GST. Buyer may be buying on behalf of someone and hence it would be billed to that party
+//    if (address.addresstype != 'registered'){
+//      data['isshippingbillingdiff'] = true;
+//      data['partyname'] = address.addridentifier.partyname;
+//      data['gstin'] = address.addridentifier.gstin;
+//      data['address'] =  address.text;
+//      data['pincode'] = address.pin;
+//      data['state'] = address.state.id;
+//      data['phone'] = address.phone;
+//      data['addresstype'] = address.addresstype;
+////      data['city'] = address.city.id;
+//
+//      print(address.city.id);
+//      if (address.city.id != null) {                                        // Improve coding standards - Unhandled Exception: NoSuchMethodError: The getter 'id' was called on null.
+//        data['city'] = address.city.id;
+//      }
+//    }
+
+    var response = await http.post(ApiConfig.createOrder,
+        headers: {"Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()},
+        body: jsonEncode(data));
+//    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      print(response.body);
+      Map<String, dynamic> responseBody = jsonDecode(response.body);
+      return 'Create Order';
+    } else {
+      return 'error';
+    }
+  }
+
+  static placeOrder(CartItem cart, Address address, String userID,String type) async {
     var data = {
       'quantity': cart.qty,
       'unit': cart.item.unit.mass,
@@ -434,6 +523,7 @@ class API extends BaseRepository
       data['addresstype'] = address.addresstype;
 //      data['city'] = address.city.id;
 
+      print(address.city.id);
       if (address.city.id != null) {                                        // Improve coding standards - Unhandled Exception: NoSuchMethodError: The getter 'id' was called on null.
           data['city'] = address.city.id;
       }
@@ -441,7 +531,7 @@ class API extends BaseRepository
 
     var response = await http.post(ApiConfig.createOrder,
         headers: {"Content-Type": "application/json",
-          "Authorization": 'Bearer ' + await UserPreferences.getToken()},
+          "Authorization": await UserPreferences.getToken()},
         body: jsonEncode(data));
 //    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
@@ -455,12 +545,14 @@ class API extends BaseRepository
 
 
   static updateOrderStatus(String id, String status, String remarks) async {
+    if (remarks == '') {
+      remarks = 'Cancelled without notes';
+    }
     var data = {
       'status': status,
       'remarks' : remarks,
       'lastUpdated': new DateTime.now().millisecondsSinceEpoch
     };
-
     var response = await http.put(ApiConfig.updateOrderStatus + id,
         headers: {"Content-Type": "application/json",
           "Authorization": await UserPreferences.getToken()},
@@ -517,6 +609,7 @@ class API extends BaseRepository
     }
     return [];
   }
+
 
   //Bargain APIs Calls
 
@@ -759,5 +852,259 @@ class API extends BaseRepository
     return completer.future;
   }
 
+
+  static Future<Order> getOrderById(String id) async {
+    var response = await http.get(
+      ApiConfig.getOrderById + id,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": await UserPreferences.getToken()
+      },);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      Order order = Order.fromJson(jsonDecode(response.body));
+      print(response.body);
+      return order;
+    }
+    return null;
+  }
+
+
+  static Future<Bargain> particularBargainDetail(String id) async {
+    var response = await http.get(
+        ApiConfig.raiseBargainRequest + id,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()
+        });
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      Bargain bargain = Bargain.fromJson(jsonDecode(response.body));
+      print('BargainDetail===>${response.body}');
+      return bargain;
+    }
+    return null;
+  }
+
+
+  static Future<List<Item>> getRecentlyAddedItem() async {
+    var response = await http.get(ApiConfig.getRecentlyAddedItem,
+        headers: await ApiConfig.getHeader());
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<Item> items = Item.fromJsonArray(jsonDecode(response.body));
+//      print('Recent=======>${response.body}');
+      return items;
+    }
+    return [];
+  }
+
+  static Future<List<Manufacturer>> getManufacturerItem() async {
+    var response = await http.get(ApiConfig.getManufacturerData,
+        headers: await ApiConfig.getHeaderWithTokenAndContentType());
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<Manufacturer> items = Manufacturer.fromJsonArray(
+          jsonDecode(response.body));
+//      print('manf=======>${response.body}');
+      return items;
+    }
+    return [];
+  }
+
+  static Future<List<MostOrderedItem>> getMostOrder() async {
+    var response = await http.get(ApiConfig.getMostOrdered,
+        headers: {"Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()});
+
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<MostOrderedItem> items = MostOrderedItem.fromJsonArray(jsonDecode(response.body));
+//      print('Most=======>${response.body}');
+      return items;
+    }
+    return [];
+  }
+
+  static Future<List<Item>> getItemsNear() async
+  {
+    var response = await http.post(ApiConfig.getItemNear,
+        headers: {"Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()});
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<Item> items = Item.fromJsonArray(jsonDecode(response.body));
+//      print('Near=======>${response.body}');
+      return items;
+    }
+    return [];
+  }
+
+  static Future<List<Item>> searchItem(String name) async {
+    var response = await http.get(ApiConfig.searchItem + name,
+        headers: await ApiConfig.getHeaderWithTokenAndContentType());
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<Item> items = Item.fromJsonArray(jsonDecode(response.body));
+      print(response.body);
+
+      return items;
+    }
+    return [];
+  }
+
+  // Group Buy API Calls
+
+//  static Future<List<Groupbuy>> getGBListings() async {
+//    var response = await http.get(ApiConfig.getGBListings,
+//        headers: await ApiConfig.getHeader());
+//    if (response.statusCode == ApiConfig.successStatusCode) {
+//      List<Groupbuy> items = Groupbuy.fromJsonArray(jsonDecode(response.body));
+//      print('GBListings=======>${response.body}');
+//      return items;
+//    }
+//    return [];
+//  }
+
+//  static Future<Groupbuy> getGBListings() async {
+//    var response = await http.get(ApiConfig.getGBListings,
+//        headers:  await ApiConfig.getHeader());
+//    print('respo==>  ${response.body}');
+//    if (response.statusCode == ApiConfig.successStatusCode) {
+//      Groupbuy gbitem = Groupbuy.fromJson(jsonDecode(response.body));
+//      return gbitem;
+//    }
+//    return null;
+//  }
+
+  static Future<List<Groupbuy>> getGBListings()async{
+    var response = await http.get(ApiConfig.getGBListings,
+        headers:  await ApiConfig.getHeaderWithToken());
+    var add = 'data';
+    if (response.statusCode == ApiConfig.successStatusCode) {
+//      print("GBListings=====>${response.body}");
+      List<Groupbuy> gbitem = Groupbuy.fromJsonArray(jsonDecode(response.body));
+      return gbitem;
+    }
+    return [];
+  }
+
+
+  static Future<Groupbuy> getGBListingDtl(String id) async {
+    var response = await http.get(ApiConfig.getGBListingDtl + id,
+        headers: await ApiConfig.getHeaderWithTokenAndContentType());
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      Groupbuy gbitemdtl = Groupbuy.fromJson(jsonDecode(response.body));
+      print('GB Item Detail=======>${response.body}');
+      return gbitemdtl;
+    }
+    return null;
+  }
+
+  static getAvlQty(String id) async {
+    var response = await http.get(ApiConfig.getAvlQty + id,
+        headers: await ApiConfig.getHeaderWithTokenAndContentType());
+    if (response.statusCode == ApiConfig.successStatusCode) {
+//      print(response.body);
+      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+//      print(response.body);
+      return jsonDecode(response.body)['availableQty'];
+    } else {
+      return null;
+    }
+  }
+
+  static Future<List<Groupbuy>> getBookedQty(String id) async {
+    var response = await http.get(ApiConfig.getBookedQty + id,
+        headers: await ApiConfig.getHeaderWithTokenAndContentType());
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<Groupbuy> gbitemdtl = Groupbuy.fromJsonArray(jsonDecode(response.body));
+      print('GBItemBookedQty=======>${response.body}');
+      return gbitemdtl;
+    }
+    return [];
+  }
+
+  static Future<List<BannerItem>> getBannerItem() async {
+    for (int i = 0; i < 3; i++) {
+      bannerLists.add(new BannerItem(id: '1',
+          imageUrl: 'https://res.cloudinary.com/dkhlc6xlj/image/upload/v1556040912/fuixzwtzjuzagnslv2qh.jpg'));
+    }
+//    print(bannerLists);
+    return bannerLists;
+  }
+
+  static Future<List<BannerItem>> getBanners() async {
+    var response = await http.get(ApiConfig.banners,
+        headers: await ApiConfig.getHeader());
+//    print('Banner=======>${response.body}');
+
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<BannerItem> bannerItem = bannerLists;
+//      print('Banner=======>${response.body}');
+      return bannerItem;
+    }
+    else {
+      getBannerItem();
+      return bannerLists;
+    }
+  }
+
+  static Future<List<BankAccount>> getUserBankAccount(String id) async
+  {
+    var response = await http.get(ApiConfig.getUserBankAccount+id,
+        headers: await ApiConfig.getHeaderWithToken());
+//    print('Bank Acc===${response.body}');
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<BankAccount> bankacc = BankAccount.fromJsonArray(jsonDecode(response.body));
+      return bankacc;
+    }
+    return[];
+  }
+
+
+  static updateBankAccount(String name, String accountNo, String ifsc,String id) async {
+    User user = await UserPreferences.getUser();
+    var data = {
+      "name": name,
+      "accountNo": accountNo,
+      "ifsc": ifsc.toUpperCase(),
+      "user": user.id
+    };
+
+    var response = await http.put(ApiConfig.updBankAccount + id,
+        headers: {"Content-Type": "application/json",
+          "Authorization": 'Bearer ' + await UserPreferences.getToken()},
+        body: jsonEncode(data));
+    print(response.statusCode);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      print('update===${response.body}');
+      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+      return 'Updated Bank Account';
+    } else {
+      return 'error';
+    }
+  }
+
+  static addBankAccount(String name, String accountNo, String ifsc) async {
+    User user = await UserPreferences.getUser();
+
+    var data = {
+      "name": name,
+      "accountNo": accountNo,
+      "ifsc": ifsc.toUpperCase(),
+      "user": user.id,
+      "createdBy": user.id
+    };
+
+    var response = await http.post(ApiConfig.addBankAccount,
+        headers: {"Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()},
+        body: jsonEncode(data));
+    print('response ${data}');
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      print(response.body);
+      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+      return 'Add Address';
+    } else {
+      return null;
+    }
+  }
 
 }

@@ -1,4 +1,6 @@
 import 'package:graineasy/model/Item.dart';
+import 'package:graineasy/model/groupbuy.dart';
+import 'package:graineasy/helpers/showDialogSingleButton.dart';
 
 class Validation
 {
@@ -7,6 +9,14 @@ class Validation
   static String  validateName(String value) {
     if (value.isEmpty) {
       return 'Incorrect Name';
+    }
+    else
+      return null;
+  }
+
+  static String  validateIfsc(String value) {
+    if (value.isEmpty || !(value.length == 11)) {
+      return 'Incorrect IFSC';
     }
     else
       return null;
@@ -84,6 +94,14 @@ static  validateEmptyPassword(String value) {
     return null;
 }
 
+  static validateRemark(String value) {
+    if (value.isEmpty) {
+      return 'Remark Required';
+    }
+    else
+      return null;
+  }
+
   static validateItemQty(String value, int qty) {
     int selectedQty = int.parse(value);
     if (qty <= selectedQty) {
@@ -94,17 +112,29 @@ static  validateEmptyPassword(String value) {
     }
 
     if (selectedQty > qty) {
-      return 'only $qty stock is availabel';
+      return 'only $qty stock is available';
     }
   }
 
 
   static validateEmptyItemQty(String value, Item itemDetails) {
     if (value.isEmpty)
-      return 'Quntity equired';
+      return 'Quantity required';
+
+//    showDialogSingleButton(context, "Unable to get Order Details", "Faced connectivity issue while pulling order details or authenticated failure", "OK");
 
     if (itemDetails.qty < int.parse(value))
-      return '${itemDetails.qty} qty availabel';
+      return '${itemDetails.qty} qty available';
+    else
+      return null;
+  }
+
+  static validateEmptyGBItemQty(String value, Groupbuy gbitemDetails) {
+    if (value.isEmpty)
+      return 'Quantity equired';
+
+    if (gbitemDetails.maxqty < int.parse(value))
+      return '${gbitemDetails.maxqty} qty available';           // Check logic for available qty
     else
       return null;
   }

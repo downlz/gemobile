@@ -3,28 +3,30 @@ import 'package:flutter/services.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
+import 'package:graineasy/model/groupbuy.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/theme/widget.dart';
 import 'package:graineasy/ui/validation/validation.dart';
 import 'package:graineasy/ui/view/Bargain/bargain_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
+import 'package:graineasy/helpers/showDialogSingleButton.dart';
 
-import 'details_view_model.dart';
+import 'gbdetails_view_model.dart';
 
 
-class DetailsView extends StatefulWidget {
-  Item item;
+class GBDetailsView extends StatefulWidget {
+  Groupbuy gbitem;
   String id;
 
 
-  DetailsView({this.item, this.id});
+  GBDetailsView({this.gbitem, this.id});
 
   @override
-  _DetailsViewState createState() => _DetailsViewState();
+  _GBDetailsViewState createState() => _GBDetailsViewState();
 }
 
-class _DetailsViewState extends State<DetailsView> with CommonAppBar {
+class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
   TextEditingController quantityController = new TextEditingController();
   TextEditingController buyerQuoteController = new TextEditingController();
   final qtyFormKey = GlobalKey<FormState>();
@@ -38,13 +40,13 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<DetailsViewModel>(builder: (context, model, child) {
-      model.init(widget.item, widget.id);
+    return BaseView<GBDetailsViewModel>(builder: (context, model, child) {
+      model.init(widget.gbitem, widget.id);
       return new Scaffold(
         appBar: new AppBar(
           title: Text(
-              widget.item != null ? widget.item.name : model.itemDetails != null
-                  ? model.itemDetails.name
+              widget.gbitem != null ? widget.gbitem.item.name : model.gbitemDetails != null
+                  ? model.gbitemDetails.item.name
                   : ''),
           backgroundColor: Colors.white,
         ),
@@ -53,16 +55,16 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
     });
   }
 
-  Widget _getBody(DetailsViewModel model) {
+  Widget _getBody(GBDetailsViewModel model) {
     return Stack(
       children: <Widget>[
-        model.itemDetails != null ? _getBaseContainer(model) : Container(),
+        model.gbitemDetails != null ? _getBaseContainer(model) : Container(),
         getProgressBar(model.state)
       ],
     );
   }
 
-  void showMessage(DetailsViewModel model) {
+  void showMessage(GBDetailsViewModel model) {
     try {
       Future.delayed(const Duration(milliseconds: 500), () {
         if (model.shouldShowMessage) {
@@ -75,7 +77,7 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
     }
   }
 
-  _getBaseContainer(DetailsViewModel model) {
+  _getBaseContainer(GBDetailsViewModel model) {
     return Container(
         padding: const EdgeInsets.all(8.0),
         child: Column(children: <Widget>[
@@ -88,7 +90,7 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                       height: 250,
                       color: Colors.white,
                       child: WidgetUtils.getCategoryImage(
-                          model.itemDetails.image)),
+                          model.gbitemDetails.item.image)),
                 ),
                 Container(
                     padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
@@ -105,7 +107,7 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 8.0),
                               child: Text(
-                                model.itemDetails.name,
+                                model.gbitemDetails.item.name,
                                 style: Theme
                                     .of(context)
                                     .textTheme
@@ -119,8 +121,8 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 8.0),
                               child: Text(
-                              "\u20B9" + model.itemDetails.price.toString() + "/" +
-                                    model.itemDetails.unit.mass,
+                                "\u20B9" + model.gbitemDetails.dealprice.toString() + "/" +
+                                    model.gbitemDetails.unit.mass,
                                 style: Theme
                                     .of(context)
                                     .textTheme
@@ -131,16 +133,6 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                             ),
                           ],
                         ))),
-// Commented by Shahnawaz
-//                model.itemDetails.bargainenabled && model.bargainDetail == null
-//                    ? Container(
-//                  margin: EdgeInsets.all(10.0),
-//                  child: Text(
-//                    'You can bargain if you want to buy more then ${model
-//                        .itemDetails.bargaintrgqty}',
-//                    style: TextStyle(color: Colors.red),),)
-//                    : Container(),
-
                 Container(
                     margin: EdgeInsets.all(10.0),
                     child: Card(
@@ -165,13 +157,13 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                                           width: 50,
                                           child: TextFormField(
                                             controller: quantityController,
-                                            validator: (value) {
+//                                            validator: (value) {
 //                                        return Validation.validateItemQty(
-//                                            value, model.itemDetails.qty);
-                                              return Validation
-                                                  .validateEmptyItemQty(
-                                                  value, model.itemDetails);
-                                            },
+//                                            value, model.gbitemDetails.qty);
+//                                              return Validation
+//                                                  .validateEmptyItemQty(
+//                                                  value, model.gbitemDetails);
+//                                            },
                                             inputFormatters: [
                                               LengthLimitingTextInputFormatter(
                                                   4),
@@ -202,14 +194,25 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                                             child: const Text('Add'),
                                             textColor: Colors.amber.shade500,
                                             onPressed: () async {
-                                              if (qtyFormKey.currentState
+                                                if ((int.parse(
+                                                  quantityController.text) < model.gbitemDetails.moq ) || (int.parse(
+                                                    quantityController.text) > model.gbitemDetails.maxqty )) {
+                                                showDialogSingleButton(context, "Unable to add quantity", "Minimum Order Quantity ${model.gbitemDetails.moq} ${model.gbitemDetails.unit.mass} Maximum allowed Quantity ${model.gbitemDetails.maxqty} ${model.gbitemDetails.unit.mass}", "OK");
+
+                                              } else
+                                                if ((int.parse(
+                                                    quantityController.text) > model.avlQty ))
+                                              {
+                                                showDialogSingleButton(context, "Unable to add quantity", "Entered quantity exceeds available quantity of ${model.avlQty} ${model.gbitemDetails.unit.mass}", "OK");
+                                              }
+                                                else
+                                                if (qtyFormKey.currentState
                                                   .validate()) {
                                                 User user = await UserPreferences
                                                     .getUser();
-                                                model.calculatePrice(
-                                                    model.itemDetails,
-                                                    model.itemDetails.seller.id,
-                                                    user.id, int.parse(
+                                                model.calculateGBPrice(
+                                                    model.gbitemDetails.dealprice,
+                                                    user.id, model.gbitemDetails,int.parse(
                                                     quantityController.text));
                                               }
                                             },
@@ -221,13 +224,21 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                                     ),
                                   ],
                                 ))))),
-                model.itemDetails.bargainenabled && model.bargainDetail == null
+                model.avlQty == 0
                     ? Container(
                   margin: EdgeInsets.all(10.0),
                   child: Text(
-                    'You can bargain if you want to buy more than ${model
-                        .itemDetails.bargaintrgqty}',
-                    style: TextStyle(color: Colors.red),),)
+                    'Item no longer available currently}',
+                    style: TextStyle(color: Colors.red,fontSize: 18.0),),)
+                    : Container(),
+                // Commented by Shahnawaz
+                model.avlQty != 0
+                    ? Container(
+                  margin: EdgeInsets.all(10.0),
+                  child: Text(
+                    'Available Quantity ${model
+                        .avlQty}',
+                    style: TextStyle(color: Colors.green,fontSize: 18.0,fontWeight: FontWeight.bold),),)
                     : Container(),
                 Container(
                     padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
@@ -257,90 +268,49 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
 //                            ),
                           ],
                         ))),
-                detailWidget(model.itemDetails)
+                detailWidget(model.gbitemDetails)
 
               ])),),
-          model.bargainDetail != null ? Padding(
-            padding: EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 10),
-            child: Container(
-              alignment: Alignment.center,
-              child: OutlineButton(
-                  borderSide: BorderSide(
-                      color: Colors.amber.shade500),
-                  child: const Text('Bargain View'),
-                  textColor: Colors.amber.shade500,
-                  onPressed: () async {
-                    Navigator.push(context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                BargainView(bargainDetail: model.bargainDetail,)
-                        ));
-                  },
-                  shape: new OutlineInputBorder(
-                    borderRadius:
-                    BorderRadius.circular(30.0),
-                  )),
-            ),) : Container(),
-          model.itemDetails.bargainenabled && model.bargainDetail == null &&
-              model.itemDetails.bargaintrgqty <= curretnQty
-              ? Divider()
-              : Container(),
-          model.itemDetails.bargainenabled && model.bargainDetail == null &&
-              model.itemDetails.bargaintrgqty <= curretnQty ? Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Expanded(
-                child: Form(
-                  key: buyerQuoteFormKey,
-                  child: TextFormField(
-                    controller: buyerQuoteController,
-                    validator: (value) {
-                      return Validation
-                          .validateItemQtyAndPrice(
-                          value, model.itemDetails);
-                    },
+//          model.bargainDetail != null ? Padding(
+//            padding: EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 10),
+//            child: Container(
+//              alignment: Alignment.center,
+//              child: OutlineButton(
+//                  borderSide: BorderSide(
+//                      color: Colors.amber.shade500),
+//                  child: const Text('Bargain View'),
+//                  textColor: Colors.amber.shade500,
+//                  onPressed: () async {
+//                    Navigator.push(context,
+//                        MaterialPageRoute(
+//                            builder: (context) =>
+//                                BargainView(bargainDetail: model.bargainDetail,)
+//                        ));
+//                  },
+//                  shape: new OutlineInputBorder(
+//                    borderRadius:
+//                    BorderRadius.circular(30.0),
+//                  )),
+//            ),) : Container(),
 
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(4),
-                    ],
-                    textAlign: TextAlign.center,
-                    style: AppWidget
-                        .darkTextFieldTextStyle(),
-                    keyboardType: TextInputType.number,
-                    decoration: AppWidget.darkTextField(
-                        'Add Best Quote'),
-                  ),
-                ),
-
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                    left: 10, top: 10, bottom: 10, right: 10),
-                child: Container(
-                  alignment: Alignment.center,
-                  child: OutlineButton(
-                      borderSide: BorderSide(
-                          color: Colors.amber.shade500),
-                      child: const Text('Initiate Bargain'),
-                      textColor: Colors.amber.shade500,
-                      onPressed: () async {
-                        if (buyerQuoteFormKey.currentState.validate()) {
-                          model.initiateBargain(buyerQuoteController.text,
-                              quantityController.text);
-                        }
-                      },
-                      shape: new OutlineInputBorder(
-                        borderRadius:
-                        BorderRadius.circular(30.0),
-                      )),
-                ),
-              ),
-            ],
-          ) : Container(),
         ],));
   }
 
-  detailWidget(Item item) {
+  void showDemoDialog<T>({BuildContext context, Widget child}) {
+    showDialog<T>(
+      context: context,
+      builder: (BuildContext context) => child,
+    ).then<void>((T value) {
+      // The value passed to Navigator.pop() or null.
+      if (value != null) {
+        /*_scaffoldKey.currentState.showSnackBar(SnackBar(
+            content: Text('You selected: $value')
+        ));*/
+      }
+    });
+  }
+
+  detailWidget(Groupbuy gbitem) {
     return Container(
       padding: EdgeInsets.only(left: 15),
       alignment: Alignment.centerLeft,
@@ -348,21 +318,21 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(item.name,
+          Text("Manufacturer: " + gbitem.item.manufacturer.name,
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
           Padding(
             padding: const EdgeInsets.only(top: 10),
-            child: Text("Sample Number: " + item.sampleNo,
+            child: Text("Category: " + gbitem.item.category.name,
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           ),
-          Text("Category: " + item.category.name,
+//          Text("Category: " + gbitem.item.category.name,
+//              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+          Text("Origin: " + gbitem.item.origin,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
-          Text("Origin: " + item.origin,
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
-          Text("Manufacturer: " + item.manufacturer.name,
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
-          Text("List Price: " + "Rs. " + item.price.toString() + "/" +
-              item.unit.mass,
+//          Text("Manufacturer: " + gbitem.item.manufacturer.name,
+//              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+          Text("List Price: " + "Rs. " + gbitem.item.price.toString() + "/" +
+              gbitem.unit.mass,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
         ],
       ),

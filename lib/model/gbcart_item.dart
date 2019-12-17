@@ -1,11 +1,11 @@
-import 'Item.dart';
+import 'groupbuy.dart';
 
-class CartItem {
+class GBCartItem {
   int qty;
   var totalPrice;
-  Item item;
+  Groupbuy gbitem;
 
-  CartItem(this.qty, this.totalPrice, this.item);
+  GBCartItem(this.qty, this.totalPrice, this.gbitem);
 
 //  static List<Category> fromJsonArray(  List<dynamic>  json) {
 //    List<Category> bannerLists = json.map<Category>((json) => Category.fromJson(json))

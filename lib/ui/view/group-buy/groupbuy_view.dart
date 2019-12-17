@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:graineasy/manager/base/base_view.dart';
-import 'package:graineasy/model/Item.dart';
-import 'package:graineasy/model/itemname.dart';
-import 'package:graineasy/ui/view/item_details/details_view.dart';
+import 'package:graineasy/model/groupbuy.dart';
+import 'package:graineasy/ui/view/group-buy/gbitem_details/gbdetails_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'category_view_model.dart';
+import 'groupbuy_view_model.dart';
 
 
-class CategoryView extends StatefulWidget {
-  final ItemName itemName;
-  CategoryView(this.itemName);
+class GroupbuyView extends StatefulWidget {
+//  final ItemName itemName;
+//  GroupbuyView();
 
   @override
-  _CategoryViewState createState() => _CategoryViewState();
+  _GroupbuyViewState createState() => _GroupbuyViewState();
 }
 
-class _CategoryViewState extends State<CategoryView> with CommonAppBar {
+class _GroupbuyViewState extends State<GroupbuyView> with CommonAppBar {
 
   @override
   void initState() {
@@ -28,11 +27,11 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<CategoryViewModel>(builder: (context, model, child) {
-      model.init(widget.itemName.id);
+    return BaseView<GroupbuyViewModel>(builder: (context, model, child) {
+      model.init();
       return new Scaffold(
         appBar: new AppBar(
-          title: Text(widget.itemName.name),
+          title: Text('Group Buy Items'),
           backgroundColor: Colors.white,
         ),
         body: _getBody(model),
@@ -40,13 +39,13 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
     });
   }
 
-  Widget _getBody(CategoryViewModel model) {
+  Widget _getBody(GroupbuyViewModel model) {
     return Stack(
       children: <Widget>[_getBaseContainer(model), getProgressBar(model.state)],
     );
   }
 
-  void showMessage(CategoryViewModel model) {
+  void showMessage(GroupbuyViewModel model) {
     try {
       Future.delayed(const Duration(milliseconds: 500), () {
         if (model.shouldShowMessage) {
@@ -59,20 +58,20 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
     }
   }
 
-  _getBaseContainer(CategoryViewModel model) {
+  _getBaseContainer(GroupbuyViewModel model) {
     return
-      model.items!=null?
+      model.gbItems != null ?
       getCategoryWidget(model):Container();
   }
 
-  getCategoryWidget(CategoryViewModel model) {
+  getCategoryWidget(GroupbuyViewModel model) {
     return
 
-      model.items.length <= 0
+      model.gbItems.length <= 0
         ? WidgetUtils.showMessageAtCenterOfTheScreen('No items found')
         : SingleChildScrollView(
             child: new GridView.builder(
-                itemCount: model.items.length,
+                itemCount: model.gbItems.length,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 padding: const EdgeInsets.all(5.0),
@@ -83,7 +82,7 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
                             builder: (context) =>
-                                DetailsView(item: model.items[index],)));
+                                GBDetailsView(gbitem: model.gbItems[index],)));
                       },
                       child: new Card(
                         elevation: 3.0,
@@ -91,7 +90,7 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                           children: <Widget>[
                             Positioned.fill(
                                 child: WidgetUtils.getCategoryImage(
-                                    model.items[index].image)),
+                                    model.gbItems[index].item.image)),
                             Container(
                               color: Colors.black38,
                             ),
@@ -105,7 +104,8 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                                     mainAxisAlignment: MainAxisAlignment
                                         .spaceBetween,
                                     children: <Widget>[
-                                      model.items[index].bargainenabled == true
+                                      model.gbItems[index].item
+                                          .bargainenabled == true
                                           ? Container(
                                         alignment: Alignment.topLeft,
                                         child: Text('Bargain Enabled',
@@ -131,7 +131,7 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                                               height: 25,),
                                               onTap: () {
                                                 _launchWhatsApp(
-                                                    model.items[index]);
+                                                    model.gbItems[index]);
                                               },),
                                           ),
                                           Padding(
@@ -142,7 +142,7 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                                               height: 25,),
                                               onTap: () {
                                                 _launchEmail(
-                                                    model.items[index]);
+                                                    model.gbItems[index]);
                                               },),
                                           )
                                         ],
@@ -162,27 +162,17 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Text(model.items[index].name,
+                                      Text(model.gbItems[index].item.name,
                                         style: TextStyle(fontSize: 16,color: Colors.white, fontWeight: FontWeight.bold),),
-                                      Text(model.items[index].manufacturer.name,
+                                      Text(
+                                          model.gbItems[index].item.manufacturer
+                                              .name,
                                           style: TextStyle(fontSize: 16,color: Colors.white, fontWeight: FontWeight.w500)),
-                                      Text("Origin: " + model.items[index].origin,
+                                      Text("Origin: " +
+                                          model.gbItems[index].item.origin,
                                           style: TextStyle(fontSize: 14,color: Colors.white, fontWeight: FontWeight.w500)),
                                     ],
                                   ),
-
-
-// Commented by Shahnawaz
-//                                  child: new Text(
-//                                    model.items[index].name + ' ' + model.items[index].origin,
-//                                    textAlign: TextAlign.center,
-//                                    style: TextStyle(
-//                                        fontSize: 20.0,
-//                                        color: Colors.white,
-//                                        fontWeight: FontWeight.bold),
-//                                  ),
-
-
 
                                 ),
                               ],
@@ -195,14 +185,14 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
   }
 
 
-  Future _launchEmail(Item item) async {
+  Future _launchEmail(Groupbuy item) async {
     launch('mailto:?subject=${"ItemName: " +                                  // Modified to remove email to trade@graineasy.com
-        item.name}&body=${item.name + "/" + item.category.name + "\n" +
-        item.image}');
+        item.item.name}&body=${item.item.name + "/" + item.item.category.name + "\n" +
+        item.item.image}');
   }
 
-  Future _launchWhatsApp(Item item) async {
+  Future _launchWhatsApp(Groupbuy item) async {
     FlutterShareMe().shareToWhatsApp(
-        msg: item.name + "/" + item.category.name + "\n" + item.image);
+        msg: item.item.name + "/" + item.item.category.name + "\n" + item.item.image);
   }
 }

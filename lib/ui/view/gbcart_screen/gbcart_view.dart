@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/model/address.dart';
-import 'package:graineasy/model/cart_item.dart';
+import 'package:graineasy/model/gbcart_item.dart';
 import 'package:graineasy/ui/theme/palette.dart';
-import 'package:graineasy/ui/view/cart_screen/cart_view_model.dart';
+import 'package:graineasy/ui/view/gbcart_screen/gbcart_view_model.dart';
 import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
@@ -11,15 +11,15 @@ import 'package:graineasy/utils/ui_helper.dart';
 
 const URL = "https://graineasy.com";
 
-class CartView extends StatefulWidget {
-  final List<CartItem> cartItems;
-  CartView(this.cartItems);
+class GBCartView extends StatefulWidget {
+  final List<GBCartItem> cartItems;
+  GBCartView(this.cartItems);
 
   @override
-  _CartViewState createState() => _CartViewState();
+  _GBCartViewState createState() => _GBCartViewState();
 }
 
-class _CartViewState extends State<CartView> with CommonAppBar {
+class _GBCartViewState extends State<GBCartView> with CommonAppBar {
 
   @override
   void initState() {
@@ -29,11 +29,11 @@ class _CartViewState extends State<CartView> with CommonAppBar {
   @override
   Widget build(BuildContext context) {
 
-    return BaseView<CartViewModel>(builder: (context, model, child) {
+    return BaseView<GBCartViewModel>(builder: (context, model, child) {
       model.init(widget.cartItems);
       return new Scaffold(
         appBar: new AppBar(
-          title: Text('Place Order'),
+          title: Text('Group Buy - Place Order'),
           backgroundColor: Colors.white,
           actions: <Widget>[
             IconButton(
@@ -50,7 +50,7 @@ class _CartViewState extends State<CartView> with CommonAppBar {
     });
   }
 
-  Widget _getBody(CartViewModel model) {
+  Widget _getBody(GBCartViewModel model) {
     return Stack(
       children: <Widget>[
         model.addresses != null ? _getBaseContainer(model) : Container(),
@@ -59,7 +59,7 @@ class _CartViewState extends State<CartView> with CommonAppBar {
     );
   }
 
-  void showMessage(CartViewModel model) {
+  void showMessage(GBCartViewModel model) {
     try {
       Future.delayed(const Duration(milliseconds: 500), () {
         if (model.shouldShowMessage) {
@@ -72,7 +72,7 @@ class _CartViewState extends State<CartView> with CommonAppBar {
     }
   }
 
-  _getBaseContainer(CartViewModel model) {
+  _getBaseContainer(GBCartViewModel model) {
     return new Column(
       children: <Widget>[
         orderList(model),
@@ -141,7 +141,7 @@ class _CartViewState extends State<CartView> with CommonAppBar {
                   borderRadius: BorderRadius.circular(7)),
               onPressed: () {
 //              model.getLastOrderNumber();
-                model.createOrder(widget.cartItems[0].item);
+                model.createOrder(widget.cartItems[0].gbitem);
               },
               child: Text('Place Order',
                   style: TextStyle(
@@ -157,7 +157,7 @@ class _CartViewState extends State<CartView> with CommonAppBar {
         padding: EdgeInsets.all(2.0),
       );
 
-  addressWidget(Address address, int ind, CartViewModel model) {
+  addressWidget(Address address, int ind, GBCartViewModel model) {
     return Card(
         elevation: 3.0,
         margin: EdgeInsets.all(10),
@@ -253,7 +253,7 @@ class _CartViewState extends State<CartView> with CommonAppBar {
     );
   }
 
-  orderList(CartViewModel model) {
+  orderList(GBCartViewModel model) {
     return ListView.builder(
         itemCount: model.cartItems.length,
         shrinkWrap: true,
@@ -269,7 +269,7 @@ class _CartViewState extends State<CartView> with CommonAppBar {
                       height: 80,
                       color: Palette.assetColor,
                       child: WidgetUtils.getCategoryImage(
-                          widget.cartItems[ind].item.image)),
+                          widget.cartItems[ind].gbitem.item.image)),
                 ),
                 Expanded(
                   child: Container(
@@ -279,7 +279,7 @@ class _CartViewState extends State<CartView> with CommonAppBar {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         new Text(
-                          model.cartItems[ind].item.name,
+                          model.cartItems[ind].gbitem.item.name,
                           style: TextStyle(
                               fontSize: 18.0,
                               color: Palette.assetColor,
@@ -289,9 +289,9 @@ class _CartViewState extends State<CartView> with CommonAppBar {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            setWidgetData('Unit Price',
-                            "\u20B9" + model.cartItems[ind].item.price.toString() +
-                                    '/' + model.cartItems[ind].item.unit.mass),
+                            setWidgetData('Deal Price',
+                            "\u20B9" + model.cartItems[ind].gbitem.dealprice.toString() +
+                                    '/' + model.cartItems[ind].gbitem.item.unit.mass),
                             setWidgetData(
                                 'Qty', model.cartItems[ind].qty.toString()),
                             setWidgetData('Total',

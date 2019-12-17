@@ -251,7 +251,7 @@ class _RegistrationViewState extends State<AddUpdateAddressView>
                           child: Text(
 //                            'Add Address',
                             !model.isUpdateAddress
-                                ? 'Add New User'
+                                ? 'Add New Address'
                                 : 'Update Address',
                             style: AppTextStyle.commonTextStyle(
                                 Palette.loginBgColor,

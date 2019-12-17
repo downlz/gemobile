@@ -8,14 +8,14 @@ class ItemName {
 
   ItemName({this.name,this.id,this.hsn,this.tax,this.insurance,this.image});
 
-  factory ItemName.fromJson(Map<dynamic, dynamic> json) {
+  factory ItemName.fromJson(Map<String, dynamic> json) {
     return ItemName(
         name: json['name'],
         id: json['_id'],
         hsn:json['hsn'],
-        tax: json['tax'],
+        tax: json['tax'] as int,
         image: json['image'],
-        insurance: json['insurance']
+        insurance: json['insurance'] as int
     );
   }
 

@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:graineasy/manager/base/base_view.dart';
+import 'package:graineasy/model/bargain.dart';
 import 'package:graineasy/ui/theme/palette.dart';
+import 'package:graineasy/ui/view/Bargain/bargain_view.dart';
 import 'package:graineasy/ui/view/BargainDetail/bargain_history_view_model.dart';
-import 'package:graineasy/ui/view/item_details/details_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:graineasy/utils/check_internet/utility.dart';
-import 'package:graineasy/model/bargain.dart';
-import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 
 class BargainHistoryView extends StatefulWidget {
   Bargain bargainList;
+  String id;
+
+  BargainHistoryView({this.id});
 
 //  BargainHistoryView(this.bargainList);
 
@@ -21,10 +23,12 @@ class BargainHistoryView extends StatefulWidget {
 class _BargainHistoryViewState extends State<BargainHistoryView>
     with CommonAppBar {
 
+  List<Bargain> bargain = new List<Bargain>();
+
   @override
   Widget build(BuildContext context) {
     return BaseView<BargainHistoryViewModel>(builder: (context, model, child) {
-      model.init();
+      model.init(widget.id, bargain, model.perPage, model.present);
       return new Scaffold(
         appBar: new AppBar(
           title: Text('Bargain History'),
@@ -77,7 +81,9 @@ class _BargainHistoryViewState extends State<BargainHistoryView>
                   ),
                 )
               : ListView.builder(
-                  itemCount: model.bargainList.length,
+                  itemCount: (bargain.length <= model.bargainList.length)
+                      ? bargain.length + 1
+                      : model.bargainList.length,
                   shrinkWrap: true,
                   itemBuilder: (BuildContext cont, int ind) {
                     return InkWell(
@@ -86,9 +92,22 @@ class _BargainHistoryViewState extends State<BargainHistoryView>
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    DetailsView(model.bargainList[ind].item)));
+                                    BargainView(
+                                      bargainDetail: model.bargainList[ind],)));
                       },
-                      child: Card(
+                      child: (ind == bargain.length) ?
+                      Container(
+                        color: Palette.assetColor,
+                        child: FlatButton(
+                          child: Text("Load More",
+                            style: TextStyle(color: Palette.whiteTextColor,
+                                fontSize: 15),),
+                          onPressed: () {
+                            loadMoreData(model);
+                          },
+                        ),
+                      ) :
+                      Card(
                         elevation: 4.0,
                         child: Container(
                           padding: EdgeInsets.only(
@@ -153,4 +172,18 @@ class _BargainHistoryViewState extends State<BargainHistoryView>
       ],
     );
   }
+
+  void loadMoreData(BargainHistoryViewModel model) {
+    setState(() {
+      if ((model.present + model.perPage) > model.bargainList.length) {
+        bargain.addAll(
+            bargain.getRange(model.present, model.bargainList.length));
+      } else {
+        bargain.addAll(
+            bargain.getRange(model.present, model.present + model.perPage));
+      }
+      model.present = model.present + model.perPage;
+    });
+  }
+
 }

@@ -8,7 +8,8 @@ import 'package:graineasy/model/usermodel.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 @JsonSerializable(nullable: true)
-class Item {
+class MostOrderItem {
+  final String mostOrderId;
   final String name;
   final String id;
   final String deliveryTime;
@@ -34,7 +35,8 @@ class Item {
   final Specs specs;
   final Address address;
 
-  Item({
+  MostOrderItem({
+    this.mostOrderId,
     this.name,
     this.id,
     this.deliveryTime,
@@ -61,59 +63,42 @@ class Item {
     this.specs,
   });
 
-  factory Item.fromJson(Map<String, dynamic> json) {
-//    print(json['category.name']);
-    return Item(
-      name: json['sampleNo'],
-      id: json['_id'],
-      deliveryTime: json['origin'],
-      oderId: json['grainCount'],
-      oderAmount: json['grainCount'],
-      paymentType: json['grainCount'],
-      image: json['image'],
-      qty: json['qty'],
-      bargainenabled: json['bargainenabled'],
-      bargaintrgqty: json['bargaintrgqty'],
-      sampleNo: json['sampleNo'],
-      origin: json['origin'],
-      isLive: json['isLive'],
-      isTaxable: json['isTaxable'],
-//        price: json['price'].toDouble(),
-      price: json['price'] == null ? 0.0 : getPriceInDouble(json['price']),
-      itemname: ItemName.fromJson(json['name']),
-      unit: Unit.fromJson(json['unit']),
-      category: Category.fromJson(json['category']),
-      city: City.fromJson(json['city']),
-      manufacturer: Manufacturer.fromJson(json['manufacturer']),
+  factory MostOrderItem.fromJson(Map<String, dynamic> json) {
+    return MostOrderItem(
+      mostOrderId: json['_id'],
+      name: json['item']['sampleNo'],
+      id: json['item']['_id'],
+      deliveryTime: json['item']['origin'],
+      oderId: json['item']['grainCount'],
+      oderAmount: json['item']['grainCount'],
+      paymentType: json['item']['grainCount'],
+      image: json['item']['image'],
+      qty: json['item']['qty'],
+      bargainenabled: json['item']['bargainenabled'],
+      bargaintrgqty: json['item']['bargaintrgqty'],
+      sampleNo: json['item']['sampleNo'],
+      origin: json['item']['origin'],
+      isLive: json['item']['isLive'],
+      isTaxable: json['item']['isTaxable'],
+      price: json['item']['price'].toDouble(),
+      itemname: ItemName.fromJson(json['item']['name']),
+      unit: Unit.fromJson(json['item']['unit']),
+      category: Category.fromJson(json['item']['category']),
+      city: City.fromJson(json['item']['city']),
+      manufacturer: Manufacturer.fromJson(json['item']['manufacturer']),
 //        addedBy: userModel.fromJson(json['addedby']),
-      seller: UserModel.fromJson(json['seller']),
-      specs: Specs.fromJson(json['specs']),
-      address: Address.fromJson(json['address']), // Issue with null data
+      seller: UserModel.fromJson(json['item']['seller']),
+      specs: Specs.fromJson(json['item']['specs']),
+      address:
+          Address.fromJson(json['item']['address']), // Issue with null data
     );
   }
 
-  static List<Item> fromJsonArray(List<dynamic> json) {
-    List<Item> bannerLists =
-    json.map<Item>((json) => Item.fromJson(json)).toList();
+  static List<MostOrderItem> fromJsonArray(List<dynamic> json) {
+    List<MostOrderItem> bannerLists = json
+        .map<MostOrderItem>((json) => MostOrderItem.fromJson(json))
+        .toList();
     return bannerLists;
-  }
-}
-
-getPriceInDouble(var price) {
-//  print('Price ==========> $price');
-  if (price == null)
-    return 0;
-  try {
-    double doublePrice = price.toDouble();
-    return doublePrice;
-  } catch (e) {
-    try {
-      int intPrice = price as int;
-      double doublePrice = double.parse(intPrice.toString());
-      return doublePrice;
-    } catch (e) {
-      return 0;
-    }
   }
 }
 
@@ -124,7 +109,6 @@ class Specs {
 
   Specs({this.moisture, this.graincount, this.icumsa});
 
-  // Constructor overload
   Specs.fromJson(Map<String, dynamic> json)
       : this.moisture = json["moisture"],
         this.graincount = json["graincount"],
