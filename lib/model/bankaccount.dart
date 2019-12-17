@@ -24,6 +24,9 @@ class BankAccount {
   });
 
   factory BankAccount.fromJson(Map<String, dynamic> json) {
+    if (json == null)
+      return null;
+
     return BankAccount(
         name: json['name'],
         id: json['_id'],

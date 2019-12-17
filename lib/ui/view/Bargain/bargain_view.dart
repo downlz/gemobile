@@ -43,7 +43,7 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
       model.init(widget.bargainDetail, widget.id);
       return new Scaffold(
         appBar: new AppBar(
-          title: Text('Bargain'),
+          title: Text('Bargain' + " " + model.bargainDetail.bargainstatus),
           backgroundColor: Colors.white,
         ),
         body: _getBody(model),
@@ -92,14 +92,14 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
                           topLeft: Radius.circular(1.0),
                         ), color: Colors.white
                     ),
-                    child: Center(
-                      child: Text(
-                        model.bargainDetail.item.bargainenabled == true
-                            ? 'Bargain enabled'
-                            : '',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w400),),
-                    ),
+//                    child: Center(
+//                      child: Text(
+//                        model.bargainDetail.item.bargainenabled == true
+//                            ? 'Bargain enabled'
+//                            : '',
+//                        style: TextStyle(
+//                            fontSize: 18, fontWeight: FontWeight.w400),),
+//                    ),
                   ),
                   Text(model.bargainDetail.item.itemname.name + ' | ' +
                       model.bargainDetail.item.category.name + ' | ' + model.bargainDetail.item.sampleNo,
@@ -120,9 +120,11 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
                       model.bargainDetail.item.unit.mass, style: TextStyle(
                       fontSize: 18, fontWeight: FontWeight.w400)),
                   Text("Requested Qty: " +
-                      model.bargainDetail.quantity.toString(), style: TextStyle(
+                      model.bargainDetail.quantity.toString() + " " +model.bargainDetail.item.unit.mass, style: TextStyle(
                       fontSize: 18, fontWeight: FontWeight.w400)),
-
+                  Text("Lapse Time: " +
+                      model.bargainDetail.firstquote.requestedon.toString(), style: TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w400))
                 ],
               ),
             ),
@@ -133,8 +135,8 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
             getBargainDetailWidget(model)
         ),
 
-        model.bargainDetail.bargainstatus != 'paused'
-            ? new Column(children: <Widget>[ !model.isBargainOn
+    model.bargainDetail.bargainstatus != 'paused'
+    ? new Column(children: <Widget>[ !model.isBargainOn
             ? Text(
           model.user.isBuyer
               ? 'Accept or Reject the Seller quote'

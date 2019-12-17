@@ -10,6 +10,7 @@ import 'package:graineasy/ui/validation/validation.dart';
 import 'package:graineasy/ui/view/Bargain/bargain_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
+import 'package:graineasy/helpers/showDialogSingleButton.dart';
 
 import 'gbdetails_view_model.dart';
 
@@ -193,7 +194,19 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
                                             child: const Text('Add'),
                                             textColor: Colors.amber.shade500,
                                             onPressed: () async {
-                                              if (qtyFormKey.currentState
+                                                if ((int.parse(
+                                                  quantityController.text) < model.gbitemDetails.moq ) || (int.parse(
+                                                    quantityController.text) > model.gbitemDetails.maxqty )) {
+                                                showDialogSingleButton(context, "Unable to add quantity", "Minimum Order Quantity ${model.gbitemDetails.moq} ${model.gbitemDetails.unit.mass} Maximum allowed Quantity ${model.gbitemDetails.maxqty} ${model.gbitemDetails.unit.mass}", "OK");
+
+                                              } else
+                                                if ((int.parse(
+                                                    quantityController.text) > model.avlQty ))
+                                              {
+                                                showDialogSingleButton(context, "Unable to add quantity", "Entered quantity exceeds available quantity of ${model.avlQty} ${model.gbitemDetails.unit.mass}", "OK");
+                                              }
+                                                else
+                                                if (qtyFormKey.currentState
                                                   .validate()) {
                                                 User user = await UserPreferences
                                                     .getUser();
@@ -211,6 +224,13 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
                                     ),
                                   ],
                                 ))))),
+                model.avlQty == 0
+                    ? Container(
+                  margin: EdgeInsets.all(10.0),
+                  child: Text(
+                    'Item no longer available currently}',
+                    style: TextStyle(color: Colors.red,fontSize: 18.0),),)
+                    : Container(),
                 // Commented by Shahnawaz
                 model.avlQty != 0
                     ? Container(
@@ -218,7 +238,7 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
                   child: Text(
                     'Available Quantity ${model
                         .avlQty}',
-                    style: TextStyle(color: Colors.red,fontSize: 18.0),),)
+                    style: TextStyle(color: Colors.green,fontSize: 18.0,fontWeight: FontWeight.bold),),)
                     : Container(),
                 Container(
                     padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
@@ -276,6 +296,20 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
         ],));
   }
 
+  void showDemoDialog<T>({BuildContext context, Widget child}) {
+    showDialog<T>(
+      context: context,
+      builder: (BuildContext context) => child,
+    ).then<void>((T value) {
+      // The value passed to Navigator.pop() or null.
+      if (value != null) {
+        /*_scaffoldKey.currentState.showSnackBar(SnackBar(
+            content: Text('You selected: $value')
+        ));*/
+      }
+    });
+  }
+
   detailWidget(Groupbuy gbitem) {
     return Container(
       padding: EdgeInsets.only(left: 15),
@@ -284,19 +318,19 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(gbitem.item.name,
+          Text("Manufacturer: " + gbitem.item.manufacturer.name,
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
           Padding(
             padding: const EdgeInsets.only(top: 10),
-            child: Text("Sample Number: " + gbitem.item.sampleNo,
+            child: Text("Category: " + gbitem.item.category.name,
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           ),
-          Text("Category: " + gbitem.item.category.name,
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+//          Text("Category: " + gbitem.item.category.name,
+//              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text("Origin: " + gbitem.item.origin,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
-          Text("Manufacturer: " + gbitem.item.manufacturer.name,
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+//          Text("Manufacturer: " + gbitem.item.manufacturer.name,
+//              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text("List Price: " + "Rs. " + gbitem.item.price.toString() + "/" +
               gbitem.unit.mass,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),

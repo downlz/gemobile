@@ -37,6 +37,7 @@ class User {
         'name': name,
         '_id': id,
         'token': token,
+        'email': email,
         'phone': phone,
         'isSeller': isSeller,
         'isBuyer': isBuyer,

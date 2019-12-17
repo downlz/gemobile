@@ -14,6 +14,14 @@ class Validation
       return null;
   }
 
+  static String  validateIfsc(String value) {
+    if (value.isEmpty || !(value.length == 11)) {
+      return 'Incorrect IFSC';
+    }
+    else
+      return null;
+  }
+
   static String  validatePan(String value) {
     if (value.isEmpty) {
       return 'Incorrect PanNumber';

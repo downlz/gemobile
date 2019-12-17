@@ -25,7 +25,7 @@ class GBDetailsViewModel extends BaseModel {
       user = await UserPreferences.getUser();
 //        gbitemDetails = await API.getGBListingDtl(id);
       getAvlQty(gbitemDetails.id);
-      print(avlQty);
+
       setState(ViewState.Idle);
       isFirstTime = false;
 //        isFirstTime = false;

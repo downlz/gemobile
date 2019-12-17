@@ -7,14 +7,12 @@ import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
 import 'package:graineasy/model/MostOrderedItem.dart';
 import 'package:graineasy/model/bannerItem.dart';
-import 'package:graineasy/model/groupbuy.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/theme/app_responsive.dart';
 import 'package:graineasy/ui/theme/palette.dart';
 import 'package:graineasy/ui/view/BargainDetail/bargain_history_view.dart';
 import 'package:graineasy/ui/view/account/account_view.dart';
 import 'package:graineasy/ui/view/category/category_view.dart';
-import 'package:graineasy/ui/view/group-buy/gbitem_details/gbdetails_view.dart';
 import 'package:graineasy/ui/view/group-buy/groupbuy_view.dart';
 import 'package:graineasy/ui/view/item_details/details_view.dart';
 import 'package:graineasy/ui/view/manage_order/manage_order/manage_order_view.dart';
@@ -394,7 +392,7 @@ class _HomeViewState extends State<HomeView>
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: Text('Version Name:1.0',
+                child: Text('Version:0.50',
                     style: TextStyle(color: Palette.assetColor)),
               )
 

@@ -11,6 +11,7 @@ import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
 import 'package:graineasy/model/MostOrderedItem.dart';
 import 'package:graineasy/model/address.dart';
+import 'package:graineasy/model/bankaccount.dart';
 import 'package:graineasy/model/bannerItem.dart';
 import 'package:graineasy/model/bargain.dart';
 import 'package:graineasy/model/cart_item.dart';
@@ -998,7 +999,7 @@ class API extends BaseRepository
     var response = await http.get(ApiConfig.getAvlQty + id,
         headers: await ApiConfig.getHeaderWithTokenAndContentType());
     if (response.statusCode == ApiConfig.successStatusCode) {
-      print(response.body);
+//      print(response.body);
       Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
 //      print(response.body);
       return jsonDecode(response.body)['availableQty'];
@@ -1024,18 +1025,18 @@ class API extends BaseRepository
       bannerLists.add(new BannerItem(id: '1',
           imageUrl: 'https://res.cloudinary.com/dkhlc6xlj/image/upload/v1556040912/fuixzwtzjuzagnslv2qh.jpg'));
     }
-    print(bannerLists);
+//    print(bannerLists);
     return bannerLists;
   }
 
   static Future<List<BannerItem>> getBanners() async {
     var response = await http.get(ApiConfig.banners,
         headers: await ApiConfig.getHeader());
-    print('Banner=======>${response.body}');
+//    print('Banner=======>${response.body}');
 
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<BannerItem> bannerItem = bannerLists;
-      print('Banner=======>${response.body}');
+//      print('Banner=======>${response.body}');
       return bannerItem;
     }
     else {
@@ -1043,4 +1044,67 @@ class API extends BaseRepository
       return bannerLists;
     }
   }
+
+  static Future<List<BankAccount>> getUserBankAccount(String id) async
+  {
+    var response = await http.get(ApiConfig.getUserBankAccount+id,
+        headers: await ApiConfig.getHeaderWithToken());
+//    print('Bank Acc===${response.body}');
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<BankAccount> bankacc = BankAccount.fromJsonArray(jsonDecode(response.body));
+      return bankacc;
+    }
+    return[];
+  }
+
+
+  static updateBankAccount(String name, String accountNo, String ifsc,String id) async {
+    User user = await UserPreferences.getUser();
+    var data = {
+      "name": name,
+      "accountNo": accountNo,
+      "ifsc": ifsc.toUpperCase(),
+      "user": user.id
+    };
+
+    var response = await http.put(ApiConfig.updBankAccount + id,
+        headers: {"Content-Type": "application/json",
+          "Authorization": 'Bearer ' + await UserPreferences.getToken()},
+        body: jsonEncode(data));
+    print(response.statusCode);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      print('update===${response.body}');
+      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+      return 'Updated Bank Account';
+    } else {
+      return 'error';
+    }
+  }
+
+  static addBankAccount(String name, String accountNo, String ifsc) async {
+    User user = await UserPreferences.getUser();
+
+    var data = {
+      "name": name,
+      "accountNo": accountNo,
+      "ifsc": ifsc.toUpperCase(),
+      "user": user.id,
+      "createdBy": user.id
+    };
+
+    var response = await http.post(ApiConfig.addBankAccount,
+        headers: {"Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()},
+        body: jsonEncode(data));
+    print('response ${data}');
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      print(response.body);
+      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+      return 'Add Address';
+    } else {
+      return null;
+    }
+  }
+
 }

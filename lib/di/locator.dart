@@ -3,6 +3,7 @@ import 'package:graineasy/ui/view/Bargain/bargain_view_model.dart';
 import 'package:graineasy/ui/view/BargainDetail/bargain_history_view_model.dart';
 import 'package:graineasy/ui/view/account/account_view_model.dart';
 import 'package:graineasy/ui/view/account/add_update_address/add_update_addresses_view_model.dart';
+import 'package:graineasy/ui/view/account/add_update_bankacc/add_update_bankacc_view_model.dart';
 import 'package:graineasy/ui/view/cart_screen/cart_view_model.dart';
 import 'package:graineasy/ui/view/gbcart_screen/gbcart_view_model.dart';
 import 'package:graineasy/ui/view/category/category_view_model.dart';
@@ -73,6 +74,10 @@ void setupLocator() {
 
   locator.registerFactory(() {
     return AddUpdateAddressViewModel();
+  });
+
+  locator.registerFactory((){
+    return AddUpdateBankAccViewModel();
   });
 
   locator.registerFactory(() {
