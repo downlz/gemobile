@@ -19,7 +19,7 @@ class BargainHistoryViewModel extends BaseModel {
 
   Future getBargainHistory(String id, List<Bargain> bargain, int present, int perPage) async {
     user = await UserPreferences.getUser();
-    print(user.id);
+
     setState(ViewState.Busy);
     bargainList = await API.getUserBargainHistory(user.isSeller, user.id);
     setState(ViewState.Idle);

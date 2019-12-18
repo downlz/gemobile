@@ -329,7 +329,6 @@ class HomeViewModel extends BaseModel
   }
 
   getBannerItem() async {
-//    bannerList.addAll(await API.getBannerItem());
     bannerList = await API.getBanners();
     notifyListeners();
   }

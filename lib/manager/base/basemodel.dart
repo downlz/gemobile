@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:graineasy/ui/theme/palette.dart';
 
 /// Represents the state of the view
-/// this is trypically used to show/hide progress indicator
+/// this is typically used to show/hide progress indicator
 
 enum ViewState { Idle, Busy }
 

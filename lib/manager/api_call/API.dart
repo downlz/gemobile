@@ -783,17 +783,19 @@ class API extends BaseRepository
       type = "buyer/";
 
     String finalUrl = ApiConfig.getBargainDtl + type + id;
-    print(finalUrl);
+
     var response = await http.get(
         finalUrl,
         headers: await ApiConfig.getHeaderWithTokenAndContentType());
-    print(response.body);
+//    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<Bargain> bargain = Bargain.fromJsonArray(jsonDecode(response.body));
       return bargain;
     }
     return [];
   }
+
+
 
   static Future<UserModel> getUserDetailForPushNotification(String title,
       String body, String id) async {
@@ -884,6 +886,17 @@ class API extends BaseRepository
     return null;
   }
 
+  static lapseTimeBargain(String id) async {
+    var response = await http.get(ApiConfig.lapseTimeBargain + id,
+        headers: await ApiConfig.getHeaderWithTokenAndContentType());
+//    print('LapseTime===>${response.body}');
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+      return jsonDecode(response.body)['bargainlapse'];
+    } else {
+      return null;
+    }
+  }
 
   static Future<List<Item>> getRecentlyAddedItem() async {
     var response = await http.get(ApiConfig.getRecentlyAddedItem,
@@ -999,9 +1012,7 @@ class API extends BaseRepository
     var response = await http.get(ApiConfig.getAvlQty + id,
         headers: await ApiConfig.getHeaderWithTokenAndContentType());
     if (response.statusCode == ApiConfig.successStatusCode) {
-//      print(response.body);
       Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
-//      print(response.body);
       return jsonDecode(response.body)['availableQty'];
     } else {
       return null;
@@ -1025,18 +1036,15 @@ class API extends BaseRepository
       bannerLists.add(new BannerItem(id: '1',
           imageUrl: 'https://res.cloudinary.com/dkhlc6xlj/image/upload/v1556040912/fuixzwtzjuzagnslv2qh.jpg'));
     }
-//    print(bannerLists);
     return bannerLists;
   }
 
   static Future<List<BannerItem>> getBanners() async {
-    var response = await http.get(ApiConfig.banners,
+    var response = await http.get(ApiConfig.getBanner,
         headers: await ApiConfig.getHeader());
-//    print('Banner=======>${response.body}');
 
     if (response.statusCode == ApiConfig.successStatusCode) {
-      List<BannerItem> bannerItem = bannerLists;
-//      print('Banner=======>${response.body}');
+      List<BannerItem> bannerItem = BannerItem.fromJsonArray(jsonDecode(response.body));
       return bannerItem;
     }
     else {

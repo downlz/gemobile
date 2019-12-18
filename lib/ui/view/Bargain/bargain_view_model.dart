@@ -6,6 +6,7 @@ import 'package:graineasy/model/bargain.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
+import 'package:intl/intl.dart';
 
 class BargainViewModel extends BaseModel {
   Bargain bargainDetail;
@@ -13,15 +14,20 @@ class BargainViewModel extends BaseModel {
   bool isFirstTime = true;
   bool isBargainOn = true;
   bool isBuyerQuote = true;
-
+  String lapseTime;
 
   void init(Bargain bargainDetail, String id) async {
     if (isFirstTime) {
+      String lapsetm = await API.lapseTimeBargain(bargainDetail.id);
+      lapseTime = DateFormat("dd-MM-yyyy hh:mm a").format(DateTime.parse(lapsetm));
       if (id == null) {
+        setState(ViewState.Busy);
         this.bargainDetail = bargainDetail;
         user = await UserPreferences.getUser();
         checkQuotationEnded();
         staticChecks();
+
+        setState(ViewState.Idle);
         isFirstTime = false;
         notifyListeners();
       }
@@ -32,6 +38,7 @@ class BargainViewModel extends BaseModel {
         user = await UserPreferences.getUser();
         checkQuotationEnded();
         staticChecks();
+//        lapseTime = await API.lapseTimeBargain(bargainDetail.id);
         isFirstTime = false;
         notifyListeners();
       }
@@ -85,6 +92,7 @@ class BargainViewModel extends BaseModel {
   }
 
   void checkQuotationEnded() {
+
     if (bargainDetail.bargaincounter == 3 && bargainDetail.thirdquote != null &&
         bargainDetail.thirdquote.sellerquote > 0) {
       isBargainOn = false;

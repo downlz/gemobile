@@ -29,8 +29,8 @@ class _LoginViewState extends State<LoginView> with CommonAppBar {
   bool _formWasEdited = false;
 
   void initState() {
-    phoneController.text = '1111111111';
-    passwordController.text = 'gemobile2019';
+    phoneController.text = '';
+    passwordController.text = '';
     super.initState();
   }
   @override

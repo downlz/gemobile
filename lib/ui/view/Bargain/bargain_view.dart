@@ -43,7 +43,7 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
       model.init(widget.bargainDetail, widget.id);
       return new Scaffold(
         appBar: new AppBar(
-          title: Text('Bargain' + " " + model.bargainDetail.bargainstatus),
+          title: Text('Bargain Request' + " " + '${model.bargainDetail.bargainstatus[0].toUpperCase()}${model.bargainDetail.bargainstatus.substring(1)}'),
           backgroundColor: Colors.white,
         ),
         body: _getBody(model),
@@ -122,8 +122,8 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
                   Text("Requested Qty: " +
                       model.bargainDetail.quantity.toString() + " " +model.bargainDetail.item.unit.mass, style: TextStyle(
                       fontSize: 18, fontWeight: FontWeight.w400)),
-                  Text("Lapse Time: " +
-                      model.bargainDetail.firstquote.requestedon.toString(), style: TextStyle(
+                  Text('Lapse Time: ${model.lapseTime}'
+                  , style: TextStyle(
                       fontSize: 18, fontWeight: FontWeight.w400))
                 ],
               ),
@@ -136,6 +136,8 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
         ),
 
     model.bargainDetail.bargainstatus != 'paused'
+    && model.bargainDetail.bargainstatus != 'accepted'
+        && model.bargainDetail.bargainstatus != 'expired'
     ? new Column(children: <Widget>[ !model.isBargainOn
             ? Text(
           model.user.isBuyer
@@ -196,8 +198,9 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
         )
             : Padding(
             padding: EdgeInsets.all(10),
-            child: model.bargainDetail.bargainstatus != 'expired' &&
-                model.bargainDetail.bargainstatus != 'rejected' ? Text(
+            child: model.bargainDetail.bargainstatus != 'expired'
+                && model.bargainDetail.bargainstatus != 'rejected'
+                && model.bargainDetail.bargainstatus != 'accepted'  ? Text(
               model.user.isBuyer && !model.isBuyerQuote
                   ? 'Waiting For Seller Response'
                   : 'Waiting For Buyer Quote',
@@ -263,7 +266,8 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
               ],),
               UIHelper.verticalSpaceSmall,
               Text(
-                'By Seller',
+//                'By Seller',
+                model.user.isSeller ? 'Your quote' : 'By Seller',
                 textAlign: TextAlign.end,
                 style: TextStyle(
                     fontSize: 13, color: Colors.deepOrange),
@@ -314,7 +318,8 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
 //              ),
               UIHelper.verticalSpaceSmall,
               Text(
-                'By Buyer',
+//                'By Buyer',
+                model.user.isBuyer ? 'Your quote' : 'By Buyer',
                 textAlign: TextAlign.end,
                 style:
                 TextStyle(fontSize: 13, color: Colors.black54),
@@ -332,9 +337,20 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
     int mlsDate = updatedDate.millisecondsSinceEpoch + 21600000;
     DateTime fromNew = new DateTime.fromMicrosecondsSinceEpoch(mlsDate);
     String formattedDate = DateFormat('dd-MM-yyyy hh:mm a').format(fromNew);
-
+    String bargainStat = widget.bargainDetail.bargainstatus;
+    String bodyText;
+    if (bargainStat == 'accepted') {
+      bodyText = 'The bargain request was processed successfully';
+    } else if (bargainStat == 'expired') {
+      bodyText = 'The bargain request has expired';
+    } else if (bargainStat == 'paused') {
+      bodyText = 'Bargain has been paused till $formattedDate';
+    } else {
+      bodyText = 'The bargain status is unknown.Contact trade@graineasy.com';
+    }
     return new Padding(padding: EdgeInsets.all(10), child: Text(
-      'Bargain has been paused till $formattedDate',
+//      'Bargain has been paused till $formattedDate',
+      bodyText,
       textAlign: TextAlign.center,
       style: TextStyle(color: Colors.black, fontSize: 20),
     ),);

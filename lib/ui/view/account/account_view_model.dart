@@ -34,7 +34,5 @@ class AccountViewModel extends BaseModel {
 
   getUserDetail() async {
     User user = await UserPreferences.getUser();
-    print(user.name);
-
   }
 }

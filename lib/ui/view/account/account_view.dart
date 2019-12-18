@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/model/address.dart';
 import 'package:graineasy/model/bankaccount.dart';
+import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/view/account/add_update_address/add_update_addresses_view.dart';
 import 'package:graineasy/ui/view/account/add_update_bankacc/add_update_bankacc_view.dart';
+import 'package:graineasy/ui/view/forgot_password/forgot_password_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 
 import 'account_view_model.dart';
@@ -176,14 +178,18 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
             elevation: 1.0,
             child: Row(
               children: <Widget>[
-                new IconButton(icon: keyloch, onPressed: null),
+                new IconButton(icon: keyloch, onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (context) =>
+                      ForgotPasswordView()
+                      ));
+                }),
                 _verticalD(),
                 new Text(
                   'Change Password',
                   style: TextStyle(fontSize: 15.0, color: Colors.black87),
 
                 ),
-
               ],
 
             ),
@@ -331,7 +337,38 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
   }
 
   bankAccountList(AccountViewModel model) {
-    return SizedBox(
+    return
+      model.bankacc.length <= 0
+          ?
+      WidgetUtils.showMessageAtCenterOfTheScreen('No bank account added')
+//      Card(
+//          elevation: 3.0,
+//          margin: EdgeInsets.all(10),
+//          child: Row(
+//            children: <Widget>[
+//              Container(
+//                  padding: EdgeInsets.all(10),
+//                  child: new Column(
+//                    crossAxisAlignment: CrossAxisAlignment.start,
+//                    mainAxisAlignment: MainAxisAlignment.start,
+//                    children: <Widget>[
+//                      new Text(
+//                        'No bank account added so far',
+//                        style: TextStyle(
+//                          color: Colors.black87,
+//                          fontSize: 15.0,
+//                          fontWeight: FontWeight.bold,
+//                          letterSpacing: 0.5,
+//                        ),
+//                      ),
+//                      _verticalDivider(),
+//                    ],
+//                  )),
+//
+//            ],
+//          )
+//      )
+          : SizedBox(
       height: 120.0,
       child: ListView.builder(
         physics: ClampingScrollPhysics(),
@@ -391,7 +428,8 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
 //  }
 
   bankAccountWidget(BankAccount bankacc) {
-    return Card(
+    return
+      Card(
         elevation: 3.0,
         margin: EdgeInsets.all(10),
         child: Row(

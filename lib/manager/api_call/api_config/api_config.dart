@@ -21,7 +21,6 @@ class ApiConfig {
   static String getCalculatePrice = baseURL + 'price';
   static String updateAddress = baseURL + 'address/';
   static String searchItem = baseURL + 'item/search/';
-  static String banners = baseURL + 'banners/';
 
 
   // Order APIs
@@ -45,7 +44,8 @@ class ApiConfig {
   static String updateBargainRequest = baseURL + 'bargain/';
   static String getBargainDtl = baseURL + 'bargain/';
   static String pauseBargain = baseURL + 'bargain/pause/';
-  static String releaseBargain = baseURL + 'uploadbill/';
+  static String releaseBargain = baseURL + 'bargain/release/';
+  static String lapseTimeBargain = baseURL + 'bargain/lapsetime/';
 
   // Group Buy APIs
   static String getGBListings = baseURL + 'gblisting/';
@@ -59,6 +59,9 @@ class ApiConfig {
   static String addBankAccount = baseURL + 'bankaccount/';
   static String updBankAccount = baseURL + 'bankaccount/';
   static String getUserBankAccount = baseURL + 'bankaccount/user/';
+
+  // Banner
+  static String getBanner = baseURL + 'banner/';
 
   //get FCM Key
   static String updateUserApiForGetFcmKey = baseURL + 'user/';
