@@ -13,7 +13,7 @@ class OrderDetailViewModel extends BaseModel {
         orderList = await API.getOrderById(id);
         setState(ViewState.Idle);
         this.order = orderList;
-        print('orderId===========>${this.order}');
+//        print('orderId===========>${this.order}');
         isFirstTime = false;
       }
       this.order = orderList;

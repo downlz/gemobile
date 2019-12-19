@@ -8,6 +8,7 @@ import 'package:graineasy/ui/theme/text_style.dart';
 import 'package:graineasy/ui/validation/validation.dart';
 import 'package:graineasy/ui/view/manage_order_detail/manage_order_detail_model.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
+import 'package:graineasy/helpers/functions/orders.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:graineasy/utils/check_internet/utility.dart';
 import 'package:graineasy/utils/ui_helper.dart';
@@ -39,7 +40,7 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
           model.init(widget.id, widget.orderList);
           return new Scaffold(
             appBar: new AppBar(
-              title: Text('Order Detail'),
+              title: Text('Order Details'),
               backgroundColor: Colors.white,
             ),
             body: _getBody(model),
@@ -164,7 +165,7 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
-              "OrderId: " + model.order.orderno,
+              "Order No: " + model.order.orderno,
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -174,7 +175,17 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
-              "Amount: " + model.order.cost.toString(),
+              "Amount: " + "\u20B9" + model.order.cost.toString(),
+              style: TextStyle(
+                  fontSize: 16.0,
+                  color: Palette.assetColor,
+                  fontWeight: FontWeight.w500),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: new Text(
+              "Quantity: " + model.order.quantity.toString() + " " + model.order.unit,
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -206,10 +217,10 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
-              "Address: " +
-                  model.order.item.address.text +
-                  "" +
-                  model.order.item.address.city.name,
+              "Address: " + getShippingAddress(model.order),
+//                  model.order.item.address.text +
+//                  "" +
+//                  model.order.item.address.city.name,
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -220,7 +231,7 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(left: 10, top: 3),
             child: new Text(
-              "OrderDate: " +
+              "Order Date: " +
                   Utility.dateTimeToString(model.order.placedTime),
               style: TextStyle(
                   fontSize: 16.0,
@@ -291,9 +302,9 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
 
     if (model.order.status != 'cancelled'){
         _onPressed = () {
-          if (orderKey.currentState.validate())
+//          if (orderKey.currentState.validate())
             model.updateStatus(model.order.id);
-          print('data');
+
       };
     }
     return Padding(

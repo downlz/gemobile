@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graineasy/Cart_Screen.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:graineasy/helpers/common/sharing.dart';
+import 'package:graineasy/helpers/common/links.dart';
 
 import 'add_phone_number_screeen.dart';
 
@@ -118,7 +119,7 @@ class Help extends State<Help_Screen> {
                                   ],
                                 ),
                                 onTap: () {
-                                  _launchEmail();
+                                  launchCustomerEmail();
                                 },
                               )),
                           Divider(
@@ -152,7 +153,7 @@ class Help extends State<Help_Screen> {
                                                 style: dialogTextStyle),
                                             actions: <Widget>[
                                               FlatButton(
-                                                  child: const Text('DISAGREE'),
+                                                  child: const Text('Close'),
                                                   onPressed: () {
                                                     Navigator.pop(context,
                                                         DialogDemoAction.disagree);
@@ -234,7 +235,7 @@ class Help extends State<Help_Screen> {
                                     ],
                                   ),
                                   onTap: () {
-                                    _launchTermsOfServiceURL();
+                                    launchTermsOfServiceURL();
                                   }
                               )),
                           Divider(
@@ -349,19 +350,6 @@ class Help extends State<Help_Screen> {
         mText = "Press to hide";
       }
     });
-  }
-
-  Future _launchTermsOfServiceURL() async {
-    const url = 'https://graineasy.com/termsofuse';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
-  Future _launchEmail() async {
-    launch('mailto:trade@graineasy.com?subject=TestSubject');
   }
 }
 

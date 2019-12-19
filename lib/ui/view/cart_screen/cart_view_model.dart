@@ -3,6 +3,7 @@ import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/basemodel.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
+import 'package:graineasy/model/agentbuyer.dart';
 import 'package:graineasy/model/address.dart';
 import 'package:graineasy/model/cart_item.dart';
 import 'package:graineasy/model/order.dart';
@@ -13,24 +14,33 @@ import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
 class CartViewModel extends BaseModel {
   List<CartItem> cartItems;
   List<Address> addresses;
+  List<AgentBuyer> agentbuyer;
   List<Order> order;
   bool isFirstTime = true;
   double totalPriceOfTheOrder = 0;
   int selectedAddressPosition = 0;
+  User user;
 
   Future init(List<CartItem> cartItems) async {
     if (isFirstTime) {
       isFirstTime = false;
       this.cartItems = cartItems;
 //      calculateTotalPrice(this.cartItems);
-      User user = await UserPreferences.getUser();
+      user = await UserPreferences.getUser();
       getAddresses(user.phone, user.id);
+      getAgentBuyerAddr(user.id);
     }
   }
 
   void getAddresses(String phone, String id) async {
     setState(ViewState.Busy);
     addresses = await API.getAddress(phone, id);
+    setState(ViewState.Idle);
+  }
+
+  void getAgentBuyerAddr(String id) async {
+    setState(ViewState.Busy);
+    agentbuyer = await API.getUserAgentBuyer(id);
     setState(ViewState.Idle);
   }
 

@@ -60,6 +60,12 @@ class ApiConfig {
   static String updBankAccount = baseURL + 'bankaccount/';
   static String getUserBankAccount = baseURL + 'bankaccount/user/';
 
+  // Agent Buyer
+  static String getAllAgentBuyer = baseURL + 'agentbuyer/';
+  static String addAgentBuyer = baseURL + 'agentbuyer/';
+  static String updAgentBuyer = baseURL + 'agentbuyer/';
+  static String getUserAgentBuyer = baseURL + 'agentbuyer/byuser/';
+
   // Banner
   static String getBanner = baseURL + 'banner/';
 

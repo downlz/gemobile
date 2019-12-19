@@ -12,6 +12,7 @@ import 'package:graineasy/model/Item.dart';
 import 'package:graineasy/model/MostOrderedItem.dart';
 import 'package:graineasy/model/address.dart';
 import 'package:graineasy/model/bankaccount.dart';
+import 'package:graineasy/model/agentbuyer.dart';
 import 'package:graineasy/model/bannerItem.dart';
 import 'package:graineasy/model/bargain.dart';
 import 'package:graineasy/model/cart_item.dart';
@@ -338,8 +339,8 @@ class API extends BaseRepository
     var response = await http.post(ApiConfig.addAddresses,
         headers: await ApiConfig.getHeaderWithToken(),
         body: convert.jsonEncode(data));
-    print('response ${data}');
-    print(response.body);
+//    print('response ${data}');
+//    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
       print(response.body);
       Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
@@ -545,19 +546,22 @@ class API extends BaseRepository
 
 
   static updateOrderStatus(String id, String status, String remarks) async {
-    if (remarks == '') {
-      remarks = 'Cancelled without notes';
-    }
+
     var data = {
       'status': status,
-      'remarks' : remarks,
       'lastUpdated': new DateTime.now().millisecondsSinceEpoch
     };
+
+    if ((remarks == '' || remarks == null) && status =='cancelled') {
+      remarks = 'Cancelled without notes';
+      data['remarks'] = remarks;
+    }
+
     var response = await http.put(ApiConfig.updateOrderStatus + id,
         headers: {"Content-Type": "application/json",
           "Authorization": await UserPreferences.getToken()},
         body: jsonEncode(data));
-    print(response.statusCode);
+//    print(response.statusCode);
     if (response.statusCode == ApiConfig.successStatusCode) {
       print('update===${response.body}');
       Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
@@ -864,7 +868,6 @@ class API extends BaseRepository
       },);
     if (response.statusCode == ApiConfig.successStatusCode) {
       Order order = Order.fromJson(jsonDecode(response.body));
-      print(response.body);
       return order;
     }
     return null;
@@ -1104,8 +1107,80 @@ class API extends BaseRepository
         headers: {"Content-Type": "application/json",
           "Authorization": await UserPreferences.getToken()},
         body: jsonEncode(data));
-    print('response ${data}');
-    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      print(response.body);
+      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+      return 'Add Address';
+    } else {
+      return null;
+    }
+  }
+
+  // API for managing list of buyers added by agents
+
+  static Future<List<AgentBuyer>> getUserAgentBuyer(String id) async
+  {
+    var response = await http.get(ApiConfig.getUserAgentBuyer+id,
+        headers: await ApiConfig.getHeaderWithToken());
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<AgentBuyer> agentbuyer = AgentBuyer.fromJsonArray(jsonDecode(response.body));
+      return agentbuyer;
+    }
+    return[];
+  }
+
+
+  static updateAgentBuyer(String id, String address,
+      String pin, String cityId, String stateId, String phone) async {
+    User user = await UserPreferences.getUser();
+    var data = {
+      'text': address,
+      'pin': pin,
+      'city': cityId,
+      'state': stateId,
+      'phone': phone,
+      'addedby': user.id,
+    };
+
+    var response = await http.put(ApiConfig.updAgentBuyer + id,
+        headers: {"Content-Type": "application/json",
+          "Authorization": 'Bearer ' + await UserPreferences.getToken()},
+        body: jsonEncode(data));
+    print(response.statusCode);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      print('update===${response.body}');
+      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+      return 'Updated Bank Account';
+    } else {
+      return 'error';
+    }
+  }
+
+  static addAgentBuyer(String partyName, String phone, String gstInNo,
+      String address, String selectedState, String selectedCity,
+      String pinCode) async {
+
+    User user = await UserPreferences.getUser();
+
+      var data = {
+
+        "pin": pinCode,
+        "city": selectedCity,
+        "text": address,
+        "addressbasicdtl": {
+          "partyname": partyName,
+          "gstin": gstInNo
+        },
+        "state": selectedState,
+        "phone": phone,
+        "addedby": user.id
+      };
+
+    var response = await http.post(ApiConfig.addAgentBuyer,
+        headers: {"Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()},
+        body: jsonEncode(data));
+
     if (response.statusCode == ApiConfig.successStatusCode) {
       print(response.body);
       Map<dynamic, dynamic> responseBody = jsonDecode(response.body);

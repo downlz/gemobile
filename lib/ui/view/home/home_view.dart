@@ -22,6 +22,7 @@ import 'package:graineasy/ui/view/search/search_item_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:graineasy/helpers/common/sharing.dart';
 
 import '../../../help_screen.dart';
 import '../../../setting_screen.dart';
@@ -315,18 +316,18 @@ class _HomeViewState extends State<HomeView>
                         builder: (context) =>
                             BargainHistoryView()));
                   }),
-              new ListTile(
-                  leading: Icon(Icons.settings, color: Palette.assetColor),
-                  title: new Text("Settings", style: TextStyle(
-                      color: Palette.assetColor, fontSize: 15)),
-                  trailing: Icon(
-                    Icons.arrow_forward, color: Palette.assetColor,),
-
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) =>
-                            Setting_Screen(toolbarname: 'Setting',)));
-                  }),
+//              new ListTile(
+//                  leading: Icon(Icons.settings, color: Palette.assetColor),
+//                  title: new Text("Settings", style: TextStyle(
+//                      color: Palette.assetColor, fontSize: 15)),
+//                  trailing: Icon(
+//                    Icons.arrow_forward, color: Palette.assetColor,),
+//
+//                  onTap: () {
+//                    Navigator.push(context, MaterialPageRoute(
+//                        builder: (context) =>
+//                            Setting_Screen(toolbarname: 'Setting',)));
+//                  }),
 
               new ListTile(
                   leading: Icon(Icons.help, color: Palette.assetColor),
@@ -501,14 +502,27 @@ class _HomeViewState extends State<HomeView>
                               left: 3.0, bottom: 3.0),
                           alignment: Alignment.bottomLeft,
 
-                          child: new Text(
-                            model.recentItem[index].name,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
+                          child:
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(model.recentItem[index].name,
+                                style: TextStyle(fontSize: 16,color: Colors.white, fontWeight: FontWeight.bold),),
+                              Text(model.recentItem[index].manufacturer.name,
+                                  style: TextStyle(fontSize: 16,color: Colors.white, fontWeight: FontWeight.w500)),
+                              Text("Origin: " + model.recentItem[index].origin,
+                                  style: TextStyle(fontSize: 14,color: Colors.white, fontWeight: FontWeight.w500)),
+                            ],
+                          )
+//                          new Text(
+//                            model.recentItem[index].name,
+//                            textAlign: TextAlign.center,
+//                            style: TextStyle(
+//                                fontSize: 20.0,
+//                                color: Colors.white,
+//                                fontWeight: FontWeight.bold),
+//                          ),
                         ),
                       ],
                     )
@@ -1053,14 +1067,27 @@ class _HomeViewState extends State<HomeView>
                               left: 3.0, bottom: 3.0),
                           alignment: Alignment.bottomLeft,
 
-                          child: new Text(
-                            model.itemsNear[index].name,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
+                          child:
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(model.itemsNear[index].name,
+                                style: TextStyle(fontSize: 16,color: Colors.white, fontWeight: FontWeight.bold),),
+                              Text(model.itemsNear[index].manufacturer.name,
+                                  style: TextStyle(fontSize: 16,color: Colors.white, fontWeight: FontWeight.w500)),
+                              Text("Origin: " + model.itemsNear[index].origin,
+                                  style: TextStyle(fontSize: 14,color: Colors.white, fontWeight: FontWeight.w500)),
+                            ],
+                          )
+//                          new Text(
+//                            model.itemsNear[index].name,
+//                            textAlign: TextAlign.center,
+//                            style: TextStyle(
+//                                fontSize: 20.0,
+//                                color: Colors.white,
+//                                fontWeight: FontWeight.bold),
+//                          ),
                         ),
                       ],
                     )
@@ -1122,18 +1149,21 @@ class _HomeViewState extends State<HomeView>
         });
   }
 
-  Future launchEmail(Item recentItem) async {
-    launch('mailto:?subject=${"ItemName: " +
-        recentItem.name}&body=${recentItem.name + "/" +
-        recentItem.category.name + "\n" +
-        recentItem.image}');
-  }
-
-  Future launchWhatsApp(Item recentItem) async {
-    FlutterShareMe().shareToWhatsApp(
-        msg: recentItem.name + "/" + recentItem.category.name + "\n" +
-            recentItem.image);
-  }
+//  Future launchEmail(Item recentItem) async {
+//    launch('mailto:?subject=${"Graineasy item listing: " +
+//        recentItem.name}&body=${'Category:' +
+//        recentItem.category.name + "\n" +
+//        'List Price:' + '\u20B9'+ '${recentItem.price}' + "/" + '${recentItem.unit.mass}'+ "\n" +
+//        recentItem.image}' + "\n" +
+//        'For details visit ' + 'https://graineasy.com/product/'+'${recentItem.id}' );
+//  }
+//
+//  Future launchWhatsApp(Item recentItem) async {
+//    FlutterShareMe().shareToWhatsApp(
+//        msg: recentItem.name + "/" + recentItem.category.name + "\n" +
+//            'List Price:' + '\u20B9'+ '${recentItem.price}' + "/" + '${recentItem.unit.mass}'+ "\n" +
+//            recentItem.image);
+//  }
 
   Future launchEmailMostOrder(MostOrderedItem mostOrder) async {
     launch('mailto:?subject=${"ItemName: " +

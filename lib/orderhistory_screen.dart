@@ -210,7 +210,7 @@ class oder_history extends State<Oder_History> {
                                             Container(
                                               margin: EdgeInsets.only(top: 3.0),
                                               child: Text(
-                                                itemList[ind].oderAmount,
+                                              "\u20B9"+itemList[ind].oderAmount,
                                                 style: TextStyle(
                                                     fontSize: 15.0,
                                                     color: Colors.black87),

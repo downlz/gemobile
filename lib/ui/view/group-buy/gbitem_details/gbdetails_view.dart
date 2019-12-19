@@ -130,7 +130,17 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
                             ),
                           ],
                         ))),
-                Container(
+
+                model.user.isSeller
+                    ? Container(
+                  margin: EdgeInsets.all(10.0),
+                  child: Text(
+                    'Showing Items Details',
+                    style: TextStyle(color: Colors.blueGrey,fontSize: 18, fontWeight: FontWeight.bold),),)
+
+//                    : Container(),
+
+                : Container(
                     margin: EdgeInsets.all(10.0),
                     child: Card(
                         child: Container(
@@ -319,15 +329,15 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
           Padding(
             padding: const EdgeInsets.only(top: 10),
-            child: Text("Category: " + gbitem.item.category.name,
+            child: Text("Item: " + gbitem.item.itemname.name,
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           ),
-//          Text("Category: " + gbitem.item.category.name,
-//              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+          Text("Category: " + gbitem.item.category.name,
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text("Origin: " + gbitem.item.origin,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
-//          Text("Manufacturer: " + gbitem.item.manufacturer.name,
-//              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+          Text("Seller: " + gbitem.item.seller.name,
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text("List Price: " + "Rs. " + gbitem.item.price.toString() + "/" +
               gbitem.unit.mass,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),

@@ -18,6 +18,7 @@ class Item {
   final Category category;
   final ItemName itemname;
   final String image;
+  final String grade;
   final int qty;
   final int bargaintrgqty;
   final bool bargainenabled;
@@ -41,6 +42,7 @@ class Item {
     this.oderId,
     this.oderAmount,
     this.paymentType,
+    this.grade,
     this.address,
     this.image,
     this.qty,
@@ -71,6 +73,7 @@ class Item {
       oderAmount: json['grainCount'],
       paymentType: json['grainCount'],
       image: json['image'],
+      grade: json['grade'],
       qty: json['qty'],
       bargainenabled: json['bargainenabled'],
       bargaintrgqty: json['bargaintrgqty'],

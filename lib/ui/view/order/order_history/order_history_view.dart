@@ -129,7 +129,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
                               margin: EdgeInsets.only(top: 3.0),
                               alignment: Alignment.topLeft,
                               child: Text(
-                                'To Deliver On :' +
+                                'Ordered On :' +
                                     Utility.dateTimeToString(
                                         model.orderList[ind].placedTime),
                                 style: TextStyle(
@@ -147,10 +147,10 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
                               MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 rowWidget(
-                                    'Order id', model.orderList[ind]
+                                    'Order No', model.orderList[ind]
                                     .orderno),
                                 rowWidget('Order Amount',
-                                    model.orderList[ind].cost.toString()),
+                                    ""+model.orderList[ind].cost.toString()),
                                 rowWidget('Order Type',
                                     model.orderList[ind].ordertype),
                               ],

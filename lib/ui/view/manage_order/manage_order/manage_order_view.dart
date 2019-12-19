@@ -97,7 +97,7 @@ class _ManageOrderViewState extends State<ManageOrderView> with CommonAppBar {
                                   margin: EdgeInsets.only(top: 3.0),
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                    'To Deliver On :' +
+                                    'Ordered On :' +
                                         Utility.dateTimeToString(
                                             model.orderList[ind].placedTime),
                                     style: TextStyle(
@@ -114,10 +114,10 @@ class _ManageOrderViewState extends State<ManageOrderView> with CommonAppBar {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    rowWidget('Order id',
+                                    rowWidget('Order No.',
                                         model.orderList[ind].orderno),
                                     rowWidget('Order Amount',
-                                        model.orderList[ind].cost.toString()),
+                                        "\u20B9"+model.orderList[ind].cost.toString()),
                                     rowWidget('Order Type',
                                         model.orderList[ind].ordertype),
                                   ],

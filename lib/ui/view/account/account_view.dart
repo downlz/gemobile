@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/model/address.dart';
+import 'package:graineasy/model/agentbuyer.dart';
 import 'package:graineasy/model/bankaccount.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/view/account/add_update_address/add_update_addresses_view.dart';
 import 'package:graineasy/ui/view/account/add_update_bankacc/add_update_bankacc_view.dart';
+import 'package:graineasy/ui/view/account/add_update_agentbuyer/add_update_agentbuyer_view.dart';
 import 'package:graineasy/ui/view/forgot_password/forgot_password_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 
@@ -172,6 +174,29 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
           ])
         ),
         bankAccountList(model),
+        model.user.isAgent || model.user.isAdmin ?
+          new Container(
+              margin:
+              EdgeInsets.only(left: 12.0, top: 10.0, bottom: 5.0),
+              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    new Text(
+                      'Buyer List',
+                      style: TextStyle(
+                          color: Colors.black87,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0),
+                    ),
+                    IconButton(icon: Icon(Icons.add_circle), onPressed: () {
+                      print('click');
+                      Navigator.push(context,
+                          MaterialPageRoute(
+                              builder: (context) => AddUpdateAgentBuyerView()
+                          ));
+                    })
+                  ])
+          ): Container (),
+        model.user.isAgent || model.user.isAdmin ? agentBuyerList(model) : Container(),
         new Container(
           margin: EdgeInsets.all(7.0),
           child: Card(
@@ -382,6 +407,52 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
     );
   }
 
+  agentBuyerList(AccountViewModel model) {
+    return
+      model.agentbuyer.length <= 0
+          ?
+      WidgetUtils.showMessageAtCenterOfTheScreen('No buyer added')
+//      Card(
+//          elevation: 3.0,
+//          margin: EdgeInsets.all(10),
+//          child: Row(
+//            children: <Widget>[
+//              Container(
+//                  padding: EdgeInsets.all(10),
+//                  child: new Column(
+//                    crossAxisAlignment: CrossAxisAlignment.start,
+//                    mainAxisAlignment: MainAxisAlignment.start,
+//                    children: <Widget>[
+//                      new Text(
+//                        'No bank account added so far',
+//                        style: TextStyle(
+//                          color: Colors.black87,
+//                          fontSize: 15.0,
+//                          fontWeight: FontWeight.bold,
+//                          letterSpacing: 0.5,
+//                        ),
+//                      ),
+//                      _verticalDivider(),
+//                    ],
+//                  )),
+//
+//            ],
+//          )
+//      )
+          : SizedBox(
+        height: 120.0,
+        child: ListView.builder(
+          physics: ClampingScrollPhysics(),
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          itemCount: model.agentbuyer.length,
+          itemBuilder: (BuildContext cont, int ind) {
+            return agentBuyerWidget(model.agentbuyer[ind]);
+          },
+        ),
+      );
+  }
+
 //  bankAccountWidget(AccountViewModel model) {
 //    return Card(
 //        elevation: 3.0,
@@ -500,4 +571,60 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
         )
     );
   }
+
+  agentBuyerWidget(AgentBuyer agentbuyer) {
+    return
+      Card(
+          elevation: 3.0,
+          margin: EdgeInsets.all(10),
+          child: Row(
+            children: <Widget>[
+              Container(
+                  padding: EdgeInsets.all(10),
+                  child: new Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      new Text(
+                        agentbuyer.text,
+                        style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                      _verticalDivider(),
+                      new Text(
+                        agentbuyer.pin,
+                        style: TextStyle(
+                            color: Colors.black45,
+                            fontSize: 13.0,
+                            letterSpacing: 0.5),
+                      ),
+                      _verticalDivider(),
+                      new Text(
+                        agentbuyer.phone,
+                        style: TextStyle(
+                            color: Colors.black45,
+                            fontSize: 13.0,
+                            letterSpacing: 0.5),
+                      ),
+                    ],
+                  )),
+
+              Align(alignment: Alignment.topRight
+                  ,
+                  child: IconButton(icon: Icon(Icons.edit), onPressed: () {
+//                  print(address.phone);
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) =>
+                            AddUpdateAgentBuyerView(agentbuyer: agentbuyer,)
+                    ));
+                  }))
+            ],
+          )
+      );
+  }
+
 }

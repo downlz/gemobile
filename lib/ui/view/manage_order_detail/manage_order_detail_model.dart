@@ -21,7 +21,7 @@ class ManageOrderDetailViewModel extends BaseModel {
         orderList = await API.getOrderById(id);
         setState(ViewState.Idle);
         this.order = orderList;
-        print('orderId===========>${this.order.status}');
+//        print('orderId===========>${this.order.status}');
         isFirstTime = false;
       }
       this.order = orderList;

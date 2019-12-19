@@ -39,11 +39,11 @@ class DetailsViewModel extends BaseModel {
   }
 
   void getItemDetails(String id) async {
-    print("Selected item id==> $id");
+//    print("Selected item id==> $id");
     setState(ViewState.Busy);
     itemDetails = await API.getItemFromId(id);
     setState(ViewState.Idle);
-    print('selected==${itemDetails.price}');
+//    print('selected==${itemDetails.price}');
   }
 
   void calculatePrice(Item item, String sellerId, String buyerId,
@@ -73,7 +73,7 @@ class DetailsViewModel extends BaseModel {
 
   Future checkBargainActiveOrNot(bool showProgress) async
   {
-    print('Product id============> ${itemDetails.id}');
+//    print('Product id============> ${itemDetails.id}');
     if (showProgress)
       setState(ViewState.Busy);
     bargainDetail = !user.isSeller ?

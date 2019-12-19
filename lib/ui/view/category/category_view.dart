@@ -7,6 +7,7 @@ import 'package:graineasy/ui/view/item_details/details_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:graineasy/helpers/common/sharing.dart';
 
 import 'category_view_model.dart';
 
@@ -130,7 +131,7 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                                               'images/whatsapp.png', width: 30,
                                               height: 25,),
                                               onTap: () {
-                                                _launchWhatsApp(
+                                                launchWhatsApp(
                                                     model.items[index]);
                                               },),
                                           ),
@@ -141,7 +142,7 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                                               'images/mail.png', width: 25,
                                               height: 25,),
                                               onTap: () {
-                                                _launchEmail(
+                                                launchEmail(
                                                     model.items[index]);
                                               },),
                                           )
@@ -195,14 +196,14 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
   }
 
 
-  Future _launchEmail(Item item) async {
-    launch('mailto:?subject=${"ItemName: " +                                  // Modified to remove email to trade@graineasy.com
-        item.name}&body=${item.name + "/" + item.category.name + "\n" +
-        item.image}');
-  }
-
-  Future _launchWhatsApp(Item item) async {
-    FlutterShareMe().shareToWhatsApp(
-        msg: item.name + "/" + item.category.name + "\n" + item.image);
-  }
+//  Future _launchEmail(Item item) async {
+//    launch('mailto:?subject=${"ItemName: " +                                  // Modified to remove email to trade@graineasy.com
+//        item.name}&body=${item.name + "/" + item.category.name + "\n" +
+//        item.image}');
+//  }
+//
+//  Future _launchWhatsApp(Item item) async {
+//    FlutterShareMe().shareToWhatsApp(
+//        msg: item.name + "/" + item.category.name + "\n" + item.image);
+//  }
 }
