@@ -43,7 +43,7 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
       model.init(widget.bargainDetail, widget.id);
       return new Scaffold(
         appBar: new AppBar(
-          title: Text('Bargain Request' + " " + '${model.bargainDetail.bargainstatus[0].toUpperCase()}${model.bargainDetail.bargainstatus.substring(1)}'),
+          title: Text('Bargain Request - ${model.getBargainStatus}' ),// + " " + '${model.getBargainStatus[0].toUpperCase()}${model.getBargainStatus.substring(1)}'),
           backgroundColor: Colors.white,
         ),
         body: _getBody(model),
@@ -135,9 +135,10 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
             getBargainDetailWidget(model)
         ),
 
-    model.bargainDetail.bargainstatus != 'paused'
-    && model.bargainDetail.bargainstatus != 'accepted'
-        && model.bargainDetail.bargainstatus != 'expired'
+        !(model.getBargainStatus == 'paused'
+    || model.getBargainStatus == 'accepted'
+        || model.getBargainStatus == 'expired'
+        || model.getBargainStatus == 'rejected')
     ? new Column(children: <Widget>[ !model.isBargainOn
             ? Text(
           model.user.isBuyer
@@ -198,9 +199,9 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
         )
             : Padding(
             padding: EdgeInsets.all(10),
-            child: model.bargainDetail.bargainstatus != 'expired'
-                && model.bargainDetail.bargainstatus != 'rejected'
-                && model.bargainDetail.bargainstatus != 'accepted'  ? Text(
+            child: model.getBargainStatus != 'expired'
+                && model.getBargainStatus != 'rejected'
+                && model.getBargainStatus != 'accepted'  ? Text(
               model.user.isBuyer && !model.isBuyerQuote
                   ? 'Waiting For Seller Response'
                   : 'Waiting For Buyer Quote',

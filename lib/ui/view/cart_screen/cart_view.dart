@@ -11,6 +11,7 @@ import 'package:graineasy/ui/view/account/add_update_agentbuyer/add_update_agent
 import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
+import 'package:graineasy/ui/theme/text_style.dart';
 import 'package:graineasy/utils/ui_helper.dart';
 
 const URL = "https://graineasy.com";
@@ -152,8 +153,9 @@ class _CartViewState extends State<CartView> with CommonAppBar {
               itemBuilder: (BuildContext cont, int ind) {
                 return Column(
                   children: <Widget>[
-                    model.user.isAgent ? agentBuyerWidget(model.agentbuyer[ind], ind, model)
-                        :addressWidget(model.addresses[ind], ind, model),
+                    model.user.isAgent ?
+                    agentBuyerWidget(model.agentbuyer[ind], ind, model)
+                      :  addressWidget(model.addresses[ind], ind, model),
                   ],
                 );
               },
@@ -268,7 +270,7 @@ class _CartViewState extends State<CartView> with CommonAppBar {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 new Text(
-                  agentbuyer.text,
+                  agentbuyer.agentbuyeridentifier.partyname,
                   style: TextStyle(
                     color: Palette.assetColor,
                     fontSize: 15.0,
@@ -299,7 +301,7 @@ class _CartViewState extends State<CartView> with CommonAppBar {
                   children: <Widget>[
 
                     new Text(
-                      agentbuyer.agentbuyeridentifier.gstin.toUpperCase(),
+                      agentbuyer.text,
                       style: TextStyle(
                           fontSize: 15.0,
                           color: Palette.assetColor,
@@ -313,6 +315,15 @@ class _CartViewState extends State<CartView> with CommonAppBar {
                           model.selectedAddressPosition = ind;
                         });
                       },)
+//                      ): new Checkbox(
+//                        value: checkSecAddress,
+//                        onChanged: (bool value) {
+//                          setState(() {
+//                            checkSecAddress = value;
+//                            newAddress=model.addresses[ind];
+//                          });
+//                        },
+//                      )
                   ],
                 ),
 

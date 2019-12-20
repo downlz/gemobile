@@ -192,47 +192,7 @@ class _RegistrationViewState extends State<AddUpdateAgentBuyerView>
                                     color: Colors.white, fontSize: 15),
                               ),
                             )),
-//                        UIHelper.verticalSpaceSmall1,
-//                        Theme(
-//                          data: Theme.of(context)
-//                              .copyWith(canvasColor: Palette.blackTextColor),
-//                          child: DropdownButton<String>(
-//                            underline: Container(
-//                              decoration: BoxDecoration(
-//                                  border: Border(
-//                                      bottom: BorderSide(color: Colors.white))),
-//                            ),
-//                            isExpanded: true,
-//                            elevation: 4,
-//                            icon: Icon(
-//                              Icons.arrow_drop_down,
-//                              color: Colors.white,
-//                            ),
-//                            hint: new Text(
-//                              "Select AddressType",
-//                              style: AppTextStyle.getLargeHeading(
-//                                  false, Colors.white38),
-//                            ),
-//                            value: model.selectedAddressType,
-//                            onChanged: (String selectedAddressTypes) {
-//                              setState(() {
-//                                model.selectedAddressType =
-//                                    selectedAddressTypes;
-//                              });
-//                            },
-//                            items: API.addressType.map((String value) {
-//                              return new DropdownMenuItem<String>(
-//                                value: value,
-//                                child: new Text(
-//                                  value,
-//                                  style:
-//                                  TextStyle(color: Palette.whiteTextColor),
-//                                ),
-//                              );
-//                            }).toList(),
-//                          ),
-//                        ),
-                        UIHelper.verticalSpaceSmall,
+                        UIHelper.verticalSpaceSmall1,
                         TextFormField(
                             controller: model.pinCodeController,
                             focusNode: pinCodeFocus,
@@ -261,7 +221,8 @@ class _RegistrationViewState extends State<AddUpdateAgentBuyerView>
                           ),
                           onPressed: () {
 //                          _submit();
-                            if (addAddressFormKey.currentState.validate()) {
+//                            if (addAddressFormKey.currentState.validate())
+                            {
                               FocusScope.of(context).requestFocus(FocusNode());
 
 //                              if(widget.agentbuyer!=null)

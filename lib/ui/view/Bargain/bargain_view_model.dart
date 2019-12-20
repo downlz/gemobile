@@ -15,6 +15,7 @@ class BargainViewModel extends BaseModel {
   bool isBargainOn = true;
   bool isBuyerQuote = true;
   String lapseTime;
+  String getBargainStatus;
 
   void init(Bargain bargainDetail, String id) async {
     if (isFirstTime) {
@@ -25,8 +26,7 @@ class BargainViewModel extends BaseModel {
         this.bargainDetail = bargainDetail;
         user = await UserPreferences.getUser();
         checkQuotationEnded();
-        staticChecks();
-
+//        staticChecks();
         setState(ViewState.Idle);
         isFirstTime = false;
         notifyListeners();
@@ -37,11 +37,12 @@ class BargainViewModel extends BaseModel {
         setState(ViewState.Idle);
         user = await UserPreferences.getUser();
         checkQuotationEnded();
-        staticChecks();
+//        staticChecks();
 //        lapseTime = await API.lapseTimeBargain(bargainDetail.id);
         isFirstTime = false;
         notifyListeners();
       }
+      getBargainStatus = this.bargainDetail.bargainstatus;
     }
   }
 

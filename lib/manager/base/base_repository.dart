@@ -45,4 +45,28 @@ class BaseRepository {
             statusCode);
     }
   }
+
+  DataException getErrorBasedOnAppDataSetup(String dbcode) {
+    switch (dbcode) {
+      case 'activation':
+        return new DataException(
+            "User account not activated yet.Contact trade@graineasy.com", 10);
+
+      case 'vendorcode':
+        return new DataException(
+            "Vendor code not setup.Contact trade@graineasy.com", 11);
+
+      case 'transporter':
+        return new DataException(
+            "We will be soon rolling out for transporter.Please use graineasy.com for the time being", 12);
+
+        case 'updatereq':
+        return new DataException(
+            "We have improved the application.Please update the app from playstore", 14);
+
+      default:
+        return new DataException(
+            "Internal Application error:Contact administrator@graineasy.com",20);
+    }
+  }
 }

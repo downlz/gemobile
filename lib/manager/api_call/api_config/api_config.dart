@@ -69,6 +69,9 @@ class ApiConfig {
   // Banner
   static String getBanner = baseURL + 'banner/';
 
+  // Application preference
+  static String getAppPref = baseURL + 'apppref/';
+
   //get FCM Key
   static String updateUserApiForGetFcmKey = baseURL + 'user/';
   static int successStatusCode = 200;

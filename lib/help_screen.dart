@@ -189,27 +189,29 @@ class Help extends State<Help_Screen> {
                                     ],
                                   ),
                                   onTap: () {
-                                    showDemoDialog<DialogDemoAction>(
-                                        context: context,
-                                        child: AlertDialog(
-                                            title: const Text('Send Feedback'),
-                                            content: Text(
-                                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-                                                style: dialogTextStyle),
-                                            actions: <Widget>[
-                                              FlatButton(
-                                                  child: const Text('DISAGREE'),
-                                                  onPressed: () {
-                                                    Navigator.pop(context,
-                                                        DialogDemoAction.disagree);
-                                                  }),
-                                              /* FlatButton(
-                                              child: const Text('AGREE'),
-                                              onPressed: () {
-                                                Navigator.pop(context,
-                                                    DialogDemoAction.agree);
-                                              })*/
-                                            ]));
+                                      launchFeedbackEmail();
+
+//                                    showDemoDialog<DialogDemoAction>(
+//                                        context: context,
+//                                        child: AlertDialog(
+//                                            title: const Text('Send Feedback'),
+//                                            content: Text(
+//                                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+//                                                style: dialogTextStyle),
+//                                            actions: <Widget>[
+//                                              FlatButton(
+//                                                  child: const Text('DISAGREE'),
+//                                                  onPressed: () {
+//                                                    Navigator.pop(context,
+//                                                        DialogDemoAction.disagree);
+//                                                  }),
+//                                              /* FlatButton(
+//                                              child: const Text('AGREE'),
+//                                              onPressed: () {
+//                                                Navigator.pop(context,
+//                                                    DialogDemoAction.agree);
+//                                              })*/
+//                                            ]));
                                   })),
                           Divider(
                             height: 5.0,

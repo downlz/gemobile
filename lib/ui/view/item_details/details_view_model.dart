@@ -13,6 +13,7 @@ class DetailsViewModel extends BaseModel {
   bool isFirstTime = true;
   Bargain bargainDetail;
   User user;
+  String itemBargainStatus;
 
   void init(Item item, String id) async {
     if (isFirstTime)
@@ -76,11 +77,10 @@ class DetailsViewModel extends BaseModel {
 //    print('Product id============> ${itemDetails.id}');
     if (showProgress)
       setState(ViewState.Busy);
-    bargainDetail = !user.isSeller ?
-    await API.checkBuyerRequestActiveOrNot(itemDetails.id, user.id) :
-    await API.checkSellerRequestActiveOrNot(
-        itemDetails.id, itemDetails.seller.id);
+    bargainDetail = !user.isSeller ? await API.checkBuyerRequestActiveOrNot(itemDetails.id, user.id) :
+                    await API.checkSellerRequestActiveOrNot(itemDetails.id, itemDetails.seller.id);
     setState(ViewState.Idle);
+    itemBargainStatus = bargainDetail.bargainstatus;
   }
 }
 

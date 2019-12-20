@@ -99,6 +99,7 @@ class AddUpdateAgentBuyerViewModel extends BaseModel {
   }
 
   Future addUpdateAgentBuyer(AgentBuyer agentbuyer) async {
+
     if (isUpdateAgentBuyer == true) {
       updateAgentBuyer(agentbuyer);
     } else
@@ -107,8 +108,8 @@ class AddUpdateAgentBuyerViewModel extends BaseModel {
           phoneNumberController.text,
           gstInController.text,
           addressController.text,
+          selectedCity.id,
           selectedCity.state.id,
-          selectedAddressType,
           pinCodeController.text,
           agentbuyer);
   }

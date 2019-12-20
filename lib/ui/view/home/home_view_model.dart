@@ -29,6 +29,7 @@ class HomeViewModel extends BaseModel
 //  List<Item> mostOrder;
   List<Item> itemsNear;
   User user;
+  bool agentCheck = false;
   bool isFirstTime = true;
   String deviceplatform;
   FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
@@ -297,6 +298,7 @@ class HomeViewModel extends BaseModel
 
   Future userDetail() async {
     user = await UserPreferences.getUser();
+    agentCheck = user.isAgent;
   }
 
   void init() {

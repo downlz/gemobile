@@ -16,7 +16,6 @@ class OrderHistoryViewModel extends BaseModel {
   getOrders(String id, List<Order> order, int present, int perPage) async {
     setState(ViewState.Busy);
     User user = await UserPreferences.getUser();
-    print('userid====>${user.id}');
     if (user.isSeller || user.isBuyer) {
       orderList = await API.getUserOrders(user.id);
     } else if (user.isAdmin){

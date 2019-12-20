@@ -15,6 +15,7 @@ class CartViewModel extends BaseModel {
   List<CartItem> cartItems;
   List<Address> addresses;
   List<AgentBuyer> agentbuyer;
+  AgentBuyer selectedAgentBuyer;
   List<Order> order;
   bool isFirstTime = true;
   double totalPriceOfTheOrder = 0;

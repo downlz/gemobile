@@ -4,6 +4,7 @@ import 'package:graineasy/manager/base/basemodel.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
 import 'package:graineasy/model/groupbuy.dart';
+import 'package:graineasy/model/agentbuyer.dart';
 import 'package:graineasy/model/address.dart';
 import 'package:graineasy/model/gbcart_item.dart';
 import 'package:graineasy/model/order.dart';
@@ -14,18 +15,22 @@ import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
 class GBCartViewModel extends BaseModel {
   List<GBCartItem> cartItems;
   List<Address> addresses;
+  List<AgentBuyer> agentbuyer;
+  AgentBuyer selectedAgentBuyer;
   List<Order> order;
   bool isFirstTime = true;
   double totalPriceOfTheOrder = 0;
   int selectedAddressPosition = 0;
+  User user;
 
   Future init(List<GBCartItem> cartItems) async {
     if (isFirstTime) {
       isFirstTime = false;
       this.cartItems = cartItems;
 //      calculateTotalPrice(this.cartItems);
-      User user = await UserPreferences.getUser();
+      user = await UserPreferences.getUser();
       getAddresses(user.phone, user.id);
+      getAgentBuyerAddr(user.id);
     }
   }
 
@@ -35,12 +40,11 @@ class GBCartViewModel extends BaseModel {
     setState(ViewState.Idle);
   }
 
-//  void getLastOrderNumber() async {
-//    setState(ViewState.Busy);
-//    order = await API.getLastOrderNumber();
-//    calculateOrderNumber(order);
-//    setState(ViewState.Idle);
-//  }
+  void getAgentBuyerAddr(String id) async {
+    setState(ViewState.Busy);
+    agentbuyer = await API.getUserAgentBuyer(id);
+    setState(ViewState.Idle);
+  }
 
 
   createOrder(Groupbuy gbitem) async

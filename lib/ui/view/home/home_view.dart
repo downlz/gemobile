@@ -302,7 +302,8 @@ class _HomeViewState extends State<HomeView>
                             GroupbuyView()));
                   }),
 
-              new ListTile(
+             !model.agentCheck ?
+             new ListTile(
 //                // Image.asset('images/bargain.png'),
                   leading: Icon(
                       Icons.monetization_on, color: Palette.assetColor),
@@ -315,7 +316,8 @@ class _HomeViewState extends State<HomeView>
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) =>
                             BargainHistoryView()));
-                  }),
+                  })
+                 : Container(),
 //              new ListTile(
 //                  leading: Icon(Icons.settings, color: Palette.assetColor),
 //                  title: new Text("Settings", style: TextStyle(

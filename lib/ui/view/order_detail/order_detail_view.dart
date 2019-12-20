@@ -103,7 +103,7 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
-              "Order No: " + model.order.id,
+              "Order No: " + model.order.orderno,
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -123,7 +123,7 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
-              "Quantity: " + model.order.unit,
+              "Quantity: " + model.order.quantity.toString() + " " + model.order.unit,
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -144,7 +144,9 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
-              "Status: " + model.order.status,
+              model.order.status=='cancelled' ?
+              "Status:"+model.order.status + "(" + model.order.remarks +")"
+                  : "Status:"+model.order.status,
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,

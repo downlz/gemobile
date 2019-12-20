@@ -111,7 +111,7 @@ class AddUpdateAddressViewModel extends BaseModel {
           selectedAddressType,
           pinCodeController.text,
           addresses);
-    print(selectedCity.name);
+//    print(selectedCity.name);
   }
 
 //	//countered

@@ -33,3 +33,7 @@ Future launchGBWhatsApp(Groupbuy item) async {
 Future launchCustomerEmail() async {
   launch('mailto:trade@graineasy.com?subject=Customer Query');
 }
+
+Future launchFeedbackEmail() async {
+  launch('mailto:trade@graineasy.com?subject=Graineasy Feedback and Feature Request');
+}
