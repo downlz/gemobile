@@ -61,7 +61,7 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
   }
 
   _getBaseContainer(AccountViewModel model) {
-//    model.getUserDetail();
+    model.getUserDetail();
     Icon ofericon = new Icon(
       Icons.edit,
       color: Colors.black38,
@@ -152,6 +152,7 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
           ),
         ),
         addressList(model),
+        !model.checkAgent ?
         new Container(
           margin:
           EdgeInsets.only(left: 12.0, top: 10.0, bottom: 5.0),
@@ -172,9 +173,9 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
                     ));
               })
           ])
-        ),
-        bankAccountList(model),
-        model.user.isAgent || model.user.isAdmin ?
+        ) : Container(),
+        !model.checkAgent ? bankAccountList(model): Container(),
+        model.checkAgent ?
           new Container(
               margin:
               EdgeInsets.only(left: 12.0, top: 10.0, bottom: 5.0),
@@ -196,7 +197,7 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
                     })
                   ])
           ): Container (),
-        model.user.isAgent || model.user.isAdmin ? agentBuyerList(model) : Container(),
+        model.checkAgent ? agentBuyerList(model) : Container(),
         new Container(
           margin: EdgeInsets.all(7.0),
           child: Card(
@@ -452,51 +453,6 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
         ),
       );
   }
-
-//  bankAccountWidget(AccountViewModel model) {
-//    return Card(
-//        elevation: 3.0,
-//        margin: EdgeInsets.all(10),
-//        child: Row(
-//          children: <Widget>[
-//            Container(
-//                padding: EdgeInsets.all(10),
-//                child: new Column(
-//                  crossAxisAlignment: CrossAxisAlignment.start,
-//                  mainAxisAlignment: MainAxisAlignment.start,
-//                  children: <Widget>[
-//                    new Text(
-//                      'Bank Name',
-//                      style: TextStyle(
-//                        color: Colors.black87,
-//                        fontSize: 15.0,
-//                        fontWeight: FontWeight.bold,
-//                        letterSpacing: 0.5,
-//                      ),
-//                    ),
-//                    _verticalDivider(),
-//                    new Text(
-//                      'Bank Address',
-//                      style: TextStyle(
-//                          color: Colors.black45,
-//                          fontSize: 13.0,
-//                          letterSpacing: 0.5),
-//                    ),
-//                    new Text(
-//                      'Pincode',
-//                      style: TextStyle(
-//                          color: Colors.black45,
-//                          fontSize: 13.0,
-//                          letterSpacing: 0.5),
-//                    ),
-//
-//                  ],
-//                )),
-//
-//          ],
-//        )
-//    );
-//  }
 
   bankAccountWidget(BankAccount bankacc) {
     return

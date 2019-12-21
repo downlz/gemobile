@@ -24,10 +24,10 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
 
   List<Order> order = new List<Order>();
 
-  @override
-  void initState() {
-    super.initState();
-  }
+//  @override
+//  void initState() {
+//    super.initState();
+//  }
 
   @override
   Widget build(BuildContext context) {

@@ -24,7 +24,7 @@ class ManageOrderDetailViewModel extends BaseModel {
 //        print('orderId===========>${this.order.status}');
         isFirstTime = false;
       }
-//      this.order = orderList;
+      this.order = orderList;
     }
   }
   updateStatus(String id) async {

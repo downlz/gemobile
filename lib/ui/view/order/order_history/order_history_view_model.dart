@@ -26,11 +26,13 @@ class OrderHistoryViewModel extends BaseModel {
       // Will think in future
     }
 //    orderList = await API.getParticularUserOrders(user.id);
-    setState(ViewState.Idle);
+
     if (orderList.length != 0) {
       order.addAll(orderList.getRange(present, present + perPage));
       present = present + perPage;
     }
+    setState(ViewState.Idle);
+    notifyListeners();
   }
 
   void init(String id, List<Order> order, int perPage, int present) {

@@ -131,7 +131,7 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
                           ],
                         ))),
 
-                model.user.isSeller
+                model.sellercheck
                     ? Container(
                   margin: EdgeInsets.all(10.0),
                   child: Text(

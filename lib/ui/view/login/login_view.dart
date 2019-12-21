@@ -67,7 +67,10 @@ class _LoginViewState extends State<LoginView> with CommonAppBar {
       Future.delayed(const Duration(milliseconds: 500), () {
         if (model.shouldShowMessage) {
           model.messageIsShown();
-          showErrorMessage(context, model.message, model.isError);
+          if (!model.isError) {
+            showErrorMessage(context, model.message,
+                model.isError); // Smart handle based on system performance by Shahnawaz 22 Dec 2019
+          }
         }
       });
     } catch (e) {

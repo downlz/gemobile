@@ -425,7 +425,7 @@ class API extends BaseRepository
     if (data['fcmkey'] !=  user.fcmkey) {
         var response = await http.put(ApiConfig.updateUserApiForGetFcmKey + user.id,
             headers: {"Content-Type": "application/json",
-              "Authorization": 'Bearer ' + await UserPreferences.getToken()},
+            "Authorization": await UserPreferences.getToken()},
             body: jsonEncode(data));
 
 //        print(response);

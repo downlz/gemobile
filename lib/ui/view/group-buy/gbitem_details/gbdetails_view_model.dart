@@ -16,12 +16,14 @@ class GBDetailsViewModel extends BaseModel {
   Bargain bargainDetail;
   User user;
   int avlQty;
+  bool sellercheck = false;
 
   Future init(Groupbuy gbitem, String id) async {
     if (isFirstTime) {
       setState(ViewState.Busy);
       gbitemDetails = gbitem;
       user = await UserPreferences.getUser();
+      sellercheck = user.isSeller;
       getAvlQty(gbitemDetails.id);
       setState(ViewState.Idle);
       isFirstTime = false;

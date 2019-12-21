@@ -11,6 +11,8 @@ class AccountViewModel extends BaseModel {
   List<BankAccount> bankacc = [];
   List<AgentBuyer> agentbuyer = [];
   User user;
+  bool checkAgent;
+  bool checkAdmin;
 
   bool isFirstTime = true;
 
@@ -34,17 +36,29 @@ class AccountViewModel extends BaseModel {
 
   Future init(String phone, String id) async {
     if (isFirstTime) {
-      getAddress(phone, id);
-      getBankAccount(id);
-      getAgentBuyer(id);
+      setState(ViewState.Busy);
+//      getAddress(phone, id);
+//      getBankAccount(id);
+//      getAgentBuyer(id);
       user = await UserPreferences.getUser();
-//      getUserDetail();
+      checkAdmin = user.isAdmin;
+      checkAgent = user.isAgent;
+      addresses = await API.getAddress(phone, id);
+      bankacc = await API.getUserBankAccount(id);
+      agentbuyer = await API.getUserAgentBuyer(id);
+
       isFirstTime = false;
+      setState(ViewState.Idle);
+      notifyListeners();
+//      getUserDetail();
+//      isFirstTime = false;
 
     }
+
   }
 
   getUserDetail() async {
     User user = await UserPreferences.getUser();
+//    user = await UserPreferences.getUser();
   }
 }

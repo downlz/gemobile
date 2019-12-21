@@ -35,7 +35,7 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
       print(widget.orderList);
       return new Scaffold(
         appBar: new AppBar(
-          title: Text('Order Detail'),
+          title: Text('Order Details'),
           backgroundColor: Colors.white,
         ),
         body: _getBody(model),

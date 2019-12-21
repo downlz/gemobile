@@ -24,7 +24,7 @@ class _ManageOrderViewState extends State<ManageOrderView> with CommonAppBar {
       model.init();
       return new Scaffold(
         appBar: new AppBar(
-          title: Text('My Orders'),
+          title: Text('Manage Orders'),
           backgroundColor: Colors.white,
         ),
         body: _getBody(model),
