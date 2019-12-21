@@ -62,7 +62,7 @@ class BaseRepository {
 
         case 'updatereq':
         return new DataException(
-            "We have improved the application.Please update the app from playstore", 14);
+            "We have improved the application.Please update the app from playstore to continue using the application", 14);
 
       default:
         return new DataException(

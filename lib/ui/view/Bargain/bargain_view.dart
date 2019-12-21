@@ -116,7 +116,7 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
                       style: TextStyle(
                           fontSize: 18, fontWeight: FontWeight.w400)),
                   Text("List Price: " +
-                      model.bargainDetail.item.price.toString() + "/" +
+                      '\u20B9' + model.bargainDetail.item.price.toString() + "/" +
                       model.bargainDetail.item.unit.mass, style: TextStyle(
                       fontSize: 18, fontWeight: FontWeight.w400)),
                   Text("Requested Qty: " +
@@ -255,15 +255,16 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Row(children: <Widget>[Text(
-                quote.sellerquote.toString(),
+                '\u20B9' + quote.sellerquote.toString(),
                 style: TextStyle(
                     fontSize: 25, color: Colors.deepOrange),
-              ), Text(
-                "/" +
-                    model.bargainDetail.item.unit.mass,
-                style: TextStyle(
-                    fontSize: 15, color: Colors.deepOrangeAccent),
               ),
+//                Text(
+//                "/" +
+//                    model.bargainDetail.item.unit.mass,
+//                style: TextStyle(
+//                    fontSize: 15, color: Colors.deepOrangeAccent),
+//              ),
               ],),
               UIHelper.verticalSpaceSmall,
               Text(
@@ -302,15 +303,16 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Row(children: <Widget>[Text(
-                quote.buyerquote.toString(),
+          '\u20B9' + quote.buyerquote.toString(),
                 style: TextStyle(
                     fontSize: 25, color: Colors.black),
-              ), Text(
-                "/" +
-                    model.bargainDetail.item.unit.mass,
-                style: TextStyle(
-                    fontSize: 15, color: Colors.grey),
               ),
+//                Text(
+//                "/" +
+//                    model.bargainDetail.item.unit.mass,
+//                style: TextStyle(
+//                    fontSize: 15, color: Colors.grey),
+//              ),
               ],),
 //              Text(
 //                quote.buyerquote.toString() + "/" +

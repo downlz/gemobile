@@ -312,6 +312,7 @@ class HomeViewModel extends BaseModel
         bannerList.clear();
       }
       getBannerItem();
+
     }
   }
 

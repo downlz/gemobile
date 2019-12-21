@@ -656,7 +656,7 @@ class API extends BaseRepository
     var data = {
       'itemId': itemId,
       'buyerId': buyerId,
-      'buyerquote': int.parse(buyerQuote),
+      'buyerquote': double.parse(buyerQuote),
       'quantity': int.parse(quantity)
     };
 //    print("itemid${itemId}");
@@ -1191,8 +1191,7 @@ class API extends BaseRepository
         headers: await ApiConfig.getHeader());
 
     if (response.statusCode == ApiConfig.successStatusCode) {
-      AppPref app_pref = AppPref.fromJson(jsonDecode(response.body[0]));
-      print(jsonDecode(response.body[0]));
+      AppPref app_pref = AppPref.fromJsonArray(jsonDecode(response.body))[0];
       return app_pref;
     }
     return null;

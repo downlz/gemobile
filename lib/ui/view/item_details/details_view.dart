@@ -175,7 +175,7 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                                             },
                                             inputFormatters: [
                                               LengthLimitingTextInputFormatter(
-                                                  4),
+                                                  6),
                                             ],
                                             onChanged: (qty) {
                                               setState(() {
@@ -226,9 +226,10 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                     ? Container(
                   margin: EdgeInsets.all(10.0),
                   child: Text(
-                    !(model.user.isSeller || model.user.isAgent) ? 'You can bargain if you want to buy more than ${model
-                        .itemDetails.bargaintrgqty} ${model.itemDetails.unit.mass}' : 'Minimum bargain quantity ${model
-                        .itemDetails.bargaintrgqty} ${model.itemDetails.unit.mass}',
+                    !(model.user.isSeller || model.user.isAgent) ?
+                    'You can bargain if you want to buy more than ${model.itemDetails.bargaintrgqty} ${model.itemDetails.unit.mass}'
+                        :
+                    'Minimum bargain quantity ${model.itemDetails.bargaintrgqty} ${model.itemDetails.unit.mass}',
                     style: TextStyle(color: Colors.blueGrey),),)
                     : Container(),
                 Container(
@@ -269,7 +270,7 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
               child: OutlineButton(
                   borderSide: BorderSide(
                       color: Colors.amber.shade500),
-                  child: const Text('Bargain View'),
+                  child: const Text('View Active Bargain'),
                   textColor: Colors.amber.shade500,
                   onPressed: () async {
                     Navigator.push(context,
@@ -303,7 +304,7 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                     },
 
                     inputFormatters: [
-                      LengthLimitingTextInputFormatter(4),
+                      LengthLimitingTextInputFormatter(8),
                     ],
                     textAlign: TextAlign.center,
                     style: AppWidget
@@ -326,7 +327,8 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                       child: const Text('Initiate Bargain'),
                       textColor: Colors.amber.shade500,
                       onPressed: () async {
-                        if (buyerQuoteFormKey.currentState.validate()) {
+//                        if (buyerQuoteFormKey.currentState.validate())
+                        {
                           model.initiateBargain(buyerQuoteController.text,
                               quantityController.text);
                         }
