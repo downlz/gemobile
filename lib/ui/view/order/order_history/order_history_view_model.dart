@@ -41,5 +41,6 @@ class OrderHistoryViewModel extends BaseModel {
 
       isFirstTime = false;
     }
+
   }
 }

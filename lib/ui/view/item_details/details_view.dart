@@ -133,7 +133,7 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                         ))),
 
 //                model.itemDetails.bargainenabled && model.bargainDetail == null
-                  model.user.isSeller
+                  model.checkSeller
                     ? Container(
                   margin: EdgeInsets.all(10.0),
                   child: Text(
@@ -226,7 +226,7 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                     ? Container(
                   margin: EdgeInsets.all(10.0),
                   child: Text(
-                    !(model.user.isSeller || model.user.isAgent) ?
+                    !(model.checkSeller || model.checkAgent) ?
                     'You can bargain if you want to buy more than ${model.itemDetails.bargaintrgqty} ${model.itemDetails.unit.mass}'
                         :
                     'Minimum bargain quantity ${model.itemDetails.bargaintrgqty} ${model.itemDetails.unit.mass}',

@@ -30,13 +30,14 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
   final buyerQuoteFormKey = GlobalKey<FormState>();
   int curretnQty = 0;
 
-  @override
-  void initState() {
-    super.initState();
-  }
+//  @override
+//  void initState() {
+//    super.initState();
+//  }
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
     return BaseView<GBDetailsViewModel>(builder: (context, model, child) {
       model.init(widget.gbitem, widget.id);
       return new Scaffold(
@@ -244,7 +245,7 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
                   margin: EdgeInsets.all(10.0),
                   child: Text(
                     'Available Quantity ${model
-                        .avlQty}',
+                        .avlQty} ${model.gbitemDetails.item.unit.mass}',
                     style: TextStyle(color: Colors.green,fontSize: 18.0,fontWeight: FontWeight.bold),),)
                     : Container(),
                 Container(

@@ -161,7 +161,7 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
                         return value.isEmpty ? 'Quote required' : null;
                       },
                       inputFormatters: [
-                        LengthLimitingTextInputFormatter(4),
+                        LengthLimitingTextInputFormatter(8),
                       ],
                       textAlign: TextAlign.center,
                       style: AppWidget.darkTextFieldTextStyle(),

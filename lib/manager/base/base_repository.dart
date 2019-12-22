@@ -6,7 +6,7 @@ class BaseRepository {
     switch (statusCode) {
       case 400:
         return new DataException(
-            "Bad Request: Missing or invalid parameter.", statusCode);
+            "Bad Request: Invalid Credentials or Missing or invalid parameter.", statusCode);
 
       case 401:
         return new DataException(

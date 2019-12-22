@@ -11,9 +11,11 @@ class GroupbuyViewModel extends BaseModel
   bool isFirstTime = true;
 
   void init() {
-    if (isFirstTime)
-    getActiveGroupBuyItems();
-    isFirstTime = false;
+    if (isFirstTime) {
+      getActiveGroupBuyItems();
+      isFirstTime = false;
+    }
+    print('GB Vat view test');
   }
 
   getActiveGroupBuyItems() async {

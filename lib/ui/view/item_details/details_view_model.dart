@@ -16,14 +16,19 @@ class DetailsViewModel extends BaseModel {
   User user;
   String itemBargainStatus;
 
+  bool checkSeller = false;
+  bool checkAgent = false;
+
+
   void init(Item item, String id) async {
     if (isFirstTime)
       if (id != null) {
         user = await UserPreferences.getUser();
+
         setState(ViewState.Busy);
         itemDetails = await API.getItemFromId(id);
         setState(ViewState.Idle);
-        isFirstTime = false;
+//        isFirstTime = false;
 //              checkBargainActiveOrNot(false);
 
 
@@ -33,11 +38,14 @@ class DetailsViewModel extends BaseModel {
           itemDetails = item;
           user = await UserPreferences.getUser();
           getItemDetails(itemDetails.id);
-          isFirstTime = false;
+//          isFirstTime = false;
           checkBargainActiveOrNot(true);
         }
       }
-
+    checkSeller = user.isSeller;
+    checkAgent = user.isAgent;
+    isFirstTime = false;
+    print('item details loop');
   }
 
   void getItemDetails(String id) async {

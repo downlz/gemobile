@@ -22,15 +22,16 @@ class CategoryView extends StatefulWidget {
 
 class _CategoryViewState extends State<CategoryView> with CommonAppBar {
 
-  @override
-  void initState() {
-    super.initState();
-  }
+//  @override
+//  void initState() {
+//    super.initState();
+//  }
 
   @override
   Widget build(BuildContext context) {
     return BaseView<CategoryViewModel>(builder: (context, model, child) {
       model.init(widget.itemName.id);
+//      WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
       return new Scaffold(
         appBar: new AppBar(
           title: Text(widget.itemName.name),
@@ -38,6 +39,7 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
         ),
         body: _getBody(model),
       );
+
     });
   }
 
@@ -68,7 +70,6 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
 
   getCategoryWidget(CategoryViewModel model) {
     return
-
       model.items.length <= 0
         ? WidgetUtils.showMessageAtCenterOfTheScreen('No items found')
         : SingleChildScrollView(
@@ -194,16 +195,4 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                 }),
           );
   }
-
-
-//  Future _launchEmail(Item item) async {
-//    launch('mailto:?subject=${"ItemName: " +                                  // Modified to remove email to trade@graineasy.com
-//        item.name}&body=${item.name + "/" + item.category.name + "\n" +
-//        item.image}');
-//  }
-//
-//  Future _launchWhatsApp(Item item) async {
-//    FlutterShareMe().shareToWhatsApp(
-//        msg: item.name + "/" + item.category.name + "\n" + item.image);
-//  }
 }

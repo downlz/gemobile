@@ -24,13 +24,14 @@ class GBDetailsViewModel extends BaseModel {
       gbitemDetails = gbitem;
       user = await UserPreferences.getUser();
       sellercheck = user.isSeller;
-      getAvlQty(gbitemDetails.id);
+      await getAvlQty(gbitemDetails.id);
       setState(ViewState.Idle);
       isFirstTime = false;
     }
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState((ViewState.Idle)));
   }
 
-  void getAvlQty(String id) async {
+  Future getAvlQty(String id) async {
 
     setState(ViewState.Busy);
     avlQty = await API.getAvlQty(id);
@@ -61,23 +62,23 @@ class GBDetailsViewModel extends BaseModel {
   }
 
 
-  Future initiateBargain(String buyerQuote, String quantity) async {
-    setState(ViewState.Busy);
-    await API.createBargainRequest(
-        itemDetails.id, user.id, buyerQuote, quantity);
-    checkBargainActiveOrNot(false);
-  }
+//  Future initiateBargain(String buyerQuote, String quantity) async {
+//    setState(ViewState.Busy);
+//    await API.createBargainRequest(
+//        itemDetails.id, user.id, buyerQuote, quantity);
+////    checkBargainActiveOrNot(false);
+//  }
 
 
-  Future checkBargainActiveOrNot(bool showProgress) async
-  {
-    if (showProgress)
-      setState(ViewState.Busy);
-    bargainDetail = !user.isSeller ?
-    await API.checkBuyerRequestActiveOrNot(itemDetails.id, user.id) :
-    await API.checkSellerRequestActiveOrNot(
-        itemDetails.id, itemDetails.seller.id);
-    setState(ViewState.Idle);
-  }
+//  Future checkBargainActiveOrNot(bool showProgress) async
+//  {
+//    if (showProgress)
+//      setState(ViewState.Busy);
+//    bargainDetail = !user.isSeller ?
+//    await API.checkBuyerRequestActiveOrNot(itemDetails.id, user.id) :
+//    await API.checkSellerRequestActiveOrNot(
+//        itemDetails.id, itemDetails.seller.id);
+//    setState(ViewState.Idle);
+//  }
 }
 

@@ -240,7 +240,7 @@ class HomeViewModel extends BaseModel
       onResume: (Map<String, dynamic> message) async {
         print('on resume $message');
         var notification = message['data'];
-        API.updateUserApiToGetFCMKey();
+        await API.updateUserApiToGetFCMKey();
         print('resume message data========>' + notification);
         return showDialog(
           context: context,
@@ -265,7 +265,7 @@ class HomeViewModel extends BaseModel
       onLaunch: (Map<String, dynamic> message) async {
         print('on launch $message');
         var notification = message['data'];
-        API.updateUserApiToGetFCMKey();
+        await API.updateUserApiToGetFCMKey();
         print('launch message data========>' + notification);
         return showDialog(
           context: context,
@@ -314,6 +314,7 @@ class HomeViewModel extends BaseModel
       getBannerItem();
 
     }
+//    WidgetsBinding.instance.addPostFrameCallback((_) => setState((ViewState.Idle)));
   }
 
   getRecentlyAddedItem() async {

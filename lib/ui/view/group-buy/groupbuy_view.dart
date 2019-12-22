@@ -21,10 +21,10 @@ class GroupbuyView extends StatefulWidget {
 
 class _GroupbuyViewState extends State<GroupbuyView> with CommonAppBar {
 
-  @override
-  void initState() {
-    super.initState();
-  }
+//  @override
+//  void initState() {
+//    super.initState();
+//  }
 
   @override
   Widget build(BuildContext context) {
