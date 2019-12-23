@@ -14,7 +14,7 @@ class ManageOrderDetailViewModel extends BaseModel {
   bool isFirstTime = true;
   Order order;
 
-  Future init(String id, Order orderList) async {
+  init(String id, Order orderList) async {
     if (isFirstTime) {
       if (id != null) {
         setState(ViewState.Busy);

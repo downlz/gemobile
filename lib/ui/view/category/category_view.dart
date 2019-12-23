@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_share_me/flutter_share_me.dart';
+import 'package:graineasy/helpers/common/sharing.dart';
 import 'package:graineasy/manager/base/base_view.dart';
-import 'package:graineasy/model/Item.dart';
 import 'package:graineasy/model/itemname.dart';
 import 'package:graineasy/ui/view/item_details/details_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:graineasy/helpers/common/sharing.dart';
 
 import 'category_view_model.dart';
 
@@ -109,6 +106,20 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                                     children: <Widget>[
                                       model.items[index].bargainenabled == true
                                           ? Container(
+                                        padding: EdgeInsets.all(3),
+                                        decoration: new BoxDecoration(
+                                            border: Border.all(
+                                                color: Colors.white),
+                                            borderRadius: new BorderRadius.only(
+                                                topLeft: const Radius.circular(
+                                                    40.0),
+                                                bottomLeft: const Radius
+                                                    .circular(40.0),
+                                                bottomRight: const Radius
+                                                    .circular(40.0),
+                                                topRight: const Radius.circular(
+                                                    40.0))
+                                        ),
                                         alignment: Alignment.topLeft,
                                         child: Text('Bargain Enabled',
                                           style: TextStyle(color: Colors.white,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graineasy/helpers/functions/orders.dart';
 import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/model/order.dart';
@@ -8,7 +9,6 @@ import 'package:graineasy/ui/theme/text_style.dart';
 import 'package:graineasy/ui/validation/validation.dart';
 import 'package:graineasy/ui/view/manage_order_detail/manage_order_detail_model.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
-import 'package:graineasy/helpers/functions/orders.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:graineasy/utils/check_internet/utility.dart';
 import 'package:graineasy/utils/ui_helper.dart';
@@ -27,11 +27,6 @@ class ManageOrderDetailView extends StatefulWidget {
 class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
   String status;
   final orderKey = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -232,7 +227,7 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
             padding: const EdgeInsets.only(left: 10, top: 3),
             child: new Text(
               "Order Date: " +
-                  Utility.dateTimeToString(model.order.placedTime),
+                  Utility.dateToString(model.order.placedTime),
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,

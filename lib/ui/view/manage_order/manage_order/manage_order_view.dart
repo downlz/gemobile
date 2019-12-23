@@ -98,7 +98,7 @@ class _ManageOrderViewState extends State<ManageOrderView> with CommonAppBar {
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     'Ordered On :' +
-                                        Utility.dateTimeToString(
+                                        Utility.dateToString(
                                             model.orderList[ind].placedTime),
                                     style: TextStyle(
                                         fontSize: 13.0, color: Colors.black54),

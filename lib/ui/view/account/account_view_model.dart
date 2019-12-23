@@ -2,15 +2,14 @@ import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/basemodel.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/address.dart';
-import 'package:graineasy/model/bankaccount.dart';
 import 'package:graineasy/model/agentbuyer.dart';
+import 'package:graineasy/model/bankaccount.dart';
 import 'package:graineasy/model/user.dart';
-import 'package:flutter/scheduler.dart';
 
 
 class AccountViewModel extends BaseModel {
   List<Address> addresses = [];
-  List<BankAccount> bankacc = [];
+  List<BankAccount> bankacc;
   List<AgentBuyer> agentbuyer = [];
   User user;
   bool checkAgent;
@@ -18,27 +17,28 @@ class AccountViewModel extends BaseModel {
 
   bool isFirstTime = true;
 
-  Future init(String phone, String id) async {
+  init(String phone, String id) async {
     if (isFirstTime) {
-      setState(ViewState.Busy);
 //      await getAddress(phone, id);
 //      await getBankAccount(id);
 //      await getAgentBuyer(id);
       user = await UserPreferences.getUser();
       checkAdmin = user.isAdmin;
       checkAgent = user.isAgent;
-      addresses = await API.getAddress(phone, id);
-      bankacc = await API.getUserBankAccount(id);
-      agentbuyer = await API.getUserAgentBuyer(id);
+//      addresses = await API.getAddress(phone, id);
+//      bankacc = await API.getUserBankAccount(id);
+//      agentbuyer = await API.getUserAgentBuyer(id);
+      getAddress(phone, id);
+      getBankAccount(id);
+      getAgentBuyer(id);
 
-      setState(ViewState.Idle);
       isFirstTime = false;
 //      notifyListeners();
 //      getUserDetail();
 //      isFirstTime = false;
 
     }
-    SchedulerBinding.instance.addPostFrameCallback((_) => setState((ViewState.Idle)));
+//    SchedulerBinding.instance.addPostFrameCallback((_) => setState((ViewState.Idle)));
 //    WidgetsBinding.instance.addPostFrameCallback((_) => setState((ViewState.Idle)));
   }
 
@@ -60,8 +60,8 @@ class AccountViewModel extends BaseModel {
     setState(ViewState.Idle);
   }
 
-  Future getUserDetail() async {
-    User user = await UserPreferences.getUser();
+//  Future getUserDetail() async {
+////    User user = await UserPreferences.getUser();
 //    user = await UserPreferences.getUser();
-  }
+//  }
 }

@@ -7,9 +7,8 @@ import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/basemodel.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
-import 'package:graineasy/model/bannerItem.dart';
-import 'package:graineasy/model/groupbuy.dart';
 import 'package:graineasy/model/MostOrderedItem.dart';
+import 'package:graineasy/model/bannerItem.dart';
 import 'package:graineasy/model/itemname.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/view/Bargain/bargain_view.dart';
@@ -296,12 +295,12 @@ class HomeViewModel extends BaseModel
     getRecentlyAddedItem();
   }
 
-  Future userDetail() async {
+  userDetail() async {
     user = await UserPreferences.getUser();
     agentCheck = user.isAgent;
   }
 
-  void init() {
+  init() {
     if(isFirstTime) {
       userDetail();
       getItemName();

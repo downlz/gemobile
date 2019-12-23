@@ -174,7 +174,7 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
             padding: const EdgeInsets.only(left: 10, top: 3),
             child: new Text(
               "Order Date: " +
-                  Utility.dateTimeToString(model.order.placedTime),
+                  Utility.dateToString(model.order.placedTime),
 //                DateFormat("dd-MM-yyyy hh:mm a").format(DateTime.parse(model.order.placedTime));
               style: TextStyle(
                   fontSize: 16.0,

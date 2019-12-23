@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:graineasy/helpers/common/sharing.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
-import 'package:graineasy/model/Item.dart';
 import 'package:graineasy/model/MostOrderedItem.dart';
 import 'package:graineasy/model/bannerItem.dart';
 import 'package:graineasy/model/user.dart';
@@ -22,10 +22,8 @@ import 'package:graineasy/ui/view/search/search_item_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:graineasy/helpers/common/sharing.dart';
 
 import '../../../help_screen.dart';
-import '../../../setting_screen.dart';
 import 'home_view_model.dart';
 
 
@@ -427,7 +425,7 @@ class _HomeViewState extends State<HomeView>
     return new GridView.builder(
         itemCount: model.recentItem.length,
         shrinkWrap: true,
-//        physics: NeverScrollableScrollPhysics(),
+        physics: NeverScrollableScrollPhysics(),
         gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2),
         itemBuilder: (BuildContext context, int index) {
