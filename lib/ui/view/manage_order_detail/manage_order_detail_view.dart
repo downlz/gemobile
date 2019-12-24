@@ -16,6 +16,8 @@ import 'package:graineasy/utils/check_internet/utility.dart';
 import 'package:graineasy/utils/ui_helper.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:graineasy/manager/api_call/api_config/api_config.dart';
 
 const URL = "https://graineasy.com";
 
@@ -136,8 +138,10 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
                 GestureDetector(child: Container(padding: EdgeInsets.only(left: 10),
                   alignment:Alignment.centerLeft,
                   child: Text(model.order!=null && model.order.manualbill!=null?"Uploaded Image: "+model.order.manualbill.filename:''),),
-                  onTap: (){print('data');
-                  model.downloadImage(model);
+                  onTap: (){
+//                  print('data');
+//                  model.downloadImage(model);
+                  launch(ApiConfig.baseURL+'uploadbill/'+ model.order.id);
                   },),
 
                 Container(
