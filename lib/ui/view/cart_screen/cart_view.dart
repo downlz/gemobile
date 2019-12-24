@@ -14,6 +14,7 @@ import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:graineasy/ui/theme/text_style.dart';
 import 'package:graineasy/utils/ui_helper.dart';
 
+
 const URL = "https://graineasy.com";
 
 class CartView extends StatefulWidget {

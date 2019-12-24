@@ -28,7 +28,7 @@ class ApiConfig {
   static String createOrder = baseURL + 'order';
   static String getAddressByIdAndPhone = baseURL + 'address/byuser/phone/';       // Replaced with getUserAddresses,No longer needed
   static String updateOrderStatus = baseURL + 'order/';
-  static String addManualBill = baseURL + 'uploadbill/';
+  static String uploadBill = baseURL + 'uploadbill';
   static String updateManualBill = baseURL + 'uploadbill/';
   static String getManualBill = baseURL + 'uploadbill/';
   static String getUserOrders = baseURL + 'order/user/';
@@ -98,5 +98,13 @@ class ApiConfig {
       "Content-Type": "application/json",
       "Authorization": await UserPreferences.getToken()};
   }
+  static getHeaderWithAccept() async
+  {
+    return {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": await UserPreferences.getToken()};
+  }
+
 
 }

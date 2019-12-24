@@ -2,6 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:convert' as convert;
 import 'dart:io';
+import 'package:dio/dio.dart';
+import 'package:path/path.dart';
+import 'package:async/async.dart';
+import 'dart:io';
 
 import 'package:device_info/device_info.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -29,6 +33,7 @@ import 'package:graineasy/model/usermodel.dart';
 import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 import 'api_config/api_config.dart';
 
@@ -567,33 +572,37 @@ class API extends BaseRepository
   }
 
 
-  static Future<List<StateObject>> getManualOrderBill(String id) async {
+  static Future<Order> downloadBill(String id) async {
     var response = await http.get(ApiConfig.getManualBill + id,
-        headers: await ApiConfig.getHeader());
-//    print(response.body);
+        headers: await ApiConfig.getHeaderWithTokenAndContentType());
+    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
-      // Add Code to read output json for bill link
-//      List<StateObject> items = StateObject.fromJsonArray(
-//          jsonDecode(response.body));
-//      print('sadasassa->${items.length}');
-//      return items;
+      Order order = Order.fromJson(jsonDecode(response.body));
+      print('sadasassa->${order.id}');
+      return order;
     }
-    return [];
+    return null;
   }
 
-  static Future<List<StateObject>> uploadManualOrderBill(String id) async {
-    var response = await http.post(ApiConfig.addManualBill + id,
-        headers: await ApiConfig.getHeader());
-//    print(response.body);
-    if (response.statusCode == ApiConfig.successStatusCode) {
-      // Add Code to add a file to an order
-//      List<StateObject> items = StateObject.fromJsonArray(
-//          jsonDecode(response.body));
-//      print('sadasassa->${items.length}');
-//      return items;
-    }
-    return [];
+  static  uploadOrderBill(File file,String orderId) async {
+    var request = http.MultipartRequest("POST", Uri.parse(ApiConfig.uploadBill));
+    //add text fields
+    request.fields["orderId"] = orderId;
+     var pic = await http.MultipartFile.fromPath("myFile", file.path);
+    //add multipart to request
+    request.files.add(pic);
+    request.headers.addAll({ "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": await UserPreferences.getToken()});
+
+    var response = await request.send();
+
+    //Get the response from the server
+    var responseData = await response.stream.toBytes();
+    var responseString = String.fromCharCodes(responseData);
+    print(responseString);
   }
+
 
   static Future<List<StateObject>> updateManualOrderBill(String id) async {
     var response = await http.put(ApiConfig.updateManualBill + id,

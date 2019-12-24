@@ -277,7 +277,8 @@ class _HomeViewState extends State<HomeView>
                   trailing: Icon(
                     Icons.arrow_forward, color: Palette.assetColor,),
 
-                  onTap: () {
+                  onTap: () async {
+
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) =>
                             ManageOrderView()));
