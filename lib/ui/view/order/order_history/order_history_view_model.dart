@@ -14,8 +14,8 @@ class OrderHistoryViewModel extends BaseModel {
   var isPageLoading = false;
 
   getOrders(String id, List<Order> order, int present, int perPage) async {
-    setState(ViewState.Busy);
     User user = await UserPreferences.getUser();
+    setState(ViewState.Busy);
     if (user.isSeller || user.isBuyer) {
       orderList = await API.getUserOrders(user.id);
     } else if (user.isAdmin){
@@ -32,15 +32,13 @@ class OrderHistoryViewModel extends BaseModel {
       present = present + perPage;
     }
     setState(ViewState.Idle);
-    notifyListeners();
+//    notifyListeners();
   }
 
-  void init(String id, List<Order> order, int perPage, int present) {
+  init(String id, List<Order> order, int perPage, int present) {
     if (isFirstTime) {
       getOrders(id, order, present, perPage);
-
       isFirstTime = false;
     }
-
   }
 }

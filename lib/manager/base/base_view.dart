@@ -25,7 +25,7 @@ class _BaseViewState<T extends ChangeNotifier> extends State<BaseView<T>>
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+//    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
     return ChangeNotifierProvider<T>(
       builder: (context) {
         if (model is BaseModel) {

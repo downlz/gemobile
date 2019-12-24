@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/model/order.dart';
 import 'package:graineasy/ui/theme/palette.dart';
+import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/ui/view/order/order_history/order_history_view_model.dart';
 import 'package:graineasy/ui/view/order_detail/order_detail_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
-import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/utils/check_internet/utility.dart';
 
 const URL = "https://graineasy.com";
@@ -130,7 +130,7 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
                               alignment: Alignment.topLeft,
                               child: Text(
                                 'Ordered On :' +
-                                    Utility.dateTimeToString(
+                                    Utility.dateToString(
                                         model.orderList[ind].placedTime),
                                 style: TextStyle(
                                     fontSize: 13.0, color: Colors.black54),

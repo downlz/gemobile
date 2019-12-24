@@ -3,9 +3,9 @@ import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/basemodel.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
-import 'package:graineasy/model/groupbuy.dart';
 import 'package:graineasy/model/bargain.dart';
 import 'package:graineasy/model/gbcart_item.dart';
+import 'package:graineasy/model/groupbuy.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/view/gbcart_screen/gbcart_view.dart';
 
@@ -18,20 +18,18 @@ class GBDetailsViewModel extends BaseModel {
   int avlQty;
   bool sellercheck = false;
 
-  Future init(Groupbuy gbitem, String id) async {
+  init(Groupbuy gbitem, String id) async {
     if (isFirstTime) {
-      setState(ViewState.Busy);
       gbitemDetails = gbitem;
       user = await UserPreferences.getUser();
       sellercheck = user.isSeller;
-      await getAvlQty(gbitemDetails.id);
-      setState(ViewState.Idle);
+      getAvlQty(gbitemDetails.id);
       isFirstTime = false;
     }
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState((ViewState.Idle)));
+//    WidgetsBinding.instance.addPostFrameCallback((_) => setState((ViewState.Idle)));
   }
 
-  Future getAvlQty(String id) async {
+  getAvlQty(String id) async {
 
     setState(ViewState.Busy);
     avlQty = await API.getAvlQty(id);

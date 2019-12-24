@@ -1,12 +1,20 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/basemodel.dart';
+import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/order.dart';
+import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/view/manage_order/manage_order/manage_order_view.dart';
+import 'package:path/path.dart' as path;
 
 class ManageOrderDetailViewModel extends BaseModel {
   String selectedOrderStatus;
-
+  File filePath;
+  User user;
+  User users;
   bool isListEmpty = false;
   TextEditingController remarkController = new TextEditingController();
   var remarkFocus = new FocusNode();
@@ -14,7 +22,8 @@ class ManageOrderDetailViewModel extends BaseModel {
   bool isFirstTime = true;
   Order order;
 
-  Future init(String id, Order orderList) async {
+
+  init(String id, Order orderList) async {
     if (isFirstTime) {
       if (id != null) {
         setState(ViewState.Busy);
@@ -24,7 +33,9 @@ class ManageOrderDetailViewModel extends BaseModel {
 //        print('orderId===========>${this.order.status}');
         isFirstTime = false;
       }
+      userDetail();
       this.order = orderList;
+      print(order.id);
     }
   }
   updateStatus(String id) async {
@@ -34,5 +45,37 @@ class ManageOrderDetailViewModel extends BaseModel {
     Navigator.pop(context);
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => ManageOrderView()));
+  }
+
+   uploadFile(ManageOrderDetailViewModel model)
+  async {
+    String filePaths=filePath.path;
+    String fileExtension=path.extension(filePaths);
+    String fileName=path.basename(filePaths);
+    String base64Image = base64Encode(filePath.readAsBytesSync());
+
+    print(filePaths+fileExtension+fileName);
+    setState(ViewState.Busy);
+    await API.uploadOrderBill(filePath, order.id);
+    setState(ViewState.Idle);
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                ManageOrderView()));
+  }
+
+
+  userDetail() async {
+    user = await UserPreferences.getUser();
+    API.user = user;
+  }
+
+   downloadImage(ManageOrderDetailViewModel model)
+  async {
+    setState(ViewState.Busy);
+    Order orders;
+    await API.downloadBill(order.id);
+    setState(ViewState.Idle);
   }
 }
