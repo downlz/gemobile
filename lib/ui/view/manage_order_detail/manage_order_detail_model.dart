@@ -10,6 +10,7 @@ import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/view/manage_order/manage_order/manage_order_view.dart';
 import 'package:path/path.dart' as path;
 
+
 class ManageOrderDetailViewModel extends BaseModel {
   String selectedOrderStatus;
   File filePath;
@@ -30,7 +31,6 @@ class ManageOrderDetailViewModel extends BaseModel {
         orderList = await API.getOrderById(id);
         setState(ViewState.Idle);
         this.order = orderList;
-//        print('orderId===========>${this.order.status}');
         isFirstTime = false;
       }
       userDetail();
@@ -47,7 +47,7 @@ class ManageOrderDetailViewModel extends BaseModel {
         context, MaterialPageRoute(builder: (context) => ManageOrderView()));
   }
 
-   uploadFile(ManageOrderDetailViewModel model)
+  uploadBill(ManageOrderDetailViewModel model)
   async {
     String filePaths=filePath.path;
     String fileExtension=path.extension(filePaths);
@@ -71,11 +71,4 @@ class ManageOrderDetailViewModel extends BaseModel {
     API.user = user;
   }
 
-   downloadImage(ManageOrderDetailViewModel model)
-  async {
-    setState(ViewState.Busy);
-    Order orders;
-    await API.downloadBill(order.id);
-    setState(ViewState.Idle);
-  }
 }

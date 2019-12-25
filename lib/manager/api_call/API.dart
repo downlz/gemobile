@@ -2,10 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:convert' as convert;
 import 'dart:io';
-import 'package:dio/dio.dart';
-import 'package:path/path.dart';
-import 'package:async/async.dart';
-import 'dart:io';
 
 import 'package:device_info/device_info.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -15,25 +11,24 @@ import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
 import 'package:graineasy/model/MostOrderedItem.dart';
 import 'package:graineasy/model/address.dart';
-import 'package:graineasy/model/bankaccount.dart';
 import 'package:graineasy/model/agentbuyer.dart';
+import 'package:graineasy/model/app_pref.dart';
+import 'package:graineasy/model/bankaccount.dart';
 import 'package:graineasy/model/bannerItem.dart';
 import 'package:graineasy/model/bargain.dart';
 import 'package:graineasy/model/cart_item.dart';
-import 'package:graineasy/model/gbcart_item.dart';
 import 'package:graineasy/model/city.dart';
+import 'package:graineasy/model/gbcart_item.dart';
 import 'package:graineasy/model/groupbuy.dart';
 import 'package:graineasy/model/itemname.dart';
 import 'package:graineasy/model/manufacturer.dart';
 import 'package:graineasy/model/order.dart';
-import 'package:graineasy/model/app_pref.dart';
 import 'package:graineasy/model/state.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/model/usermodel.dart';
 import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 
 import 'api_config/api_config.dart';
 
@@ -572,18 +567,6 @@ class API extends BaseRepository
   }
 
 
-  static Future<Order> downloadBill(String id) async {
-    var response = await http.get(ApiConfig.getManualBill + id,
-        headers: await ApiConfig.getHeaderWithTokenAndContentType());
-    print(response.body);
-    if (response.statusCode == ApiConfig.successStatusCode) {
-      Order order = Order.fromJson(jsonDecode(response.body));
-      print('sadasassa->${order.id}');
-      return order;
-    }
-    return null;
-  }
-
   static  uploadOrderBill(File file,String orderId) async {
     var request = http.MultipartRequest("POST", Uri.parse(ApiConfig.uploadBill));
     //add text fields
@@ -858,6 +841,7 @@ class API extends BaseRepository
         completer.complete(message);
       },
     );
+    completer.complete();
     return completer.future;
   }
 
