@@ -1,5 +1,6 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:intl/intl.dart';
+import 'package:jiffy/jiffy.dart';
 
 
 class Utility
@@ -23,6 +24,10 @@ class Utility
   }
 
   static String dateToString(DateTime dateTime) {
-    return DateFormat('dd-MM-yyyy hh:mm a').format(dateTime);
+    var updateTime = Jiffy(dateTime).add(
+        hours: 5, minutes: 30); // 2018-08-16 12:00:00.000Z
+    return DateFormat('dd-MM-yyyy hh:mm a').format(updateTime);
+
+
   }
 }

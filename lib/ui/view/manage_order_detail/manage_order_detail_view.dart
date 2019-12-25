@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:graineasy/helpers/functions/orders.dart';
 import 'package:graineasy/manager/api_call/API.dart';
+import 'package:graineasy/manager/api_call/api_config/api_config.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/model/order.dart';
 import 'package:graineasy/ui/theme/app_responsive.dart';
@@ -14,10 +16,8 @@ import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:graineasy/utils/check_internet/utility.dart';
 import 'package:graineasy/utils/ui_helper.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:graineasy/manager/api_call/api_config/api_config.dart';
 
 const URL = "https://graineasy.com";
 
@@ -131,172 +131,69 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
                 ? getTextFormField(model)
                 : Container(),
           ),
-          API.user!=null && API.user.isAdmin==true?Container(
+          API.user != null && API.user.isAdmin == true && model.order != null &&
+              model.order.status != 'cancelled' ? Container(
             padding: const EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 10),
             child: Column(
               children: <Widget>[
-                GestureDetector(child: Container(padding: EdgeInsets.only(left: 10),
-                  alignment:Alignment.centerLeft,
-                  child: Text(model.order!=null && model.order.manualbill!=null?"Uploaded Image: "+model.order.manualbill.filename:''),),
-                  onTap: (){
-//                  print('data');
-//                  model.downloadImage(model);
+                Container(padding: EdgeInsets.only(left: 10),
+                  alignment: Alignment.centerLeft,
+                  child: RaisedButton(onPressed: () {
                   launch(ApiConfig.baseURL+'uploadbill/'+ model.order.id);
-                  },),
+                  },
+                    child: Text.rich(
+                      TextSpan(
+                        text: 'Bill Uploaded By ',
+                        style: TextStyle(fontSize: 12),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: model.order.seller.isSeller == true
+                                ? 'Seller :'
+                                : 'Admin :',
+                          ),
+                          TextSpan(
+                              text: 'Get Bill',
+                              style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  color: Colors.blue
+                              )),
+                        ],
+                      ),
+                    ),),),
 
-                Container(
-                  padding: const EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 10),
-                  child: Column(mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Align(alignment: Alignment.bottomLeft,child: Container(width: 180,child: Text(model.filePath!=null?model.filePath.path:'No File Selected'),)),
-                  Container(child: RaisedButton(
-                    color: Palette.assetColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7)),
-                    child: Text('Upload',textAlign: TextAlign.center,
-                        style: AppTextStyle.drawerText(false, Palette.whiteTextColor, 12)),
-                    onPressed: (){
-                      return showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          // return object of type Dialog
-                          return SimpleDialog(
-                            title: new Text('Select the Option'),
-                            children: <Widget>[
-                              // usually buttons at the bottom of the dialog
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-
-                                  Container(child: RaisedButton(onPressed: (){openImage(model);
-
-                                  },
-                                    color: Palette.assetColor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(7)),
-                                    child: Text('Image Upload',textAlign: TextAlign.center,
-                                        style: AppTextStyle.drawerText(false, Palette.whiteTextColor, 12)),),
-                                  ),
-                                  Container(child: RaisedButton(onPressed: (){openImage(model);},
-                                    color: Palette.assetColor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(7)),
-                                    child: Text('Image Upload',textAlign: TextAlign.center,
-                                        style: AppTextStyle.drawerText(false, Palette.whiteTextColor, 12)),),
-                                  ),
-                                  Container(child: RaisedButton(onPressed: (){openImage(model);},
-                                    color: Palette.assetColor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(7)),
-                                    child: Text('Image Upload',textAlign: TextAlign.center,
-                                        style: AppTextStyle.drawerText(false, Palette.whiteTextColor, 12)),),
-                                  ),
-                                ],)
-                            ],
-                          );
-                        },
-                      );
-                    },),
-//                      Padding(
-//                        padding: const EdgeInsets.only(top: 15),
-//                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                          children: <Widget>[
-//                            Container(child: RaisedButton(onPressed: (){openImage(model);},
-//                              color: Palette.assetColor,
-//                              shape: RoundedRectangleBorder(
-//                                  borderRadius: BorderRadius.circular(7)),
-//                              child: Text('Image Upload',textAlign: TextAlign.center,
-//                                  style: AppTextStyle.drawerText(false, Palette.whiteTextColor, 12)),),
-//                              width: 100,),
-//                            Container(width: 100,
-//                              child: RaisedButton(onPressed: (){openCamera(ImageSource.camera, model);},
-//                                color: Palette.assetColor,
-//                                shape: RoundedRectangleBorder(
-//                                    borderRadius: BorderRadius.circular(7)),
-//                                child: Text('Camera Upload',textAlign: TextAlign.center, style: AppTextStyle.drawerText(false, Palette.whiteTextColor, 12)),),
-//                            ),
-//                            Container(width: 100,
-//                              child: RaisedButton(onPressed: (){openPdf(model);},
-//                                color: Palette.assetColor,
-//                                shape: RoundedRectangleBorder(
-//                                    borderRadius: BorderRadius.circular(7)),
-//                                child: Text('PDF   Upload',textAlign: TextAlign.center,
-//                                    style: AppTextStyle.drawerText(false, Palette.whiteTextColor, 12)),),
-//                            )
-//                          ],),
-                      )
-                    ],
-                  ),
-                )
+                showUploadDialog(model)
               ],
             ),
-          ):Column(children: <Widget>[
-            GestureDetector(child: Container(padding: EdgeInsets.only(left: 10),alignment:Alignment.centerLeft,child: Text(model.order!=null && model.order.manualbill!=null?model.order.manualbill.filename:''),),
-            onTap: (){print('data');
-            model.downloadImage(model);
-            },),
-            model.order.manualbill==null?Container(
-              padding: const EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 10),
-              child: Column(mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Align(alignment: Alignment.bottomLeft,child: Container(width: 180,child: Text(model.filePath!=null?model.filePath.path:'No File Selected'),)),
-                 Container(child: RaisedButton(
-                   color: Palette.assetColor,
-                   shape: RoundedRectangleBorder(
-                       borderRadius: BorderRadius.circular(7)),
-                   child: Text('Upload',textAlign: TextAlign.center,
-                       style: AppTextStyle.drawerText(false, Palette.whiteTextColor, 12)),
-                 onPressed: (){
-                  return showDialog(
-                     context: context,
-                     builder: (BuildContext context) {
-                       // return object of type Dialog
-                       return SimpleDialog(
-                         title: new Text('Select the Option'),
-                         children: <Widget>[
-                           // usually buttons at the bottom of the dialog
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-
-                              Container(child: RaisedButton(onPressed: (){openImage(model);
-
-                              },
-                                color: Palette.assetColor,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(7)),
-                                child: Text('Image Upload',textAlign: TextAlign.center,
-                                    style: AppTextStyle.drawerText(false, Palette.whiteTextColor, 12)),),
-                              ),
-                              Container(child: RaisedButton(onPressed: (){openImage(model);},
-                                color: Palette.assetColor,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(7)),
-                                child: Text('Image Upload',textAlign: TextAlign.center,
-                                    style: AppTextStyle.drawerText(false, Palette.whiteTextColor, 12)),),
-                              ),
-                              Container(child: RaisedButton(onPressed: (){openImage(model);},
-                                color: Palette.assetColor,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(7)),
-                                child: Text('Image Upload',textAlign: TextAlign.center,
-                                    style: AppTextStyle.drawerText(false, Palette.whiteTextColor, 12)),),
-                              ),
-                            ],)
-                         ],
-                       );
-                     },
-                   );
-                 },),
-                   width: 100,)
+          ) : model.order != null && model.order.status != "cancelled" ? Column(
+            children: <Widget>[
+              model.order != null && model.order.manualbill != null ? Container(
+                padding: EdgeInsets.only(left: 10),
+                alignment: Alignment.centerLeft,
+                child: RaisedButton(onPressed: () {
+                  launch(ApiConfig.baseURL + 'uploadbill/' + model.order.id);
+                },
+                  child: Text.rich(
+                    TextSpan(
+                      text: 'Bill Uploaded By ',
+                      style: TextStyle(fontSize: 12),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: model.order.seller.isSeller == true
+                              ? 'Seller :'
+                              : 'Admin :',
+                        ),
+                        TextSpan(
+                            text: 'Get Bill',
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.blue
+                            )),
+                        // can add more TextSpans here...
                 ],
               ),
-            ):Container()
-          ],),
+                  ),),) :
+              showUploadDialog(model)
+            ],) : Container(),
           updateOrderButton(model)
         ],
       ),
@@ -509,7 +406,7 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
       model.filePath=file;
       print('filePath===>${file}');
     });
-    model.uploadFile(model);
+    model.uploadBill(model);
     Navigator.pop(context);
 
   }
@@ -522,7 +419,7 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
       model.filePath=file;
       print('filePath===>${file}');
     });
-    model.uploadFile(model);
+    model.uploadBill(model);
     Navigator.pop(context);
   }
   openCamera(ImageSource source, ManageOrderDetailViewModel model) async {
@@ -531,9 +428,87 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
     setState(() {
       model.filePath = image;
     });
-    model.uploadFile(model);
+    model.uploadBill(model);
     Navigator.pop(context);
 
+  }
+
+  showUploadDialog(ManageOrderDetailViewModel model) {
+    return Container(
+      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+      child: Row(mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Align(alignment: Alignment.bottomLeft,
+              child: Container(width: 180, child: Text('Upload Bill: ',
+                  style: AppTextStyle.drawerText(
+                      false, Palette.assetColor, 15)),)),
+          Container(child: RaisedButton(
+            color: Palette.assetColor,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(7)),
+            child: Text('Upload', textAlign: TextAlign.center,
+                style: AppTextStyle.drawerText(
+                    false, Palette.whiteTextColor, 12)),
+            onPressed: () {
+              return showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  // return object of type Dialog
+                  return SimpleDialog(
+                    title: new Text(
+                        'Upload Bill: ', style: AppTextStyle.drawerText(true,
+                        Palette.assetColor, 17)),
+                    children: <Widget>[
+                      // usually buttons at the bottom of the dialog
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+
+                          GestureDetector(
+                            child: Container(margin: EdgeInsets.only(left: 25),
+                                child: Text('Image',
+                                  style: AppTextStyle.drawerText(
+                                      false, Palette.assetColor, 15),)
+                            ),
+                            onTap: () {
+                              openImage(model);
+                            },
+                          ),
+                          GestureDetector(
+                            child: Container(
+                                margin: EdgeInsets.only(left: 25, top: 10),
+                                child: Text('Camera',
+                                  style: AppTextStyle.drawerText(
+                                      false, Palette.assetColor, 15),)
+                            ),
+                            onTap: () {
+                              openCamera(ImageSource.camera, model);
+                            },
+                          ),
+                          GestureDetector(
+                            child: Container(
+                                margin: EdgeInsets.only(left: 25, top: 10),
+                                child: Text('PDF',
+                                  style: AppTextStyle.drawerText(
+                                      false, Palette.assetColor, 15),)
+                            ),
+                            onTap: () {
+                              openPdf(model);
+                            },
+                          ),
+
+                        ],)
+                    ],
+                  );
+                },
+              );
+            },),
+            width: 100,)
+        ],
+      ),
+    );
   }
 
 }
