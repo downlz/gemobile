@@ -17,6 +17,7 @@ class ManageOrderDetailViewModel extends BaseModel {
   User user;
   User users;
   bool isListEmpty = false;
+  bool manuallBillExists = false;
   TextEditingController remarkController = new TextEditingController();
   var remarkFocus = new FocusNode();
 
@@ -31,6 +32,9 @@ class ManageOrderDetailViewModel extends BaseModel {
         orderList = await API.getOrderById(id);
         setState(ViewState.Idle);
         this.order = orderList;
+        if (order.manualbill.filename != null) {
+          manuallBillExists = true;
+        }
         isFirstTime = false;
       }
       userDetail();
