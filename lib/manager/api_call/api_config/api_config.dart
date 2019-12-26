@@ -76,6 +76,7 @@ class ApiConfig {
   static String updateUserApiForGetFcmKey = baseURL + 'user/';
   static int successStatusCode = 200;
 
+
   static var getRecentlyAddedItem = baseURL + 'item/recent';
   static var getMostOrdered = baseURL + 'item/ordered/';
   static var getItemNear = baseURL + 'item/nearme/';

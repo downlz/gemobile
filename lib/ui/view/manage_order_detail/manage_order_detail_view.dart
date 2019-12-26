@@ -132,11 +132,11 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
                 : Container(),
           ),
           API.user != null && API.user.isAdmin == true && model.order != null &&
-              model.order.status != 'cancelled' ? Container(
+              model.order.status != 'cancelled'  ? Container(
             padding: const EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 10),
             child: Column(
               children: <Widget>[
-                Container(padding: EdgeInsets.only(left: 10),
+            Container(padding: EdgeInsets.only(left: 10),
                   alignment: Alignment.centerLeft,
                   child: RaisedButton(onPressed: () {
                   launch(ApiConfig.baseURL+'uploadbill/'+ model.order.id);
@@ -159,12 +159,13 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
                               )),
                         ],
                       ),
-                    ),),),
+                    ),),) ,
 
                 showUploadDialog(model)
               ],
             ),
-          ) : model.order != null && model.order.status != "cancelled" ? Column(
+          ) :
+          model.order != null && model.order.status != "cancelled" ? Column(
             children: <Widget>[
               model.order != null && model.order.manualbill != null ? Container(
                 padding: EdgeInsets.only(left: 10),
@@ -193,7 +194,8 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
               ),
                   ),),) :
               showUploadDialog(model)
-            ],) : Container(),
+            ],) :
+               Container(),
           updateOrderButton(model)
         ],
       ),

@@ -19,7 +19,6 @@ class DetailsViewModel extends BaseModel {
   bool checkSeller = false;
   bool checkAgent = false;
 
-
   void init(Item item, String id) async {
     if (isFirstTime)
       if (id != null) {
@@ -77,6 +76,7 @@ class DetailsViewModel extends BaseModel {
     setState(ViewState.Busy);
     await API.createBargainRequest(
         itemDetails.id, user.id, buyerQuote, quantity);
+
     checkBargainActiveOrNot(false);
     Navigator.push(context,
         MaterialPageRoute(
