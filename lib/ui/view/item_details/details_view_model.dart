@@ -44,7 +44,6 @@ class DetailsViewModel extends BaseModel {
     checkSeller = user.isSeller;
     checkAgent = user.isAgent;
     isFirstTime = false;
-    print('item details loop');
   }
 
   void getItemDetails(String id) async {

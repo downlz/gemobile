@@ -15,7 +15,6 @@ class GroupbuyViewModel extends BaseModel
         getActiveGroupBuyItems();
         isFirstTime = false;
       }
-      print('GB Vat view test');
     });
   }
 
