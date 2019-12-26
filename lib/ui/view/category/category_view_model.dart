@@ -13,9 +13,10 @@ class CategoryViewModel extends BaseModel
     if(isFirstTime){
         getCategories(name);
         isFirstTime = false;
-        print('Inside');}
+
+    }
 //    SchedulerBinding.instance.addPostFrameCallback((_) => setState(ViewState.Idle));
-    print('outside - cat');
+
   }
 
   getCategories(String name) async {
