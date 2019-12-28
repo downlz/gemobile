@@ -7,19 +7,22 @@ import 'package:graineasy/model/user.dart';
 class OrderHistoryViewModel extends BaseModel {
   bool isListEmpty = false;
   List<Order> orderList;
+  List<Order> orderListLimit;
 
   bool isFirstTime = true;
   int present = 0;
-  int perPage = 8;
+  int perPage = 15;
+  int pageid = 1;
   var isPageLoading = false;
 
   getOrders(String id, List<Order> order, int present, int perPage) async {
     User user = await UserPreferences.getUser();
     setState(ViewState.Busy);
-    if (user.isSeller || user.isBuyer) {
+    if (user.isSeller || (user.isBuyer && !user.isAdmin)) {
       orderList = await API.getUserOrders(user.id);
     } else if (user.isAdmin){
-      orderList = await API.getOrders();
+//      orderList = await API.getOrders();
+      orderList = await API.getOrdersByPageid(pageid);
     } else if (user.isAgent){
       orderList = await API.getAgentOrders(user.id);
     } else {
@@ -41,4 +44,23 @@ class OrderHistoryViewModel extends BaseModel {
       isFirstTime = false;
     }
   }
+
+  getOrdersByPage(List<Order> order) async {
+    pageid  = pageid + 1;
+    orderList = await API.getOrdersByPageid(pageid);
+
+    setState(ViewState.Busy);
+
+      if ((present + perPage) > orderList.length) {
+        order.addAll(
+            order.getRange(present, orderList.length));
+      } else {
+        order.addAll(
+            order.getRange(present, present + perPage));
+      }
+      present = present + perPage;
+
+    setState(ViewState.Idle);
+  }
+
 }

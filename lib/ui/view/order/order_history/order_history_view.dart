@@ -100,7 +100,8 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
                       style: TextStyle(color: Palette.whiteTextColor,
                           fontSize: 15),),
                     onPressed: () {
-                      loadMoreData(model);
+//                      loadMoreData(model);
+                    model.getOrdersByPage(model.orderList);
                     },
                   ),
                 ) :

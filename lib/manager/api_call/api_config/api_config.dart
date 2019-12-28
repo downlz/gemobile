@@ -34,6 +34,8 @@ class ApiConfig {
   static String getUserOrders = baseURL + 'order/user/';
   static String getOrderById = baseURL + 'order/id/';
   static String getAgentOrders = baseURL + 'order/agent/';
+  static String getOrdersByPageid = baseURL + 'order?pageid=';
+
 
   // Billing APIs
   static String getPO = baseURL + 'getpo';

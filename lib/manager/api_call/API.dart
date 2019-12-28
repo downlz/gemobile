@@ -184,6 +184,17 @@ class API extends BaseRepository
   }
 
 
+  static Future<List<Order>> getOrdersByPageid(int pageid) async {
+    var response = await http.get(ApiConfig.getOrdersByPageid+pageid.toString(),
+        headers: await ApiConfig.getHeaderWithToken());
+//    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<Order> orders = Order.fromJsonArray(jsonDecode(response.body));
+      return orders;
+    }
+    return [];
+  }
+
   static Future<List<Order>> getOrders() async {
     var response = await http.get(ApiConfig.getOrderList,
         headers: await ApiConfig.getHeaderWithToken());
