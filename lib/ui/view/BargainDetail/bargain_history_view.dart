@@ -9,12 +9,6 @@ import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:graineasy/utils/check_internet/utility.dart';
 
 class BargainHistoryView extends StatefulWidget {
-  Bargain bargainList;
-  String id;
-
-  BargainHistoryView({this.id});
-
-//  BargainHistoryView(this.bargainList);
 
   @override
   _BargainHistoryViewState createState() => _BargainHistoryViewState();
@@ -28,7 +22,7 @@ class _BargainHistoryViewState extends State<BargainHistoryView>
   @override
   Widget build(BuildContext context) {
     return BaseView<BargainHistoryViewModel>(builder: (context, model, child) {
-      model.init(widget.id, bargain, model.perPage, model.present);
+      model.init(bargain, model.perPage, model.present);
       return new Scaffold(
         appBar: new AppBar(
           title: Text('Bargain History'),

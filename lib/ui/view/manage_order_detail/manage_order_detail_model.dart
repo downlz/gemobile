@@ -10,17 +10,15 @@ import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/view/manage_order/manage_order/manage_order_view.dart';
 import 'package:path/path.dart' as path;
 
-
 class ManageOrderDetailViewModel extends BaseModel {
   String selectedOrderStatus;
   File filePath;
   User user;
-  User users;
+
   bool isListEmpty = false;
   bool manuallBillExists = false;
   TextEditingController remarkController = new TextEditingController();
   var remarkFocus = new FocusNode();
-
   bool isFirstTime = true;
   Order order;
 
@@ -29,6 +27,7 @@ class ManageOrderDetailViewModel extends BaseModel {
     if (isFirstTime) {
       if (id != null) {
         setState(ViewState.Busy);
+
         orderList = await API.getOrderById(id);
         setState(ViewState.Idle);
         this.order = orderList;
@@ -36,15 +35,20 @@ class ManageOrderDetailViewModel extends BaseModel {
           manuallBillExists = true;
         }
         isFirstTime = false;
+      } else {
+        userDetail();
+        setState(ViewState.Busy);
+        order = await API.getOrderById(orderList.id);
+        setState(ViewState.Idle);
+        isFirstTime = false;
+//        this.order = orderList;
       }
-      userDetail();
-      this.order = orderList;
-      print(order.id);
     }
   }
   updateStatus(String id) async {
     setState(ViewState.Busy);
-    await API.updateOrderStatus(id, selectedOrderStatus, remarkController.text);
+    await API.
+    updateOrderStatus(id, selectedOrderStatus, remarkController.text);
     setState(ViewState.Idle);
     Navigator.pop(context);
     Navigator.pushReplacement(
@@ -59,14 +63,13 @@ class ManageOrderDetailViewModel extends BaseModel {
     String base64Image = base64Encode(filePath.readAsBytesSync());
 
     print(filePaths+fileExtension+fileName);
+
+
     setState(ViewState.Busy);
-    await API.uploadOrderBill(filePath, order.id);
+    String res = await API.uploadOrderBill(filePath, order.id);
+    order = await API.getOrderById(order.id);
+    print(res);
     setState(ViewState.Idle);
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                ManageOrderView()));
   }
 
 
