@@ -1,5 +1,10 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:graineasy/helpers/functions/orders.dart';
 import 'package:graineasy/manager/api_call/API.dart';
+import 'package:graineasy/manager/api_call/api_config/api_config.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/model/order.dart';
 import 'package:graineasy/ui/theme/app_responsive.dart';
@@ -8,10 +13,11 @@ import 'package:graineasy/ui/theme/text_style.dart';
 import 'package:graineasy/ui/validation/validation.dart';
 import 'package:graineasy/ui/view/manage_order_detail/manage_order_detail_model.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
-import 'package:graineasy/helpers/functions/orders.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:graineasy/utils/check_internet/utility.dart';
 import 'package:graineasy/utils/ui_helper.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 const URL = "https://graineasy.com";
 
@@ -27,11 +33,6 @@ class ManageOrderDetailView extends StatefulWidget {
 class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
   String status;
   final orderKey = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +131,71 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
                 ? getTextFormField(model)
                 : Container(),
           ),
+          API.user != null && API.user.isAdmin == true && model.order != null &&
+              model.order.status != 'cancelled'  ? Container(
+            padding: const EdgeInsets.only(left: 10,right: 10,top: 10,bottom: 10),
+            child: Column(
+              children: <Widget>[
+            Container(padding: EdgeInsets.only(left: 10),
+                  alignment: Alignment.centerLeft,
+                  child: RaisedButton(onPressed: () {
+                  launch(ApiConfig.baseURL+'uploadbill/'+ model.order.id);
+                  },
+                    child: Text.rich(
+                      TextSpan(
+                        text: 'Bill Uploaded By ',
+                        style: TextStyle(fontSize: 12),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: model.order.seller.isSeller == true
+                                ? 'Seller :'
+                                : 'Admin :',
+                          ),
+                          TextSpan(
+                              text: 'Get Bill',
+                              style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  color: Colors.blue
+                              )),
+                        ],
+                      ),
+                    ),),) ,
 
+                showUploadDialog(model)
+              ],
+            ),
+          ) :
+          model.order != null && model.order.status != "cancelled" ? Column(
+            children: <Widget>[
+              model.order != null && model.order.manualbill != null ? Container(
+                padding: EdgeInsets.only(left: 10),
+                alignment: Alignment.centerLeft,
+                child: RaisedButton(onPressed: () {
+                  launch(ApiConfig.baseURL + 'uploadbill/' + model.order.id);
+                },
+                  child: Text.rich(
+                    TextSpan(
+                      text: 'Bill Uploaded By ',
+                      style: TextStyle(fontSize: 12),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: model.order.seller.isSeller == true
+                              ? 'Seller :'
+                              : 'Admin :',
+                        ),
+                        TextSpan(
+                            text: 'Get Bill',
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.blue
+                            )),
+                        // can add more TextSpans here...
+                ],
+              ),
+                  ),),) :
+              showUploadDialog(model)
+            ],) :
+               Container(),
           updateOrderButton(model)
         ],
       ),
@@ -232,7 +297,7 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
             padding: const EdgeInsets.only(left: 10, top: 3),
             child: new Text(
               "Order Date: " +
-                  Utility.dateTimeToString(model.order.placedTime),
+                  Utility.dateToString(model.order.placedTime),
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -334,4 +399,118 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
 //    if (model.selectedOrderStatus == 'cancelled')
 //      return Container();
   }
+
+   openPdf(ManageOrderDetailViewModel model)
+  async {
+    File file;
+     file = await FilePicker.getFile(type: FileType.CUSTOM,fileExtension: 'pdf');
+    setState(() {
+      model.filePath=file;
+      print('filePath===>${file}');
+    });
+    model.uploadBill(model);
+    Navigator.pop(context);
+
+  }
+
+   openImage(ManageOrderDetailViewModel model)
+  async {
+    File file;
+    file = await FilePicker.getFile(type: FileType.IMAGE);
+    setState(() {
+      model.filePath=file;
+      print('filePath===>${file}');
+    });
+    model.uploadBill(model);
+    Navigator.pop(context);
+  }
+  openCamera(ImageSource source, ManageOrderDetailViewModel model) async {
+    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      model.filePath = image;
+    });
+    model.uploadBill(model);
+    Navigator.pop(context);
+
+  }
+
+  showUploadDialog(ManageOrderDetailViewModel model) {
+    return Container(
+      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+      child: Row(mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Align(alignment: Alignment.bottomLeft,
+              child: Container(width: 180, child: Text('Upload Bill: ',
+                  style: AppTextStyle.drawerText(
+                      false, Palette.assetColor, 15)),)),
+          Container(child: RaisedButton(
+            color: Palette.assetColor,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(7)),
+            child: Text('Upload', textAlign: TextAlign.center,
+                style: AppTextStyle.drawerText(
+                    false, Palette.whiteTextColor, 12)),
+            onPressed: () {
+              return showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  // return object of type Dialog
+                  return SimpleDialog(
+                    title: new Text(
+                        'Upload Bill: ', style: AppTextStyle.drawerText(true,
+                        Palette.assetColor, 17)),
+                    children: <Widget>[
+                      // usually buttons at the bottom of the dialog
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+
+                          GestureDetector(
+                            child: Container(margin: EdgeInsets.only(left: 25),
+                                child: Text('Image',
+                                  style: AppTextStyle.drawerText(
+                                      false, Palette.assetColor, 15),)
+                            ),
+                            onTap: () {
+                              openImage(model);
+                            },
+                          ),
+                          GestureDetector(
+                            child: Container(
+                                margin: EdgeInsets.only(left: 25, top: 10),
+                                child: Text('Camera',
+                                  style: AppTextStyle.drawerText(
+                                      false, Palette.assetColor, 15),)
+                            ),
+                            onTap: () {
+                              openCamera(ImageSource.camera, model);
+                            },
+                          ),
+                          GestureDetector(
+                            child: Container(
+                                margin: EdgeInsets.only(left: 25, top: 10),
+                                child: Text('PDF',
+                                  style: AppTextStyle.drawerText(
+                                      false, Palette.assetColor, 15),)
+                            ),
+                            onTap: () {
+                              openPdf(model);
+                            },
+                          ),
+
+                        ],)
+                    ],
+                  );
+                },
+              );
+            },),
+            width: 100,)
+        ],
+      ),
+    );
+  }
+
 }

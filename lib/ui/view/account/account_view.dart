@@ -3,13 +3,13 @@ import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/model/address.dart';
 import 'package:graineasy/model/agentbuyer.dart';
 import 'package:graineasy/model/bankaccount.dart';
-import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/view/account/add_update_address/add_update_addresses_view.dart';
-import 'package:graineasy/ui/view/account/add_update_bankacc/add_update_bankacc_view.dart';
 import 'package:graineasy/ui/view/account/add_update_agentbuyer/add_update_agentbuyer_view.dart';
+import 'package:graineasy/ui/view/account/add_update_bankacc/add_update_bankacc_view.dart';
 import 'package:graineasy/ui/view/forgot_password/forgot_password_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
+import 'package:graineasy/ui/widget/widget_utils.dart';
 
 import 'account_view_model.dart';
 
@@ -61,7 +61,7 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
   }
 
   _getBaseContainer(AccountViewModel model) {
-    model.getUserDetail();
+//    model.getUserDetail();
     Icon ofericon = new Icon(
       Icons.edit,
       color: Colors.black38,
@@ -174,7 +174,9 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
               })
           ])
         ) : Container(),
-        !model.checkAgent ? bankAccountList(model): Container(),
+        !model.checkAgent && model.bankacc != null
+            ? bankAccountList(model)
+            : Container(),
         model.checkAgent ?
           new Container(
               margin:

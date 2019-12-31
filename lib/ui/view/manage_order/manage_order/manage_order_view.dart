@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graineasy/manager/base/base_view.dart';
+import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/view/manage_order/manage_order/manage_order_view_model.dart';
 import 'package:graineasy/ui/view/manage_order_detail/manage_order_detail_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
@@ -8,6 +9,8 @@ import 'package:graineasy/utils/check_internet/utility.dart';
 
 
 class ManageOrderView extends StatefulWidget {
+
+
   @override
   _ManageOrderViewState createState() => _ManageOrderViewState();
 }
@@ -70,7 +73,7 @@ class _ManageOrderViewState extends State<ManageOrderView> with CommonAppBar {
                           MaterialPageRoute(
                               builder: (context) =>
                                   ManageOrderDetailView(
-                                    orderList: model.orderList[ind],)));
+                                    orderList: model.orderList[ind])));
                     },
                     child: Card(
                         elevation: 4.0,
@@ -98,7 +101,7 @@ class _ManageOrderViewState extends State<ManageOrderView> with CommonAppBar {
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     'Ordered On :' +
-                                        Utility.dateTimeToString(
+                                        Utility.dateToString(
                                             model.orderList[ind].placedTime),
                                     style: TextStyle(
                                         fontSize: 13.0, color: Colors.black54),

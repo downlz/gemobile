@@ -1,7 +1,6 @@
 import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/basemodel.dart';
 import 'package:graineasy/model/Item.dart';
-import 'package:flutter/scheduler.dart';
 
 class CategoryViewModel extends BaseModel
 {
@@ -14,9 +13,10 @@ class CategoryViewModel extends BaseModel
     if(isFirstTime){
         getCategories(name);
         isFirstTime = false;
-        print('Inside');}
-    SchedulerBinding.instance.addPostFrameCallback((_) => setState(ViewState.Idle));
-    print('outside - cat');
+
+    }
+//    SchedulerBinding.instance.addPostFrameCallback((_) => setState(ViewState.Idle));
+
   }
 
   getCategories(String name) async {
