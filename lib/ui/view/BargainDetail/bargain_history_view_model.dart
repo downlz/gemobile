@@ -11,14 +11,15 @@ class BargainHistoryViewModel extends BaseModel {
   int perPage = 8;
   User user;
 
-  void init(String id, List<Bargain> bargain, int perPage, int present) {
+  void init(List<Bargain> bargain, int perPage, int present) {
     if (isFirstTime) {
-      getBargainHistory(id, bargain, present, perPage);
+      getBargainHistory(bargain, present, perPage);
       isFirstTime = false;
     }
   }
 
-  Future getBargainHistory(String id, List<Bargain> bargain, int present, int perPage) async {
+  Future getBargainHistory(List<Bargain> bargain, int present,
+      int perPage) async {
     user = await UserPreferences.getUser();
 
     setState(ViewState.Busy);

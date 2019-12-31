@@ -195,6 +195,56 @@ class API extends BaseRepository
     return [];
   }
 
+  static Future<List<Order>> getAdminOrders(int pageId) async {
+    var response = await http.get(
+        ApiConfig.getOrderList + "?" + "pageid=" + pageId.toString(),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()});
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<Order> orders = Order.fromJsonArray(jsonDecode(response.body));
+      return orders;
+    }
+    return [];
+  }
+
+  static Future<List<Order>> getUserOrder(int pageId) async {
+    User user = await UserPreferences.getUser();
+
+    var response = await http.get(
+        ApiConfig.getUserOrderList + user.id + "?" + "pageid=" +
+            pageId.toString(),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()});
+    print(response.body);
+    print(response.statusCode);
+    print(response.reasonPhrase);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<Order> orders = Order.fromJsonArray(jsonDecode(response.body));
+      return orders;
+    }
+    return [];
+  }
+
+  static Future<List<Order>> getAgentOrder(int pageId) async {
+    User user = await UserPreferences.getUser();
+
+    var response = await http.get(
+        ApiConfig.getAgentOrders + user.id + "?" + "pageid=" +
+            pageId.toString(),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()});
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<Order> orders = Order.fromJsonArray(jsonDecode(response.body));
+      return orders;
+    }
+    return [];
+  }
+
 
   static Future<List<Order>> getUserOrders(String id) async {
     var response = await http.get(ApiConfig.getUserOrders + id,
@@ -415,20 +465,20 @@ class API extends BaseRepository
 //      Platform.isMacOS
 //      Platform.isWindows
     }
+    User user = await UserPreferences.getUser();
 
     var data = {
       'fcmkey': await FirebaseMessaging().getToken(),
       "devicedtl": devicedtl,
       'devspecs': devspecs
     };
-    User user = await UserPreferences.getUser();
     if (data['fcmkey'] !=  user.fcmkey) {
         var response = await http.put(ApiConfig.updateUserApiForGetFcmKey + user.id,
             headers: {"Content-Type": "application/json",
             "Authorization": await UserPreferences.getToken()},
             body: jsonEncode(data));
 
-//        print(response);
+        print(response.body);
     }
 
     return;
@@ -567,7 +617,7 @@ class API extends BaseRepository
   }
 
 
-  static  uploadOrderBill(File file,String orderId) async {
+  static Future uploadOrderBill(File file, String orderId) async {
     var request = http.MultipartRequest("POST", Uri.parse(ApiConfig.uploadBill));
     //add text fields
     request.fields["orderId"] = orderId;
@@ -577,12 +627,10 @@ class API extends BaseRepository
     request.headers.addAll({ "Content-Type": "application/json",
       "Accept": "application/json",
       "Authorization": await UserPreferences.getToken()});
-
     var response = await request.send();
-
     //Get the response from the server
     var responseData = await response.stream.toBytes();
-    var responseString = String.fromCharCodes(responseData);
+    String responseString = String.fromCharCodes(responseData);
     print(responseString);
   }
 
@@ -611,10 +659,7 @@ class API extends BaseRepository
     print("buyerId===>${buyerId}");
     var response = await http.get(
         ApiConfig.raiseBargainRequest + 'buyer/' + buyerId + '/item/' + itemId,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": await UserPreferences.getToken()
-        });
+        headers: await ApiConfig.getHeaderWithTokenAndContentType());
     if (response.statusCode == ApiConfig.successStatusCode) {
       Bargain bargain = Bargain.fromJsonArray(jsonDecode(response.body))[0];
       print("checkBuyer==${response.body}");
@@ -654,10 +699,7 @@ class API extends BaseRepository
 //    print("itemid${itemId}");
 //    print("buyerId${buyerId}");
     var response = await http.post(ApiConfig.raiseBargainRequest,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": await UserPreferences.getToken()
-        },
+        headers: await ApiConfig.getHeaderWithTokenAndContentType(),
         body: convert.jsonEncode(data));
 //    print("create=>${response.body}");
     if (response.statusCode == ApiConfig.successStatusCode) {
@@ -847,12 +889,9 @@ class API extends BaseRepository
 
 
   static Future<Order> getOrderById(String id) async {
-    var response = await http.get(
-      ApiConfig.getOrderById + id,
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": await UserPreferences.getToken()
-      },);
+    var response = await http.get(ApiConfig.getOrderById + id,
+        headers: await ApiConfig.getHeaderWithTokenAndContentType());
+    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
       Order order = Order.fromJson(jsonDecode(response.body));
       return order;
@@ -864,10 +903,7 @@ class API extends BaseRepository
   static Future<Bargain> particularBargainDetail(String id) async {
     var response = await http.get(
         ApiConfig.raiseBargainRequest + id,
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": await UserPreferences.getToken()
-        });
+        headers: await ApiConfig.getHeaderWithTokenAndContentType());
     if (response.statusCode == ApiConfig.successStatusCode) {
       Bargain bargain = Bargain.fromJson(jsonDecode(response.body));
       print('BargainDetail===>${response.body}');
@@ -879,7 +915,7 @@ class API extends BaseRepository
   static lapseTimeBargain(String id) async {
     var response = await http.get(ApiConfig.lapseTimeBargain + id,
         headers: await ApiConfig.getHeaderWithTokenAndContentType());
-//    print('LapseTime===>${response.body}');
+    print('LapseTime===>${response.body}');
     if (response.statusCode == ApiConfig.successStatusCode) {
       Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
       return jsonDecode(response.body)['bargainlapse'];
@@ -1190,4 +1226,15 @@ class API extends BaseRepository
     return null;
   }
 
+
+  static Future<Order> getUser(String id) async {
+    var response = await http.get(ApiConfig.getUserOrders + id,
+        headers: await ApiConfig.getHeaderWithToken());
+//    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      Order orders = Order.fromJsonArray(jsonDecode(response.body))[0];
+      return orders;
+    }
+    return null;
+  }
 }

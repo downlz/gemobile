@@ -250,6 +250,7 @@ class _HomeViewState extends State<HomeView>
             ),
             onTap: () async {
               User user = await UserPreferences.getUser();
+              Navigator.pop(context);
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -267,11 +268,13 @@ class _HomeViewState extends State<HomeView>
                   trailing: Icon(
                     Icons.arrow_forward, color: Palette.assetColor,),
                   onTap: () {
+                    Navigator.pop(context);
+
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) => OrderHistoryView()));
                   }) : Container(),
               if(model.user != null)
-                model.user.isSeller || model.user.isAdmin ?
+                !model.user.isBuyer ?
               new ListTile(
                   leading: Icon(Icons.credit_card, color: Palette.assetColor),
                   title: new Text("Manage Orders", style: TextStyle(
@@ -280,6 +283,7 @@ class _HomeViewState extends State<HomeView>
                     Icons.arrow_forward, color: Palette.assetColor,),
 
                   onTap: () async {
+                    Navigator.pop(context);
 
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) =>
@@ -298,6 +302,8 @@ class _HomeViewState extends State<HomeView>
                     Icons.arrow_forward, color: Palette.assetColor,),
 
                   onTap: () {
+                    Navigator.pop(context);
+
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) =>
                             GroupbuyView()));
@@ -314,6 +320,8 @@ class _HomeViewState extends State<HomeView>
                     Icons.arrow_forward, color: Palette.assetColor,),
 
                   onTap: () {
+                    Navigator.pop(context);
+
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) =>
                             BargainHistoryView()));
@@ -339,6 +347,8 @@ class _HomeViewState extends State<HomeView>
                   trailing: Icon(
                     Icons.arrow_forward, color: Palette.assetColor,),
                   onTap: () {
+                    Navigator.pop(context);
+
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) =>
                             Help_Screen(toolbarname: 'Help',)));
@@ -371,6 +381,13 @@ class _HomeViewState extends State<HomeView>
                           content: new Text('Are you sure want to Logout'),
                           actions: <Widget>[
                             // usually buttons at the bottom of the dialog
+
+                            new FlatButton(
+                              child: new Text("No"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
                             new FlatButton(
                               child: new Text("Yes"),
                               onPressed: () {
@@ -378,12 +395,6 @@ class _HomeViewState extends State<HomeView>
                                 Navigator.pushNamedAndRemoveUntil(
                                     context, Screen.Login.toString(), (
                                     Route<dynamic> route) => false);
-                              },
-                            ),
-                            new FlatButton(
-                              child: new Text("No"),
-                              onPressed: () {
-                                Navigator.pop(context);
                               },
                             ),
                           ],

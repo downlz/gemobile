@@ -6,8 +6,8 @@ import 'package:graineasy/model/Item.dart';
 import 'package:graineasy/model/bargain.dart';
 import 'package:graineasy/model/cart_item.dart';
 import 'package:graineasy/model/user.dart';
-import 'package:graineasy/ui/view/cart_screen/cart_view.dart';
 import 'package:graineasy/ui/view/BargainDetail/bargain_history_view.dart';
+import 'package:graineasy/ui/view/cart_screen/cart_view.dart';
 
 class DetailsViewModel extends BaseModel {
   Item itemDetails;
@@ -75,7 +75,7 @@ class DetailsViewModel extends BaseModel {
     setState(ViewState.Busy);
     await API.createBargainRequest(
         itemDetails.id, user.id, buyerQuote, quantity);
-
+    setState(ViewState.Idle);
     checkBargainActiveOrNot(false);
     Navigator.push(context,
         MaterialPageRoute(
