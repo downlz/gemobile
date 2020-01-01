@@ -274,7 +274,7 @@ class _HomeViewState extends State<HomeView>
                         builder: (context) => OrderHistoryView()));
                   }) : Container(),
               if(model.user != null)
-                !model.user.isBuyer ?
+                (model.user.isSeller || model.user.isAdmin) ?
               new ListTile(
                   leading: Icon(Icons.credit_card, color: Palette.assetColor),
                   title: new Text("Manage Orders", style: TextStyle(

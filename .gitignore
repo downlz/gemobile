@@ -9,6 +9,8 @@
 build/
 
 .flutter-plugins
+.flutter-plugins-dependencies
 
+ios/Flutter/flutter_export_environment.sh
 environments/
 android/app/google-services.json
