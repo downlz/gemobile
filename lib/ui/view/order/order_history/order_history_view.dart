@@ -64,9 +64,20 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
   }
 
   _getBaseContainer(OrderHistoryViewModel model) {
-    return model.orderList.isNotEmpty
-        ? getCategoryWidget(model)
-        : Container();
+    return Card(
+
+        child:
+        model.orderList.isEmpty
+            ? Container(
+          child: Center(
+            child: Text(
+              model.emptyOrderText,
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+        ): getCategoryWidget(model)
+    );
+
   }
 
   getCategoryWidget(OrderHistoryViewModel model) {

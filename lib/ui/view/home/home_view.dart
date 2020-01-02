@@ -23,6 +23,7 @@ import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+
 import '../../../help_screen.dart';
 import 'home_view_model.dart';
 
@@ -36,6 +37,7 @@ class _HomeViewState extends State<HomeView>
     with CommonAppBar, SingleTickerProviderStateMixin {
   TabController tabController;
   int tabIndex = 0;
+
 
 
   @override
@@ -260,7 +262,7 @@ class _HomeViewState extends State<HomeView>
           new Column(
             children: <Widget>[
               if(model.user != null)
-                !model.user.isSeller ?
+              !model.user.isSeller ?
               new ListTile(
                   leading: Icon(Icons.history, color: Palette.assetColor,),
                   title: new Text("Order History",
@@ -407,7 +409,7 @@ class _HomeViewState extends State<HomeView>
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: Text('Version:0.50',
+                child: Text('Version:'+ model.version,
                     style: TextStyle(color: Palette.assetColor)),
               )
 

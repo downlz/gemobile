@@ -9,6 +9,7 @@ class OrderHistoryViewModel extends BaseModel {
   bool isFirstTime = true;
   int pageNumber = 1;
   bool hasNextPage = true;
+  String emptyOrderText = '';
 
   getOrders() async {
     List<Order> orderList;
@@ -20,6 +21,7 @@ class OrderHistoryViewModel extends BaseModel {
     else if (user.isSeller || user.isBuyer) {
 //      orderList = await API.getUserOrders(user.id);
       orderList = await API.getUserOrder(pageNumber);
+
     }
     else if (user.isAgent) {
 //      orderList = await API.getAgentOrders(user.id);
@@ -27,9 +29,10 @@ class OrderHistoryViewModel extends BaseModel {
     } else {
       // Will think in future
     }
-    if (orderList.length <= 0)
+    if (orderList.length <= 0) {
       hasNextPage = false;
-    else
+      emptyOrderText = 'No orders found';
+    } else
       hasNextPage = true;
     this.orderList.addAll(orderList);
     setState(ViewState.Idle);

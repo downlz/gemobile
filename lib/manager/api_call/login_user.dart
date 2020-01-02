@@ -9,11 +9,15 @@ import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/model/app_pref.dart';
 import 'package:http/http.dart' as http;
+import 'package:package_info/package_info.dart';
+
 
 class LoginUser extends LoginRepository {
   @override
   Future<String> loginUser(String phone, String password) async {
     var data = {'phone': '+91' + phone, 'password': password};
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String version = packageInfo.version;
 
     var response = await http.post(ApiConfig.login,
         headers: await ApiConfig.getHeader(),
@@ -21,7 +25,7 @@ class LoginUser extends LoginRepository {
     if (response.statusCode == ApiConfig.successStatusCode) {
       Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
       saveCurrentLogin(responseBody);
-      AppPref currAppPref = await API.getAppPref();
+      AppPref currAppPref = await API.getAppPref(version);
       User user = User.fromJson(responseBody);
       if (user.isActive && !user.isTransporter
           && !currAppPref.appupdaterequired ) {
@@ -42,22 +46,5 @@ class LoginUser extends LoginRepository {
       else {
         throw throw getErrorBasedOnStatusCode(response.statusCode);
       }
-
   }
 }
-//    var response = await http.post(ApiConfig.login,
-//        headers:  await ApiConfig.getHeader(),
-//        body: convert.jsonEncode(data));
-//    if (response.statusCode == ApiConfig.successStatusCode) {
-//      Map<dynamic,dynamic>  responseBody = jsonDecode(response.body);
-//      saveCurrentLogin(responseBody);
-//      User user = User.fromJson(responseBody);
-//      UserPreferences.saveUserDetails(user);
-//      return 'Welcome back, ${responseBody['name']}';
-//    } else {
-//      throw throw getErrorBasedOnStatusCode(response.statusCode);
-//    }
-//  }
-//
-//
-//}

@@ -201,7 +201,7 @@ class API extends BaseRepository
         headers: {
           "Content-Type": "application/json",
           "Authorization": await UserPreferences.getToken()});
-    print(response.body);
+//    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<Order> orders = Order.fromJsonArray(jsonDecode(response.body));
       return orders;
@@ -218,8 +218,8 @@ class API extends BaseRepository
         headers: {
           "Content-Type": "application/json",
           "Authorization": await UserPreferences.getToken()});
-    print(response.body);
-    print(response.statusCode);
+//    print(response.body);
+//    print(response.statusCode);
     print(response.reasonPhrase);
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<Order> orders = Order.fromJsonArray(jsonDecode(response.body));
@@ -237,7 +237,7 @@ class API extends BaseRepository
         headers: {
           "Content-Type": "application/json",
           "Authorization": await UserPreferences.getToken()});
-    print(response.body);
+//    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<Order> orders = Order.fromJsonArray(jsonDecode(response.body));
       return orders;
@@ -478,7 +478,7 @@ class API extends BaseRepository
             "Authorization": await UserPreferences.getToken()},
             body: jsonEncode(data));
 
-        print(response.body);
+//        print(response.body);
     }
 
     return;
@@ -807,19 +807,34 @@ class API extends BaseRepository
   }
 
   static Future<List<Bargain>> getUserBargainHistory(bool isSeller,
-      String id) async {
+      String id,int pageId) async {
     String type;
     if (isSeller)
       type = "seller/";
     else
       type = "buyer/";
 
-    String finalUrl = ApiConfig.getBargainDtl + type + id;
+    String finalUrl = ApiConfig.getBargainDtl + type + id + "?" + "pageid=" +
+        pageId.toString();
 
     var response = await http.get(
         finalUrl,
         headers: await ApiConfig.getHeaderWithTokenAndContentType());
 //    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<Bargain> bargain = Bargain.fromJsonArray(jsonDecode(response.body));
+      return bargain;
+    }
+    return [];
+  }
+
+  static Future<List<Bargain>> getAllBargain(int pageId) async {
+    var response = await http.get(
+        ApiConfig.getBargainDtl + "?" + "pageid=" + pageId.toString(),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()});
+    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<Bargain> bargain = Bargain.fromJsonArray(jsonDecode(response.body));
       return bargain;
@@ -1215,10 +1230,9 @@ class API extends BaseRepository
 
   //App Preference for selective control using API
 
-  static Future<AppPref> getAppPref() async {
-    var response = await http.get(ApiConfig.getAppPref,
+  static Future<AppPref> getAppPref(String version) async {
+    var response = await http.get(ApiConfig.getAppPref + 'version/' + version ,
         headers: await ApiConfig.getHeader());
-
     if (response.statusCode == ApiConfig.successStatusCode) {
       AppPref app_pref = AppPref.fromJsonArray(jsonDecode(response.body))[0];
       return app_pref;

@@ -10,6 +10,7 @@ class ManageOrderViewModel extends BaseModel {
   int pageNumber = 1;
   bool hasNextPage = true;
   bool isFirstTime = true;
+  String emptyOrderText = '';
 
   getOrders() async {
     List<Order> orderList;
@@ -17,18 +18,19 @@ class ManageOrderViewModel extends BaseModel {
     User user = await UserPreferences.getUser();
     setState(ViewState.Busy);
     print("pageNumber======$pageNumber");
-    if (user.isSeller) {                // Ideally seller would not have any orders
+    if (user.isSeller || user.isBuyer) {                // Ideally seller would not have any orders
       orderList = await API.getUserOrder(pageNumber);
     } else if (user.isAdmin){
-      orderList = await API.getUserOrder(pageNumber);
+      orderList = await API.getAdminOrders(pageNumber);
     } else if (user.isAgent){
-      orderList = await API.getAgentOrders(user.id);
+      orderList = await API.getAgentOrder(pageNumber);
     } else {
       // Will think in future
     }
-    if (orderList.length <= 0)
+    if (orderList.length <= 0) {
       hasNextPage = false;
-    else
+      emptyOrderText = 'No orders found';
+    } else
       hasNextPage = true;
     this.orderList.addAll(orderList);
     setState(ViewState.Idle);

@@ -54,7 +54,20 @@ class _ManageOrderViewState extends State<ManageOrderView> with CommonAppBar {
   }
 
   _getBaseContainer(ManageOrderViewModel model) {
-    return model.orderList.isNotEmpty ? getCategoryWidget(model) : Container();
+    return Card(
+        child:
+        model.orderList.isEmpty
+            ? Container(
+          child: Center(
+            child: Text(
+              model.emptyOrderText,
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+        ): getCategoryWidget(model)
+    );
+
+//    model.orderList.isNotEmpty ? getCategoryWidget(model) : Container();
   }
 
   getCategoryWidget(ManageOrderViewModel model) {

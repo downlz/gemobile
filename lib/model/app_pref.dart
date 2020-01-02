@@ -4,8 +4,11 @@ class AppPref {
   bool appupdaterequired;
   bool buyer;
   bool seller;
+  String packageName;
+  String appName;
+  String buildNumber;
 
-  AppPref({this.appversion,this.id,
+  AppPref({this.appversion,this.id,this.appName,this.buildNumber,this.packageName,
   this.appupdaterequired,this.seller,this.buyer});
 
   factory AppPref.fromJson(Map<String, dynamic> json) {
@@ -16,6 +19,9 @@ class AppPref {
         appupdaterequired: checkBool(json, 'appupdaterequired'),
         buyer: checkBool(json, 'buyer'),
         seller: checkBool(json, 'seller'),
+      packageName: json['packagename'],
+      appName: json['appname'],
+      buildNumber: json['buildnumber'],
     );
   }
 

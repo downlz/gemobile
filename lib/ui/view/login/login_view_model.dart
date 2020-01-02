@@ -42,7 +42,7 @@ class LoginViewModel extends BaseModel implements LoginListener
         setState(ViewState.Busy);
         LoginDataManager loginDataManager = LoginDataManager();
         loginDataManager.listener = this;
-        loginDataManager.login(phone, password);
+        await loginDataManager.login(phone, password);
       } else {
         showMessage(AppLocalizations.of(context).noInternet, true);
       }
