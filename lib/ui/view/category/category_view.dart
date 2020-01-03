@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graineasy/helpers/common/sharing.dart';
+import 'package:graineasy/helpers/common/container.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/model/itemname.dart';
 import 'package:graineasy/ui/view/item_details/details_view.dart';
@@ -105,28 +106,8 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                                         .spaceBetween,
                                     children: <Widget>[
                                       model.items[index].bargainenabled == true
-                                          ? Container(
-                                        padding: EdgeInsets.all(3),
-                                        decoration: new BoxDecoration(
-                                            border: Border.all(
-                                                color: Colors.white),
-                                            borderRadius: new BorderRadius.only(
-                                                topLeft: const Radius.circular(
-                                                    40.0),
-                                                bottomLeft: const Radius
-                                                    .circular(40.0),
-                                                bottomRight: const Radius
-                                                    .circular(40.0),
-                                                topRight: const Radius.circular(
-                                                    40.0))
-                                        ),
-                                        alignment: Alignment.topLeft,
-                                        child: Text('Bargain Enabled',
-                                          style: TextStyle(color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12),),
-                                      )
-                                          : Container(
+                                          ?
+                                      getBargainContainer() : Container(
                                           alignment: Alignment.topLeft),
                                       Container(
                                         alignment: Alignment.topRight

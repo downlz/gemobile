@@ -15,34 +15,41 @@ class BargainViewModel extends BaseModel {
   bool isBargainOn = true;
   bool isBuyerQuote = true;
   String lapseTime;
-  String getBargainStatus;
+  String getBargainStatus = null;
 
   void init(Bargain bargainDetail, String id) async {
     if (isFirstTime) {
-      String lapsetm = await API.lapseTimeBargain(bargainDetail.id);
-      lapseTime = DateFormat("dd-MM-yyyy hh:mm a").format(DateTime.parse(lapsetm));
       if (id == null) {
+        isFirstTime = false;
+        String lapsetm = await API.lapseTimeBargain(bargainDetail.id);
+        lapseTime = DateFormat("dd-MMM-yy hh:mm a").format(DateTime.parse(lapsetm));
         setState(ViewState.Busy);
         this.bargainDetail = bargainDetail;
         user = await UserPreferences.getUser();
         checkQuotationEnded();
-//        staticChecks();
+
         setState(ViewState.Idle);
-        isFirstTime = false;
-        notifyListeners();
+//        notifyListeners();
       }
       else {
-        setState(ViewState.Busy);
-        this.bargainDetail = await API.particularBargainDetail(id);
-        setState(ViewState.Idle);
-        user = await UserPreferences.getUser();
-        checkQuotationEnded();
-//        staticChecks();
-//        lapseTime = await API.lapseTimeBargain(bargainDetail.id);
         isFirstTime = false;
-        notifyListeners();
+        String lapsetm = await API.lapseTimeBargain(id);
+        lapseTime = DateFormat("dd-MMM-yy hh:mm a").format(DateTime.parse(lapsetm));
+        setState(ViewState.Busy);
+        bargainDetail = await API.particularBargainDetail(id);
+        user = await UserPreferences.getUser();
+        if (bargainDetail.bargaincounter == 3 && bargainDetail.thirdquote != null &&
+            bargainDetail.thirdquote.sellerquote > 0) {
+          isBargainOn = false;
+        }
+        isBargainOn = true;
+        this.bargainDetail = bargainDetail;
+
+        setState(ViewState.Idle);
+//        notifyListeners();
       }
-      getBargainStatus = this.bargainDetail.bargainstatus;
+      getBargainStatus = bargainDetail.bargainstatus;
+
     }
   }
 

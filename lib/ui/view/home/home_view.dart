@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:graineasy/helpers/common/sharing.dart';
+import 'package:graineasy/helpers/common/container.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/MostOrderedItem.dart';
@@ -473,13 +474,14 @@ class _HomeViewState extends State<HomeView>
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               model.recentItem[index].bargainenabled == true
-                                  ? Container(
-                                alignment: Alignment.topLeft,
-                                child: Text('Bargain Enabled',
-                                  style: TextStyle(color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),),
-                              )
+                                  ? getBargainContainer()
+//                              Container(
+//                                alignment: Alignment.topLeft,
+//                                child: Text('Bargain Enabled',
+//                                  style: TextStyle(color: Colors.white,
+//                                      fontWeight: FontWeight.bold,
+//                                      fontSize: 12),),
+//                              )
                                   : Container(alignment: Alignment.topLeft),
                               Container(
                                 alignment: Alignment.topRight
@@ -1038,13 +1040,14 @@ class _HomeViewState extends State<HomeView>
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               model.itemsNear[index].bargainenabled == true
-                                  ? Container(
-                                alignment: Alignment.topLeft,
-                                child: Text('Bargain Enabled',
-                                  style: TextStyle(color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),),
-                              )
+                                  ? getBargainContainer()
+//                              Container(
+//                                alignment: Alignment.topLeft,
+//                                child: Text('Bargain Enabled',
+//                                  style: TextStyle(color: Colors.white,
+//                                      fontWeight: FontWeight.bold,
+//                                      fontSize: 12),),
+//                              )
                                   : Container(alignment: Alignment.topLeft),
                               Container(
                                 alignment: Alignment.topRight

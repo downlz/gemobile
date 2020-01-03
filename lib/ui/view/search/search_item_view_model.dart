@@ -17,10 +17,10 @@ class SearchItemViewModel extends BaseModel {
   void searchText(String searchString) async {
     setState(ViewState.Busy);
     items = await API.searchItem(searchString);
-    print('Item length ===? ${items.length}');
+//    print('Item length ===? ${items.length}');
     setState(ViewState.Idle);
     recentItem.addAll(items);
-    print('recent==>${recentItem}');
+//    print('recent==>${recentItem}');
   }
 
 

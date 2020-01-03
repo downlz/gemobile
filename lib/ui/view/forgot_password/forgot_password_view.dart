@@ -33,10 +33,10 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> with CommonAppB
 
   @override
   void initState() {
-    phoneNumberController.text = '3333333333';
-    panController.text = 'BUYER2019K';
-    gstinController.text = 'BUYER2019KQWERT';
-    passwordController.text = 'gemobile2019';
+    phoneNumberController.text = '';
+    panController.text = '';
+    gstinController.text = '';
+    passwordController.text = '';
     super.initState();
   }
   @override

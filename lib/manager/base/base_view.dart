@@ -21,6 +21,7 @@ class _BaseViewState<T extends ChangeNotifier> extends State<BaseView<T>>
       widget.onModelReady(model);
     }
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override

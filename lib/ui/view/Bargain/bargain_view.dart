@@ -43,7 +43,13 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
       model.init(widget.bargainDetail, widget.id);
       return new Scaffold(
         appBar: new AppBar(
-          title: Text('Bargain Request - ${model.getBargainStatus}' ),// + " " + '${model.getBargainStatus[0].toUpperCase()}${model.getBargainStatus.substring(1)}'),
+//          title: Text('Bargain Request - ${model.getBargainStatus}' ),// + " " + '${model.getBargainStatus[0].toUpperCase()}${model.getBargainStatus.substring(1)}'),
+          title: Text(
+              model.getBargainStatus == null ? '' : 'Bargain Request - ${model.getBargainStatus}'),
+
+//              model.itemDetails != null
+//                  ? model.itemDetails.name
+//                  : '')
           backgroundColor: Colors.white,
         ),
         body: _getBody(model),
@@ -463,44 +469,44 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
                 });
           },
         ),
-        RaisedButton(
-            color: Palette.loginBgColor,
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10)),
-            child: Text(
-              'Pause',
-              style: AppTextStyle.commonTextStyle(
-                  Palette.whiteTextColor,
-                  AppResponsive.getFontSizeOf(30),
-                  FontWeight.bold,
-                  FontStyle.normal),
-            ),
-            onPressed: () {
-              print('pause');
-//                      model.pauseBtnClick(widget.bargainDetail);
-//                      return API.alertMessage('Are you sure want to pause this quote?',context);
-              return showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      content: new Text(
-                          'Are you sure want to pause this quote?'),
-                      actions: <Widget>[
-                        new FlatButton(
-                            onPressed: () {
-                              model.pauseBtnClick(widget.bargainDetail);
-                            },
-                            child: Text('Yes')),
-                        new FlatButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text('No'))
-                      ],
-                    );
-                  });
-            })
+//        RaisedButton(
+//            color: Palette.loginBgColor,
+//            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+//            shape: RoundedRectangleBorder(
+//                borderRadius: BorderRadius.circular(10)),
+//            child: Text(
+//              'Pause',
+//              style: AppTextStyle.commonTextStyle(
+//                  Palette.whiteTextColor,
+//                  AppResponsive.getFontSizeOf(30),
+//                  FontWeight.bold,
+//                  FontStyle.normal),
+//            ),
+//            onPressed: () {
+//              print('pause');
+////                      model.pauseBtnClick(widget.bargainDetail);
+////                      return API.alertMessage('Are you sure want to pause this quote?',context);
+//              return showDialog(
+//                  context: context,
+//                  builder: (BuildContext context) {
+//                    return AlertDialog(
+//                      content: new Text(
+//                          'Are you sure want to pause this quote?'),
+//                      actions: <Widget>[
+//                        new FlatButton(
+//                            onPressed: () {
+//                              model.pauseBtnClick(widget.bargainDetail);
+//                            },
+//                            child: Text('Yes')),
+//                        new FlatButton(
+//                            onPressed: () {
+//                              Navigator.of(context).pop();
+//                            },
+//                            child: Text('No'))
+//                      ],
+//                    );
+//                  });
+//            })
       ],
     );
   }

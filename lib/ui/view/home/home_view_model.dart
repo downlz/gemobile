@@ -90,10 +90,10 @@ class HomeViewModel extends BaseModel
 
   init() {
     if(isFirstTime) {
+      isFirstTime = false;
       userDetail();
       getItemName();
       receivePushNotification();
-      isFirstTime = false;
 
       if (bannerList != null && bannerList.length > 0) {
         bannerList.clear();
@@ -130,7 +130,7 @@ class HomeViewModel extends BaseModel
     var type = message['data']['type'];
     id = message['data']['id'];
     String idc = slice(id,1,-1);
-    print(idc);
+    print(id);
     if (message['data'] != null && message['data']['type'] != null) {
       switch (type) {
         case "OrderDetail":

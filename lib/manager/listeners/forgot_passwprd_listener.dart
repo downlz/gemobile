@@ -28,7 +28,7 @@ class ForgotPasswordManager {
         var dataException = onError;
         errorCode = dataException.getErrorCode();
       }
-      String error = onError.toString();
+      String error = onError.toString() + ' Invalid Credentials, Please check the details provided';
       print('error=============>' + error);
 
       if (listener != null) {

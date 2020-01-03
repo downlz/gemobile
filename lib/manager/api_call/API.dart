@@ -728,7 +728,7 @@ class API extends BaseRepository
         },
         body: convert.jsonEncode(data));
     if (response.statusCode == ApiConfig.successStatusCode) {
-      print('response body with hson decode===> ${jsonDecode(response.body)}');
+//      print('response body with hson decode===> ${jsonDecode(response.body)}');
       Bargain bargain = Bargain.fromJson(jsonDecode(response.body));
       return bargain;
     }
@@ -930,7 +930,7 @@ class API extends BaseRepository
   static lapseTimeBargain(String id) async {
     var response = await http.get(ApiConfig.lapseTimeBargain + id,
         headers: await ApiConfig.getHeaderWithTokenAndContentType());
-    print('LapseTime===>${response.body}');
+//    print('LapseTime===>${response.body}');
     if (response.statusCode == ApiConfig.successStatusCode) {
       Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
       return jsonDecode(response.body)['bargainlapse'];
@@ -993,7 +993,7 @@ class API extends BaseRepository
         headers: await ApiConfig.getHeaderWithTokenAndContentType());
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<Item> items = Item.fromJsonArray(jsonDecode(response.body));
-      print(response.body);
+//      print(response.body);
 
       return items;
     }
@@ -1251,4 +1251,25 @@ class API extends BaseRepository
     }
     return null;
   }
+
+//  static resetPassword(String phone, String pan,String gstin, String password) async {
+//
+//    var data = {
+//      'phone': phone,
+//      'pan': pan,
+//      'gstin': gstin,
+//      'password': password
+//    };
+//
+//    var response = await http.post(ApiConfig.forgotPassword,
+//        headers: await ApiConfig.getHeader(),
+//        body: convert.jsonEncode(data));
+//
+//    if (response.statusCode == ApiConfig.successStatusCode) {
+//      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+//      return 'Password updated successfully';
+//    } else {
+//      return 'error';
+//    }
+//  }
 }
