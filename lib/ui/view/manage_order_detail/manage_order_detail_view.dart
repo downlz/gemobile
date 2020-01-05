@@ -796,9 +796,8 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
       print('filePath===>${file}');
       model.uploadBill(model);
     });
-    Navigator.pop(context);
-    Navigator.push(context, MaterialPageRoute(
-        builder: (context) => ManageOrderView()));
+//    Navigator.pop(context);
+    showUploadConfirmation();
 
   }
 
@@ -810,10 +809,8 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
       model.uploadBill(model);
     });
 
-    Navigator.pop(context);
-    Navigator.push(context, MaterialPageRoute(
-        builder: (context) => ManageOrderView()));
-
+//    Navigator.pop(context);
+    showUploadConfirmation();
 
   }
   openCamera(ImageSource source, ManageOrderDetailViewModel model) async {
@@ -823,40 +820,38 @@ class _CartViewState extends State<ManageOrderDetailView> with CommonAppBar {
       model.filePath = image;
       model.uploadBill(model);
     });
-    Navigator.pop(context);
-    Navigator.push(context, MaterialPageRoute(
-        builder: (context) => ManageOrderView()));
+//    Navigator.pop(context);
+    showUploadConfirmation();
   }
 
-//  showUploadConfirmation(){
-//    AlertDialog(
-//      content: ListTile(
-//        title: Text('Bill States'),
-//        subtitle: Text('Bill was uploaded successfully'),
-//      ),
-//      actions: <Widget>[
-//        Row(
-//          children: <Widget>[
-//            FlatButton(
-//                child: Text('Ok'),
-//                onPressed: () {
-//                  Navigator.pop(context);
-//                  Navigator.push(context, MaterialPageRoute(
-//                      builder: (context) =>
-//                          ManageOrderView()));
-//                }
-//            ),
-////            FlatButton(
-////                child: Text('Cancel'),
-////                onPressed: () =>
-////                    Navigator.pop(context)
-////            ),
-//          ],
-//        ),
-//      ],
-//      elevation: 2,
-//    );
-//  }
+  showUploadConfirmation(){
+    return showDialog(
+      context: context,
+      builder: (context) =>
+          AlertDialog(
+            content: ListTile(
+              title: Text('Upload Status'),
+              subtitle: Text('Bill was added successfully'),
+            ),
+            actions: <Widget>[
+              Row(
+                children: <Widget>[
+                  FlatButton(
+                      child: Text('Ok'),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) =>
+                                HomeView()));
+                      }
+                  ),
+                ],
+              ),
+            ],
+            elevation: 2,
+          ),
+    );
+  }
 
   getBill(ManageOrderDetailViewModel model) {
     return Row(

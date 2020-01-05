@@ -353,7 +353,7 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
     return
       model.addresses.length <= 0
           ?
-      WidgetUtils.showMessageAtCenterOfTheScreen('No address found.Add an address to continue')
+      WidgetUtils.showMessageAtCenterOfTheScreen(model.emptyAddrMsg)
       : SizedBox(
       height: 140.0,
       child: ListView.builder(

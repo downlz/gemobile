@@ -175,7 +175,7 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                                             },
                                             inputFormatters: [
                                               LengthLimitingTextInputFormatter(
-                                                  6),
+                                                  8),
                                             ],
                                             onChanged: (qty) {
                                               setState(() {
@@ -327,7 +327,7 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                       child: const Text('Initiate Bargain'),
                       textColor: Colors.amber.shade500,
                       onPressed: () async {
-//                        if (buyerQuoteFormKey.currentState.validate())
+                        if (buyerQuoteFormKey.currentState.validate())
                         {
                           model.initiateBargain(buyerQuoteController.text,
                               quantityController.text);

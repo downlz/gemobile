@@ -6,6 +6,7 @@ import 'package:graineasy/model/bargain.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
+import 'package:graineasy/ui/view/BargainDetail/bargain_history_view.dart';
 import 'package:intl/intl.dart';
 
 class BargainViewModel extends BaseModel {
@@ -66,6 +67,33 @@ class BargainViewModel extends BaseModel {
     bargainDetail = await API.updateBuyerBargainRequest(
         bargainDetail.id, quote, user.isBuyer, action);
     setState(ViewState.Idle);
+    return showDialog(
+      context: context,
+      builder: (context) =>
+          AlertDialog(
+            content: ListTile(
+              title: Text('Bargain Status',style: TextStyle(color: Colors.blueGrey,fontSize: 18, fontWeight: FontWeight.bold),),
+              subtitle: Text('Bargain quote was placed successfully'),
+            ),
+            actions: <Widget>[
+              Row(
+                children: <Widget>[
+                  FlatButton(
+                      child: Text('Ok',style: TextStyle(color: Colors.blueGrey,fontSize: 20, fontWeight: FontWeight.bold),),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) =>
+                                BargainHistoryView()));
+                      }
+                  ),
+                ],
+              ),
+
+            ],
+            elevation: 2,
+          ),
+    );
   }
 
   Future pauseBtnClick(Bargain bargainDetail) async {

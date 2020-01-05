@@ -4,6 +4,7 @@ import 'package:graineasy/ui/theme/palette.dart';
 import 'package:graineasy/ui/view/manage_order/manage_order/manage_order_view_model.dart';
 import 'package:graineasy/ui/view/manage_order_detail/manage_order_detail_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
+import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/utils/check_internet/utility.dart';
 
 
@@ -28,6 +29,15 @@ class _ManageOrderViewState extends State<ManageOrderView> with CommonAppBar {
         appBar: new AppBar(
           title: Text('Manage Orders'),
           backgroundColor: Colors.white,
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.home, color: Colors.black87,), onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(
+                      builder: (context) => HomeView()
+                  ));
+            })
+          ],
         ),
         body: _getBody(model),
       );

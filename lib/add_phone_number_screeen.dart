@@ -113,7 +113,7 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
                       await canLaunch(whatsAppUrl)
                           ? launch(whatsAppUrl)
                           : print(
-                              "open whatsapp app link or do a snackbar with notification that there is no whatsapp installed");
+                              "Unable to launch Whatsapp as no such application is installed.");
                     },
                   ),
                 )

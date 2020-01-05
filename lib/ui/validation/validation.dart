@@ -141,10 +141,11 @@ static  validateEmptyPassword(String value) {
 
 
   static validateItemQtyAndPrice(String value, Item itemDetails) {
+    print('validating');
     if (value.isEmpty)
-      return 'Quote equired';
+      return 'Quote required';
 
-    if (int.parse(value) == 0)
+    if (double.parse(value) <= 1 || double.parse(value) > itemDetails.price)
       return 'Enter valid Quote amount';
     else
       return null;
@@ -154,7 +155,7 @@ static  validateEmptyPassword(String value) {
 
 
   static validateGstInNumber(String value) {
-    if ((value.length < 15)) {
+    if ((value.length != 15)) {
       return "Incorrect GSTIN";
     }
     else if (value.isEmpty) {

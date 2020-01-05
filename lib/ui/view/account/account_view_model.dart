@@ -14,6 +14,7 @@ class AccountViewModel extends BaseModel {
   User user;
   bool checkAgent;
   bool checkAdmin;
+  String emptyAddrMsg = '';
 
   bool isFirstTime = true;
 
@@ -45,6 +46,7 @@ class AccountViewModel extends BaseModel {
   Future getAddress(String phone, String id) async {
     setState(ViewState.Busy);
     addresses = await API.getAddress(phone, id);
+    if (addresses.length == 0) emptyAddrMsg='No address found.Add an address to continue';
     setState(ViewState.Idle);
   }
 

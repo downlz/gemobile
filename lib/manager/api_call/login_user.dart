@@ -22,15 +22,16 @@ class LoginUser extends LoginRepository {
     var response = await http.post(ApiConfig.login,
         headers: await ApiConfig.getHeader(),
         body: convert.jsonEncode(data));
+    print(jsonDecode(response.body));
     if (response.statusCode == ApiConfig.successStatusCode) {
       Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
       saveCurrentLogin(responseBody);
       AppPref currAppPref = await API.getAppPref(version);
       User user = User.fromJson(responseBody);
+      print(user.isActive);
       if (user.isActive && !user.isTransporter
           && !currAppPref.appupdaterequired ) {
         UserPreferences.saveUserDetails(user);
-        return 'Welcome back, ${responseBody['name']}';
       } else if (!user.isActive) {
         String activationstatus = 'activation';
         throw throw getErrorBasedOnAppDataSetup(activationstatus);
@@ -41,6 +42,8 @@ class LoginUser extends LoginRepository {
       else if (currAppPref.appupdaterequired) {
         String appupdate = 'updatereq';
         throw throw getErrorBasedOnAppDataSetup(appupdate);
+      } else {
+        print('Do Nothing');
       }
     }
       else {

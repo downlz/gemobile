@@ -12,7 +12,9 @@ import 'package:graineasy/ui/theme/app_responsive.dart';
 import 'package:graineasy/ui/theme/palette.dart';
 import 'package:graineasy/ui/theme/text_style.dart';
 import 'package:graineasy/ui/theme/widget.dart';
+import 'package:graineasy/ui/validation/validation.dart';
 import 'package:graineasy/ui/view/Bargain/bargain_view_model.dart';
+import 'package:graineasy/ui/view/BargainDetail/bargain_history_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/utils/ui_helper.dart';
 import 'package:intl/intl.dart';
@@ -45,22 +47,23 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
       return new Scaffold(
         appBar: new AppBar(
 //          title: Text('Bargain Request - ${model.getBargainStatus}' ),// + " " + '${model.getBargainStatus[0].toUpperCase()}${model.getBargainStatus.substring(1)}'),
-          title: Text(
-              model.getBargainStatus == null ? '' : 'Bargain Request - ${model.getBargainStatus}'),
+                    title: Text('Bargain Request'),
+//          title: Text(
+//              model.getBargainStatus == null ? '' : 'Bargain Request - ${model.getBargainStatus}'),
 
 //              model.itemDetails != null
 //                  ? model.itemDetails.name
 //                  : '')
           backgroundColor: Colors.white,
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.home, color: Colors.black87,), onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(
-                      builder: (context) => HomeView()
-                  ));
-            })
-          ],
+//          actions: <Widget>[
+//            IconButton(
+//                icon: Icon(Icons.home, color: Colors.black87,), onPressed: () {
+//              Navigator.push(context,
+//                  MaterialPageRoute(
+//                      builder: (context) => HomeView()
+//                  ));
+//            })
+//          ],
         ),
         body: _getBody(model),
       );
@@ -118,7 +121,8 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
 //                    ),
                   ),
                   Text(model.bargainDetail.item.itemname.name + ' | ' +
-                      model.bargainDetail.item.category.name + ' | ' + model.bargainDetail.item.sampleNo,
+                      model.bargainDetail.item.category.name + ' | ' + model.bargainDetail.item.sampleNo
+                    + ' | ' + '${model.getBargainStatus[0].toUpperCase()}${model.getBargainStatus.substring(1)}',
                     style: TextStyle(
                         fontSize: 20, fontWeight: FontWeight.bold),),
 //                  Text("Sample Number: " + model.bargainDetail.item.sampleNo,
@@ -166,15 +170,20 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
             (model.user.isSeller && !model.isBuyerQuote)
             ? Column(
           children: <Widget>[
-            Row(
+            model.bargainDetail.bargainstatus != 'lastbestprice' ? Row(
               children: <Widget>[
                 Expanded(
                   child: Form(
                     key: buyerQuoteFormKey,
                     child: TextFormField(
                       controller: buyerQuoteController,
+//                      validator: (value) {
+//                        return value.isEmpty ? 'Quote required' : null;
+//                      },
                       validator: (value) {
-                        return value.isEmpty ? 'Quote required' : null;
+                        return Validation
+                            .validateItemQtyAndPrice(
+                            value, model.bargainDetail.item);
                       },
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(8),
@@ -201,7 +210,7 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
                           if (buyerQuoteFormKey.currentState.validate()) {
                             model.counterBtnClick(
                                 buyerQuoteController.text, 'countered');
-                          }
+                          };
                         },
                         shape: new OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -209,7 +218,7 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
                   ),
                 ),
               ],
-            ),
+            ) : Container(),
             acceptRejectWidget(model),
           ],
         )
