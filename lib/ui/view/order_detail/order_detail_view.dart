@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/model/order.dart';
 import 'package:graineasy/ui/theme/palette.dart';
+import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/ui/view/order_detail/order_detail_model.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
@@ -37,6 +38,15 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
         appBar: new AppBar(
           title: Text('Order Details'),
           backgroundColor: Colors.white,
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.home, color: Colors.black87,), onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(
+                      builder: (context) => HomeView()
+                  ));
+            })
+          ],
         ),
         body: _getBody(model),
       );

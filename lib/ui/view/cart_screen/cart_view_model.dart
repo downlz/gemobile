@@ -10,7 +10,6 @@ import 'package:graineasy/model/order.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
 
-
 class CartViewModel extends BaseModel {
   List<CartItem> cartItems;
   List<Address> addresses;
@@ -21,6 +20,7 @@ class CartViewModel extends BaseModel {
   double totalPriceOfTheOrder = 0;
   int selectedAddressPosition = 0;
   User user;
+  bool caughtError = false;
 
   Future init(List<CartItem> cartItems) async {
     if (isFirstTime) {
@@ -53,17 +53,32 @@ class CartViewModel extends BaseModel {
 //  }
 
 
-  createOrder(Item item) async
+  createOrder(Item item,String userType) async
   {
+
     User user = await UserPreferences.getUser();
     setState(ViewState.Busy);
-    await API.placeOrder(
-        cartItems[0], addresses[selectedAddressPosition], user.id,'regular');     // Sending regular order manually
+    print('statrtng here=========>${userType}');
+    if (userType == 'agent') {
+
+    await API.placeOrder(cartItems[0], agentbuyer[selectedAddressPosition], user.id,'agentorder');
+    }
+    else {
+
+      try {
+        await API.placeOrder(cartItems[0], addresses[selectedAddressPosition], user.id,'regular');
+      }
+      catch(e,stackTrace) {
+          print('error caught: $e');
+          print('stackTrace============>$stackTrace');
+          caughtError = true;
+      }
+    }
+    // Sending regular order manually
     setState(ViewState.Idle);
     Navigator.pushReplacement(context, MaterialPageRoute(
         builder: (context) => OrderHistoryView()));
   }
-
 
 //  void calculateTotalPrice(List<CartItem> cartItems) {
 //    for (CartItem cartItem in cartItems) {

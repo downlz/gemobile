@@ -7,6 +7,7 @@ class OrderDetailViewModel extends BaseModel {
   Order order;
 
   Future init(String id, Order orderList) async {
+    print('order id===========>${id}');
     if (isFirstTime) {
       if (id != null) {
         setState(ViewState.Busy);

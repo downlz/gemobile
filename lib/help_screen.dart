@@ -149,7 +149,7 @@ class Help extends State<Help_Screen> {
                                         child: AlertDialog(
                                             title: const Text('About Us'),
                                             content: Text(
-                                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                                                "A B2B Marketplace for agricultural commodities offering financial servies. © 2020 Funfact eMarketplace Pvt Ltd. All rights reserved",
                                                 style: dialogTextStyle),
                                             actions: <Widget>[
                                               FlatButton(

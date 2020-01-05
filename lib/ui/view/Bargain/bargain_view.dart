@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/base_view.dart';
+import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/bargain.dart';
 import 'package:graineasy/model/user.dart';
@@ -51,6 +52,15 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
 //                  ? model.itemDetails.name
 //                  : '')
           backgroundColor: Colors.white,
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.home, color: Colors.black87,), onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(
+                      builder: (context) => HomeView()
+                  ));
+            })
+          ],
         ),
         body: _getBody(model),
       );
@@ -129,8 +139,8 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
                       model.bargainDetail.quantity.toString() + " " +model.bargainDetail.item.unit.mass, style: TextStyle(
                       fontSize: 18, fontWeight: FontWeight.w400)),
                   Text('Lapse Time: ${model.lapseTime}'
-                  , style: TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.w400))
+                      , style: TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w400))
                 ],
               ),
             ),
@@ -142,10 +152,10 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
         ),
 
         !(model.getBargainStatus == 'paused'
-    || model.getBargainStatus == 'accepted'
-        || model.getBargainStatus == 'expired'
-        || model.getBargainStatus == 'rejected')
-    ? new Column(children: <Widget>[ !model.isBargainOn
+            || model.getBargainStatus == 'accepted'
+            || model.getBargainStatus == 'expired'
+            || model.getBargainStatus == 'rejected')
+            ? new Column(children: <Widget>[ !model.isBargainOn
             ? Text(
           model.user.isBuyer
               ? 'Accept or Reject the Seller quote'
@@ -219,7 +229,7 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
         ],)
             : Container(
           alignment: Alignment.center,
-          child: checkBargainPause(),
+          child: checkBargainPause(model),
         ),
 
       ],
@@ -309,7 +319,7 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Row(children: <Widget>[Text(
-          '\u20B9' + quote.buyerquote.toString(),
+                '\u20B9' + quote.buyerquote.toString(),
                 style: TextStyle(
                     fontSize: 25, color: Colors.black),
               ),
@@ -341,12 +351,12 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
     );
   }
 
-  checkBargainPause() {
-    DateTime updatedDate = widget.bargainDetail.lastupdated;
+  checkBargainPause(BargainViewModel model) {
+    DateTime updatedDate = model.bargainDetail.lastupdated;
     int mlsDate = updatedDate.millisecondsSinceEpoch + 21600000;
     DateTime fromNew = new DateTime.fromMicrosecondsSinceEpoch(mlsDate);
     String formattedDate = DateFormat('dd-MM-yyyy hh:mm a').format(fromNew);
-    String bargainStat = widget.bargainDetail.bargainstatus;
+    String bargainStat = model.bargainDetail.bargainstatus;
     String bodyText;
     if (bargainStat == 'accepted') {
       bodyText = 'The bargain request was processed successfully';
@@ -354,6 +364,8 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
       bodyText = 'The bargain request has expired';
     } else if (bargainStat == 'paused') {
       bodyText = 'Bargain has been paused till $formattedDate';
+    } else if (bargainStat == 'rejected') {
+      bodyText = 'This bargain request is rejected';
     } else {
       bodyText = 'The bargain status is unknown.Contact trade@graineasy.com';
     }

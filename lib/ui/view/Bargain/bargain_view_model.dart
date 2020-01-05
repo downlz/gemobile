@@ -18,8 +18,10 @@ class BargainViewModel extends BaseModel {
   String getBargainStatus = null;
 
   void init(Bargain bargainDetail, String id) async {
+    print(isFirstTime);
     if (isFirstTime) {
       if (id == null) {
+        print('hello');
         isFirstTime = false;
         String lapsetm = await API.lapseTimeBargain(bargainDetail.id);
         lapseTime = DateFormat("dd-MMM-yy hh:mm a").format(DateTime.parse(lapsetm));
@@ -32,10 +34,13 @@ class BargainViewModel extends BaseModel {
 //        notifyListeners();
       }
       else {
+        print('moglo=========${id}');
         isFirstTime = false;
+        print('callinglapse');
         String lapsetm = await API.lapseTimeBargain(id);
         lapseTime = DateFormat("dd-MMM-yy hh:mm a").format(DateTime.parse(lapsetm));
         setState(ViewState.Busy);
+        print('fetching id');
         bargainDetail = await API.particularBargainDetail(id);
         user = await UserPreferences.getUser();
         if (bargainDetail.bargaincounter == 3 && bargainDetail.thirdquote != null &&
@@ -44,13 +49,15 @@ class BargainViewModel extends BaseModel {
         }
         isBargainOn = true;
         this.bargainDetail = bargainDetail;
+        print('now showing');
+        print('Update----------->${this.bargainDetail.lastupdated}');
 
         setState(ViewState.Idle);
-//        notifyListeners();
       }
       getBargainStatus = bargainDetail.bargainstatus;
 
     }
+    print('outsidehello');
   }
 
   Future counterBtnClick(String quote, String action) async

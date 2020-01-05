@@ -24,24 +24,32 @@ class ManageOrderDetailViewModel extends BaseModel {
 
 
   init(String id, Order orderList) async {
+    print('id============>${id}');
     if (isFirstTime) {
       if (id != null) {
+        isFirstTime = false;
+        print('partonfe');
         setState(ViewState.Busy);
 
         orderList = await API.getOrderById(id);
         setState(ViewState.Idle);
         this.order = orderList;
-        if (order.manualbill.filename != null) {
-          manuallBillExists = true;
-        }
-        isFirstTime = false;
+//        if (order.manualbill.filename != null) {
+//          manuallBillExists = true;
+//        }
+
       } else {
+        isFirstTime = false;
+        print('secondpart');
         userDetail();
         setState(ViewState.Busy);
         order = await API.getOrderById(orderList.id);
         setState(ViewState.Idle);
-        isFirstTime = false;
+
 //        this.order = orderList;
+      }
+      if (this.order.manualbill.filename != null) {
+        manuallBillExists = true;
       }
     }
   }

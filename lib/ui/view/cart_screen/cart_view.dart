@@ -150,7 +150,7 @@ class _CartViewState extends State<CartView> with CommonAppBar {
               physics: ClampingScrollPhysics(),
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: model.addresses.length,
+              itemCount: model.user.isAgent ? model.agentbuyer.length : model.addresses.length,
               itemBuilder: (BuildContext cont, int ind) {
                 return Column(
                   children: <Widget>[
@@ -172,7 +172,7 @@ class _CartViewState extends State<CartView> with CommonAppBar {
                   borderRadius: BorderRadius.circular(7)),
               onPressed: () {
 //              model.getLastOrderNumber();
-                model.createOrder(widget.cartItems[0].item);
+                model.createOrder(widget.cartItems[0].item,model.user.isAgent ? 'agent' : 'buyer');
               },
               child: Text('Place Order',
                   style: TextStyle(
@@ -230,7 +230,7 @@ class _CartViewState extends State<CartView> with CommonAppBar {
                     children: <Widget>[
 
                       new Text(
-                        address.addresstype.toLowerCase(),
+                        address.addresstype!= null ? address.addresstype.toLowerCase():'Delivery',
                         style: TextStyle(
                             fontSize: 15.0,
                             color: Palette.assetColor,

@@ -320,7 +320,7 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           new Text(
-                            address.addresstype,
+                            address.addresstype != null ? address.addresstype : 'Unknown,Contact Support',
                             style: TextStyle(
                               fontSize: 15.0,
                               color: Colors.black26,
@@ -350,7 +350,11 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
   }
 
   addressList(AccountViewModel model) {
-    return SizedBox(
+    return
+      model.addresses.length <= 0
+          ?
+      WidgetUtils.showMessageAtCenterOfTheScreen('No address found.Add an address to continue')
+      : SizedBox(
       height: 140.0,
       child: ListView.builder(
         physics: ClampingScrollPhysics(),

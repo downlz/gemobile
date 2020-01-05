@@ -30,7 +30,7 @@ class DetailsViewModel extends BaseModel {
 //        isFirstTime = false;
 //              checkBargainActiveOrNot(false);
 
-
+        isFirstTime = false;
     }
       else {
         if (isFirstTime) {
@@ -38,12 +38,13 @@ class DetailsViewModel extends BaseModel {
           user = await UserPreferences.getUser();
           getItemDetails(itemDetails.id);
 //          isFirstTime = false;
-          checkBargainActiveOrNot(true);
+          if (!user.isAgent) checkBargainActiveOrNot(true);
+          isFirstTime = false;
         }
       }
     checkSeller = user.isSeller;
     checkAgent = user.isAgent;
-    isFirstTime = false;
+
   }
 
   void getItemDetails(String id) async {
@@ -91,9 +92,9 @@ class DetailsViewModel extends BaseModel {
       setState(ViewState.Busy);
     bargainDetail = !user.isSeller ? await API.checkBuyerRequestActiveOrNot(itemDetails.id, user.id) :
                     await API.checkSellerRequestActiveOrNot(itemDetails.id, itemDetails.seller.id);
-    setState(ViewState.Idle);
-    itemBargainStatus = bargainDetail.bargainstatus;
 
+    itemBargainStatus = bargainDetail.bargainstatus;
+    setState(ViewState.Idle);
   }
 }
 
