@@ -22,11 +22,11 @@ class BargainViewModel extends BaseModel {
     print(isFirstTime);
     if (isFirstTime) {
       if (id == null) {
-        print('hello');
+        setState(ViewState.Busy);
         isFirstTime = false;
         String lapsetm = await API.lapseTimeBargain(bargainDetail.id);
         lapseTime = DateFormat("dd-MMM-yy hh:mm a").format(DateTime.parse(lapsetm));
-        setState(ViewState.Busy);
+//        setState(ViewState.Busy);
         this.bargainDetail = bargainDetail;
         user = await UserPreferences.getUser();
         checkQuotationEnded();
@@ -58,7 +58,6 @@ class BargainViewModel extends BaseModel {
       getBargainStatus = bargainDetail.bargainstatus;
 
     }
-    print('outsidehello');
   }
 
   Future counterBtnClick(String quote, String action) async

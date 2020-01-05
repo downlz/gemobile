@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:graineasy/Cart_Screen.dart';
 import 'package:graineasy/helpers/common/sharing.dart';
 import 'package:graineasy/helpers/common/links.dart';
+import 'package:graineasy/ui/theme/palette.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'add_phone_number_screeen.dart';
 
@@ -155,8 +157,7 @@ class Help extends State<Help_Screen> {
                                               FlatButton(
                                                   child: const Text('Close'),
                                                   onPressed: () {
-                                                    Navigator.pop(context,
-                                                        DialogDemoAction.disagree);
+                                                    Navigator.pop(context);
                                                   }),
                                               /* FlatButton(
                                               child: const Text('AGREE'),
@@ -270,6 +271,40 @@ class Help extends State<Help_Screen> {
                                               AddPhoneNumber()));
                                 },
                               )),
+                          Container(
+                              padding: EdgeInsets.only(
+                                  left: 10.0, top: 15.0, bottom: 15.0),
+                              child: InkWell(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Image.asset(
+                                      'images/whatsapp.png',
+                                      width: 50,
+                                      height: 50,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 20),
+                                      child: Text('Live Support',
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Palette.assetColor,
+                                              fontWeight: FontWeight.w500)),
+                                    ),
+                                  ],
+                                ),
+                                onTap: () async {
+//                      launch("tel://+91 8297 855 195");
+
+                                  var phone = "+91 8297 855 195";
+                                  var whatsAppUrl = "whatsapp://send?phone=$phone";
+                                  await canLaunch(whatsAppUrl)
+                                      ? launch(whatsAppUrl)
+                                      : print(
+                                      "Unable to launch Whatsapp as no such application is installed.");
+                                },
+                              )
+                          ),
                         ],
                       ),
                     )),

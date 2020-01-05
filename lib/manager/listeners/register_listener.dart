@@ -27,7 +27,7 @@ class RegisterDataManager {
         errorCode = dataException.getErrorCode();
       }
       String error = onError.toString();
-      print('error=============>' + error);
+//      print('error=============>' + error);
 
       if (listener != null) {
         listener.errorObtained(error, errorCode, REGISTER);

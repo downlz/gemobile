@@ -5,29 +5,49 @@ import 'package:flutter_share_me/flutter_share_me.dart';
 
 Future launchEmail(Item recentItem) async {
   launch('mailto:?subject=${"Graineasy item listing: " +
-      recentItem.name}&body=${'Category:' +
+      recentItem.sampleNo}&body=${'Category:' +
       recentItem.category.name + "\n" +
+      'Item:' + recentItem.itemname.name}'+ "\n" +
       'List Price:' + '\u20B9'+ '${recentItem.price}' + "/" + '${recentItem.unit.mass}'+ "\n" +
-      recentItem.image}' + "\n" +
+      'Manufacturer:' + recentItem.manufacturer.name + "\n" +
+      'Origin:' + recentItem.origin + "\n" +
+//      recentItem.image}' + "\n" +
       'For details visit ' + 'https://graineasy.com/product/'+'${recentItem.id}' );
 }
 
 Future launchWhatsApp(Item recentItem) async {
   FlutterShareMe().shareToWhatsApp(
-      msg: recentItem.name + "/" + recentItem.category.name + "\n" +
-          'List Price:' + '\u20B9'+ '${recentItem.price}' + "/" + '${recentItem.unit.mass}'+ "\n" +
-          recentItem.image);
+      msg: 'Sharing an item from graineasy.com: ' + recentItem.name + "\n" +
+          'Item:' + recentItem.itemname.name + "\n" +
+          'Category: ' + recentItem.category.name + "\n" +
+          'List Price: ' + '\u20B9'+ '${recentItem.price}' + "/" + '${recentItem.unit.mass}'+ "\n" +
+          'Manufacturer: ' + recentItem.manufacturer.name + "\n" +
+          'Origin:' + recentItem.origin + "\n" +
+//          recentItem.image);
+          'For details visit ' + 'https://graineasy.com/product/'+'${recentItem.id}' );
 }
 
 Future launchGBEmail(Groupbuy item) async {
-  launch('mailto:?subject=${"ItemName: " +                                  // Modified to remove email to trade@graineasy.com
-      item.item.name}&body=${item.item.name + "/" + item.item.category.name + "\n" +
-      item.item.image}');
+  launch('mailto:?subject=${"Item available for Groupbuy at graineasy: " +                                  // Modified to remove email to trade@graineasy.com
+      item.item.name}&body=${'Item: '+ item.item.sampleNo + "\n" +
+      'Category:'+ item.item.category.name + "\n" +
+      'Manufacturer: ' + item.item.manufacturer.name + "\n" +
+      'Offer Price: ' + item.dealprice.toString()  + "/" + '${item.unit.mass}'+ "\n" +
+      'Minimum Order Quantity: ' + item.moq.toString()  + "/" + '${item.unit.mass}'+ "\n"
+      'For details visit: ' + 'https://graineasy.com/groupbuy/gbproduct/'+'${item.id}'}'
+      );
 }
 
 Future launchGBWhatsApp(Groupbuy item) async {
   FlutterShareMe().shareToWhatsApp(
-      msg: item.item.name + "/" + item.item.category.name + "\n" + item.item.image);
+//      msg: item.item.name + "/" + item.item.category.name + "\n" + item.item.image);
+      msg: 'Sharing an item from graineasy.com: ' + item.item.sampleNo + "\n" +
+          'Item: ' + item.item.name + "\n" +
+          'Category: ' + item.item.category.name + "\n" +
+      'Manufacturer: ' + item.item.manufacturer.name + "\n" +
+      'Offer Price: ' + item.dealprice.toString()  + "/" + '${item.unit.mass}'+ "\n" +
+      'Minimum Order Quantity: ' + item.moq.toString()  + "/" + '${item.unit.mass}'+ "\n"
+      'For details visit: ' + 'https://graineasy.com/groupbuy/gbproduct/'+'${item.id}');
 }
 
 Future launchCustomerEmail() async {

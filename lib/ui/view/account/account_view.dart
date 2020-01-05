@@ -94,7 +94,7 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       new Text(
-                        widget.user.name,
+                        widget.user.name + ' (Logged in as ' + model.userType + ')',
                         style: TextStyle(
                           color: Colors.black87,
                           fontSize: 15.0,
@@ -104,17 +104,35 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
                       ),
                       _verticalDivider(),
                       Container(),
-//                      new Text(
-//                        widget.user.email,
-//                        style: TextStyle(
-//                            color: Colors.black45,
-//                            fontSize: 13.0,
-//                            fontWeight: FontWeight.bold,
-//                            letterSpacing: 0.5),
-//                      ), Container(),
-//                      _verticalDivider(),
+                      new Text(
+                        'GSTIN - ' +model.gst,
+                        style: TextStyle(
+                            color: Colors.black45,
+                            fontSize: 13.0,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.5),
+                      ), Container(),
+                      _verticalDivider(),
+                      new Text(
+                        'PAN - '+ model.pan,
+                        style: TextStyle(
+                            color: Colors.black45,
+                            fontSize: 13.0,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.5),
+                      ), Container(),
+                      _verticalDivider(),
                       new Text(
                         widget.user.phone,
+                        style: TextStyle(
+                            color: Colors.black45,
+                            fontSize: 13.0,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.5),
+                      ), Container(),
+                      _verticalDivider(),
+                      new Text(
+                        'Email - ' + model.emailId,
                         style: TextStyle(
                             color: Colors.black45,
                             fontSize: 13.0,

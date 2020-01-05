@@ -61,14 +61,16 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 10),
+                  padding: const EdgeInsets.only(bottom: 5, left: 10),
                   child: InkWell(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        IconButton(
-                            icon: Image.asset('images/call.png'),
-                            onPressed: () {}),
+                        Image.asset(
+                          'images/whatsapp.png',
+                          width: 50,
+                          height: 50,
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(left: 20),
                           child: Text('+91 8252 482 338',
@@ -79,8 +81,15 @@ class _AddPhoneNumberState extends State<AddPhoneNumber> {
                         ),
                       ],
                     ),
-                    onTap: () {
-                      launch("tel://+91 8252 482 338");
+                    onTap: () async {
+//                      launch("tel://+91 8297 855 195");
+
+                      var phone = "+91 8252 482 338";
+                      var whatsAppUrl = "whatsapp://send?phone=$phone";
+                      await canLaunch(whatsAppUrl)
+                          ? launch(whatsAppUrl)
+                          : print(
+                          "Unable to launch Whatsapp as no such application is installed.");
                     },
                   ),
                 ),

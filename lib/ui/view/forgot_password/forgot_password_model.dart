@@ -30,7 +30,9 @@ class ForgotPasswordModel extends BaseModel implements ForgotPasswordListener
   void goToLogin(String result) {
     setState(ViewState.Idle);
     showMessage(result, isError);
-    Navigator.pushNamedAndRemoveUntil(context, Screen.Login.toString(), (Route<dynamic> route) => false);
+    print('password test');
+    showUploadConfirmation();
+//    Navigator.pushNamedAndRemoveUntil(context, Screen.Login.toString(), (Route<dynamic> route) => false);
   }
 
   void sendDataToServer(String phoneNo, String panNo, String gstinNo, String pasword)
@@ -45,6 +47,35 @@ class ForgotPasswordModel extends BaseModel implements ForgotPasswordListener
         showMessage(AppLocalizations.of(context).noInternet, true);
       }
     });
+  }
+
+  showUploadConfirmation(){
+    return showDialog(
+      context: context,
+      builder: (context) =>
+          AlertDialog(
+            content: ListTile(
+              title: Text('Password Reset',style: TextStyle(color: Colors.blueGrey,fontSize: 18, fontWeight: FontWeight.bold),),
+              subtitle: Text('Your password was reset successfully.Please login using new password'),
+            ),
+            actions: <Widget>[
+              Row(
+                children: <Widget>[
+                  FlatButton(
+                      child: Text('Ok',style: TextStyle(color: Colors.blueGrey,fontSize: 20, fontWeight: FontWeight.bold),),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) =>
+                                LoginView()));
+                      }
+                  ),
+                ],
+              ),
+            ],
+            elevation: 2,
+          ),
+    );
   }
 
 }

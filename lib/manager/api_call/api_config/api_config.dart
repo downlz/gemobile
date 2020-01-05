@@ -72,6 +72,9 @@ class ApiConfig {
   // Application preference
   static String getAppPref = baseURL + 'apppref/';
 
+  // Application error logging
+  static String logErrorTrace = baseURL + 'errortrace/';
+
   //get FCM Key
   static String updateUserApiForGetFcmKey = baseURL + 'user/';
   static int successStatusCode = 200;

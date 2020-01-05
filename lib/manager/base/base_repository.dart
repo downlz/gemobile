@@ -63,6 +63,14 @@ class BaseRepository {
         case 'updatereq':
         return new DataException(
             "We have improved the application.Please update the app from playstore to continue using the application", 14);
+//      Showing valid message incase of incorrect application credentials
+        case 'incorrectpass':
+        return new DataException(
+            "The userid and password provided is not a valid once.Please check the password entered", 20);
+        case 'incorrectuser':
+          return new DataException(
+              "The userid entered is incorrect.Please enter a valid phoneno for userid to login to application", 21);
+
 
       default:
         return new DataException(

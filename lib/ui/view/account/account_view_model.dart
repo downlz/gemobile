@@ -5,7 +5,8 @@ import 'package:graineasy/model/address.dart';
 import 'package:graineasy/model/agentbuyer.dart';
 import 'package:graineasy/model/bankaccount.dart';
 import 'package:graineasy/model/user.dart';
-
+import 'package:graineasy/model/usermodel.dart';
+//import 'package:graineasy/helpers/functions/userprofile.dart';
 
 class AccountViewModel extends BaseModel {
   List<Address> addresses = [];
@@ -15,6 +16,11 @@ class AccountViewModel extends BaseModel {
   bool checkAgent;
   bool checkAdmin;
   String emptyAddrMsg = '';
+  UserModel userDtl;
+  String gst = '';
+  String pan = '';
+  String emailId = '';
+  String userType = '';
 
   bool isFirstTime = true;
 
@@ -32,6 +38,8 @@ class AccountViewModel extends BaseModel {
       getAddress(phone, id);
       getBankAccount(id);
       getAgentBuyer(id);
+      callUserDtl();
+      fetchRole();
 
       isFirstTime = false;
 //      notifyListeners();
@@ -60,6 +68,31 @@ class AccountViewModel extends BaseModel {
     setState(ViewState.Busy);
     agentbuyer = await API.getUserAgentBuyer(id);
     setState(ViewState.Idle);
+  }
+  Future callUserDtl() async {
+    setState(ViewState.Busy);
+    userDtl = await API.getUserDetail();
+    gst = userDtl.gst;
+    pan = userDtl.pan;
+    emailId = userDtl.email;
+    setState(ViewState.Idle);
+  }
+
+  fetchRole() async {
+
+    if (user.isAdmin) {
+      userType = 'admin';
+    } else if(user.isAgent){
+      userType = 'partner';
+    } else if (user.isBuyer){
+      userType = 'buyer';
+    } else if (user.isSeller){
+      userType = 'seller';
+    } else if (user.isTransporter){
+      userType = 'transporter';
+    } else {
+      userType = 'Undefined';
+    }
   }
 
 //  Future getUserDetail() async {

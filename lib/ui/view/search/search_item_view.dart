@@ -139,7 +139,7 @@ class _SearchItemViewState extends State<SearchItemView> with CommonAppBar {
                         style: AppWidget.darkTextFieldTextStyle(),
                         keyboardType: TextInputType.text,
                         decoration: AppWidget.darkTextField(
-                            'Search by name, sku, id'),
+                            'Search by name,manufacturer etc...'),
                         onChanged: (String searchString) {
                           if (searchString.length > 0) {
                             model.searchText(searchString);

@@ -9,6 +9,8 @@ import 'package:graineasy/model/cart_item.dart';
 import 'package:graineasy/model/order.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
+//import 'package:graineasy/helpers/showDialogSingleButton.dart';
+import 'package:package_info/package_info.dart';
 
 class CartViewModel extends BaseModel {
   List<CartItem> cartItems;
@@ -20,7 +22,8 @@ class CartViewModel extends BaseModel {
   double totalPriceOfTheOrder = 0;
   int selectedAddressPosition = 0;
   User user;
-  bool caughtError = false;
+//  bool caughtError = false;
+  String version;
 
   Future init(List<CartItem> cartItems) async {
     if (isFirstTime) {
@@ -30,6 +33,8 @@ class CartViewModel extends BaseModel {
       user = await UserPreferences.getUser();
       getAddresses(user.phone, user.id);
       getAgentBuyerAddr(user.id);
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      version = packageInfo.version;
     }
   }
 
@@ -58,7 +63,6 @@ class CartViewModel extends BaseModel {
 
     User user = await UserPreferences.getUser();
     setState(ViewState.Busy);
-    print('statrtng here=========>${userType}');
     if (userType == 'agent') {
 
     await API.placeOrder(cartItems[0], agentbuyer[selectedAddressPosition], user.id,'agentorder');
@@ -71,7 +75,10 @@ class CartViewModel extends BaseModel {
       catch(e,stackTrace) {
           print('error caught: $e');
           print('stackTrace============>$stackTrace');
-          caughtError = true;
+//          print(user.name);
+//          await API.logErrorTrace(user.name,e,version,'CartViewModel','ANDRIOD');
+//          showDialogSingleButton(context,'Application Error','An error was found $e',"Ok");
+//          caughtError = true;
       }
     }
     // Sending regular order manually

@@ -153,7 +153,7 @@ class API extends BaseRepository
         headers: await ApiConfig.getHeaderWithToken());
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<Address> addr = Address.fromJsonArray(jsonDecode(response.body));
-      print(response.body);
+//      print(response.body);
       return addr;
     }
     return[];
@@ -1270,24 +1270,26 @@ class API extends BaseRepository
     return null;
   }
 
-//  static resetPassword(String phone, String pan,String gstin, String password) async {
-//
-//    var data = {
-//      'phone': phone,
-//      'pan': pan,
-//      'gstin': gstin,
-//      'password': password
-//    };
-//
-//    var response = await http.post(ApiConfig.forgotPassword,
-//        headers: await ApiConfig.getHeader(),
-//        body: convert.jsonEncode(data));
-//
-//    if (response.statusCode == ApiConfig.successStatusCode) {
-//      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
-//      return 'Password updated successfully';
-//    } else {
-//      return 'error';
-//    }
-//  }
+  static logErrorTrace(String user, String message,String appversion, String apppage, String source) async {
+  print('starting api');
+  print(user);
+    var data = {
+      'user': user,
+      'message': message,
+      'appversion': appversion,
+      'apppage': apppage,
+      'source': source
+    };
+    print(jsonEncode(data));
+    var response = await http.post(ApiConfig.logErrorTrace,
+        headers: await ApiConfig.getHeader(),
+        body: convert.jsonEncode(data));
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+      return 'Trace logged';
+    } else {
+      return null;
+    }
+  }
 }

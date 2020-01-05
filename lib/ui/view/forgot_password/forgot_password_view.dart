@@ -136,6 +136,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> with CommonAppB
                       UIHelper.verticalSpaceSmall1,
 
                       TextFormField(
+                          obscureText: true,
                           controller: passwordController,
                           focusNode: passwordFocus,
                           style: AppWidget.darkWhiteTextFieldTextStyle(),

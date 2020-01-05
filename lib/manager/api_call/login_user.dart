@@ -22,13 +22,11 @@ class LoginUser extends LoginRepository {
     var response = await http.post(ApiConfig.login,
         headers: await ApiConfig.getHeader(),
         body: convert.jsonEncode(data));
-    print(jsonDecode(response.body));
     if (response.statusCode == ApiConfig.successStatusCode) {
       Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
       saveCurrentLogin(responseBody);
       AppPref currAppPref = await API.getAppPref(version);
       User user = User.fromJson(responseBody);
-      print(user.isActive);
       if (user.isActive && !user.isTransporter
           && !currAppPref.appupdaterequired ) {
         UserPreferences.saveUserDetails(user);
@@ -45,6 +43,13 @@ class LoginUser extends LoginRepository {
       } else {
         print('Do Nothing');
       }
+    } else if (response.statusCode == 400 && (response.body == '"password" length must be at least 8 characters long'
+    || response.body == 'Invalid email or password.')) {
+      String appPassword = 'incorrectpass';
+      throw throw getErrorBasedOnAppDataSetup(appPassword);
+    } else if (response.statusCode == 400 && (response.body == '"phone" length must be 13 characters long')) {
+      String appUser = 'incorrectuser';
+      throw throw getErrorBasedOnAppDataSetup(appUser);
     }
       else {
         throw throw getErrorBasedOnStatusCode(response.statusCode);

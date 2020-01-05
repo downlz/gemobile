@@ -165,7 +165,7 @@ static  validateEmptyPassword(String value) {
   }
 
   static validatePin(String value) {
-    if (!(value.length > 4)) {
+    if (value.length != 6) {
       return "Incorrect Pincode";
     }
     else if (value.isEmpty) {
