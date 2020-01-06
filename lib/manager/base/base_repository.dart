@@ -6,7 +6,7 @@ class BaseRepository {
     switch (statusCode) {
       case 400:
         return new DataException(
-            "Bad Request: Missing or invalid parameter.", statusCode);
+            "Bad Request: Invalid Credentials or Missing or invalid parameter.", statusCode);
 
       case 401:
         return new DataException(
@@ -43,6 +43,38 @@ class BaseRepository {
         return new DataException(
             "Internal Server Error: Server encountered an error, try again later.",
             statusCode);
+    }
+  }
+
+  DataException getErrorBasedOnAppDataSetup(String dbcode) {
+    switch (dbcode) {
+      case 'activation':
+        return new DataException(
+            "User account not activated yet.Contact trade@graineasy.com", 10);
+
+      case 'vendorcode':
+        return new DataException(
+            "Vendor code not setup.Contact trade@graineasy.com", 11);
+
+      case 'transporter':
+        return new DataException(
+            "We will be soon rolling out for transporter. Please use graineasy.com for the time being.", 12);
+
+        case 'updatereq':
+        return new DataException(
+            "We have improved the application. Please update the app from playstore to continue using the application.", 14);
+//      Showing valid message incase of incorrect application credentials
+        case 'incorrectpass':
+        return new DataException(
+            "The userid and password provided is not a valid one. Please check the password entered and retry.", 20);
+        case 'incorrectuser':
+          return new DataException(
+              "The userid entered is incorrect. Please enter a valid phoneno for userid to login to application.", 21);
+
+
+      default:
+        return new DataException(
+            "Internal Application error:Contact administrator@graineasy.com",20);
     }
   }
 }

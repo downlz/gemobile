@@ -25,7 +25,7 @@ class LoginViewModel extends BaseModel implements LoginListener
     showMessage(result, isError);
     API.updateUserApiToGetFCMKey();
     UserModel users = await UserPreferences.getFCMDeviceDtl();
-    print('FCM KEY=========>${users.fcmkey}');
+//    print('FCM KEY=========>${users.fcmkey}');
     Navigator.pushNamedAndRemoveUntil(
         context, Screen.Home_screen.toString(), (Route<dynamic> route) => false);
   }
@@ -42,7 +42,7 @@ class LoginViewModel extends BaseModel implements LoginListener
         setState(ViewState.Busy);
         LoginDataManager loginDataManager = LoginDataManager();
         loginDataManager.listener = this;
-        loginDataManager.login(phone, password);
+        await loginDataManager.login(phone, password);
       } else {
         showMessage(AppLocalizations.of(context).noInternet, true);
       }

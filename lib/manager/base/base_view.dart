@@ -3,6 +3,7 @@ import 'package:graineasy/di/locator.dart';
 import 'package:graineasy/manager/base/basemodel.dart';
 import 'package:provider/provider.dart';
 
+
 class BaseView<T extends ChangeNotifier> extends StatefulWidget {
   final Widget Function(BuildContext context, T value, Widget child) builder;
   final Function(T) onModelReady;
@@ -20,10 +21,12 @@ class _BaseViewState<T extends ChangeNotifier> extends State<BaseView<T>>
       widget.onModelReady(model);
     }
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
   Widget build(BuildContext context) {
+//     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
     return ChangeNotifierProvider<T>(
       builder: (context) {
         if (model is BaseModel) {
@@ -32,6 +35,8 @@ class _BaseViewState<T extends ChangeNotifier> extends State<BaseView<T>>
         return model;
       },
       child: Consumer<T>(builder: widget.builder),
+
     );
+
   }
 }

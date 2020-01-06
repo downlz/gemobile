@@ -1,3 +1,5 @@
+import 'package:json_annotation/json_annotation.dart';
+@JsonSerializable(nullable: true)
 class User {
 
 
@@ -9,15 +11,14 @@ class User {
   bool isAgent;
   bool isActive;
   bool isBuyer;
+  bool isTransporter;
   String token;
   String fcmkey;
   String phone;
 
-  User({this.name,this.id,this.fcmkey,this.email,
+  User({this.name,this.id,this.fcmkey,this.email,this.isTransporter,
       this.isActive,this.isAdmin,this.isAgent,this.isBuyer,this.isSeller,
       this.token,this.phone});
-
-
 
   User.fromJson(Map<String, dynamic> json)
       : name = json['name'],
@@ -28,6 +29,7 @@ class User {
         isAgent = checkBool(json, 'isAgent'),
         isAdmin = checkBool(json, 'isAdmin'),
         isBuyer = checkBool(json, 'isBuyer'),
+        isTransporter = checkBool(json, 'isTransporter'),
         isActive = checkBool(json, 'isActive'),
         token = json['token'],
         fcmkey = json['fcmkey'];
@@ -43,6 +45,7 @@ class User {
         'isBuyer': isBuyer,
         'isAgent': isAgent,
         'isAdmin': isAdmin,
+        'isTransporter': isTransporter,
         'isActive': isActive,
         'fcmkey' : fcmkey
       };

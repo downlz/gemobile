@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/model/order.dart';
 import 'package:graineasy/ui/theme/palette.dart';
+import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/ui/view/order_detail/order_detail_model.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:graineasy/utils/check_internet/utility.dart';
 import 'package:graineasy/utils/ui_helper.dart';
+//import 'package:intl/intl.dart';
 
 const URL = "https://graineasy.com";
 
@@ -31,11 +33,20 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
   Widget build(BuildContext context) {
     return BaseView<OrderDetailViewModel>(builder: (context, model, child) {
       model.init(widget.id, widget.orderList);
-      print(widget.orderList);
+//      print(widget.orderList);
       return new Scaffold(
         appBar: new AppBar(
-          title: Text('Order Detail'),
+          title: Text('Order Details'),
           backgroundColor: Colors.white,
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.home, color: Colors.black87,), onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(
+                      builder: (context) => HomeView()
+                  ));
+            })
+          ],
         ),
         body: _getBody(model),
       );
@@ -92,7 +103,7 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 5, left: 10),
             child: new Text(
-              model.order.item.name,
+              model.order.item.name + " " + model.order.item.category.name,
               style: TextStyle(
                   fontSize: 20.0,
                   color: Palette.assetColor,
@@ -102,7 +113,7 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
-              "OrderId: " + model.order.id,
+              "Order No: " + model.order.orderno,
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -112,7 +123,17 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
-              "Amount: " + model.order.cost.toString(),
+              "Amount: " + "\u20B9" + model.order.cost.toString(),
+              style: TextStyle(
+                  fontSize: 16.0,
+                  color: Palette.assetColor,
+                  fontWeight: FontWeight.w500),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: new Text(
+              "Quantity: " + model.order.quantity.toString() + " " + model.order.unit,
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -133,7 +154,9 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: new Text(
-              "Status: " + model.order.status,
+              model.order.status=='cancelled' ?
+              "Status:"+model.order.status + "(" + model.order.remarks +")"
+                  : "Status:"+model.order.status,
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,
@@ -160,8 +183,9 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(left: 10, top: 3),
             child: new Text(
-              "OrderDate: " +
-                  Utility.dateTimeToString(model.order.placedTime),
+              "Order Date: " +
+                  Utility.dateToString(model.order.placedTime),
+//                DateFormat("dd-MM-yyyy hh:mm a").format(DateTime.parse(model.order.placedTime));
               style: TextStyle(
                   fontSize: 16.0,
                   color: Palette.assetColor,

@@ -5,6 +5,8 @@ import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/city.dart';
 import 'package:graineasy/model/state.dart';
 import 'package:graineasy/model/usermodel.dart';
+import 'package:graineasy/helpers/showDialogSingleButton.dart';
+import 'package:graineasy/ui/view/login/login_view.dart';
 
 class RegistrationViewModel extends BaseModel
 {
@@ -52,8 +54,33 @@ class RegistrationViewModel extends BaseModel
     print('FCM KEY=========>${users.fcmkey}');
     print('FCM KEY=========>${users.devicedtl}');
     setState(ViewState.Idle);
+    return showDialog(
+      context: context,
+      builder: (context) =>
+          AlertDialog(
+            content: ListTile(
+              title: Text('Registration',style: TextStyle(color: Colors.blueGrey,fontSize: 18, fontWeight: FontWeight.bold),),
+              subtitle: Text("You have successfully registered with graineasy.You shall be able to use graineasy services once your account is activated.You shall receive an email on account activation") ,
+            ),
+            actions: <Widget>[
+              Row(
+                children: <Widget>[
+                  FlatButton(
+                      child: Text('Ok',style: TextStyle(color: Colors.blueGrey,fontSize: 20, fontWeight: FontWeight.bold),),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.push(context, MaterialPageRoute(
+                            builder: (context) =>
+                                LoginView()));
+                      }
+                  ),
+                ],
+              ),
+            ],
+            elevation: 2,
+          ),
+    );
 
-    Navigator.pop(context);
   }
 
 

@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_share_me/flutter_share_me.dart';
+import 'package:graineasy/helpers/common/sharing.dart';
 import 'package:graineasy/manager/base/base_view.dart';
-import 'package:graineasy/model/groupbuy.dart';
 import 'package:graineasy/ui/view/group-buy/gbitem_details/gbdetails_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'groupbuy_view_model.dart';
 
 
 class GroupbuyView extends StatefulWidget {
-//  final ItemName itemName;
-//  GroupbuyView();
 
   @override
   _GroupbuyViewState createState() => _GroupbuyViewState();
@@ -20,10 +16,6 @@ class GroupbuyView extends StatefulWidget {
 
 class _GroupbuyViewState extends State<GroupbuyView> with CommonAppBar {
 
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +122,7 @@ class _GroupbuyViewState extends State<GroupbuyView> with CommonAppBar {
                                               'images/whatsapp.png', width: 30,
                                               height: 25,),
                                               onTap: () {
-                                                _launchWhatsApp(
+                                                launchGBWhatsApp(
                                                     model.gbItems[index]);
                                               },),
                                           ),
@@ -141,7 +133,7 @@ class _GroupbuyViewState extends State<GroupbuyView> with CommonAppBar {
                                               'images/mail.png', width: 25,
                                               height: 25,),
                                               onTap: () {
-                                                _launchEmail(
+                                                launchGBEmail(
                                                     model.gbItems[index]);
                                               },),
                                           )
@@ -156,8 +148,6 @@ class _GroupbuyViewState extends State<GroupbuyView> with CommonAppBar {
                                   padding: EdgeInsets.only(
                                       left: 3.0, bottom: 3.0),
                                   alignment: Alignment.bottomLeft,
-
-
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -185,14 +175,14 @@ class _GroupbuyViewState extends State<GroupbuyView> with CommonAppBar {
   }
 
 
-  Future _launchEmail(Groupbuy item) async {
-    launch('mailto:?subject=${"ItemName: " +                                  // Modified to remove email to trade@graineasy.com
-        item.item.name}&body=${item.item.name + "/" + item.item.category.name + "\n" +
-        item.item.image}');
-  }
-
-  Future _launchWhatsApp(Groupbuy item) async {
-    FlutterShareMe().shareToWhatsApp(
-        msg: item.item.name + "/" + item.item.category.name + "\n" + item.item.image);
-  }
+//  Future _launchEmail(Groupbuy item) async {
+//    launch('mailto:?subject=${"ItemName: " +                                  // Modified to remove email to trade@graineasy.com
+//        item.item.name}&body=${item.item.name + "/" + item.item.category.name + "\n" +
+//        item.item.image}');
+//  }
+//
+//  Future _launchWhatsApp(Groupbuy item) async {
+//    FlutterShareMe().shareToWhatsApp(
+//        msg: item.item.name + "/" + item.item.category.name + "\n" + item.item.image);
+//  }
 }

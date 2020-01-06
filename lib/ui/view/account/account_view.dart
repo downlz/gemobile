@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/model/address.dart';
+import 'package:graineasy/model/agentbuyer.dart';
 import 'package:graineasy/model/bankaccount.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/view/account/add_update_address/add_update_addresses_view.dart';
+import 'package:graineasy/ui/view/account/add_update_agentbuyer/add_update_agentbuyer_view.dart';
 import 'package:graineasy/ui/view/account/add_update_bankacc/add_update_bankacc_view.dart';
+import 'package:graineasy/ui/view/forgot_password/forgot_password_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
+import 'package:graineasy/ui/widget/widget_utils.dart';
+import 'package:graineasy/helpers/showDialogSingleButton.dart';
 
 import 'account_view_model.dart';
 
@@ -90,7 +95,7 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       new Text(
-                        widget.user.name,
+                        widget.user.name + ' (Logged in as ' + model.userType + ')',
                         style: TextStyle(
                           color: Colors.black87,
                           fontSize: 15.0,
@@ -100,17 +105,35 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
                       ),
                       _verticalDivider(),
                       Container(),
-//                      new Text(
-//                        widget.user.email,
-//                        style: TextStyle(
-//                            color: Colors.black45,
-//                            fontSize: 13.0,
-//                            fontWeight: FontWeight.bold,
-//                            letterSpacing: 0.5),
-//                      ), Container(),
-//                      _verticalDivider(),
+                      new Text(
+                        'GSTIN - ' +model.gst,
+                        style: TextStyle(
+                            color: Colors.black45,
+                            fontSize: 13.0,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.5),
+                      ), Container(),
+                      _verticalDivider(),
+                      new Text(
+                        'PAN - '+ model.pan == null ? model.pan : 'PAN not available',
+                        style: TextStyle(
+                            color: Colors.black45,
+                            fontSize: 13.0,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.5),
+                      ), Container(),
+                      _verticalDivider(),
                       new Text(
                         widget.user.phone,
+                        style: TextStyle(
+                            color: Colors.black45,
+                            fontSize: 13.0,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.5),
+                      ), Container(),
+                      _verticalDivider(),
+                      new Text(
+                        'Email - ' + model.emailId,
                         style: TextStyle(
                             color: Colors.black45,
                             fontSize: 13.0,
@@ -148,6 +171,7 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
           ),
         ),
         addressList(model),
+        !model.checkAgent ?
         new Container(
           margin:
           EdgeInsets.only(left: 12.0, top: 10.0, bottom: 5.0),
@@ -168,22 +192,51 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
                     ));
               })
           ])
-        ),
-        bankAccountList(model),
+        ) : Container(),
+        !model.checkAgent && model.bankacc != null
+            ? bankAccountList(model)
+            : Container(),
+        model.checkAgent ?
+          new Container(
+              margin:
+              EdgeInsets.only(left: 12.0, top: 10.0, bottom: 5.0),
+              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    new Text(
+                      'Buyer List',
+                      style: TextStyle(
+                          color: Colors.black87,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0),
+                    ),
+                    IconButton(icon: Icon(Icons.add_circle), onPressed: () {
+                      print('click');
+                      Navigator.push(context,
+                          MaterialPageRoute(
+                              builder: (context) => AddUpdateAgentBuyerView()
+                          ));
+                    })
+                  ])
+          ): Container (),
+        model.checkAgent ? agentBuyerList(model) : Container(),
         new Container(
           margin: EdgeInsets.all(7.0),
           child: Card(
             elevation: 1.0,
             child: Row(
               children: <Widget>[
-                new IconButton(icon: keyloch, onPressed: null),
+                new IconButton(icon: keyloch, onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (context) =>
+                      ForgotPasswordView()
+                      ));
+                }),
                 _verticalD(),
                 new Text(
                   'Change Password',
                   style: TextStyle(fontSize: 15.0, color: Colors.black87),
 
                 ),
-
               ],
 
             ),
@@ -196,7 +249,9 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
             elevation: 1.0,
             child: Row(
               children: <Widget>[
-                new IconButton(icon: clear, onPressed: null),
+                new IconButton(icon: clear, onPressed: (){
+                  showDialogSingleButton(context, 'App History', 'Application history cleared for optimal performance.', "OK");
+                }),
                 _verticalD(),
                 new Text(
                   'Clear History',
@@ -209,25 +264,25 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
             ),
           ),
         ),
-        new Container(
-          margin: EdgeInsets.all(7.0),
-          child: Card(
-            elevation: 1.0,
-            child: Row(
-              children: <Widget>[
-                new IconButton(icon: logout, onPressed: null),
-                _verticalD(),
-                new Text(
-                  'Deactivate Account',
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    color: Colors.redAccent,
-                  ),
-                )
-              ],
-            ),
-          ),
-        )
+//        new Container(
+//          margin: EdgeInsets.all(7.0),
+//          child: Card(
+//            elevation: 1.0,
+//            child: Row(
+//              children: <Widget>[
+//                new IconButton(icon: logout, onPressed: null),
+//                _verticalD(),
+//                new Text(
+//                  'Deactivate Account',
+//                  style: TextStyle(
+//                    fontSize: 15.0,
+//                    color: Colors.redAccent,
+//                  ),
+//                )
+//              ],
+//            ),
+//          ),
+//        )
       ],
     );
   }
@@ -286,7 +341,7 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           new Text(
-                            address.addresstype,
+                            address.addresstype != null ? address.addresstype : 'Unknown,Contact Support',
                             style: TextStyle(
                               fontSize: 15.0,
                               color: Colors.black26,
@@ -316,7 +371,11 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
   }
 
   addressList(AccountViewModel model) {
-    return SizedBox(
+    return
+      model.addresses.length <= 0
+          ?
+      WidgetUtils.showMessageAtCenterOfTheScreen(model.emptyAddrMsg)
+      : SizedBox(
       height: 140.0,
       child: ListView.builder(
         physics: ClampingScrollPhysics(),
@@ -331,7 +390,38 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
   }
 
   bankAccountList(AccountViewModel model) {
-    return SizedBox(
+    return
+      model.bankacc.length <= 0
+          ?
+      WidgetUtils.showMessageAtCenterOfTheScreen('No bank account added')
+//      Card(
+//          elevation: 3.0,
+//          margin: EdgeInsets.all(10),
+//          child: Row(
+//            children: <Widget>[
+//              Container(
+//                  padding: EdgeInsets.all(10),
+//                  child: new Column(
+//                    crossAxisAlignment: CrossAxisAlignment.start,
+//                    mainAxisAlignment: MainAxisAlignment.start,
+//                    children: <Widget>[
+//                      new Text(
+//                        'No bank account added so far',
+//                        style: TextStyle(
+//                          color: Colors.black87,
+//                          fontSize: 15.0,
+//                          fontWeight: FontWeight.bold,
+//                          letterSpacing: 0.5,
+//                        ),
+//                      ),
+//                      _verticalDivider(),
+//                    ],
+//                  )),
+//
+//            ],
+//          )
+//      )
+          : SizedBox(
       height: 120.0,
       child: ListView.builder(
         physics: ClampingScrollPhysics(),
@@ -345,53 +435,55 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
     );
   }
 
-//  bankAccountWidget(AccountViewModel model) {
-//    return Card(
-//        elevation: 3.0,
-//        margin: EdgeInsets.all(10),
-//        child: Row(
-//          children: <Widget>[
-//            Container(
-//                padding: EdgeInsets.all(10),
-//                child: new Column(
-//                  crossAxisAlignment: CrossAxisAlignment.start,
-//                  mainAxisAlignment: MainAxisAlignment.start,
-//                  children: <Widget>[
-//                    new Text(
-//                      'Bank Name',
-//                      style: TextStyle(
-//                        color: Colors.black87,
-//                        fontSize: 15.0,
-//                        fontWeight: FontWeight.bold,
-//                        letterSpacing: 0.5,
+  agentBuyerList(AccountViewModel model) {
+    return
+      model.agentbuyer.length <= 0
+          ?
+      WidgetUtils.showMessageAtCenterOfTheScreen('No buyer added')
+//      Card(
+//          elevation: 3.0,
+//          margin: EdgeInsets.all(10),
+//          child: Row(
+//            children: <Widget>[
+//              Container(
+//                  padding: EdgeInsets.all(10),
+//                  child: new Column(
+//                    crossAxisAlignment: CrossAxisAlignment.start,
+//                    mainAxisAlignment: MainAxisAlignment.start,
+//                    children: <Widget>[
+//                      new Text(
+//                        'No bank account added so far',
+//                        style: TextStyle(
+//                          color: Colors.black87,
+//                          fontSize: 15.0,
+//                          fontWeight: FontWeight.bold,
+//                          letterSpacing: 0.5,
+//                        ),
 //                      ),
-//                    ),
-//                    _verticalDivider(),
-//                    new Text(
-//                      'Bank Address',
-//                      style: TextStyle(
-//                          color: Colors.black45,
-//                          fontSize: 13.0,
-//                          letterSpacing: 0.5),
-//                    ),
-//                    new Text(
-//                      'Pincode',
-//                      style: TextStyle(
-//                          color: Colors.black45,
-//                          fontSize: 13.0,
-//                          letterSpacing: 0.5),
-//                    ),
+//                      _verticalDivider(),
+//                    ],
+//                  )),
 //
-//                  ],
-//                )),
-//
-//          ],
-//        )
-//    );
-//  }
+//            ],
+//          )
+//      )
+          : SizedBox(
+        height: 120.0,
+        child: ListView.builder(
+          physics: ClampingScrollPhysics(),
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          itemCount: model.agentbuyer.length,
+          itemBuilder: (BuildContext cont, int ind) {
+            return agentBuyerWidget(model.agentbuyer[ind]);
+          },
+        ),
+      );
+  }
 
   bankAccountWidget(BankAccount bankacc) {
-    return Card(
+    return
+      Card(
         elevation: 3.0,
         margin: EdgeInsets.all(10),
         child: Row(
@@ -462,4 +554,60 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
         )
     );
   }
+
+  agentBuyerWidget(AgentBuyer agentbuyer) {
+    return
+      Card(
+          elevation: 3.0,
+          margin: EdgeInsets.all(10),
+          child: Row(
+            children: <Widget>[
+              Container(
+                  padding: EdgeInsets.all(10),
+                  child: new Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      new Text(
+                        agentbuyer.text,
+                        style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                      _verticalDivider(),
+                      new Text(
+                        agentbuyer.pin,
+                        style: TextStyle(
+                            color: Colors.black45,
+                            fontSize: 13.0,
+                            letterSpacing: 0.5),
+                      ),
+                      _verticalDivider(),
+                      new Text(
+                        agentbuyer.phone,
+                        style: TextStyle(
+                            color: Colors.black45,
+                            fontSize: 13.0,
+                            letterSpacing: 0.5),
+                      ),
+                    ],
+                  )),
+
+              Align(alignment: Alignment.topRight
+                  ,
+                  child: IconButton(icon: Icon(Icons.edit), onPressed: () {
+//                  print(address.phone);
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) =>
+                            AddUpdateAgentBuyerView(agentbuyer: agentbuyer,)
+                    ));
+                  }))
+            ],
+          )
+      );
+  }
+
 }

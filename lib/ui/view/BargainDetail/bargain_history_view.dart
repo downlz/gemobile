@@ -9,12 +9,6 @@ import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:graineasy/utils/check_internet/utility.dart';
 
 class BargainHistoryView extends StatefulWidget {
-  Bargain bargainList;
-  String id;
-
-  BargainHistoryView({this.id});
-
-//  BargainHistoryView(this.bargainList);
 
   @override
   _BargainHistoryViewState createState() => _BargainHistoryViewState();
@@ -28,7 +22,7 @@ class _BargainHistoryViewState extends State<BargainHistoryView>
   @override
   Widget build(BuildContext context) {
     return BaseView<BargainHistoryViewModel>(builder: (context, model, child) {
-      model.init(widget.id, bargain, model.perPage, model.present);
+      model.init();
       return new Scaffold(
         appBar: new AppBar(
           title: Text('Bargain History'),
@@ -75,17 +69,19 @@ class _BargainHistoryViewState extends State<BargainHistoryView>
               ? Container(
                   child: Center(
                     child: Text(
-                      'No Bargain Data Found',
+                      model.loadingText,
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
                 )
               : ListView.builder(
-                  itemCount: (bargain.length <= model.bargainList.length)
-                      ? bargain.length + 1
-                      : model.bargainList.length,
+                  itemCount: model.bargainList.length + 1,
+//                  (bargain.length <= model.bargainList.length)
+//                      ? bargain.length + 1
+//                      : model.bargainList.length,
                   shrinkWrap: true,
                   itemBuilder: (BuildContext cont, int ind) {
+//                    if (ind == model.bargainList.length)
                     return InkWell(
                       onTap: () {
                         Navigator.push(
@@ -95,7 +91,7 @@ class _BargainHistoryViewState extends State<BargainHistoryView>
                                     BargainView(
                                       bargainDetail: model.bargainList[ind],)));
                       },
-                      child: (ind == bargain.length) ?
+                      child: (ind == model.bargainList.length) ?
                       Container(
                         color: Palette.assetColor,
                         child: FlatButton(
@@ -103,7 +99,10 @@ class _BargainHistoryViewState extends State<BargainHistoryView>
                             style: TextStyle(color: Palette.whiteTextColor,
                                 fontSize: 15),),
                           onPressed: () {
-                            loadMoreData(model);
+                            setState(() async {
+                              model.pageNumber++;
+                              model.getBargainHistory();
+                            });
                           },
                         ),
                       ) :
@@ -165,7 +164,7 @@ class _BargainHistoryViewState extends State<BargainHistoryView>
         Padding(
           padding: const EdgeInsets.only(left: 5),
           child: Text(
-            "Updated On: " + Utility.dateToString(lastUpdated),
+            "Updated: " + Utility.dateToString(lastUpdated),
             style: TextStyle(fontSize: 15, color: Palette.assetColor),
           ),
         )

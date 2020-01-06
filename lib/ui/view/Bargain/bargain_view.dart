@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/base_view.dart';
+import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/bargain.dart';
 import 'package:graineasy/model/user.dart';
@@ -11,7 +12,9 @@ import 'package:graineasy/ui/theme/app_responsive.dart';
 import 'package:graineasy/ui/theme/palette.dart';
 import 'package:graineasy/ui/theme/text_style.dart';
 import 'package:graineasy/ui/theme/widget.dart';
+import 'package:graineasy/ui/validation/validation.dart';
 import 'package:graineasy/ui/view/Bargain/bargain_view_model.dart';
+import 'package:graineasy/ui/view/BargainDetail/bargain_history_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/utils/ui_helper.dart';
 import 'package:intl/intl.dart';
@@ -43,8 +46,24 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
       model.init(widget.bargainDetail, widget.id);
       return new Scaffold(
         appBar: new AppBar(
-          title: Text('Bargain' + " " + model.bargainDetail.bargainstatus),
+//          title: Text('Bargain Request - ${model.getBargainStatus}' ),// + " " + '${model.getBargainStatus[0].toUpperCase()}${model.getBargainStatus.substring(1)}'),
+                    title: Text('Bargain Request'),
+//          title: Text(
+//              model.getBargainStatus == null ? '' : 'Bargain Request - ${model.getBargainStatus}'),
+
+//              model.itemDetails != null
+//                  ? model.itemDetails.name
+//                  : '')
           backgroundColor: Colors.white,
+//          actions: <Widget>[
+//            IconButton(
+//                icon: Icon(Icons.home, color: Colors.black87,), onPressed: () {
+//              Navigator.push(context,
+//                  MaterialPageRoute(
+//                      builder: (context) => HomeView()
+//                  ));
+//            })
+//          ],
         ),
         body: _getBody(model),
       );
@@ -102,7 +121,8 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
 //                    ),
                   ),
                   Text(model.bargainDetail.item.itemname.name + ' | ' +
-                      model.bargainDetail.item.category.name + ' | ' + model.bargainDetail.item.sampleNo,
+                      model.bargainDetail.item.category.name + ' | ' + model.bargainDetail.item.sampleNo
+                    + ' | ' + '${model.getBargainStatus[0].toUpperCase()}${model.getBargainStatus.substring(1)}',
                     style: TextStyle(
                         fontSize: 20, fontWeight: FontWeight.bold),),
 //                  Text("Sample Number: " + model.bargainDetail.item.sampleNo,
@@ -116,15 +136,15 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
                       style: TextStyle(
                           fontSize: 18, fontWeight: FontWeight.w400)),
                   Text("List Price: " +
-                      model.bargainDetail.item.price.toString() + "/" +
+                      '\u20B9' + model.bargainDetail.item.price.toString() + "/" +
                       model.bargainDetail.item.unit.mass, style: TextStyle(
                       fontSize: 18, fontWeight: FontWeight.w400)),
                   Text("Requested Qty: " +
                       model.bargainDetail.quantity.toString() + " " +model.bargainDetail.item.unit.mass, style: TextStyle(
                       fontSize: 18, fontWeight: FontWeight.w400)),
-                  Text("Lapse Time: " +
-                      model.bargainDetail.firstquote.requestedon.toString(), style: TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.w400))
+                  Text('Lapse Time: ${model.lapseTime}'
+                      , style: TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.w400))
                 ],
               ),
             ),
@@ -135,8 +155,11 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
             getBargainDetailWidget(model)
         ),
 
-    model.bargainDetail.bargainstatus != 'paused'
-    ? new Column(children: <Widget>[ !model.isBargainOn
+        !(model.getBargainStatus == 'paused'
+            || model.getBargainStatus == 'accepted'
+            || model.getBargainStatus == 'expired'
+            || model.getBargainStatus == 'rejected')
+            ? new Column(children: <Widget>[ !model.isBargainOn
             ? Text(
           model.user.isBuyer
               ? 'Accept or Reject the Seller quote'
@@ -147,18 +170,23 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
             (model.user.isSeller && !model.isBuyerQuote)
             ? Column(
           children: <Widget>[
-            Row(
+            model.bargainDetail.bargainstatus != 'lastbestprice' ? Row(
               children: <Widget>[
                 Expanded(
                   child: Form(
                     key: buyerQuoteFormKey,
                     child: TextFormField(
                       controller: buyerQuoteController,
+//                      validator: (value) {
+//                        return value.isEmpty ? 'Quote required' : null;
+//                      },
                       validator: (value) {
-                        return value.isEmpty ? 'Quote required' : null;
+                        return Validation
+                            .validateItemQtyAndPrice(
+                            value, model.bargainDetail.item);
                       },
                       inputFormatters: [
-                        LengthLimitingTextInputFormatter(4),
+                        LengthLimitingTextInputFormatter(8),
                       ],
                       textAlign: TextAlign.center,
                       style: AppWidget.darkTextFieldTextStyle(),
@@ -182,7 +210,7 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
                           if (buyerQuoteFormKey.currentState.validate()) {
                             model.counterBtnClick(
                                 buyerQuoteController.text, 'countered');
-                          }
+                          };
                         },
                         shape: new OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
@@ -190,14 +218,15 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
                   ),
                 ),
               ],
-            ),
+            ) : Container(),
             acceptRejectWidget(model),
           ],
         )
             : Padding(
             padding: EdgeInsets.all(10),
-            child: model.bargainDetail.bargainstatus != 'expired' &&
-                model.bargainDetail.bargainstatus != 'rejected' ? Text(
+            child: model.getBargainStatus != 'expired'
+                && model.getBargainStatus != 'rejected'
+                && model.getBargainStatus != 'accepted'  ? Text(
               model.user.isBuyer && !model.isBuyerQuote
                   ? 'Waiting For Seller Response'
                   : 'Waiting For Buyer Quote',
@@ -209,7 +238,7 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
         ],)
             : Container(
           alignment: Alignment.center,
-          child: checkBargainPause(),
+          child: checkBargainPause(model),
         ),
 
       ],
@@ -251,19 +280,21 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Row(children: <Widget>[Text(
-                quote.sellerquote.toString(),
+                '\u20B9' + quote.sellerquote.toString(),
                 style: TextStyle(
                     fontSize: 25, color: Colors.deepOrange),
-              ), Text(
-                "/" +
-                    model.bargainDetail.item.unit.mass,
-                style: TextStyle(
-                    fontSize: 15, color: Colors.deepOrangeAccent),
               ),
+//                Text(
+//                "/" +
+//                    model.bargainDetail.item.unit.mass,
+//                style: TextStyle(
+//                    fontSize: 15, color: Colors.deepOrangeAccent),
+//              ),
               ],),
               UIHelper.verticalSpaceSmall,
               Text(
-                'By Seller',
+//                'By Seller',
+                model.user.isSeller ? 'Your quote' : 'By Seller',
                 textAlign: TextAlign.end,
                 style: TextStyle(
                     fontSize: 13, color: Colors.deepOrange),
@@ -297,15 +328,16 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Row(children: <Widget>[Text(
-                quote.buyerquote.toString(),
+                '\u20B9' + quote.buyerquote.toString(),
                 style: TextStyle(
                     fontSize: 25, color: Colors.black),
-              ), Text(
-                "/" +
-                    model.bargainDetail.item.unit.mass,
-                style: TextStyle(
-                    fontSize: 15, color: Colors.grey),
               ),
+//                Text(
+//                "/" +
+//                    model.bargainDetail.item.unit.mass,
+//                style: TextStyle(
+//                    fontSize: 15, color: Colors.grey),
+//              ),
               ],),
 //              Text(
 //                quote.buyerquote.toString() + "/" +
@@ -314,7 +346,8 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
 //              ),
               UIHelper.verticalSpaceSmall,
               Text(
-                'By Buyer',
+//                'By Buyer',
+                model.user.isBuyer ? 'Your quote' : 'By Buyer',
                 textAlign: TextAlign.end,
                 style:
                 TextStyle(fontSize: 13, color: Colors.black54),
@@ -327,14 +360,27 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
     );
   }
 
-  checkBargainPause() {
-    DateTime updatedDate = widget.bargainDetail.lastupdated;
+  checkBargainPause(BargainViewModel model) {
+    DateTime updatedDate = model.bargainDetail.lastupdated;
     int mlsDate = updatedDate.millisecondsSinceEpoch + 21600000;
     DateTime fromNew = new DateTime.fromMicrosecondsSinceEpoch(mlsDate);
     String formattedDate = DateFormat('dd-MM-yyyy hh:mm a').format(fromNew);
-
+    String bargainStat = model.bargainDetail.bargainstatus;
+    String bodyText;
+    if (bargainStat == 'accepted') {
+      bodyText = 'The bargain request was processed successfully';
+    } else if (bargainStat == 'expired') {
+      bodyText = 'The bargain request has expired';
+    } else if (bargainStat == 'paused') {
+      bodyText = 'Bargain has been paused till $formattedDate';
+    } else if (bargainStat == 'rejected') {
+      bodyText = 'This bargain request is rejected';
+    } else {
+      bodyText = 'The bargain status is unknown.Contact trade@graineasy.com';
+    }
     return new Padding(padding: EdgeInsets.all(10), child: Text(
-      'Bargain has been paused till $formattedDate',
+//      'Bargain has been paused till $formattedDate',
+      bodyText,
       textAlign: TextAlign.center,
       style: TextStyle(color: Colors.black, fontSize: 20),
     ),);
@@ -444,44 +490,44 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
                 });
           },
         ),
-        RaisedButton(
-            color: Palette.loginBgColor,
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10)),
-            child: Text(
-              'Pause',
-              style: AppTextStyle.commonTextStyle(
-                  Palette.whiteTextColor,
-                  AppResponsive.getFontSizeOf(30),
-                  FontWeight.bold,
-                  FontStyle.normal),
-            ),
-            onPressed: () {
-              print('pause');
-//                      model.pauseBtnClick(widget.bargainDetail);
-//                      return API.alertMessage('Are you sure want to pause this quote?',context);
-              return showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      content: new Text(
-                          'Are you sure want to pause this quote?'),
-                      actions: <Widget>[
-                        new FlatButton(
-                            onPressed: () {
-                              model.pauseBtnClick(widget.bargainDetail);
-                            },
-                            child: Text('Yes')),
-                        new FlatButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text('No'))
-                      ],
-                    );
-                  });
-            })
+//        RaisedButton(
+//            color: Palette.loginBgColor,
+//            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+//            shape: RoundedRectangleBorder(
+//                borderRadius: BorderRadius.circular(10)),
+//            child: Text(
+//              'Pause',
+//              style: AppTextStyle.commonTextStyle(
+//                  Palette.whiteTextColor,
+//                  AppResponsive.getFontSizeOf(30),
+//                  FontWeight.bold,
+//                  FontStyle.normal),
+//            ),
+//            onPressed: () {
+//              print('pause');
+////                      model.pauseBtnClick(widget.bargainDetail);
+////                      return API.alertMessage('Are you sure want to pause this quote?',context);
+//              return showDialog(
+//                  context: context,
+//                  builder: (BuildContext context) {
+//                    return AlertDialog(
+//                      content: new Text(
+//                          'Are you sure want to pause this quote?'),
+//                      actions: <Widget>[
+//                        new FlatButton(
+//                            onPressed: () {
+//                              model.pauseBtnClick(widget.bargainDetail);
+//                            },
+//                            child: Text('Yes')),
+//                        new FlatButton(
+//                            onPressed: () {
+//                              Navigator.of(context).pop();
+//                            },
+//                            child: Text('No'))
+//                      ],
+//                    );
+//                  });
+//            })
       ],
     );
   }

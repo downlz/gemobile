@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:graineasy/helpers/common/sharing.dart';
+import 'package:graineasy/helpers/common/container.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
-import 'package:graineasy/model/Item.dart';
 import 'package:graineasy/model/MostOrderedItem.dart';
 import 'package:graineasy/model/bannerItem.dart';
 import 'package:graineasy/model/user.dart';
@@ -23,8 +24,8 @@ import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+
 import '../../../help_screen.dart';
-import '../../../setting_screen.dart';
 import 'home_view_model.dart';
 
 
@@ -38,12 +39,15 @@ class _HomeViewState extends State<HomeView>
   TabController tabController;
   int tabIndex = 0;
 
+
+
   @override
   void initState() {
     super.initState();
     tabController = TabController(vsync: this, length: 3);
     tabController.addListener(toggleTab);
   }
+
 
   void toggleTab() {
     setState(() {
@@ -249,6 +253,7 @@ class _HomeViewState extends State<HomeView>
             ),
             onTap: () async {
               User user = await UserPreferences.getUser();
+              Navigator.pop(context);
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -258,7 +263,7 @@ class _HomeViewState extends State<HomeView>
           new Column(
             children: <Widget>[
               if(model.user != null)
-                !model.user.isSeller ?
+              !model.user.isSeller ?
               new ListTile(
                   leading: Icon(Icons.history, color: Palette.assetColor,),
                   title: new Text("Order History",
@@ -266,11 +271,13 @@ class _HomeViewState extends State<HomeView>
                   trailing: Icon(
                     Icons.arrow_forward, color: Palette.assetColor,),
                   onTap: () {
+                    Navigator.pop(context);
+
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) => OrderHistoryView()));
                   }) : Container(),
               if(model.user != null)
-                model.user.isSeller || model.user.isAdmin ?
+                (model.user.isSeller || model.user.isAdmin) ?
               new ListTile(
                   leading: Icon(Icons.credit_card, color: Palette.assetColor),
                   title: new Text("Manage Orders", style: TextStyle(
@@ -278,7 +285,9 @@ class _HomeViewState extends State<HomeView>
                   trailing: Icon(
                     Icons.arrow_forward, color: Palette.assetColor,),
 
-                  onTap: () {
+                  onTap: () async {
+                    Navigator.pop(context);
+
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) =>
                             ManageOrderView()));
@@ -296,12 +305,15 @@ class _HomeViewState extends State<HomeView>
                     Icons.arrow_forward, color: Palette.assetColor,),
 
                   onTap: () {
+                    Navigator.pop(context);
+
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) =>
                             GroupbuyView()));
                   }),
 
-              new ListTile(
+             !model.agentCheck ?
+             new ListTile(
 //                // Image.asset('images/bargain.png'),
                   leading: Icon(
                       Icons.monetization_on, color: Palette.assetColor),
@@ -311,22 +323,25 @@ class _HomeViewState extends State<HomeView>
                     Icons.arrow_forward, color: Palette.assetColor,),
 
                   onTap: () {
+                    Navigator.pop(context);
+
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) =>
                             BargainHistoryView()));
-                  }),
-              new ListTile(
-                  leading: Icon(Icons.settings, color: Palette.assetColor),
-                  title: new Text("Settings", style: TextStyle(
-                      color: Palette.assetColor, fontSize: 15)),
-                  trailing: Icon(
-                    Icons.arrow_forward, color: Palette.assetColor,),
-
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) =>
-                            Setting_Screen(toolbarname: 'Setting',)));
-                  }),
+                  })
+                 : Container(),
+//              new ListTile(
+//                  leading: Icon(Icons.settings, color: Palette.assetColor),
+//                  title: new Text("Settings", style: TextStyle(
+//                      color: Palette.assetColor, fontSize: 15)),
+//                  trailing: Icon(
+//                    Icons.arrow_forward, color: Palette.assetColor,),
+//
+//                  onTap: () {
+//                    Navigator.push(context, MaterialPageRoute(
+//                        builder: (context) =>
+//                            Setting_Screen(toolbarname: 'Setting',)));
+//                  }),
 
               new ListTile(
                   leading: Icon(Icons.help, color: Palette.assetColor),
@@ -335,6 +350,8 @@ class _HomeViewState extends State<HomeView>
                   trailing: Icon(
                     Icons.arrow_forward, color: Palette.assetColor,),
                   onTap: () {
+                    Navigator.pop(context);
+
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) =>
                             Help_Screen(toolbarname: 'Help',)));
@@ -367,6 +384,13 @@ class _HomeViewState extends State<HomeView>
                           content: new Text('Are you sure want to Logout'),
                           actions: <Widget>[
                             // usually buttons at the bottom of the dialog
+
+                            new FlatButton(
+                              child: new Text("No"),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
                             new FlatButton(
                               child: new Text("Yes"),
                               onPressed: () {
@@ -374,12 +398,6 @@ class _HomeViewState extends State<HomeView>
                                 Navigator.pushNamedAndRemoveUntil(
                                     context, Screen.Login.toString(), (
                                     Route<dynamic> route) => false);
-                              },
-                            ),
-                            new FlatButton(
-                              child: new Text("No"),
-                              onPressed: () {
-                                Navigator.pop(context);
                               },
                             ),
                           ],
@@ -392,7 +410,7 @@ class _HomeViewState extends State<HomeView>
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
-                child: Text('Version:0.50',
+                child: Text('Version:'+ model.version,
                     style: TextStyle(color: Palette.assetColor)),
               )
 
@@ -424,7 +442,7 @@ class _HomeViewState extends State<HomeView>
     return new GridView.builder(
         itemCount: model.recentItem.length,
         shrinkWrap: true,
-//        physics: NeverScrollableScrollPhysics(),
+        physics: NeverScrollableScrollPhysics(),
         gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2),
         itemBuilder: (BuildContext context, int index) {
@@ -456,13 +474,14 @@ class _HomeViewState extends State<HomeView>
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               model.recentItem[index].bargainenabled == true
-                                  ? Container(
-                                alignment: Alignment.topLeft,
-                                child: Text('Bargain Enabled',
-                                  style: TextStyle(color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),),
-                              )
+                                  ? getBargainContainer()
+//                              Container(
+//                                alignment: Alignment.topLeft,
+//                                child: Text('Bargain Enabled',
+//                                  style: TextStyle(color: Colors.white,
+//                                      fontWeight: FontWeight.bold,
+//                                      fontSize: 12),),
+//                              )
                                   : Container(alignment: Alignment.topLeft),
                               Container(
                                 alignment: Alignment.topRight
@@ -501,14 +520,27 @@ class _HomeViewState extends State<HomeView>
                               left: 3.0, bottom: 3.0),
                           alignment: Alignment.bottomLeft,
 
-                          child: new Text(
-                            model.recentItem[index].name,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
+                          child:
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(model.recentItem[index].name,
+                                style: TextStyle(fontSize: 16,color: Colors.white, fontWeight: FontWeight.bold),),
+                              Text(model.recentItem[index].manufacturer.name,
+                                  style: TextStyle(fontSize: 16,color: Colors.white, fontWeight: FontWeight.w500)),
+                              Text("Origin: " + model.recentItem[index].origin,
+                                  style: TextStyle(fontSize: 14,color: Colors.white, fontWeight: FontWeight.w500)),
+                            ],
+                          )
+//                          new Text(
+//                            model.recentItem[index].name,
+//                            textAlign: TextAlign.center,
+//                            style: TextStyle(
+//                                fontSize: 20.0,
+//                                color: Colors.white,
+//                                fontWeight: FontWeight.bold),
+//                          ),
                         ),
                       ],
                     )
@@ -1008,13 +1040,14 @@ class _HomeViewState extends State<HomeView>
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               model.itemsNear[index].bargainenabled == true
-                                  ? Container(
-                                alignment: Alignment.topLeft,
-                                child: Text('Bargain Enabled',
-                                  style: TextStyle(color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),),
-                              )
+                                  ? getBargainContainer()
+//                              Container(
+//                                alignment: Alignment.topLeft,
+//                                child: Text('Bargain Enabled',
+//                                  style: TextStyle(color: Colors.white,
+//                                      fontWeight: FontWeight.bold,
+//                                      fontSize: 12),),
+//                              )
                                   : Container(alignment: Alignment.topLeft),
                               Container(
                                 alignment: Alignment.topRight
@@ -1053,14 +1086,27 @@ class _HomeViewState extends State<HomeView>
                               left: 3.0, bottom: 3.0),
                           alignment: Alignment.bottomLeft,
 
-                          child: new Text(
-                            model.itemsNear[index].name,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 20.0,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
+                          child:
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(model.itemsNear[index].name,
+                                style: TextStyle(fontSize: 16,color: Colors.white, fontWeight: FontWeight.bold),),
+                              Text(model.itemsNear[index].manufacturer.name,
+                                  style: TextStyle(fontSize: 16,color: Colors.white, fontWeight: FontWeight.w500)),
+                              Text("Origin: " + model.itemsNear[index].origin,
+                                  style: TextStyle(fontSize: 14,color: Colors.white, fontWeight: FontWeight.w500)),
+                            ],
+                          )
+//                          new Text(
+//                            model.itemsNear[index].name,
+//                            textAlign: TextAlign.center,
+//                            style: TextStyle(
+//                                fontSize: 20.0,
+//                                color: Colors.white,
+//                                fontWeight: FontWeight.bold),
+//                          ),
                         ),
                       ],
                     )
@@ -1122,18 +1168,21 @@ class _HomeViewState extends State<HomeView>
         });
   }
 
-  Future launchEmail(Item recentItem) async {
-    launch('mailto:?subject=${"ItemName: " +
-        recentItem.name}&body=${recentItem.name + "/" +
-        recentItem.category.name + "\n" +
-        recentItem.image}');
-  }
-
-  Future launchWhatsApp(Item recentItem) async {
-    FlutterShareMe().shareToWhatsApp(
-        msg: recentItem.name + "/" + recentItem.category.name + "\n" +
-            recentItem.image);
-  }
+//  Future launchEmail(Item recentItem) async {
+//    launch('mailto:?subject=${"Graineasy item listing: " +
+//        recentItem.name}&body=${'Category:' +
+//        recentItem.category.name + "\n" +
+//        'List Price:' + '\u20B9'+ '${recentItem.price}' + "/" + '${recentItem.unit.mass}'+ "\n" +
+//        recentItem.image}' + "\n" +
+//        'For details visit ' + 'https://graineasy.com/product/'+'${recentItem.id}' );
+//  }
+//
+//  Future launchWhatsApp(Item recentItem) async {
+//    FlutterShareMe().shareToWhatsApp(
+//        msg: recentItem.name + "/" + recentItem.category.name + "\n" +
+//            'List Price:' + '\u20B9'+ '${recentItem.price}' + "/" + '${recentItem.unit.mass}'+ "\n" +
+//            recentItem.image);
+//  }
 
   Future launchEmailMostOrder(MostOrderedItem mostOrder) async {
     launch('mailto:?subject=${"ItemName: " +

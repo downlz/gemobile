@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
-import 'package:graineasy/model/Item.dart';
 import 'package:graineasy/model/groupbuy.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/theme/widget.dart';
-import 'package:graineasy/ui/validation/validation.dart';
-import 'package:graineasy/ui/view/Bargain/bargain_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:graineasy/helpers/showDialogSingleButton.dart';
@@ -33,13 +30,14 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
   final buyerQuoteFormKey = GlobalKey<FormState>();
   int curretnQty = 0;
 
-  @override
-  void initState() {
-    super.initState();
-  }
+//  @override
+//  void initState() {
+//    super.initState();
+//  }
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
     return BaseView<GBDetailsViewModel>(builder: (context, model, child) {
       model.init(widget.gbitem, widget.id);
       return new Scaffold(
@@ -133,7 +131,17 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
                             ),
                           ],
                         ))),
-                Container(
+
+                model.sellercheck
+                    ? Container(
+                  margin: EdgeInsets.all(10.0),
+                  child: Text(
+                    'Showing Items Details',
+                    style: TextStyle(color: Colors.blueGrey,fontSize: 18, fontWeight: FontWeight.bold),),)
+
+//                    : Container(),
+
+                : Container(
                     margin: EdgeInsets.all(10.0),
                     child: Card(
                         child: Container(
@@ -237,7 +245,7 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
                   margin: EdgeInsets.all(10.0),
                   child: Text(
                     'Available Quantity ${model
-                        .avlQty}',
+                        .avlQty} ${model.gbitemDetails.item.unit.mass}',
                     style: TextStyle(color: Colors.green,fontSize: 18.0,fontWeight: FontWeight.bold),),)
                     : Container(),
                 Container(
@@ -322,15 +330,15 @@ class _GBDetailsViewState extends State<GBDetailsView> with CommonAppBar {
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
           Padding(
             padding: const EdgeInsets.only(top: 10),
-            child: Text("Category: " + gbitem.item.category.name,
+            child: Text("Item: " + gbitem.item.itemname.name,
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           ),
-//          Text("Category: " + gbitem.item.category.name,
-//              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+          Text("Category: " + gbitem.item.category.name,
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text("Origin: " + gbitem.item.origin,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
-//          Text("Manufacturer: " + gbitem.item.manufacturer.name,
-//              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+          Text("Seller: " + gbitem.item.seller.name,
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text("List Price: " + "Rs. " + gbitem.item.price.toString() + "/" +
               gbitem.unit.mass,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),

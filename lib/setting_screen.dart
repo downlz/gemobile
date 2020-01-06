@@ -227,13 +227,14 @@ class Setting extends State<Setting_Screen> {
                                 showDemoDialog<DialogDemoAction>(
                                     context: context,
                                     child: AlertDialog(
-                                        title: const Text('About Us'),
+                                        title: const Text('Privacy Policy'),
+
                                         content: Text(
-                                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                                            "The Website and the Company will store and process the user information including any sensitive personal and/or financial information collected (as defined under the Information Technology Act, 2000), if any, on computers or servers that may be protected by physical as well as reasonable technological security measures and procedures in accordance with Information Technology Act 2000 and Rules framed there under. The User by registering and using the Website agrees to give Funfact eMarketplace Private Limited its explicit permission to store and process the information being transferred or used in this way.",
                                             style: dialogTextStyle),
                                         actions: <Widget>[
                                           FlatButton(
-                                              child: const Text('DISAGREE'),
+                                              child: const Text('Close'),
                                               onPressed: () {
                                                 Navigator.pop(context,
                                                     DialogDemoAction.disagree);

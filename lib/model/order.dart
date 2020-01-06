@@ -157,6 +157,6 @@ class userGeneratedBillSchema {
     return userGeneratedBillSchema(
         filename: json['filename'],
         addedBy: json['addedBy'],
-        addedOn: json['addedOn']);
+        addedOn: Utility.convertStringDateToDateTime(json['addedOn']));
   }
 }

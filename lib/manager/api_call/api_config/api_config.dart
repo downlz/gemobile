@@ -2,7 +2,7 @@
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 
 class ApiConfig {
-  static final String baseURL = 'http://192.168.0.105:3000/api/'; // Any idea to store different URL for PROD and DEV! 3.16.57.93
+  static final String baseURL = 'http://test.graineasy.com:3000/api/'; // Any idea to store different URL for PROD and DEV! 3.16.57.93
   static String login =baseURL +'auth';
   static String register = baseURL + 'user';
   static String forgotPassword =baseURL +'user/resetpassword';
@@ -21,7 +21,6 @@ class ApiConfig {
   static String getCalculatePrice = baseURL + 'price';
   static String updateAddress = baseURL + 'address/';
   static String searchItem = baseURL + 'item/search/';
-  static String banners = baseURL + 'banners/';
 
 
   // Order APIs
@@ -29,7 +28,7 @@ class ApiConfig {
   static String createOrder = baseURL + 'order';
   static String getAddressByIdAndPhone = baseURL + 'address/byuser/phone/';       // Replaced with getUserAddresses,No longer needed
   static String updateOrderStatus = baseURL + 'order/';
-  static String addManualBill = baseURL + 'uploadbill/';
+  static String uploadBill = baseURL + 'uploadbill';
   static String updateManualBill = baseURL + 'uploadbill/';
   static String getManualBill = baseURL + 'uploadbill/';
   static String getUserOrders = baseURL + 'order/user/';
@@ -45,7 +44,8 @@ class ApiConfig {
   static String updateBargainRequest = baseURL + 'bargain/';
   static String getBargainDtl = baseURL + 'bargain/';
   static String pauseBargain = baseURL + 'bargain/pause/';
-  static String releaseBargain = baseURL + 'uploadbill/';
+  static String releaseBargain = baseURL + 'bargain/release/';
+  static String lapseTimeBargain = baseURL + 'bargain/lapsetime/';
 
   // Group Buy APIs
   static String getGBListings = baseURL + 'gblisting/';
@@ -60,9 +60,25 @@ class ApiConfig {
   static String updBankAccount = baseURL + 'bankaccount/';
   static String getUserBankAccount = baseURL + 'bankaccount/user/';
 
+  // Agent Buyer
+  static String getAllAgentBuyer = baseURL + 'agentbuyer/';
+  static String addAgentBuyer = baseURL + 'agentbuyer/';
+  static String updAgentBuyer = baseURL + 'agentbuyer/';
+  static String getUserAgentBuyer = baseURL + 'agentbuyer/byuser/';
+
+  // Banner
+  static String getBanner = baseURL + 'banner/';
+
+  // Application preference
+  static String getAppPref = baseURL + 'apppref/';
+
+  // Application error logging
+  static String logErrorTrace = baseURL + 'errortrace/';
+
   //get FCM Key
   static String updateUserApiForGetFcmKey = baseURL + 'user/';
   static int successStatusCode = 200;
+
 
   static var getRecentlyAddedItem = baseURL + 'item/recent';
   static var getMostOrdered = baseURL + 'item/ordered/';
@@ -86,5 +102,13 @@ class ApiConfig {
       "Content-Type": "application/json",
       "Authorization": await UserPreferences.getToken()};
   }
+  static getHeaderWithAccept() async
+  {
+    return {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Authorization": await UserPreferences.getToken()};
+  }
+
 
 }

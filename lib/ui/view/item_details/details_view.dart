@@ -131,17 +131,18 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                             ),
                           ],
                         ))),
-// Commented by Shahnawaz
+
 //                model.itemDetails.bargainenabled && model.bargainDetail == null
-//                    ? Container(
-//                  margin: EdgeInsets.all(10.0),
-//                  child: Text(
-//                    'You can bargain if you want to buy more then ${model
-//                        .itemDetails.bargaintrgqty}',
-//                    style: TextStyle(color: Colors.red),),)
+                  model.checkSeller
+                    ? Container(
+                  margin: EdgeInsets.all(10.0),
+                  child: Text(
+                    'Showing Items Details',
+                    style: TextStyle(color: Colors.blueGrey,fontSize: 18, fontWeight: FontWeight.bold),),)
+
 //                    : Container(),
 
-                Container(
+                : Container(
                     margin: EdgeInsets.all(10.0),
                     child: Card(
                         child: Container(
@@ -174,7 +175,7 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                                             },
                                             inputFormatters: [
                                               LengthLimitingTextInputFormatter(
-                                                  4),
+                                                  8),
                                             ],
                                             onChanged: (qty) {
                                               setState(() {
@@ -225,9 +226,11 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                     ? Container(
                   margin: EdgeInsets.all(10.0),
                   child: Text(
-                    'You can bargain if you want to buy more than ${model
-                        .itemDetails.bargaintrgqty}',
-                    style: TextStyle(color: Colors.red),),)
+                    !(model.checkSeller || model.checkAgent) ?
+                    'You can bargain if you want to buy more than ${model.itemDetails.bargaintrgqty} ${model.itemDetails.unit.mass}'
+                        :
+                    'Minimum bargain quantity ${model.itemDetails.bargaintrgqty} ${model.itemDetails.unit.mass}',
+                    style: TextStyle(color: Colors.blueGrey),),)
                     : Container(),
                 Container(
                     padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
@@ -267,7 +270,7 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
               child: OutlineButton(
                   borderSide: BorderSide(
                       color: Colors.amber.shade500),
-                  child: const Text('Bargain View'),
+                  child: const Text('View Active Bargain'),
                   textColor: Colors.amber.shade500,
                   onPressed: () async {
                     Navigator.push(context,
@@ -286,7 +289,7 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
               ? Divider()
               : Container(),
           model.itemDetails.bargainenabled && model.bargainDetail == null &&
-              model.itemDetails.bargaintrgqty <= curretnQty ? Row(
+              model.itemDetails.bargaintrgqty <= curretnQty && !model.user.isAgent ? Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Expanded(
@@ -301,7 +304,7 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                     },
 
                     inputFormatters: [
-                      LengthLimitingTextInputFormatter(4),
+                      LengthLimitingTextInputFormatter(8),
                     ],
                     textAlign: TextAlign.center,
                     style: AppWidget
@@ -324,7 +327,8 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                       child: const Text('Initiate Bargain'),
                       textColor: Colors.amber.shade500,
                       onPressed: () async {
-                        if (buyerQuoteFormKey.currentState.validate()) {
+                        if (buyerQuoteFormKey.currentState.validate())
+                        {
                           model.initiateBargain(buyerQuoteController.text,
                               quantityController.text);
                         }
@@ -348,22 +352,24 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(item.name,
+          Text("Manufacturer: " + item.manufacturer.name,
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
           Padding(
             padding: const EdgeInsets.only(top: 10),
-            child: Text("Sample Number: " + item.sampleNo,
+            child: Text("Item: " + item.itemname.name,
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           ),
           Text("Category: " + item.category.name,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text("Origin: " + item.origin,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
-          Text("Manufacturer: " + item.manufacturer.name,
+          Text("Seller: " + item.seller.name,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
-          Text("List Price: " + "Rs. " + item.price.toString() + "/" +
-              item.unit.mass,
+          Text("Grade: " + item.grade,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+//          Text("List Price: " + "Rs. " + item.price.toString() + "/" +
+//              item.unit.mass,
+//              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
         ],
       ),
     );

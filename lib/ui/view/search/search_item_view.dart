@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/base_view.dart';
+import 'package:graineasy/helpers/common/sharing.dart';
+import 'package:graineasy/helpers/common/container.dart';
 import 'package:graineasy/model/manufacturer.dart';
 import 'package:graineasy/ui/theme/palette.dart';
 import 'package:graineasy/ui/theme/text_style.dart';
@@ -137,7 +139,7 @@ class _SearchItemViewState extends State<SearchItemView> with CommonAppBar {
                         style: AppWidget.darkTextFieldTextStyle(),
                         keyboardType: TextInputType.text,
                         decoration: AppWidget.darkTextField(
-                            'Search by name, sku, id'),
+                            'Search by name,manufacturer etc...'),
                         onChanged: (String searchString) {
                           if (searchString.length > 0) {
                             model.searchText(searchString);
@@ -245,44 +247,68 @@ class _SearchItemViewState extends State<SearchItemView> with CommonAppBar {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
+//                          model.items[index].bargainenabled == true
+//                              ?
+//                          new Text(
+//                            model.items[index].name,
+//                            textAlign: TextAlign.center,
+//                            style: TextStyle(
+//                                fontSize: 18.0,
+//                                color: Colors.white,
+//                                fontWeight: FontWeight.bold),
+//                          )
+//                           : Container(
+//                              alignment: Alignment.topLeft),
                           Container(
                             //margin: EdgeInsets.only(left: 10.0),
                             padding: EdgeInsets.only(left: 3.0, bottom: 3.0),
                             alignment: Alignment.bottomLeft,
-                            child: new Text(
-                              model.items[index].name,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 20.0,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(model.items[index].name,
+                                  style: TextStyle(fontSize: 14,color: Colors.white, fontWeight: FontWeight.bold),),
+                                Text(model.items[index].manufacturer.name,
+                                    style: TextStyle(fontSize: 12,color: Colors.white, fontWeight: FontWeight.w500)),
+                                Text("Origin: " + model.items[index].origin,
+                                    style: TextStyle(fontSize: 12,color: Colors.white, fontWeight: FontWeight.w500)),
+                              ],
                             ),
+//                            child: new Text(
+//                              model.items[index].name,
+//                              textAlign: TextAlign.center,
+//                              style: TextStyle(
+//                                  fontSize: 18.0,
+//                                  color: Colors.white,
+//                                  fontWeight: FontWeight.bold),
+//                            ),
                           ),
-//                        Container(
-//                          alignment: Alignment.bottomRight
-//                          ,child: Row(
-//                            mainAxisAlignment: MainAxisAlignment.end,
-//                            crossAxisAlignment: CrossAxisAlignment.end
-//                            ,children: <Widget>[
-//
-//                          Padding(
-//                            padding: const EdgeInsets.only(bottom: 3),
-//                            child: InkWell(child: Image.asset('images/whatsapp.png',width: 30,height: 25,),
-//                            onTap: (){
-//                          _launchWhatsApp(model.items[index]);
-//                            },),
-//                          ),
-//                          Padding(
-//                            padding: const EdgeInsets.only(left: 3,right: 1,bottom: 3),
-//                            child: InkWell(child: Image.asset('images/mail.png',width: 25,height: 25,),
-//                            onTap: (){
-//                              _launchEmail(model.items[index]);
-//
-//                            },),
-//                          )
-//                          ],
-//                          ),
-//                        ),
+                        Container(
+                          alignment: Alignment.topRight
+                          ,child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.end
+                            ,children: <Widget>[
+
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 3),
+                            child: InkWell(child: Image.asset('images/whatsapp.png',width: 30,height: 25,),
+                            onTap: (){
+                          launchWhatsApp(model.items[index]);
+                            },),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 3,right: 1,bottom: 3),
+                            child: InkWell(child: Image.asset('images/mail.png',width: 25,height: 25,),
+                            onTap: (){
+                              launchEmail(model.items[index]);
+                            },),
+                          )
+                          ],
+                          ),
+                        ),
+
                         ],
                       ),
                     ],

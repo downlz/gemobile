@@ -5,40 +5,44 @@ import 'package:graineasy/model/order.dart';
 import 'package:graineasy/model/user.dart';
 
 class OrderHistoryViewModel extends BaseModel {
-  bool isListEmpty = false;
-  List<Order> orderList;
-
+  List<Order> orderList = [];
   bool isFirstTime = true;
-  int present = 0;
-  int perPage = 8;
-  var isPageLoading = false;
+  int pageNumber = 1;
+  bool hasNextPage = true;
+  String emptyOrderText = '';
 
-  getOrders(String id, List<Order> order, int present, int perPage) async {
-    setState(ViewState.Busy);
+  getOrders() async {
+    List<Order> orderList;
     User user = await UserPreferences.getUser();
-    print('userid====>${user.id}');
-    if (user.isSeller || user.isBuyer) {
-      orderList = await API.getUserOrders(user.id);
-    } else if (user.isAdmin){
-      orderList = await API.getOrders();
-    } else if (user.isAgent){
-      orderList = await API.getAgentOrders(user.id);
+    setState(ViewState.Busy);
+    if (user.isAdmin) {
+      orderList = await API.getAdminOrders(pageNumber);
+    }
+    else if (user.isSeller || user.isBuyer) {
+//      orderList = await API.getUserOrders(user.id);
+      orderList = await API.getUserOrder(pageNumber);
+
+    }
+    else if (user.isAgent) {
+//      orderList = await API.getAgentOrders(user.id);
+      orderList = await API.getAgentOrder(pageNumber);
     } else {
       // Will think in future
     }
-//    orderList = await API.getParticularUserOrders(user.id);
+    if (orderList.length <= 0) {
+      hasNextPage = false;
+      emptyOrderText = 'No orders found';
+    } else
+      hasNextPage = true;
+    this.orderList.addAll(orderList);
     setState(ViewState.Idle);
-    if (orderList.length != 0) {
-      order.addAll(orderList.getRange(present, present + perPage));
-      present = present + perPage;
-    }
   }
 
-  void init(String id, List<Order> order, int perPage, int present) {
+  init() {
     if (isFirstTime) {
-      getOrders(id, order, present, perPage);
-
+      getOrders();
       isFirstTime = false;
     }
   }
+
 }

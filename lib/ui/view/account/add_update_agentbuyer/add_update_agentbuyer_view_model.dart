@@ -2,16 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/basemodel.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
-import 'package:graineasy/model/address.dart';
+import 'package:graineasy/model/agentbuyer.dart';
 import 'package:graineasy/model/city.dart';
 import 'package:graineasy/model/state.dart';
 import 'package:graineasy/model/user.dart';
-import 'package:graineasy/helpers/showDialogSingleButton.dart';
-import 'package:graineasy/ui/view/home/home_view.dart';
 
 import '../account_view.dart';
 
-class AddUpdateAddressViewModel extends BaseModel {
+class AddUpdateAgentBuyerViewModel extends BaseModel {
   bool isListEmpty = false;
   List<StateObject> stateList = [];
   List<City> cityList = [];
@@ -21,103 +19,98 @@ class AddUpdateAddressViewModel extends BaseModel {
   TextEditingController phoneNumberController = new TextEditingController();
   TextEditingController pinCodeController = new TextEditingController();
 
+
   City selectedCity;
   String selectedAddressType;
   bool isFirstTime = true;
-  bool isUpdateAddress = false;
+  bool isUpdateAgentBuyer = false;
 
-  init(Address addresses) async {
+  init(AgentBuyer agentbuyer) async {
     if (isFirstTime) {
       isFirstTime = false;
       setState(ViewState.Busy);
       cityList = await API.getCityList();
-      if (addresses != null) {
-        setAddressData(addresses);
-        isUpdateAddress = true;
+      if (agentbuyer != null) {
+        setAgentBuyerData(agentbuyer);
+        isUpdateAgentBuyer = true;
       }
       setState(ViewState.Idle);
     }
   }
 
-  addAddressesBtnClick(
+  addAgentBuyerBtnClick(
       String partyName,
       String phone,
       String gstInNo,
       String address,
       String selectedState,
       String selectedCity,
-      String selectedAddressType,
       String pinCode,
-      Address addresses) async {
+      AgentBuyer agentbuyer) async {
     User user = await UserPreferences.getUser();
 
-//    if(isUpdateAddress)
+//    if(isUpdateBankAccount)
     setState(ViewState.Busy);
-//    print(selectedCity);
-    await API.addAddresses(partyName, phone, gstInNo, address, selectedCity,
-        selectedState, selectedAddressType, pinCode);
+    await API.addAgentBuyer(partyName, phone, gstInNo, address, selectedCity,
+        selectedState, pinCode);
     setState(ViewState.Idle);
-    showDialogSingleButton(context, 'Address Update', 'New address was added successfully. This address can be used for order placement. You will be now be redirected to home screen', "OK");
     await Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => HomeView()));
+        context, MaterialPageRoute(builder: (context) => AccountVIew(user)));
   }
 
-  void setAddressData(Address addresses) {
-    partyNameController.text = addresses.addridentifier == null
+  void setAgentBuyerData(AgentBuyer agentbuyer) {
+
+    partyNameController.text = agentbuyer.agentbuyeridentifier == null
         ? 'partyName'
-        : addresses.addridentifier.partyname;
-    gstInController.text = addresses.addridentifier == null
+        : agentbuyer.agentbuyeridentifier.partyname;
+    gstInController.text = agentbuyer.agentbuyeridentifier == null
         ? 'gstIn'
-        : addresses.addridentifier.gstin;
-    addressController.text = addresses.text;
+        : agentbuyer.agentbuyeridentifier.gstin;
+    addressController.text = agentbuyer.text;
     for (City city in cityList) {
-      if (city.id == addresses.city.id) {
+      if (city.id == agentbuyer.city.id) {
         selectedCity = city;
       }
     }
-    selectedAddressType = addresses.addresstype;
+//    selectedAddressType = addresses.addresstype;
 
-    phoneNumberController.text = addresses.phone;
-    pinCodeController.text = addresses.pin;
+    phoneNumberController.text = agentbuyer.phone;
+    pinCodeController.text = agentbuyer.pin;
+    
   }
 
-  Future updateAddress(Address address) async {
+  Future updateAgentBuyer(AgentBuyer agentbuyer) async {
     User user = await UserPreferences.getUser();
 
-    if (isUpdateAddress) setState(ViewState.Busy);
-    await API.updateAddress(
-        address.id,
+    if (isUpdateAgentBuyer) setState(ViewState.Busy);
+    await API.updateAgentBuyer(
+        agentbuyer.id,
         addressController.text,
         pinCodeController.text,
         selectedCity.id,
         selectedCity.state.id,
-        phoneNumberController.text,
-        selectedAddressType);
+        phoneNumberController.text
+        );
     setState(ViewState.Idle);
     Navigator.pop(context);
     await Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => AccountVIew(user)));
-    API.getAddress(address.phone, address.id);
+    API.getUserBankAccount(user.id);
   }
 
-  Future addUpdateAddress(Address addresses) async {
-    if (isUpdateAddress == true) {
-      updateAddress(addresses);
+  Future addUpdateAgentBuyer(AgentBuyer agentbuyer) async {
+
+    if (isUpdateAgentBuyer == true) {
+      updateAgentBuyer(agentbuyer);
     } else
-      addAddressesBtnClick(
+      addAgentBuyerBtnClick(
           partyNameController.text,
           phoneNumberController.text,
           gstInController.text,
           addressController.text,
           selectedCity.id,
           selectedCity.state.id,
-          selectedAddressType,
           pinCodeController.text,
-          addresses);
-//    print(selectedCity.name);
+          agentbuyer);
   }
-
-//	//countered
-//rejected
-//accepted
 }

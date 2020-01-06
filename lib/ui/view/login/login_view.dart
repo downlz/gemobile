@@ -29,8 +29,8 @@ class _LoginViewState extends State<LoginView> with CommonAppBar {
   bool _formWasEdited = false;
 
   void initState() {
-    phoneController.text = '1111111111';
-    passwordController.text = 'gemobile2019';
+    phoneController.text = '';
+    passwordController.text = '';
     super.initState();
   }
   @override
@@ -67,12 +67,16 @@ class _LoginViewState extends State<LoginView> with CommonAppBar {
       Future.delayed(const Duration(milliseconds: 500), () {
         if (model.shouldShowMessage) {
           model.messageIsShown();
-          showErrorMessage(context, model.message, model.isError);
+          if (!model.isError && model.context != null) {
+            showErrorMessage(context, model.message,
+                model.isError);         // Smart handle based on system performance by Shahnawaz 22 Dec 2019
+          }
         }
       });
     } catch (e) {
       print(e);
     }
+
   }
 
   _getBaseContainer(LoginViewModel model)
@@ -125,43 +129,43 @@ class _LoginViewState extends State<LoginView> with CommonAppBar {
                           obscureText: true,
                           decoration: AppWidget.darkTextField('Password'),
                         ),
-                        UIHelper.verticalSpaceSmall1,
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          child: DropdownButton<String>(
-                            underline: Container(
-                              decoration: BoxDecoration(
-                                  border:
-                                  Border(bottom: BorderSide(
-                                      color: Palette.assetColor))),
-                            ),
-                            isExpanded: true,
-                            elevation: 4,
-                            icon: Icon(
-                              Icons.arrow_drop_down,
-                              color: Palette.assetColor,
-                            ),
-                            hint: new Text('Default',
-                              style: AppTextStyle.getLargeHeading(
-                                  false, Palette.assetColor),
-                            ),
-                            value: model.selectedChooseRole,
-                            onChanged: (String selectedChooseRole) {
-                              setState(() {
-                                model.selectedChooseRole = selectedChooseRole;
-                              });
-                            },
-                            items: API.chooseRole.map((String role) {
-                              return new DropdownMenuItem<String>(
-                                value: role,
-                                child: new Text(
-                                  role,
-                                  style: TextStyle(color: Palette.assetColor),
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
+//                        UIHelper.verticalSpaceSmall1,
+//                        Padding(
+//                          padding: const EdgeInsets.only(left: 10, right: 10),
+//                          child: DropdownButton<String>(
+//                            underline: Container(
+//                              decoration: BoxDecoration(
+//                                  border:
+//                                  Border(bottom: BorderSide(
+//                                      color: Palette.assetColor))),
+//                            ),
+//                            isExpanded: true,
+//                            elevation: 4,
+//                            icon: Icon(
+//                              Icons.arrow_drop_down,
+//                              color: Palette.assetColor,
+//                            ),
+//                            hint: new Text('Default',
+//                              style: AppTextStyle.getLargeHeading(
+//                                  false, Palette.assetColor),
+//                            ),
+//                            value: model.selectedChooseRole,
+//                            onChanged: (String selectedChooseRole) {
+//                              setState(() {
+//                                model.selectedChooseRole = selectedChooseRole;
+//                              });
+//                            },
+//                            items: API.chooseRole.map((String role) {
+//                              return new DropdownMenuItem<String>(
+//                                value: role,
+//                                child: new Text(
+//                                  role,
+//                                  style: TextStyle(color: Palette.assetColor),
+//                                ),
+//                              );
+//                            }).toList(),
+//                          ),
+//                        ),
                         UIHelper.verticalSpaceSmall1,
 
                         Column(

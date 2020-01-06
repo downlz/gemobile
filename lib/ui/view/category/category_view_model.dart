@@ -8,21 +8,21 @@ class CategoryViewModel extends BaseModel
   List<Item> items ;
 
   bool isFirstTime = true;
-  getCategories(String name) async
-  {
+
+  void init(String name) {
+    if(isFirstTime){
+        getCategories(name);
+        isFirstTime = false;
+        print('Cat first time');
+    }
+
+    print('Cat loop');
+  }
+
+  getCategories(String name) async {
     setState(ViewState.Busy);
     items = await API.getCategoryFromItemName(name);
     setState(ViewState.Idle);
   }
-
-  void init(String name) {
-    if(isFirstTime)
-      {
-        getCategories(name);
-        isFirstTime = false;
-
-      }
-  }
-
 
 }

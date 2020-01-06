@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:graineasy/manager/base/base_view.dart';
-import 'package:graineasy/model/order.dart';
 import 'package:graineasy/ui/theme/palette.dart';
+import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/ui/view/order/order_history/order_history_view_model.dart';
 import 'package:graineasy/ui/view/order_detail/order_detail_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
-import 'package:graineasy/ui/widget/widget_utils.dart';
-import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/utils/check_internet/utility.dart';
 
-const URL = "https://graineasy.com";
-
 class OrderHistoryView extends StatefulWidget {
-  String id;
-
-  OrderHistoryView();
 
   @override
   _OrderHistoryViewState createState() => _OrderHistoryViewState();
@@ -22,17 +15,16 @@ class OrderHistoryView extends StatefulWidget {
 
 class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
 
-  List<Order> order = new List<Order>();
 
-  @override
-  void initState() {
-    super.initState();
-  }
+//  @override
+//  void initState() {
+//    super.initState();
+//  }
 
   @override
   Widget build(BuildContext context) {
     return BaseView<OrderHistoryViewModel>(builder: (context, model, child) {
-      model.init(widget.id, order, model.perPage, model.present);
+      model.init();
       return new Scaffold(
         appBar: new AppBar(
           title: Text('My Orders'),
@@ -72,19 +64,43 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
   }
 
   _getBaseContainer(OrderHistoryViewModel model) {
-    return model.orderList != null && order != null
-        ? getCategoryWidget(model)
-        : Container();
+    return Card(
+
+        child:
+        model.orderList.isEmpty
+            ? Container(
+          child: Center(
+            child: Text(
+              model.emptyOrderText,
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+        ): getCategoryWidget(model)
+    );
+
   }
 
   getCategoryWidget(OrderHistoryViewModel model) {
-    return model.orderList.length <= 0
-        ? WidgetUtils.showMessageAtCenterOfTheScreen('No orders found')
-        : ListView.builder(
-        itemCount: (order.length <= model.orderList.length)
-            ? order.length + 1
-            : model.orderList.length,
+    return ListView.builder(
+        itemCount: model.orderList.length + 1,
         itemBuilder: (BuildContext cont, int ind) {
+          if (ind == model.orderList.length)
+            return model.hasNextPage ? Container(
+              color: Palette.assetColor,
+              child: FlatButton(
+                child: Stack(
+                  children: <Widget>[
+                    Text("Load More",
+                      style: TextStyle(color: Palette.whiteTextColor,
+                          fontSize: 15),),
+                  ],
+                ),
+                onPressed: () {
+                  setState(() async {
+                    model.pageNumber++;
+                    model.getOrders();
+                  });
+                },),) : Container();
           return Container(
               margin: EdgeInsets.only(left: 5.0, right: 5.0, bottom: 5.0),
               child: GestureDetector(onTap: () {
@@ -92,21 +108,9 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
                     builder: (context) =>
                         OrderDetailView(orderList: model.orderList[ind],)));
               },
-                child: (ind == order.length) ?
-                Container(
-                  color: Palette.assetColor,
-                  child: FlatButton(
-                    child: Text("Load More",
-                      style: TextStyle(color: Palette.whiteTextColor,
-                          fontSize: 15),),
-                    onPressed: () {
-                      loadMoreData(model);
-                    },
-                  ),
-                ) :
-                Card(
-                    elevation: 4.0,
-                    child: Container(
+                  child: Card(
+                      elevation: 4.0,
+                      child: Container(
                         padding:
                         const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
                         child: Column(
@@ -129,8 +133,8 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
                               margin: EdgeInsets.only(top: 3.0),
                               alignment: Alignment.topLeft,
                               child: Text(
-                                'To Deliver On :' +
-                                    Utility.dateTimeToString(
+                                'Ordered On :' +
+                                    Utility.dateToString(
                                         model.orderList[ind].placedTime),
                                 style: TextStyle(
                                     fontSize: 13.0, color: Colors.black54),
@@ -147,10 +151,10 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
                               MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 rowWidget(
-                                    'Order id', model.orderList[ind]
+                                    'Order No', model.orderList[ind]
                                     .orderno),
                                 rowWidget('Order Amount',
-                                    model.orderList[ind].cost.toString()),
+                                    ""+model.orderList[ind].cost.toString()),
                                 rowWidget('Order Type',
                                     model.orderList[ind].ordertype),
                               ],
@@ -183,9 +187,12 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
                               height: 10.0,
                               color: Colors.amber.shade500,
                             ),
-                            _status(model.orderList[ind].status)
+                            _status(model.orderList[ind].status),
+
                           ],
-                        ))),
+                        ),
+                      ))
+
               ));
         });
   }
@@ -251,16 +258,4 @@ class _OrderHistoryViewState extends State<OrderHistoryView> with CommonAppBar {
   }
 
 
-  void loadMoreData(OrderHistoryViewModel model) {
-    setState(() {
-      if ((model.present + model.perPage) > model.orderList.length) {
-        order.addAll(
-            order.getRange(model.present, model.orderList.length));
-      } else {
-        order.addAll(
-            order.getRange(model.present, model.present + model.perPage));
-      }
-      model.present = model.present + model.perPage;
-    });
-  }
 }

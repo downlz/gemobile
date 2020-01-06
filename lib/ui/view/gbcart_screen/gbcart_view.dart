@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/model/address.dart';
 import 'package:graineasy/model/gbcart_item.dart';
+import 'package:graineasy/model/agentbuyer.dart';
 import 'package:graineasy/ui/theme/palette.dart';
 import 'package:graineasy/ui/view/gbcart_screen/gbcart_view_model.dart';
+import 'package:graineasy/ui/view/account/add_update_address/add_update_addresses_view.dart';
+import 'package:graineasy/ui/view/account/add_update_agentbuyer/add_update_agentbuyer_view.dart';
 import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
@@ -103,16 +106,28 @@ class _GBCartViewState extends State<GBCartView> with CommonAppBar {
             ),
           ],
         ),
-        Container(
-            padding: EdgeInsets.only(left: 10, top: 10),
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'Address',
-              style: TextStyle(
-                  color: Palette.assetColor,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18),
-            )),
+        new Container(
+          margin:
+          EdgeInsets.only(left: 12.0, top: 5.0, right: 0.0, bottom: 5.0),
+          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              new Text(
+                model.user.isAgent ? 'Select Buyer' : 'Address',
+                style: TextStyle(
+                    color: Colors.black87,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.0),
+              ),
+              IconButton(icon: Icon(Icons.add_circle), onPressed: () {
+                print('click');
+                Navigator.push(context,
+                    MaterialPageRoute(
+                        builder: (context) => model.user.isAgent ? AddUpdateAgentBuyerView() :AddUpdateAddressView()
+                    ));
+              })
+            ],
+          ),
+        ),
         Container(
           alignment: Alignment.topLeft,
           child: SizedBox(
@@ -125,7 +140,9 @@ class _GBCartViewState extends State<GBCartView> with CommonAppBar {
               itemBuilder: (BuildContext cont, int ind) {
                 return Column(
                   children: <Widget>[
-                    addressWidget(model.addresses[ind], ind, model),
+                    model.user.isAgent ?
+                    agentBuyerWidget(model.agentbuyer[ind], ind, model)
+                        :  addressWidget(model.addresses[ind], ind, model),
                   ],
                 );
               },
@@ -199,7 +216,7 @@ class _GBCartViewState extends State<GBCartView> with CommonAppBar {
                     children: <Widget>[
 
                       new Text(
-                        address.addresstype.toLowerCase(),
+                        address.addresstype!= null ? address.addresstype.toLowerCase():'Delivery',
                         style: TextStyle(
                             fontSize: 15.0,
                             color: Palette.assetColor,
@@ -229,7 +246,77 @@ class _GBCartViewState extends State<GBCartView> with CommonAppBar {
             )));
   }
 
+  agentBuyerWidget(AgentBuyer agentbuyer, int ind, GBCartViewModel model) {
+    return Card(
+        elevation: 3.0,
+        margin: EdgeInsets.all(10),
+        child: Container(
+            padding: EdgeInsets.all(10),
+            child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                new Text(
+                  agentbuyer.agentbuyeridentifier.partyname,
+                  style: TextStyle(
+                    color: Palette.assetColor,
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+                _verticalDivider(),
+                new Text(
+                  agentbuyer.city != null ? agentbuyer.city.name + ', ' +
+                      agentbuyer.city.state.name : '',
+                  style: TextStyle(
+                      color: Palette.assetColor,
+                      fontSize: 13.0,
+                      letterSpacing: 0.5),
+                ),
+                _verticalDivider(),
+                new Text(
+                  agentbuyer.pin,
+                  style: TextStyle(
+                      color: Palette.assetColor,
+                      fontSize: 13.0,
+                      letterSpacing: 0.5),
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
 
+                    new Text(
+                      agentbuyer.text,
+                      style: TextStyle(
+                          fontSize: 15.0,
+                          color: Palette.assetColor,
+                          fontWeight: FontWeight.w200),
+                    ),
+//                      model.addressPosition==?
+                    new Checkbox(
+                      value: model.selectedAddressPosition == ind,
+                      onChanged: (bool value) {
+                        setState(() {
+                          model.selectedAddressPosition = ind;
+                        });
+                      },)
+//                      ): new Checkbox(
+//                        value: checkSecAddress,
+//                        onChanged: (bool value) {
+//                          setState(() {
+//                            checkSecAddress = value;
+//                            newAddress=model.addresses[ind];
+//                          });
+//                        },
+//                      )
+                  ],
+                ),
+
+              ],
+            )));
+  }
   _verticalD() => Container(
         margin: EdgeInsets.only(left: 3.0, right: 0.0, top: 0.0, bottom: 0.0),
       );

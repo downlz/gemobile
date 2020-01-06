@@ -6,6 +6,7 @@ import 'package:graineasy/model/Item.dart';
 import 'package:graineasy/model/bargain.dart';
 import 'package:graineasy/model/cart_item.dart';
 import 'package:graineasy/model/user.dart';
+import 'package:graineasy/ui/view/BargainDetail/bargain_history_view.dart';
 import 'package:graineasy/ui/view/cart_screen/cart_view.dart';
 
 class DetailsViewModel extends BaseModel {
@@ -13,37 +14,45 @@ class DetailsViewModel extends BaseModel {
   bool isFirstTime = true;
   Bargain bargainDetail;
   User user;
+  String itemBargainStatus;
+
+  bool checkSeller = false;
+  bool checkAgent = false;
 
   void init(Item item, String id) async {
     if (isFirstTime)
       if (id != null) {
         user = await UserPreferences.getUser();
+
         setState(ViewState.Busy);
         itemDetails = await API.getItemFromId(id);
         setState(ViewState.Idle);
-        isFirstTime = false;
+//        isFirstTime = false;
 //              checkBargainActiveOrNot(false);
 
-
+        isFirstTime = false;
     }
       else {
         if (isFirstTime) {
           itemDetails = item;
           user = await UserPreferences.getUser();
           getItemDetails(itemDetails.id);
+//          isFirstTime = false;
+          if (!user.isAgent) checkBargainActiveOrNot(true);
           isFirstTime = false;
-          checkBargainActiveOrNot(true);
         }
       }
+    checkSeller = user.isSeller;
+    checkAgent = user.isAgent;
 
   }
 
   void getItemDetails(String id) async {
-    print("Selected item id==> $id");
+//    print("Selected item id==> $id");
     setState(ViewState.Busy);
     itemDetails = await API.getItemFromId(id);
     setState(ViewState.Idle);
-    print('selected==${itemDetails.price}');
+//    print('selected==${itemDetails.price}');
   }
 
   void calculatePrice(Item item, String sellerId, String buyerId,
@@ -55,7 +64,7 @@ class DetailsViewModel extends BaseModel {
     List<CartItem> cartItems = [];
     cartItems.add(new CartItem(qty, totalPrice, item));
     setState(ViewState.Idle);
-    print(totalPrice);
+//    print(totalPrice);
     Navigator.push(context,
         MaterialPageRoute(
             builder: (context) =>
@@ -67,19 +76,24 @@ class DetailsViewModel extends BaseModel {
     setState(ViewState.Busy);
     await API.createBargainRequest(
         itemDetails.id, user.id, buyerQuote, quantity);
+    setState(ViewState.Idle);
     checkBargainActiveOrNot(false);
+    Navigator.push(context,
+        MaterialPageRoute(
+            builder: (context) =>
+                BargainHistoryView()));
   }
 
 
   Future checkBargainActiveOrNot(bool showProgress) async
   {
-    print('Product id============> ${itemDetails.id}');
+//    print('Product id============> ${itemDetails.id}');
     if (showProgress)
       setState(ViewState.Busy);
-    bargainDetail = !user.isSeller ?
-    await API.checkBuyerRequestActiveOrNot(itemDetails.id, user.id) :
-    await API.checkSellerRequestActiveOrNot(
-        itemDetails.id, itemDetails.seller.id);
+    bargainDetail = !user.isSeller ? await API.checkBuyerRequestActiveOrNot(itemDetails.id, user.id) :
+                    await API.checkSellerRequestActiveOrNot(itemDetails.id, itemDetails.seller.id);
+
+    itemBargainStatus = bargainDetail.bargainstatus;
     setState(ViewState.Idle);
   }
 }

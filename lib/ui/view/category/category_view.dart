@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_share_me/flutter_share_me.dart';
+import 'package:graineasy/helpers/common/sharing.dart';
+import 'package:graineasy/helpers/common/container.dart';
 import 'package:graineasy/manager/base/base_view.dart';
-import 'package:graineasy/model/Item.dart';
 import 'package:graineasy/model/itemname.dart';
 import 'package:graineasy/ui/view/item_details/details_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'category_view_model.dart';
 
@@ -21,15 +20,16 @@ class CategoryView extends StatefulWidget {
 
 class _CategoryViewState extends State<CategoryView> with CommonAppBar {
 
-  @override
-  void initState() {
-    super.initState();
-  }
+//  @override
+//  void initState() {
+//    super.initState();
+//  }
 
   @override
   Widget build(BuildContext context) {
     return BaseView<CategoryViewModel>(builder: (context, model, child) {
       model.init(widget.itemName.id);
+//      WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
       return new Scaffold(
         appBar: new AppBar(
           title: Text(widget.itemName.name),
@@ -37,6 +37,7 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
         ),
         body: _getBody(model),
       );
+
     });
   }
 
@@ -67,7 +68,6 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
 
   getCategoryWidget(CategoryViewModel model) {
     return
-
       model.items.length <= 0
         ? WidgetUtils.showMessageAtCenterOfTheScreen('No items found')
         : SingleChildScrollView(
@@ -106,14 +106,8 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                                         .spaceBetween,
                                     children: <Widget>[
                                       model.items[index].bargainenabled == true
-                                          ? Container(
-                                        alignment: Alignment.topLeft,
-                                        child: Text('Bargain Enabled',
-                                          style: TextStyle(color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12),),
-                                      )
-                                          : Container(
+                                          ?
+                                      getBargainContainer() : Container(
                                           alignment: Alignment.topLeft),
                                       Container(
                                         alignment: Alignment.topRight
@@ -130,7 +124,7 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                                               'images/whatsapp.png', width: 30,
                                               height: 25,),
                                               onTap: () {
-                                                _launchWhatsApp(
+                                                launchWhatsApp(
                                                     model.items[index]);
                                               },),
                                           ),
@@ -141,7 +135,7 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                                               'images/mail.png', width: 25,
                                               height: 25,),
                                               onTap: () {
-                                                _launchEmail(
+                                                launchEmail(
                                                     model.items[index]);
                                               },),
                                           )
@@ -192,17 +186,5 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                       ));
                 }),
           );
-  }
-
-
-  Future _launchEmail(Item item) async {
-    launch('mailto:?subject=${"ItemName: " +                                  // Modified to remove email to trade@graineasy.com
-        item.name}&body=${item.name + "/" + item.category.name + "\n" +
-        item.image}');
-  }
-
-  Future _launchWhatsApp(Item item) async {
-    FlutterShareMe().shareToWhatsApp(
-        msg: item.name + "/" + item.category.name + "\n" + item.image);
   }
 }

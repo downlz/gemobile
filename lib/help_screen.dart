@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:graineasy/Cart_Screen.dart';
+import 'package:graineasy/helpers/common/sharing.dart';
+import 'package:graineasy/helpers/common/links.dart';
+import 'package:graineasy/ui/theme/palette.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'add_phone_number_screeen.dart';
@@ -118,7 +121,7 @@ class Help extends State<Help_Screen> {
                                   ],
                                 ),
                                 onTap: () {
-                                  _launchEmail();
+                                  launchCustomerEmail();
                                 },
                               )),
                           Divider(
@@ -148,14 +151,13 @@ class Help extends State<Help_Screen> {
                                         child: AlertDialog(
                                             title: const Text('About Us'),
                                             content: Text(
-                                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                                                "A B2B Marketplace for agricultural commodities offering financial services. © 2020 Funfact eMarketplace Pvt Ltd. All rights reserved. Reach us at trade@graineasy.com",
                                                 style: dialogTextStyle),
                                             actions: <Widget>[
                                               FlatButton(
-                                                  child: const Text('DISAGREE'),
+                                                  child: const Text('Close'),
                                                   onPressed: () {
-                                                    Navigator.pop(context,
-                                                        DialogDemoAction.disagree);
+                                                    Navigator.pop(context);
                                                   }),
                                               /* FlatButton(
                                               child: const Text('AGREE'),
@@ -188,27 +190,29 @@ class Help extends State<Help_Screen> {
                                     ],
                                   ),
                                   onTap: () {
-                                    showDemoDialog<DialogDemoAction>(
-                                        context: context,
-                                        child: AlertDialog(
-                                            title: const Text('Send Feedback'),
-                                            content: Text(
-                                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-                                                style: dialogTextStyle),
-                                            actions: <Widget>[
-                                              FlatButton(
-                                                  child: const Text('DISAGREE'),
-                                                  onPressed: () {
-                                                    Navigator.pop(context,
-                                                        DialogDemoAction.disagree);
-                                                  }),
-                                              /* FlatButton(
-                                              child: const Text('AGREE'),
-                                              onPressed: () {
-                                                Navigator.pop(context,
-                                                    DialogDemoAction.agree);
-                                              })*/
-                                            ]));
+                                      launchFeedbackEmail();
+
+//                                    showDemoDialog<DialogDemoAction>(
+//                                        context: context,
+//                                        child: AlertDialog(
+//                                            title: const Text('Send Feedback'),
+//                                            content: Text(
+//                                                "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+//                                                style: dialogTextStyle),
+//                                            actions: <Widget>[
+//                                              FlatButton(
+//                                                  child: const Text('DISAGREE'),
+//                                                  onPressed: () {
+//                                                    Navigator.pop(context,
+//                                                        DialogDemoAction.disagree);
+//                                                  }),
+//                                              /* FlatButton(
+//                                              child: const Text('AGREE'),
+//                                              onPressed: () {
+//                                                Navigator.pop(context,
+//                                                    DialogDemoAction.agree);
+//                                              })*/
+//                                            ]));
                                   })),
                           Divider(
                             height: 5.0,
@@ -234,7 +238,7 @@ class Help extends State<Help_Screen> {
                                     ],
                                   ),
                                   onTap: () {
-                                    _launchTermsOfServiceURL();
+                                    launchTermsOfServiceURL();
                                   }
                               )),
                           Divider(
@@ -267,6 +271,40 @@ class Help extends State<Help_Screen> {
                                               AddPhoneNumber()));
                                 },
                               )),
+                          Container(
+                              padding: EdgeInsets.only(
+                                  left: 10.0, top: 15.0, bottom: 15.0),
+                              child: InkWell(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Image.asset(
+                                      'images/whatsapp.png',
+                                      width: 50,
+                                      height: 50,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 20),
+                                      child: Text('Live Support',
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Palette.assetColor,
+                                              fontWeight: FontWeight.w500)),
+                                    ),
+                                  ],
+                                ),
+                                onTap: () async {
+//                      launch("tel://+91 8297 855 195");
+
+                                  var phone = "+91 8297 855 195";
+                                  var whatsAppUrl = "whatsapp://send?phone=$phone";
+                                  await canLaunch(whatsAppUrl)
+                                      ? launch(whatsAppUrl)
+                                      : print(
+                                      "Unable to launch Whatsapp as no such application is installed.");
+                                },
+                              )
+                          ),
                         ],
                       ),
                     )),
@@ -349,19 +387,6 @@ class Help extends State<Help_Screen> {
         mText = "Press to hide";
       }
     });
-  }
-
-  Future _launchTermsOfServiceURL() async {
-    const url = 'https://graineasy.com/termsofuse';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
-  Future _launchEmail() async {
-    launch('mailto:trade@graineasy.com?subject=TestSubject');
   }
 }
 

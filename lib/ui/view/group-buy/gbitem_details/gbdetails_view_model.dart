@@ -3,9 +3,9 @@ import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/basemodel.dart';
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
-import 'package:graineasy/model/groupbuy.dart';
 import 'package:graineasy/model/bargain.dart';
 import 'package:graineasy/model/gbcart_item.dart';
+import 'package:graineasy/model/groupbuy.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/view/gbcart_screen/gbcart_view.dart';
 
@@ -16,36 +16,20 @@ class GBDetailsViewModel extends BaseModel {
   Bargain bargainDetail;
   User user;
   int avlQty;
+  bool sellercheck = false;
 
-  Future init(Groupbuy gbitem, String id) async {
+  init(Groupbuy gbitem, String id) async {
     if (isFirstTime) {
-//      if (id != null) {
-//        setState(ViewState.Busy);
       gbitemDetails = gbitem;
       user = await UserPreferences.getUser();
-//        gbitemDetails = await API.getGBListingDtl(id);
+      sellercheck = user.isSeller;
       getAvlQty(gbitemDetails.id);
-
-      setState(ViewState.Idle);
       isFirstTime = false;
-//        isFirstTime = false;
-//              checkBargainActiveOrNot(false);
-
-
-//    }
-//      else {
-//        if (isFirstTime) {
-//          itemDetails = item;
-//          user = await UserPreferences.getUser();
-//          getItemDetails(itemDetails.id);
-//          isFirstTime = false;
-//          checkBargainActiveOrNot(true);
-//        }
-//      }
     }
+//    WidgetsBinding.instance.addPostFrameCallback((_) => setState((ViewState.Idle)));
   }
 
-  void getAvlQty(String id) async {
+  getAvlQty(String id) async {
 
     setState(ViewState.Busy);
     avlQty = await API.getAvlQty(id);
@@ -53,11 +37,9 @@ class GBDetailsViewModel extends BaseModel {
   }
 
   void getItemDetails(String id) async {
-    print("Selected item id==> $id");
     setState(ViewState.Busy);
     itemDetails = await API.getItemFromId(id);
     setState(ViewState.Idle);
-    print('selected==${itemDetails.price}');
   }
 
   void calculateGBPrice(double dealprice, String buyerId,Groupbuy gbitem,
@@ -78,24 +60,23 @@ class GBDetailsViewModel extends BaseModel {
   }
 
 
-  Future initiateBargain(String buyerQuote, String quantity) async {
-    setState(ViewState.Busy);
-    await API.createBargainRequest(
-        itemDetails.id, user.id, buyerQuote, quantity);
-    checkBargainActiveOrNot(false);
-  }
+//  Future initiateBargain(String buyerQuote, String quantity) async {
+//    setState(ViewState.Busy);
+//    await API.createBargainRequest(
+//        itemDetails.id, user.id, buyerQuote, quantity);
+////    checkBargainActiveOrNot(false);
+//  }
 
 
-  Future checkBargainActiveOrNot(bool showProgress) async
-  {
-    print('Product id============> ${itemDetails.id}');
-    if (showProgress)
-      setState(ViewState.Busy);
-    bargainDetail = !user.isSeller ?
-    await API.checkBuyerRequestActiveOrNot(itemDetails.id, user.id) :
-    await API.checkSellerRequestActiveOrNot(
-        itemDetails.id, itemDetails.seller.id);
-    setState(ViewState.Idle);
-  }
+//  Future checkBargainActiveOrNot(bool showProgress) async
+//  {
+//    if (showProgress)
+//      setState(ViewState.Busy);
+//    bargainDetail = !user.isSeller ?
+//    await API.checkBuyerRequestActiveOrNot(itemDetails.id, user.id) :
+//    await API.checkSellerRequestActiveOrNot(
+//        itemDetails.id, itemDetails.seller.id);
+//    setState(ViewState.Idle);
+//  }
 }
 
