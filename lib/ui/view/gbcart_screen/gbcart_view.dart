@@ -216,7 +216,7 @@ class _GBCartViewState extends State<GBCartView> with CommonAppBar {
                     children: <Widget>[
 
                       new Text(
-                        address.addresstype.toLowerCase(),
+                        address.addresstype!= null ? address.addresstype.toLowerCase():'Delivery',
                         style: TextStyle(
                             fontSize: 15.0,
                             color: Palette.assetColor,

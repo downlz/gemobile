@@ -43,13 +43,13 @@ class API extends BaseRepository
 
 
   static List<String> addressType = [
+    'delivery',
     'factory',
     'outlet',
     'retail',
     'warehouse',
+//    'registered',
     'others',
-    'registered',
-    'delivery'
   ];
 
   static List<String> orderStatus = [
@@ -500,7 +500,7 @@ class API extends BaseRepository
       'placedTime': new DateTime.now().millisecondsSinceEpoch,
       'ordertype': "groupbuying",                                     // To be updated based on type of order
       'status': "new",
-      'isshippingbillingsame': false,
+      'isshippingbillingdiff': false,
       'addedby': userID,
       'referenceGBId' : cart.gbitem.id
     };
@@ -535,7 +535,7 @@ class API extends BaseRepository
   }
 
   static placeOrder(CartItem cart, var address, String userID,String ordertype) async {
-
+    print('Level1');
     var data = {
       'quantity': cart.qty,
       'unit': cart.item.unit.mass,
@@ -549,63 +549,69 @@ class API extends BaseRepository
       'placedTime': new DateTime.now().millisecondsSinceEpoch,
       'ordertype': ordertype,                                     // To be updated based on type of order
       'status': "new",
-      'isshippingbillingsame': false,
+      'isshippingbillingdiff': false,
 //      'partyname': address.addridentifier.partyname,
 //      'gstin': address.addridentifier.gstin,
       'address': address.text,
-      'state': address.state.id,
+//      'state': address.state.id,
       'phone': address.phone,
       'addedby': userID,
       'addressreference' : address.id,
       'isExistingAddr' : true
     };
     // This is done to generate valid purchase order and calculate GST. Buyer may be buying on behalf of someone and hence it would be billed to that party
-
+    print('Level2');
     if (address.city.id != null) {                                        // Improve coding standards - Unhandled Exception: NoSuchMethodError: The getter 'id' was called on null.
       data['city'] = address.city.id;
     }
 
-//    if (address.addresstype == null){                     // Improve coding standards
-//      address.addresstype = 'delivery';
-//    }
+    if (address.addresstype == null){                     // Improve coding standards
+      address.addresstype = 'delivery';
+      address.addridentifier.partyname = 'Invalid Party - ERROR';
+      address.addridentifier.gstin = '123451234512345';
+    }
 
+    print('Level3');
+    print(address.addresstype);
+    print(address.addridentifier.partyname);
     if (ordertype == 'agentorder') {
       data['addresstype'] = 'delivery';
       data['partyname'] = address.agentbuyeridentifier.partyname;
       data['gstin'] = address.agentbuyeridentifier.gstin;
+      data['isshippingbillingdiff'] = true;
     } else {
       if (address.addresstype != 'registered'){
         data['isshippingbillingdiff'] = true;
-//      data['partyname'] = address.addridentifier.partyname;
-//      data['gstin'] = address.addridentifier.gstin;
+        data['partyname'] = address.addridentifier.partyname;
+        data['gstin'] = address.addridentifier.gstin;
         data['address'] =  address.text;
         data['pincode'] = address.pin;
-        data['state'] = address.state.id;
+//        data['state'] = address.state.id;
         data['phone'] = address.phone;
         data['addresstype'] = address.addresstype;
 //      data['city'] = address.city.id;
 
 //      print(address.city.id);
       }
-      data['addresstype'] = address.addresstype;
-      data['partyname'] = address.addridentifier.partyname;
-      data['gstin'] = address.addridentifier.gstin;
+//      data['addresstype'] = address.addresstype;
+//      data['partyname'] = address.addridentifier.partyname;
+//      data['gstin'] = address.addridentifier.gstin;
     }
-
+    print('Level4');
     print(jsonEncode(data));
 
-//    var response = await http.post(ApiConfig.createOrder,
-//        headers: {"Content-Type": "application/json",
-//          "Authorization": await UserPreferences.getToken()},
-//        body: jsonEncode(data));
-//    print(response.body);
-//    if (response.statusCode == ApiConfig.successStatusCode) {
-//      print(response.body);
-//      Map<String, dynamic> responseBody = jsonDecode(response.body);
-//      return 'Create Order';
-//    } else {
-//      return 'error';
-//    }
+    var response = await http.post(ApiConfig.createOrder,
+        headers: {"Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()},
+        body: jsonEncode(data));
+    print(response.body);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      print(response.body);
+      Map<String, dynamic> responseBody = jsonDecode(response.body);
+      return 'Create Order';
+    } else {
+      return 'error';
+    }
   }
 
 

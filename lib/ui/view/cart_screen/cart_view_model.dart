@@ -10,7 +10,7 @@ import 'package:graineasy/model/order.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
 //import 'package:graineasy/helpers/showDialogSingleButton.dart';
-import 'package:package_info/package_info.dart';
+//import 'package:package_info/package_info.dart';
 
 class CartViewModel extends BaseModel {
   List<CartItem> cartItems;
@@ -33,8 +33,9 @@ class CartViewModel extends BaseModel {
       user = await UserPreferences.getUser();
       getAddresses(user.phone, user.id);
       getAgentBuyerAddr(user.id);
-      PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      version = packageInfo.version;
+//      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+//      version = packageInfo.version;
+
     }
   }
 

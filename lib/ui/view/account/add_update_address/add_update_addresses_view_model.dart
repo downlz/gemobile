@@ -6,6 +6,8 @@ import 'package:graineasy/model/address.dart';
 import 'package:graineasy/model/city.dart';
 import 'package:graineasy/model/state.dart';
 import 'package:graineasy/model/user.dart';
+import 'package:graineasy/helpers/showDialogSingleButton.dart';
+import 'package:graineasy/ui/view/home/home_view.dart';
 
 import '../account_view.dart';
 
@@ -51,12 +53,13 @@ class AddUpdateAddressViewModel extends BaseModel {
 
 //    if(isUpdateAddress)
     setState(ViewState.Busy);
-    print(selectedCity);
+//    print(selectedCity);
     await API.addAddresses(partyName, phone, gstInNo, address, selectedCity,
         selectedState, selectedAddressType, pinCode);
     setState(ViewState.Idle);
+    showDialogSingleButton(context, 'Address Update', 'New address was added successfully. This address can be used for order placement. You will be now be redirected to home screen', "OK");
     await Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => AccountVIew(user)));
+        context, MaterialPageRoute(builder: (context) => HomeView()));
   }
 
   void setAddressData(Address addresses) {

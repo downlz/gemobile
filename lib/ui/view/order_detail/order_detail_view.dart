@@ -38,15 +38,15 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
         appBar: new AppBar(
           title: Text('Order Details'),
           backgroundColor: Colors.white,
-//          actions: <Widget>[
-//            IconButton(
-//                icon: Icon(Icons.home, color: Colors.black87,), onPressed: () {
-//              Navigator.push(context,
-//                  MaterialPageRoute(
-//                      builder: (context) => HomeView()
-//                  ));
-//            })
-//          ],
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.home, color: Colors.black87,), onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(
+                      builder: (context) => HomeView()
+                  ));
+            })
+          ],
         ),
         body: _getBody(model),
       );

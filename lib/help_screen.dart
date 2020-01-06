@@ -151,7 +151,7 @@ class Help extends State<Help_Screen> {
                                         child: AlertDialog(
                                             title: const Text('About Us'),
                                             content: Text(
-                                                "A B2B Marketplace for agricultural commodities offering financial servies. © 2020 Funfact eMarketplace Pvt Ltd. All rights reserved",
+                                                "A B2B Marketplace for agricultural commodities offering financial services. © 2020 Funfact eMarketplace Pvt Ltd. All rights reserved. Reach us at trade@graineasy.com",
                                                 style: dialogTextStyle),
                                             actions: <Widget>[
                                               FlatButton(

@@ -10,6 +10,7 @@ import 'package:graineasy/ui/view/account/add_update_bankacc/add_update_bankacc_
 import 'package:graineasy/ui/view/forgot_password/forgot_password_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
+import 'package:graineasy/helpers/showDialogSingleButton.dart';
 
 import 'account_view_model.dart';
 
@@ -114,7 +115,7 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
                       ), Container(),
                       _verticalDivider(),
                       new Text(
-                        'PAN - '+ model.pan,
+                        'PAN - '+ model.pan == null ? model.pan : 'PAN not available',
                         style: TextStyle(
                             color: Colors.black45,
                             fontSize: 13.0,
@@ -248,7 +249,9 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
             elevation: 1.0,
             child: Row(
               children: <Widget>[
-                new IconButton(icon: clear, onPressed: null),
+                new IconButton(icon: clear, onPressed: (){
+                  showDialogSingleButton(context, 'App History', 'Application history cleared for optimal performance.', "OK");
+                }),
                 _verticalD(),
                 new Text(
                   'Clear History',
@@ -261,25 +264,25 @@ class _AccountVIewState extends State<AccountVIew> with CommonAppBar {
             ),
           ),
         ),
-        new Container(
-          margin: EdgeInsets.all(7.0),
-          child: Card(
-            elevation: 1.0,
-            child: Row(
-              children: <Widget>[
-                new IconButton(icon: logout, onPressed: null),
-                _verticalD(),
-                new Text(
-                  'Deactivate Account',
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    color: Colors.redAccent,
-                  ),
-                )
-              ],
-            ),
-          ),
-        )
+//        new Container(
+//          margin: EdgeInsets.all(7.0),
+//          child: Card(
+//            elevation: 1.0,
+//            child: Row(
+//              children: <Widget>[
+//                new IconButton(icon: logout, onPressed: null),
+//                _verticalD(),
+//                new Text(
+//                  'Deactivate Account',
+//                  style: TextStyle(
+//                    fontSize: 15.0,
+//                    color: Colors.redAccent,
+//                  ),
+//                )
+//              ],
+//            ),
+//          ),
+//        )
       ],
     );
   }
