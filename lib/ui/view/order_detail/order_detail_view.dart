@@ -103,7 +103,7 @@ class _CartViewState extends State<OrderDetailView> with CommonAppBar {
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 5, left: 10),
             child: new Text(
-              model.order.item.name + " " + model.order.item.category.name,
+              model.order.item.name + " | " + model.order.item.category.name,
               style: TextStyle(
                   fontSize: 20.0,
                   color: Palette.assetColor,

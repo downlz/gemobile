@@ -152,8 +152,17 @@ class _HomeViewState extends State<HomeView>
 //                    model.mostOrder != null ? getMostOrderData(model) : Center(
 //                      child: Text('No items found'),
 //                    ),
-                    model.itemsNear != null ? getItemsNearMe(model) : Text(
-                        'No items found'),
+                    model.itemsNear != null ? getItemsNearMe(model) :
+//                    Text(
+//                        'No items found'),
+                    Container(
+                      child: Center(
+                        child: Text(
+                          'No items found',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                    )
                   ],
                     controller: tabController,
                   ),

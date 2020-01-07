@@ -139,7 +139,7 @@ class _SearchItemViewState extends State<SearchItemView> with CommonAppBar {
                         style: AppWidget.darkTextFieldTextStyle(),
                         keyboardType: TextInputType.text,
                         decoration: AppWidget.darkTextField(
-                            'Search by name,manufacturer etc...'),
+                            'Search by name, manufacturer etc...'),
                         onChanged: (String searchString) {
                           if (searchString.length > 0) {
                             model.searchText(searchString);
@@ -269,11 +269,11 @@ class _SearchItemViewState extends State<SearchItemView> with CommonAppBar {
                               children: <Widget>[
                                 Text(model.items[index].name,
                                   style: TextStyle(fontSize: 14,color: Colors.white, fontWeight: FontWeight.bold),),
-                                Text(model.items[index].manufacturer.name,
-                                    style: TextStyle(fontSize: 12,color: Colors.white, fontWeight: FontWeight.w500)),
                                 Text("Origin: " + model.items[index].origin,
                                     style: TextStyle(fontSize: 12,color: Colors.white, fontWeight: FontWeight.w500)),
-                              ],
+                                Text(model.items[index].manufacturer.name,
+                                    style: TextStyle(fontSize: 12,color: Colors.white, fontWeight: FontWeight.w500)),
+                            ],
                             ),
 //                            child: new Text(
 //                              model.items[index].name,

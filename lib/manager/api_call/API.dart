@@ -684,10 +684,10 @@ class API extends BaseRepository
     var response = await http.get(
         ApiConfig.raiseBargainRequest + 'buyer/' + buyerId + '/item/' + itemId,
         headers: await ApiConfig.getHeaderWithTokenAndContentType());
+    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
-      Bargain bargain = Bargain.fromJsonArray(jsonDecode(response.body))[0];
-      print("checkBuyer==${response.body}");
-      return bargain;
+        Bargain bargain = Bargain.fromJsonArray(jsonDecode(response.body))[0];
+        return bargain;
     }
     return null;
   }
