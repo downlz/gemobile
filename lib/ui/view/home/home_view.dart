@@ -18,6 +18,7 @@ import 'package:graineasy/ui/view/group-buy/groupbuy_view.dart';
 import 'package:graineasy/ui/view/item_details/details_view.dart';
 import 'package:graineasy/ui/view/manage_order/manage_order/manage_order_view.dart';
 import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
+import 'package:graineasy/ui/view/credit/credit_request/credit_request_view.dart';
 import 'package:graineasy/ui/view/router.dart';
 import 'package:graineasy/ui/view/search/search_item_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
@@ -339,6 +340,22 @@ class _HomeViewState extends State<HomeView>
                             BargainHistoryView()));
                   })
                  : Container(),
+              !model.agentCheck ?
+              new ListTile(
+//                // Image.asset('images/bargain.png'),
+                  leading: Icon(
+                      Icons.credit_card, color: Palette.assetColor),
+                  title: new Text("Credit Request", style: TextStyle(
+                      color: Palette.assetColor, fontSize: 15)),
+                  trailing: Icon(
+                    Icons.arrow_forward, color: Palette.assetColor,),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(context, MaterialPageRoute(
+                        builder: (context) =>
+                            AddUpdateCreditRqst()));
+                  })
+                  : Container(),
 //              new ListTile(
 //                  leading: Icon(Icons.settings, color: Palette.assetColor),
 //                  title: new Text("Settings", style: TextStyle(

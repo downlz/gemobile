@@ -8,7 +8,7 @@ import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:graineasy/utils/check_internet/utility.dart';
 import 'package:graineasy/utils/ui_helper.dart';
-//import 'package:intl/intl.dart';
+import 'package:intl/intl.dart';
 
 const URL = "https://graineasy.com";
 

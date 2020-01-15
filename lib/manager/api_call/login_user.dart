@@ -18,7 +18,6 @@ class LoginUser extends LoginRepository {
     var data = {'phone': '+91' + phone, 'password': password};
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     String version = packageInfo.version;
-
     var response = await http.post(ApiConfig.login,
         headers: await ApiConfig.getHeader(),
         body: convert.jsonEncode(data));

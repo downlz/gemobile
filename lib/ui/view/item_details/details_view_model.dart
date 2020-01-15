@@ -22,7 +22,6 @@ class DetailsViewModel extends BaseModel {
   void init(Item item, String id) async {
     if (isFirstTime)
       if (id != null) {
-        print('Inside');
         user = await UserPreferences.getUser();
 
         setState(ViewState.Busy);
@@ -35,7 +34,6 @@ class DetailsViewModel extends BaseModel {
     }
       else {
         if (isFirstTime) {
-          print('outside');
           itemDetails = item;
           user = await UserPreferences.getUser();
           getItemDetails(itemDetails.id);

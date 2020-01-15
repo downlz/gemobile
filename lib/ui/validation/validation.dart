@@ -61,7 +61,17 @@ class Validation
       return "Incorrect Mobile";
     }
     else if (value.isEmpty) {
-      return "Incorrect Mobile";
+      return "Mobile empty";
+    }
+    return null;
+  }
+
+  static String validateCRMobile(String value) {
+    if ((value.length < 8) ) {
+      return "Incorrect Phone No.";
+    }
+    else if (value.isEmpty) {
+      return "Phone no is empty";
     }
     return null;
   }
@@ -97,6 +107,22 @@ static  validateEmptyPassword(String value) {
   static validateRemark(String value) {
     if (value.isEmpty) {
       return 'Remark Required';
+    }
+    else
+      return null;
+  }
+
+  static validateTurnover(String value) {
+    if (value.isEmpty) {
+      return 'Turnover Required';
+    }
+    else
+      return null;
+  }
+
+  static validateTradeItems(String value) {
+    if (value.isEmpty) {
+      return 'Trade items Required';
     }
     else
       return null;
