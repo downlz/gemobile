@@ -29,7 +29,7 @@ class DetailsViewModel extends BaseModel {
         setState(ViewState.Idle);
 //        isFirstTime = false;
 //              checkBargainActiveOrNot(false);
-
+        if (!user.isAgent) checkBargainActiveOrNot(true);
         isFirstTime = false;
     }
       else {
@@ -90,10 +90,16 @@ class DetailsViewModel extends BaseModel {
 //    print('Product id============> ${itemDetails.id}');
     if (showProgress)
       setState(ViewState.Busy);
-    bargainDetail = !user.isSeller ? await API.checkBuyerRequestActiveOrNot(itemDetails.id, user.id) :
-                    await API.checkSellerRequestActiveOrNot(itemDetails.id, itemDetails.seller.id);
-
-    itemBargainStatus = bargainDetail.bargainstatus;
+    try {
+      bargainDetail = !user.isSeller ? await API.checkBuyerRequestActiveOrNot(
+          itemDetails.id, user.id) :
+      await API.checkSellerRequestActiveOrNot(
+          itemDetails.id, itemDetails.seller.id);
+    } catch (e,stackTrace) {
+      print('error caught: $e');
+      print('stackTrace============>$stackTrace');
+    }
+//    itemBargainStatus = bargainDetail.bargainstatus;
     setState(ViewState.Idle);
   }
 }

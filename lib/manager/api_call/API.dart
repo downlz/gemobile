@@ -25,6 +25,8 @@ import 'package:graineasy/model/manufacturer.dart';
 import 'package:graineasy/model/order.dart';
 import 'package:graineasy/model/state.dart';
 import 'package:graineasy/model/user.dart';
+import 'package:graineasy/model/creditrequest.dart';
+import 'package:graineasy/model/status_ref.dart';
 import 'package:graineasy/model/usermodel.dart';
 import 'package:graineasy/ui/view/home/home_view.dart';
 import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
@@ -679,15 +681,15 @@ class API extends BaseRepository
   static Future<Bargain> checkBuyerRequestActiveOrNot(String itemId,
       String buyerId) async
   {
-    print("itemId===>${itemId}");
-    print("buyerId===>${buyerId}");
+//    print("itemId===>${itemId}");
+//    print("buyerId===>${buyerId}");
     var response = await http.get(
         ApiConfig.raiseBargainRequest + 'buyer/' + buyerId + '/item/' + itemId,
         headers: await ApiConfig.getHeaderWithTokenAndContentType());
+//    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
-      Bargain bargain = Bargain.fromJsonArray(jsonDecode(response.body))[0];
-      print("checkBuyer==${response.body}");
-      return bargain;
+        Bargain bargain = Bargain.fromJsonArray(jsonDecode(response.body))[0];
+        return bargain;
     }
     return null;
   }
@@ -1237,7 +1239,6 @@ class API extends BaseRepository
         "phone": phone,
         "addedby": user.id
       };
-    print(data);
     var response = await http.post(ApiConfig.addAgentBuyer,
         headers: {"Content-Type": "application/json",
           "Authorization": await UserPreferences.getToken()},
@@ -1277,8 +1278,7 @@ class API extends BaseRepository
   }
 
   static logErrorTrace(String user, String message,String appversion, String apppage, String source) async {
-  print('starting api');
-  print(user);
+
     var data = {
       'user': user,
       'message': message,
@@ -1290,7 +1290,7 @@ class API extends BaseRepository
     var response = await http.post(ApiConfig.logErrorTrace,
         headers: await ApiConfig.getHeader(),
         body: convert.jsonEncode(data));
-    print(response.body);
+//    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
       Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
       return 'Trace logged';
@@ -1298,4 +1298,81 @@ class API extends BaseRepository
       return null;
     }
   }
+
+// Credit Request
+
+  static Future<List<CreditRequest>> getUserCreditRequest(String id) async
+  {
+    var response = await http.get(ApiConfig.getUserCreditRequest+id,
+        headers: await ApiConfig.getHeaderWithToken());
+//    print('User credit request===${response.body}');
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<CreditRequest> creditrqst = CreditRequest.fromJsonArray(jsonDecode(response.body));
+      return creditrqst;
+    }
+    return[];
+  }
+//
+//
+  static updateCreditRqstStatus(String id) async {
+//    User user = await UserPreferences.getUser();
+    var data = {
+      "status": 'withdrawn'
+    };
+
+    var response = await http.put(ApiConfig.withdrawCreditRqst + id,
+        headers: {"Content-Type": "application/json",
+          "Authorization": 'Bearer ' + await UserPreferences.getToken()},
+        body: jsonEncode(data));
+    print(response.statusCode);
+    if (response.statusCode == ApiConfig.successStatusCode) {
+//      print('update===${response.body}');
+      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+      return 'Request withdrawn';
+    } else {
+      return 'error';
+    }
+  }
+
+  static raiseCreditRequest(int annualturnover, int lastthreeturnovr,
+      String tradeitems,String phone) async {
+
+    User user = await UserPreferences.getUser();
+
+    var data = {
+      "annualturnover": annualturnover,
+      "lastthreeturnovr": lastthreeturnovr,
+      "tradeitems": tradeitems,
+      "phone": phone,
+      "user": user.id,
+      "status": 'submitted'
+    };
+
+    var response = await http.post(ApiConfig.raiseCreditRequest,
+        headers: {"Content-Type": "application/json",
+          "Authorization": await UserPreferences.getToken()},
+        body: jsonEncode(data));
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      print(response.body);
+      Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
+      return 'Raised Credit Request';
+    } else {
+      return null;
+    }
+  }
+
+  static Future<StatusRef> getStatusFromRef(String model,String code) async
+  {
+    var response = await http.get(ApiConfig.getStatusFromRef+'model/' + model + '/code/' + code,
+        headers: await ApiConfig.getHeaderWithToken());
+//    print('Status Ref===${response.body}');
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      StatusRef statusref = StatusRef.fromJsonArray(jsonDecode(response.body))[0];
+      return statusref;
+    }
+    return null;
+  }
+
+
+
 }

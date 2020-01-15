@@ -20,6 +20,7 @@ import 'package:graineasy/ui/view/order/order_history/order_history_view_model.d
 import 'package:graineasy/ui/view/order_detail/order_detail_model.dart';
 import 'package:graineasy/ui/view/registration/registration_view_model.dart';
 import 'package:graineasy/ui/view/search/search_item_view_model.dart';
+import 'package:graineasy/ui/view/credit/credit_request/credit_request_view_model.dart';
 
 
 GetIt locator = GetIt();
@@ -107,5 +108,9 @@ void setupLocator() {
 
   locator.registerFactory(() {
     return GroupbuyViewModel();
+  });
+
+  locator.registerFactory(() {
+    return AddUpdateCreditRqstViewModel();
   });
 }
