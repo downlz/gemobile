@@ -8,7 +8,7 @@ import 'package:graineasy/model/status_ref.dart';
 import 'package:graineasy/ui/view/home/home_view.dart';
 
 
-class AddUpdateCreditRqstViewModel extends BaseModel {
+class CreditProductModel extends BaseModel {
   bool isListEmpty = false;
   TextEditingController partyNameController = new TextEditingController();
   TextEditingController turnoverController = new TextEditingController();
