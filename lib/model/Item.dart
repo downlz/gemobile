@@ -34,6 +34,9 @@ class Item {
   final UserModel seller;
   final Specs specs;
   final Address address;
+  final bool showAddedByName;
+  final bool showSeller;
+  final bool brokerage;
 
   Item({
     this.name,
@@ -61,10 +64,15 @@ class Item {
     this.seller,
     this.addedBy,
     this.specs,
+    this.brokerage,
+    this.showAddedByName,
+    this.showSeller
   });
 
   factory Item.fromJson(Map<String, dynamic> json) {
-//    print(json['category.name']);
+    if (json == null)
+      return null;
+
     return Item(
       name: json['sampleNo'],
       id: json['_id'],
@@ -88,10 +96,13 @@ class Item {
       category: Category.fromJson(json['category']),
       city: City.fromJson(json['city']),
       manufacturer: Manufacturer.fromJson(json['manufacturer']),
-//        addedBy: userModel.fromJson(json['addedby']),
+        addedBy: UserModel.fromJson(json['addedby']),
       seller: UserModel.fromJson(json['seller']),
       specs: Specs.fromJson(json['specs']),
       address: Address.fromJson(json['address']), // Issue with null data
+      brokerage: json['brokerage'],
+      showAddedByName: json['showaddedbyname'],
+      showSeller: json['showseller'],
     );
   }
 

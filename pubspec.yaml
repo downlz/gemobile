@@ -7,7 +7,7 @@ description: Graineasy Mobile Application
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.0.2+1
+version: 1.0.8+4
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -100,17 +100,8 @@ flutter:
      - images/call.png
      - images/mail.png
 
-
-
-
-
-
      - assets/address.json
      - assets/items.json
-
-
-
-
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg

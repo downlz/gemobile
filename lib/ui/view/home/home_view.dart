@@ -19,6 +19,7 @@ import 'package:graineasy/ui/view/item_details/details_view.dart';
 import 'package:graineasy/ui/view/manage_order/manage_order/manage_order_view.dart';
 import 'package:graineasy/ui/view/order/order_history/order_history_view.dart';
 import 'package:graineasy/ui/view/credit/credit_request/credit_request_view.dart';
+import 'package:graineasy/ui/view/credit/credit_products/credit_products_view.dart';
 import 'package:graineasy/ui/view/router.dart';
 import 'package:graineasy/ui/view/search/search_item_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
@@ -353,7 +354,8 @@ class _HomeViewState extends State<HomeView>
                     Navigator.pop(context);
                     Navigator.push(context, MaterialPageRoute(
                         builder: (context) =>
-                            AddUpdateCreditRqst()));
+//                            AddUpdateCreditRqst()));
+                    CreditProductsView()));
                   })
                   : Container(),
 //              new ListTile(
