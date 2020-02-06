@@ -6,6 +6,7 @@ import 'package:graineasy/model/itemname.dart';
 import 'package:graineasy/ui/view/item_details/details_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
+import 'package:graineasy/model/Item.dart';
 
 import 'category_view_model.dart';
 
@@ -162,6 +163,10 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                                           style: TextStyle(fontSize: 16,color: Colors.white, fontWeight: FontWeight.w500)),
                                       Text("Origin: " + model.items[index].origin,
                                           style: TextStyle(fontSize: 14,color: Colors.white, fontWeight: FontWeight.w500)),
+                                      Text("By: " +
+                                          _getListedByDtl(model.items[index])
+                                          ,
+                                          style: TextStyle(fontSize: 14,color: Colors.white, fontWeight: FontWeight.w500)),
                                     ],
                                   ),
 
@@ -186,5 +191,24 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                       ));
                 }),
           );
+  }
+
+  _getListedByDtl(Item item) {
+    String listedText;
+    if (item.showAddedByName && (item.addedBy != null)){
+      listedText = item.addedBy.name;
+    } else if (item.addedBy == null) {
+      listedText = 'Admin';
+    }
+   else {
+     if (item.addedBy.isAgent) {
+       listedText = 'Broker';
+     } else if (item.addedBy.isAdmin) {
+       listedText  = 'Admin';
+     } else {
+       listedText = 'Seller';
+     }
+   }
+    return listedText;
   }
 }

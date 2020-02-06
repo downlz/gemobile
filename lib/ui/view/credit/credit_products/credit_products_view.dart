@@ -3,14 +3,10 @@ import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/ui/theme/app_responsive.dart';
 import 'package:graineasy/ui/theme/palette.dart';
 import 'package:graineasy/ui/theme/text_style.dart';
-import 'package:graineasy/ui/theme/widget.dart';
 import 'package:graineasy/model/creditrequest.dart';
-import 'package:graineasy/ui/validation/validation.dart';
 import 'package:graineasy/ui/view/credit/credit_products/credit_products_model.dart';
 import 'package:graineasy/ui/view/credit/credit_request/credit_request_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
-import 'package:graineasy/utils/ui_helper.dart';
-import 'package:intl/intl.dart';
 
 class CreditProductsView extends StatefulWidget {
   CreditRequest creditrequest;
@@ -41,9 +37,7 @@ class _RegistrationViewState extends State<CreditProductsView>
       showMessage(model);
       return new Scaffold(
         appBar: new AppBar(
-          title: Text(!model.isUpdateCreditRqst
-              ? 'Products'
-              : "Credit Request Status"),
+          title: Text('Credit Request'),
           backgroundColor: Colors.white,
         ),
         key: addCreditRequestScaffoldKey,
@@ -77,9 +71,7 @@ class _RegistrationViewState extends State<CreditProductsView>
 
   _getBaseContainer(CreditProductModel model) {
     return new SingleChildScrollView(
-      child: model.isUpdateCreditRqst
-          ? requestStatusWidget(model)
-          : creditProductWidget(model),
+      child: creditProductWidget(model),
     );
   }
 
@@ -107,14 +99,14 @@ class _RegistrationViewState extends State<CreditProductsView>
                             "Details:\n" +
                             "1 day disbursal\n"+
                             "Rates starting 1% per month\n"+
-                            "Upto 180 days credit allowed\n',",
+                            "Upto 180 days credit allowed\n",
                           style: new TextStyle(color: Colors.black54, fontSize: 17.0),textAlign: TextAlign.justify,),
 
                        new Padding(padding: EdgeInsets.only(top: 15.0)),
                         new Text('Bill discounting',
                           style: new TextStyle(color: Colors.black87, fontSize: 18.0,fontWeight: FontWeight.bold),),
                         new Padding(padding: EdgeInsets.only(top: 5.0)),
-                        new Text("If you supply to one of the big Modern Retail Players such as More, Metro, Reliance, D Mart, Big Bazaar etc and your money is stuck for upto 90 days, we have the perfect solution for you. We have convinced our banking partners( Bank/NBFC) to advance upto 80% of the invoice amount immediately at a nominal rate. You won’t need to do any paperwork repeatedly. Just create a credit request with us and we will take all the headache on your behalf. If the banks/nbfc agree to sanction your request, you job is done. We will process everything from there. Here are the details:\n" +
+                        new Text("If you supply to one of the big Modern Retail Players such as More, Metro, Reliance, D Mart, Big Bazaar etc and your money is stuck for upto 90 days, we have the perfect solution for you. We have convinced our banking partners (Bank/NBFC) to advance upto 80% of the invoice amount immediately at a nominal rate. You won’t need to do any paperwork repeatedly. Just create a credit request with us and we will take all the headache on your behalf. If the banks/nbfc agree to sanction your request, you job is done. We will process everything from there. Here are the details:\n" +
                             "You don’t need to run to the Banks and NBFCs continuously for this. Just create a credit request with us. We will worry after that. You will get continuous updates on the status The best part is that we don’t charge anything for this. We are here for you to make your life simple and easy. So go ahead and explore simpler and cost effective ways to fund your purchase.\n" +
                             "80% immediate payment\n" +
                             "1 day disbursal\n" +
@@ -128,31 +120,27 @@ class _RegistrationViewState extends State<CreditProductsView>
                           child: Container(
                             alignment: Alignment.center,
                             child:
-                            FlatButton.icon(
-                              color: Colors.indigo.shade300,
-                              icon: Icon(Icons.account_balance_wallet), //`Icon` to display
-                              label: Text('Raise Credit Request'),
-                                shape: new OutlineInputBorder(
-                                  borderRadius:
-                                  BorderRadius.circular(30.0),
-                                ),//`Text` to display
+                            RaisedButton(
+                              color: Palette.whiteTextColor,
+                              padding: EdgeInsets.symmetric(vertical: 12),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                  side: BorderSide(color: Colors.black26)),
+                              child: Text(
+                                !model.isUpdateCreditRqst ? '  Raise Credit Request  ': '  Credit Request Status  ',
+                                style: AppTextStyle.commonTextStyle(
+                                    Palette.loginBgColor,
+                                    AppResponsive.getFontSizeOf(30),
+                                    FontWeight.bold,
+                                    FontStyle.normal),
+                              ),
                               onPressed: () {
-                                AddUpdateCreditRqst();
-                                //Code to execute when Floating Action Button is clicked
-                                //...
-                              }, )
-//                            OutlineButton(
-//                                borderSide: BorderSide(
-//                                    color: Colors.amber.shade500),
-//                                child: const Text('Raise Credit Request'),
-//                                textColor: Colors.green.shade500,
-//                                onPressed: () async {
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) =>
+                                        AddUpdateCreditRqst()));
+                              },
+                            ),
 //
-//                                },
-//                                shape: new OutlineInputBorder(
-//                                  borderRadius:
-//                                  BorderRadius.circular(30.0),
-//                                )),
                           ),
                         ),
                         new Padding(padding: EdgeInsets.only(top: 15.0)),
@@ -167,126 +155,6 @@ class _RegistrationViewState extends State<CreditProductsView>
         )
     );
   }
-
-  requestStatusWidget(CreditProductModel model) {
-    return Container(
-        margin: EdgeInsets.only(left: 5.0, right: 5.0, bottom: 5.0),
-//        child: GestureDetector(
-//            onTap: () {
-//              Navigator.push(
-//                  context,
-//                  MaterialPageRoute(
-//                      builder: (context) => OrderDetailView(
-//                            orderList: model.orderList[ind],
-//                          )));
-//            },
-            child: Card(
-                elevation: 4.0,
-                child: Container(
-                  padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      // three line description
-                      Container(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          'Thank you for showing interest in credit services offered by graineasy.',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontStyle: FontStyle.normal,
-                            color: Colors.black87,
-//                              fontWeight: FontWeight.bold
-                          ),
-                        ),
-                      ),
-                      UIHelper.verticalSpaceMedium,
-                      Container(
-                        margin: EdgeInsets.only(top: 3.0),
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                            'Request Date: ' + DateFormat("dd-MM-yyyy hh:mm a").format(DateTime.parse(model.creditrequestlist[0].requestedOn.toString())),
-                          style:
-                              TextStyle(fontSize: 15.0, color: Colors.black54),
-                        ),
-                      ),
-                      Divider(
-                        height: 10.0,
-                        color: Colors.amber.shade500,
-                      ),
-
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          rowWidget('Trade Items',model.creditrequestlist[0].tradeItems),
-//                          rowWidget('Order Amount',
-//                              "" + 'Dev'),
-//                          rowWidget(
-//                              'Order Type', 'test'),
-                        ],
-                      ),
-                      UIHelper.verticalSpaceMedium,
-                      model.creditrequestlist[0].tradeItems == null
-                          ? Container()
-                          :
-
-                      Container(
-                        margin: EdgeInsets.only(top: 3.0),
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          (model.statusdesc.description == null) ? 'NA' : 'Status: ' + model.statusdesc.description,
-                          style:
-                          TextStyle(fontSize: 15.0, color: Colors.black54),
-                        ),
-                      ),
-
-//                      Row(
-//                              mainAxisAlignment: MainAxisAlignment.start,
-//                              children: <Widget>[
-//                                Icon(
-//                                  Icons.timelapse,
-//                                  size: 30.0,
-//                                  color: Colors.amber.shade500,
-//                                ),
-//                                Text(
-//                                    (model.statusdesc.description == null) ? 'NA' : model.statusdesc.description,
-//                                    style: TextStyle(
-//                                        fontSize: 16.0, color: Colors.black54)),
-//                              ],
-//                            ),
-                      Divider(
-                        height: 10.0,
-                        color: Colors.amber.shade500,
-                      ),
-                      _status(model.creditrequestlist[0].status),
-                      (model.creditrequestlist[0].status != 'cancelled' &&
-                          model.creditrequestlist[0].status != 'rejected' &&
-                          model.creditrequestlist[0].status != 'withdrawn') ? Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: RaisedButton(
-                          color: Palette.loginBgColor,
-                          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          child: Text(
-                            'Withdraw Request',
-                            style: AppTextStyle.commonTextStyle(
-                                Palette.whiteTextColor,
-                                AppResponsive.getFontSizeOf(30),
-                                FontWeight.bold,
-                                FontStyle.normal),
-                          ),
-                          onPressed: () {
-                            model.updateStatus(model.creditrequestlist[0].id);
-                          },
-                        ),
-                      ): Container(),
-                    ],
-                  ),
-                )));
-  }
-
 
   Widget _status(status) {
     if (status == 'cancelled' || status == 'rejected'  ) {

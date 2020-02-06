@@ -17,7 +17,6 @@ class DetailsView extends StatefulWidget {
   Item item;
   String id;
 
-
   DetailsView({this.item, this.id});
 
   @override
@@ -363,9 +362,13 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text("Origin: " + item.origin,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
-          Text("Seller: " + item.seller.name,
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text("Grade: " + item.grade,
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+          Text("Brokerage Applicable: " + (item.brokerage ? 'Yes' : 'No'),
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+          Text("Listed By: " + _getListedByDtl(item),
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+          Text((item.showSeller ? 'Seller: ' + item.seller.name : ''),
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
 //          Text("List Price: " + "Rs. " + item.price.toString() + "/" +
 //              item.unit.mass,
@@ -373,6 +376,25 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
         ],
       ),
     );
+  }
+
+  _getListedByDtl(Item item) {
+    String listedText;
+    if (item.showAddedByName && (item.addedBy != null)){
+      listedText = item.addedBy.name;
+    } else if (item.addedBy == null) {
+      listedText = 'Admin';
+    }
+    else {
+      if (item.addedBy.isAgent) {
+        listedText = 'Broker';
+      } else if (item.addedBy.isAdmin) {
+        listedText  = 'Admin';
+      } else {
+        listedText = 'Seller';
+      }
+    }
+    return listedText;
   }
 
 }

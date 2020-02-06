@@ -6,15 +6,11 @@ import 'package:graineasy/model/creditrequest.dart';
 import 'package:graineasy/model/user.dart';
 import 'package:graineasy/model/status_ref.dart';
 import 'package:graineasy/ui/view/home/home_view.dart';
+import 'package:graineasy/ui/view/credit/credit_request/credit_request_view.dart';
 
 
 class CreditProductModel extends BaseModel {
   bool isListEmpty = false;
-  TextEditingController partyNameController = new TextEditingController();
-  TextEditingController turnoverController = new TextEditingController();
-  TextEditingController lastThreeTurnoverController = new TextEditingController();
-  TextEditingController phoneNumberController = new TextEditingController();
-  TextEditingController tradeItemsController = new TextEditingController();
 
   CreditRequest creditrequest;
   bool isFirstTime = true;
@@ -35,7 +31,10 @@ class CreditProductModel extends BaseModel {
     creditrequestlist = await API.getUserCreditRequest(user);
     if (creditrequestlist.length >= 1) {
       isUpdateCreditRqst = true;
-      statusdesc = await API.getStatusFromRef('creditrequest',creditrequestlist[0].status);
+//      statusdesc = await API.getStatusFromRef('creditrequest',creditrequestlist[0].status);
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context) =>
+              AddUpdateCreditRqst()));
     }
 
     setState(ViewState.Idle);
@@ -58,25 +57,6 @@ class CreditProductModel extends BaseModel {
 //        context, MaterialPageRoute(builder: (context) => HomeView()));
   }
 
-//  void setAddressData(Address addresses) {
-//    partyNameController.text = addresses.addridentifier == null
-//        ? 'partyName'
-//        : addresses.addridentifier.partyname;
-//    turnoverController.text = addresses.addridentifier == null
-//        ? 'gstIn'
-//        : addresses.addridentifier.gstin;
-//    lastThreeTurnoverController.text = addresses.text;
-//    for (City city in cityList) {
-//      if (city.id == addresses.city.id) {
-//        selectedCity = city;
-//      }
-//    }
-//    selectedAddressType = addresses.addresstype;
-//
-//    phoneNumberController.text = addresses.phone;
-//    tradeItemsController.text = addresses.pin;
-//  }
-
   Future updateCreditRqst(CreditRequest creditrequest) async {
 //    User user = await UserPreferences.getUser();
 //
@@ -94,17 +74,6 @@ class CreditProductModel extends BaseModel {
 //    await Navigator.pushReplacement(
 //        context, MaterialPageRoute(builder: (context) => HomeView()));
 //    API.getAddress(address.phone, address.id);
-  }
-
-  Future addUpdateCreditRqst(CreditRequest creditrequest) async {
-    if (isUpdateCreditRqst == true) {
-      updateCreditRqst(creditrequest);
-    } else
-      addCreditRqstClick(
-          turnoverController.text,
-          lastThreeTurnoverController.text,
-          tradeItemsController.text,
-        phoneNumberController.text);
   }
 
   showUploadConfirmation(){

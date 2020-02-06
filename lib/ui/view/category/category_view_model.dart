@@ -9,14 +9,14 @@ class CategoryViewModel extends BaseModel
 
   bool isFirstTime = true;
 
+
   void init(String name) {
     if(isFirstTime){
         getCategories(name);
         isFirstTime = false;
-        print('Cat first time');
+//        print('Cat first time');
     }
-
-    print('Cat loop');
+//    print('Cat loop');
   }
 
   getCategories(String name) async {
@@ -24,5 +24,7 @@ class CategoryViewModel extends BaseModel
     items = await API.getCategoryFromItemName(name);
     setState(ViewState.Idle);
   }
+
+
 
 }
