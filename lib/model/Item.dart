@@ -37,7 +37,8 @@ class Item {
   final bool showAddedByName;
   final bool showSeller;
   final bool brokerage;
-
+  final String brokerageRate;
+  final String remarks;
   Item({
     this.name,
     this.id,
@@ -66,7 +67,9 @@ class Item {
     this.specs,
     this.brokerage,
     this.showAddedByName,
-    this.showSeller
+    this.showSeller,
+    this.brokerageRate,
+    this.remarks
   });
 
   factory Item.fromJson(Map<String, dynamic> json) {
@@ -103,6 +106,8 @@ class Item {
       brokerage: json['brokerage'],
       showAddedByName: json['showaddedbyname'],
       showSeller: json['showseller'],
+      brokerageRate: json['brokeragerate'],
+      remarks: json['remarks'],
     );
   }
 

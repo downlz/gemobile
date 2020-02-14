@@ -5,9 +5,10 @@ import 'package:graineasy/model/Item.dart';
 class CategoryViewModel extends BaseModel
 {
   bool isListEmpty =  false;
-  List<Item> items ;
-
+  List<Item> items;
   bool isFirstTime = true;
+  int pageNumber = 1;
+  bool hasNextPage = true;
 
 
   void init(String name) {
@@ -20,8 +21,16 @@ class CategoryViewModel extends BaseModel
   }
 
   getCategories(String name) async {
+//    List<Item> items;
     setState(ViewState.Busy);
-    items = await API.getCategoryFromItemName(name);
+    items = await API.getCategoryFromItemName(name,pageNumber);
+//    print('length=======>${items.length}');
+//    if (items.length <= 0) {
+//      hasNextPage = false;
+////      emptyOrderText = 'No orders found';
+//    } else
+//      hasNextPage = true;
+//    this.items.addAll(items);
     setState(ViewState.Idle);
   }
 

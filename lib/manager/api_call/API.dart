@@ -136,9 +136,9 @@ class API extends BaseRepository
   }
 
 
-  static Future<List<Item>> getCategoryFromItemName(String itemName)async{
+  static Future<List<Item>> getCategoryFromItemName(String itemName,int pageId)async{
 //    print('Item name ==> ${itemName}');
-    var response = await http.get(ApiConfig.getCategoryNameByItemName+itemName,
+    var response = await http.get(ApiConfig.getCategoryNameByItemName+itemName,// + "?" + "pageid=" + pageId.toString(),
         headers:  await ApiConfig.getHeaderWithToken());
     var add = 'data';
     if (response.statusCode == ApiConfig.successStatusCode) {
@@ -686,7 +686,7 @@ class API extends BaseRepository
     var response = await http.get(
         ApiConfig.raiseBargainRequest + 'buyer/' + buyerId + '/item/' + itemId,
         headers: await ApiConfig.getHeaderWithTokenAndContentType());
-//    print(response.body);
+    print('Respo=======${response.body}');
     if (response.statusCode == ApiConfig.successStatusCode) {
         Bargain bargain = Bargain.fromJsonArray(jsonDecode(response.body))[0];
         return bargain;
@@ -1019,7 +1019,19 @@ class API extends BaseRepository
         headers: await ApiConfig.getHeaderWithTokenAndContentType());
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<Item> items = Item.fromJsonArray(jsonDecode(response.body));
-//      print(response.body);
+      print(response.body);
+
+      return items;
+    }
+    return [];
+  }
+
+  static Future<List<Item>> itemGrade(String name) async {
+    var response = await http.get(ApiConfig.itemGrade + name,
+        headers: await ApiConfig.getHeaderWithTokenAndContentType());
+    if (response.statusCode == ApiConfig.successStatusCode) {
+      List<Item> items = Item.fromJsonArray(jsonDecode(response.body));
+      print(response.body);
 
       return items;
     }

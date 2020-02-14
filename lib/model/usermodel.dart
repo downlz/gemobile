@@ -50,7 +50,7 @@ class UserModel {
         vendorCode: json['vendorCode'],
         pan: json['pan'],
         gst: json['GST'],
-        sellerFeePerKg: json['sellerFeePerKg'].toDouble(),
+        sellerFeePerKg: json['sellerFeePerKg'] == null ? 0.0 : getPriceInDouble(json['sellerFeePerKg']), //json['sellerFeePerKg'].toDouble(),
     buyerBackMarginPercent: json['buyerBackMarginPercent'],
     buyerCreditCostPercent: json['buyerCreditCostPercent'],
     buyerFeePerKg: json['buyerFeePerKg'],
@@ -71,5 +71,24 @@ class UserModel {
         addresses: Address.fromJsonArray(
             json['Addresses']) // This should be fixed
     );
+  }
+
+}
+
+getPriceInDouble(var price) {
+//  print('Price ==========> $price');
+  if (price == null)
+    return 0;
+  try {
+    double doublePrice = price.toDouble();
+    return doublePrice;
+  } catch (e) {
+    try {
+      int intPrice = price as int;
+      double doublePrice = double.parse(intPrice.toString());
+      return doublePrice;
+    } catch (e) {
+      return 0;
+    }
   }
 }

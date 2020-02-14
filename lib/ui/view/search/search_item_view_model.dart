@@ -23,6 +23,15 @@ class SearchItemViewModel extends BaseModel {
 //    print('recent==>${recentItem}');
   }
 
+  void getItemByGrade(String grade) async {
+    setState(ViewState.Busy);
+    items = await API.itemGrade(grade);
+//    print('Item length ===? ${items.length}');
+    setState(ViewState.Idle);
+    recentItem.addAll(items);
+//    print('recent==>${recentItem}');
+  }
+
 
   getRecentlyAddedItem() async {
     setState(ViewState.Busy);
