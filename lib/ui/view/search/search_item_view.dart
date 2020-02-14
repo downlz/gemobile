@@ -11,6 +11,7 @@ import 'package:graineasy/ui/view/item_details/details_view.dart';
 import 'package:graineasy/ui/view/search/search_item_view_model.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
+import 'package:graineasy/model/Item.dart';
 
 class SearchItemView extends StatefulWidget {
   @override
@@ -119,7 +120,7 @@ class _SearchItemViewState extends State<SearchItemView> with CommonAppBar {
                         onChanged: (String selectedOrderStatus) {
                           setState(() {
                             model.selectedGrade = selectedOrderStatus;
-                            model.searchText(model.selectedGrade);
+                            model.getItemByGrade(model.selectedGrade);
 //                            searchItemController.text = model.selectedGrade;
                           });
                         },
@@ -273,6 +274,10 @@ class _SearchItemViewState extends State<SearchItemView> with CommonAppBar {
                                     style: TextStyle(fontSize: 12,color: Colors.white, fontWeight: FontWeight.w500)),
                                 Text(model.items[index].manufacturer.name,
                                     style: TextStyle(fontSize: 12,color: Colors.white, fontWeight: FontWeight.w500)),
+//                                Text("By: " +
+//                                    _getListedByDtl(model.items[index])
+//                                    ,
+//                                    style: TextStyle(fontSize: 12,color: Colors.white, fontWeight: FontWeight.w500)),
                             ],
                             ),
 //                            child: new Text(
@@ -410,4 +415,24 @@ class _SearchItemViewState extends State<SearchItemView> with CommonAppBar {
 //    );
 //  }
 
+  _getListedByDtl(Item item) {
+    String listedText;
+    String userExists;
+    userExists = item.addedBy.name ?? 'false';
+    if (item.showAddedByName){
+      listedText = item.addedBy.name ?? 'Broker';
+    }
+    else {
+      if (userExists == 'false') {
+        listedText = 'Broker';
+      } else {
+        if (item.addedBy.isSeller) {
+          listedText = 'Seller';
+        } else {
+          listedText = 'Broker';
+        }
+      }
+    }
+    return listedText;
+  }
 }

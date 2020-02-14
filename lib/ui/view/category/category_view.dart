@@ -3,6 +3,8 @@ import 'package:graineasy/helpers/common/sharing.dart';
 import 'package:graineasy/helpers/common/container.dart';
 import 'package:graineasy/manager/base/base_view.dart';
 import 'package:graineasy/model/itemname.dart';
+//import 'package:graineasy/ui/theme/palette.dart';
+import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/ui/view/item_details/details_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
@@ -20,10 +22,28 @@ class CategoryView extends StatefulWidget {
 }
 
 class _CategoryViewState extends State<CategoryView> with CommonAppBar {
-
+//  ScrollController controller;
+//
 //  @override
 //  void initState() {
 //    super.initState();
+//    controller = new ScrollController()..addListener(_scrollListener);
+//  }
+//
+//  @override
+//  void dispose() {
+//    controller.removeListener(_scrollListener);
+//    super.dispose();
+//  }
+//
+//  _scrollListener() {
+//    print(controller.position.extentAfter);
+//    if (controller.position.extentAfter < 500) {
+//      setState(() {
+////        items.addAll(new List.generate(42, (index) => 'Inserted $index'));
+//
+//      });
+//    }
 //  }
 
   @override
@@ -74,12 +94,32 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
         : SingleChildScrollView(
             child: new GridView.builder(
                 itemCount: model.items.length,
+//                controller: controller,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 padding: const EdgeInsets.all(5.0),
                 gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2),
                 itemBuilder: (BuildContext context, int index) {
+
+//                  if (model.items.length > 0)
+//                    return model.hasNextPage ? Container(
+//                      color: Palette.assetColor,
+//                      child: FlatButton(
+//                        child: Stack(
+//                          children: <Widget>[
+//                            Text("Load More",
+//                              style: TextStyle(color: Palette.whiteTextColor,
+//                                  fontSize: 15),),
+//                          ],
+//                        ),
+//                        onPressed: () {
+//                          setState(() async {
+//                            model.pageNumber++;
+//                            model.getCategories(widget.itemName.id);
+//                          });
+//                        },),) : Container();
+
                   return new GestureDetector(
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(
@@ -188,27 +228,41 @@ class _CategoryViewState extends State<CategoryView> with CommonAppBar {
                             ),
                           ],
                         ),
-                      ));
+                      )
+
+
+
+                  );
+
+
+
                 }),
+
+
+
+
           );
   }
 
   _getListedByDtl(Item item) {
     String listedText;
-    if (item.showAddedByName && (item.addedBy != null)){
-      listedText = item.addedBy.name;
-    } else if (item.addedBy == null) {
-      listedText = 'Admin';
+    String userExists;
+    userExists = item.addedBy.name ?? 'false';
+    if (item.showAddedByName){
+      listedText = item.addedBy.name ?? 'Broker';
     }
-   else {
-     if (item.addedBy.isAgent) {
-       listedText = 'Broker';
-     } else if (item.addedBy.isAdmin) {
-       listedText  = 'Admin';
-     } else {
-       listedText = 'Seller';
-     }
-   }
+    else {
+      if (userExists == 'false') {
+        listedText = 'Broker';
+      } else {
+        if (item.addedBy.isSeller) {
+          listedText = 'Seller';
+        } else {
+          listedText = 'Broker';
+        }
+      }
+    }
     return listedText;
   }
+
 }

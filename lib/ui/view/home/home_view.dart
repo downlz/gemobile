@@ -25,6 +25,7 @@ import 'package:graineasy/ui/view/search/search_item_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:graineasy/model/Item.dart';
 
 
 import '../../../help_screen.dart';
@@ -558,6 +559,10 @@ class _HomeViewState extends State<HomeView>
                               Text(model.recentItem[index].manufacturer.name,
                                   style: TextStyle(fontSize: 16,color: Colors.white, fontWeight: FontWeight.w500)),
                               Text("Origin: " + model.recentItem[index].origin,
+                                  style: TextStyle(fontSize: 14,color: Colors.white, fontWeight: FontWeight.w500)),
+                              Text("By: " +
+                                  _getListedByDtl(model.recentItem[index])
+                                  ,
                                   style: TextStyle(fontSize: 14,color: Colors.white, fontWeight: FontWeight.w500)),
                             ],
                           )
@@ -1125,6 +1130,10 @@ class _HomeViewState extends State<HomeView>
                                   style: TextStyle(fontSize: 16,color: Colors.white, fontWeight: FontWeight.w500)),
                               Text("Origin: " + model.itemsNear[index].origin,
                                   style: TextStyle(fontSize: 14,color: Colors.white, fontWeight: FontWeight.w500)),
+                              Text("By: " +
+                                  _getListedByDtl(model.itemsNear[index])
+                                  ,
+                                  style: TextStyle(fontSize: 14,color: Colors.white, fontWeight: FontWeight.w500)),
                             ],
                           )
 //                          new Text(
@@ -1223,6 +1232,27 @@ class _HomeViewState extends State<HomeView>
     FlutterShareMe().shareToWhatsApp(
         msg: mostOrder.name.name + "/" + mostOrder.name.category.name + "\n" +
             mostOrder.name.image);
+  }
+
+  _getListedByDtl(Item item) {
+    String listedText;
+    String userExists;
+    userExists = item.addedBy.name ?? 'false';
+    if (item.showAddedByName){
+      listedText = item.addedBy.name ?? 'Broker';
+    }
+    else {
+      if (userExists == 'false') {
+        listedText = 'Broker';
+      } else {
+        if (item.addedBy.isSeller) {
+          listedText = 'Seller';
+        } else {
+          listedText = 'Broker';
+        }
+      }
+    }
+    return listedText;
   }
 }
 

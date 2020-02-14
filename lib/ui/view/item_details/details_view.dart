@@ -358,17 +358,19 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
             child: Text("Item: " + item.itemname.name,
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           ),
-          Text("Category: " + item.category.name,
+          Text("Category: " + item.category.name,// + (item.remarks != 'NA' ? 'Season-' + item.remarks:''),
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text("Origin: " + item.origin,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text("Grade: " + item.grade,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
-          Text("Brokerage Applicable: " + (item.brokerage ? 'Yes' : 'No'),
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+//          Text("Brokerage Applicable: " + (item.brokerage ? 'Yes'  : 'No'),
+//              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text("Listed By: " + _getListedByDtl(item),
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text((item.showSeller ? 'Seller: ' + item.seller.name : ''),
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+          Text((item.remarks != 'NA' && item.remarks != null ? 'Season-' + item.remarks:''),
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
 //          Text("List Price: " + "Rs. " + item.price.toString() + "/" +
 //              item.unit.mass,
@@ -379,19 +381,38 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
   }
 
   _getListedByDtl(Item item) {
+//    String listedText;
+//    if (item.showAddedByName && (item.addedBy != null)){
+//      listedText = item.addedBy.name;
+//    } else if (item.addedBy == null) {
+//      listedText = 'Broker';        // Changed as discussed on 7th Feb 2020
+//    }
+//    else {
+//      if (item.addedBy.isAgent) {
+//        listedText = 'Broker';
+//      } else if (item.addedBy.isAdmin) {
+//        listedText  = 'Broker';
+//      } else {
+//        listedText = 'Seller';
+//      }
+//    }
+//    return listedText;
+
     String listedText;
-    if (item.showAddedByName && (item.addedBy != null)){
-      listedText = item.addedBy.name;
-    } else if (item.addedBy == null) {
-      listedText = 'Admin';
+    String userExists;
+    userExists = item.addedBy.name ?? 'false';
+    if (item.showAddedByName){
+      listedText = item.addedBy.name ?? 'Broker';
     }
     else {
-      if (item.addedBy.isAgent) {
+      if (userExists == 'false') {
         listedText = 'Broker';
-      } else if (item.addedBy.isAdmin) {
-        listedText  = 'Admin';
       } else {
-        listedText = 'Seller';
+        if (item.addedBy.isSeller) {
+          listedText = 'Seller';
+        } else {
+          listedText = 'Broker';
+        }
       }
     }
     return listedText;

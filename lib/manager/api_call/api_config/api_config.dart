@@ -21,6 +21,7 @@ class ApiConfig {
   static String getCalculatePrice = baseURL + 'price';
   static String updateAddress = baseURL + 'address/';
   static String searchItem = baseURL + 'item/search/';
+  static String itemGrade = baseURL + 'item/grade/';
 
 
   // Order APIs
