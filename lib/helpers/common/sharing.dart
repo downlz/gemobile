@@ -1,6 +1,7 @@
 import 'package:graineasy/model/Item.dart';
 import 'package:graineasy/model/groupbuy.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:graineasy/helpers/functions/common.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 
 Future launchEmail(Item recentItem) async {
@@ -11,8 +12,11 @@ Future launchEmail(Item recentItem) async {
       'List Price:' + '\u20B9'+ '${recentItem.price}' + "/" + '${recentItem.unit.mass}'+ "\n" +
       'Manufacturer:' + recentItem.manufacturer.name + "\n" +
       'Origin:' + recentItem.origin + "\n" +
+      "Brokerage Applicable: " + (recentItem.brokerage ? 'Yes'  : 'No') + "\n" +
+      'Listed By:' + getListedByDtl(recentItem) + "\n" +
+      (recentItem.remarks != 'NA' && recentItem.remarks != null ? 'Season-' + recentItem.remarks:'') + "\n" +
 //      recentItem.image}' + "\n" +
-      'For details visit ' + 'https://graineasy.com/product/'+'${recentItem.id}' );
+      'For details visit ' + 'https://graineasy.com/products/'+'${recentItem.id}' );
 }
 
 Future launchWhatsApp(Item recentItem) async {
@@ -23,8 +27,10 @@ Future launchWhatsApp(Item recentItem) async {
           'List Price: ' + '\u20B9'+ '${recentItem.price}' + "/" + '${recentItem.unit.mass}'+ "\n" +
           'Manufacturer: ' + recentItem.manufacturer.name + "\n" +
           'Origin:' + recentItem.origin + "\n" +
+          "Brokerage Applicable: " + (recentItem.brokerage ? 'Yes'  : 'No') + "\n" +
+          'Listed By:' + getListedByDtl(recentItem) + "\n" +
 //          recentItem.image);
-          'For details visit ' + 'https://graineasy.com/product/'+'${recentItem.id}' );
+          'For details visit ' + 'https://graineasy.com/products/'+'${recentItem.id}' );
 }
 
 Future launchGBEmail(Groupbuy item) async {

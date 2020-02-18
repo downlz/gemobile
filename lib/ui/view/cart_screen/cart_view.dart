@@ -18,19 +18,25 @@ import 'package:graineasy/utils/ui_helper.dart';
 const URL = "https://graineasy.com";
 
 class CartView extends StatefulWidget {
+
   final List<CartItem> cartItems;
   CartView(this.cartItems);
 
-  @override
+
+@override
   _CartViewState createState() => _CartViewState();
 }
 
 class _CartViewState extends State<CartView> with CommonAppBar {
-
+  int _radioValue = 1;
   @override
   void initState() {
+//    setState(() {
+////      _radioValue = -1;
+//    });
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -163,6 +169,66 @@ class _CartViewState extends State<CartView> with CommonAppBar {
             ),
           ),
         ),
+
+    Container(
+    padding: EdgeInsets.all(8.0),
+    child: new Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: <Widget>[
+//    new Text(
+//    'Select correct answers from below:',
+//    style: new TextStyle(
+//    fontSize: 20.0, fontWeight: FontWeight.bold),
+//    ),
+//    new Padding(
+//    padding: new EdgeInsets.all(2.0),
+//    ),
+    new Divider(height: 5.0, color: Colors.black),
+    new Padding(
+    padding: new EdgeInsets.all(4.0),
+    ),
+    new Text(
+    'Payment Mode',
+    style: new TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 18.0,
+    ),
+    ),
+    new Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: <Widget>[
+    new Radio(
+    value: 1,
+    groupValue: _radioValue,
+    onChanged: _handleRadioValueChange1,
+    ),
+    new Text(
+    'Graineasy Nodal',
+    style: new TextStyle(fontSize: 16.0),
+    ),
+    new Radio(
+    value: 2,
+    groupValue: _radioValue,
+    onChanged: _handleRadioValueChange1,
+    ),
+    new Text(
+    'Seller',
+    style: new TextStyle(
+    fontSize: 16.0,
+    ),
+    ),
+//    new Radio(
+//    value: 2,
+//    groupValue: 1,
+//    onChanged: _handleRadioValueChange1,
+//    ),
+//    new Text(
+//    'Omnivore',
+//    style: new TextStyle(fontSize: 16.0),
+//    ),
+    ],
+    )])),
+
         Container(
             width: double.infinity,
             padding: EdgeInsets.only(left: 10, right: 10, top: 30),
@@ -172,7 +238,7 @@ class _CartViewState extends State<CartView> with CommonAppBar {
                   borderRadius: BorderRadius.circular(7)),
               onPressed: () {
 //              model.getLastOrderNumber();
-                model.createOrder(widget.cartItems[0].item,model.user.isAgent ? 'agent' : 'buyer');
+                model.createOrder(widget.cartItems[0].item,model.user.isAgent ? 'agent' : 'buyer',_radioValue);
               },
               child: Text('Place Order',
                   style: TextStyle(
@@ -410,4 +476,26 @@ class _CartViewState extends State<CartView> with CommonAppBar {
           );
         });
   }
+
+  _handleRadioValueChange1(int value) {
+    setState(() {
+      _radioValue = value;
+
+//      switch (_radioValue) {
+
+//        case 1:
+
+//          Fluttertoast.showToast(msg: 'Correct !',toastLength: Toast.LENGTH_SHORT);
+//          correctScore++;
+//          break;
+//        case 1:
+//          Fluttertoast.showToast(msg: 'Try again !',toastLength: Toast.LENGTH_SHORT);
+//          break;
+//        case 2:
+//          Fluttertoast.showToast(msg: 'Try again !',toastLength: Toast.LENGTH_SHORT);
+//          break;
+//      }
+    });
+  }
+
 }

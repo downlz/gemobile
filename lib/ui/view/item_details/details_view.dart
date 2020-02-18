@@ -119,7 +119,7 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                               padding: const EdgeInsets.only(bottom: 8.0),
                               child: Text(
                               "\u20B9" + model.itemDetails.price.toString() + "/" +
-                                    model.itemDetails.unit.mass,
+                                    model.itemDetails.unit.mass + "*",
                                 style: Theme
                                     .of(context)
                                     .textTheme
@@ -364,14 +364,17 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text("Grade: " + item.grade,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
-//          Text("Brokerage Applicable: " + (item.brokerage ? 'Yes'  : 'No'),
-//              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+          Text("Brokerage Applicable: " + (item.brokerage ? 'Yes'  : 'No'),
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text("Listed By: " + _getListedByDtl(item),
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text((item.showSeller ? 'Seller: ' + item.seller.name : ''),
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text((item.remarks != 'NA' && item.remarks != null ? 'Season-' + item.remarks:''),
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+
+          Text('Plus taxes,if applicable',
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500)),
 //          Text("List Price: " + "Rs. " + item.price.toString() + "/" +
 //              item.unit.mass,
 //              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),

@@ -22,6 +22,7 @@ class CartViewModel extends BaseModel {
   double totalPriceOfTheOrder = 0;
   int selectedAddressPosition = 0;
   User user;
+  String payeeAcc;
 //  bool caughtError = false;
   String version;
 
@@ -59,33 +60,44 @@ class CartViewModel extends BaseModel {
 //  }
 
 
-  createOrder(Item item,String userType) async
+  createOrder(Item item,String userType,int payeeacc) async
   {
-
+       switch (payeeacc) {
+        case 1:
+          payeeAcc = 'nodal';
+          break;
+        case 2:
+          payeeAcc = 'seller';
+          break;
+//        case 2:
+//          Fluttertoast.showToast(msg: 'Try again !',toastLength: Toast.LENGTH_SHORT);
+//          break;
+    }
     User user = await UserPreferences.getUser();
     setState(ViewState.Busy);
     if (userType == 'agent') {
 
-    await API.placeOrder(cartItems[0], agentbuyer[selectedAddressPosition], user.id,'agentorder');
+    await API.placeOrder(cartItems[0], agentbuyer[selectedAddressPosition], user.id,'agentorder',payeeAcc);
     }
     else {
 
       try {
-        await API.placeOrder(cartItems[0], addresses[selectedAddressPosition], user.id,'regular');
+        await API.placeOrder(cartItems[0], addresses[selectedAddressPosition], user.id,'regular',payeeAcc);
       }
       catch(e,stackTrace) {
           print('error caught: $e');
           print('stackTrace============>$stackTrace');
+
 //          print(user.name);
 //          await API.logErrorTrace(user.name,e,version,'CartViewModel','ANDRIOD');
 //          showDialogSingleButton(context,'Application Error','An error was found $e',"Ok");
 //          caughtError = true;
       }
     }
-    // Sending regular order manually
-    setState(ViewState.Idle);
-    Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (context) => OrderHistoryView()));
+       // Sending regular order manually
+       setState(ViewState.Idle);
+       Navigator.pushReplacement(context, MaterialPageRoute(
+           builder: (context) => OrderHistoryView()));
   }
 
 //  void calculateTotalPrice(List<CartItem> cartItems) {

@@ -1211,7 +1211,7 @@ class _HomeViewState extends State<HomeView>
 //        recentItem.category.name + "\n" +
 //        'List Price:' + '\u20B9'+ '${recentItem.price}' + "/" + '${recentItem.unit.mass}'+ "\n" +
 //        recentItem.image}' + "\n" +
-//        'For details visit ' + 'https://graineasy.com/product/'+'${recentItem.id}' );
+//        'For details visit ' + 'https://graineasy.com/products/'+'${recentItem.id}' );
 //  }
 //
 //  Future launchWhatsApp(Item recentItem) async {
