@@ -373,8 +373,8 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
           Text((item.remarks != 'NA' && item.remarks != null ? 'Season-' + item.remarks:''),
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
 
-          Text('Plus taxes,if applicable',
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500)),
+          Text('*Plus taxes, if applicable',
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500)),
 //          Text("List Price: " + "Rs. " + item.price.toString() + "/" +
 //              item.unit.mass,
 //              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),

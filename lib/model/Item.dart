@@ -6,6 +6,7 @@ import 'package:graineasy/model/manufacturer.dart';
 import 'package:graineasy/model/unit.dart';
 import 'package:graineasy/model/usermodel.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:graineasy/utils/check_internet/utility.dart';
 
 @JsonSerializable(nullable: true)
 class Item {
@@ -39,6 +40,8 @@ class Item {
   final bool brokerage;
   final String brokerageRate;
   final String remarks;
+//  final DateTime paymentDt;
+//  final DateTime liftDt;
   Item({
     this.name,
     this.id,
@@ -69,7 +72,9 @@ class Item {
     this.showAddedByName,
     this.showSeller,
     this.brokerageRate,
-    this.remarks
+    this.remarks,
+//    this.paymentDt,
+//    this.liftDt
   });
 
   factory Item.fromJson(Map<String, dynamic> json) {
@@ -108,6 +113,8 @@ class Item {
       showSeller: json['showseller'],
       brokerageRate: json['brokeragerate'],
       remarks: json['remarks'],
+//      paymentDt : Utility.convertStringDateToDateTime(json['paymentdate']),
+//      liftDt : Utility.convertStringDateToDateTime(json['liftdate']),
     );
   }
 
