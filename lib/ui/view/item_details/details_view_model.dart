@@ -55,6 +55,7 @@ class DetailsViewModel extends BaseModel {
 //    print('selected==${itemDetails.price}');
   }
 
+
   void calculatePrice(Item item, String sellerId, String buyerId,
       int qty) async {
     setState(ViewState.Busy);

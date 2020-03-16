@@ -9,6 +9,7 @@ import 'package:graineasy/ui/validation/validation.dart';
 import 'package:graineasy/ui/view/Bargain/bargain_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
+import 'package:intl/intl.dart';
 
 import 'details_view_model.dart';
 
@@ -355,10 +356,10 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
           Padding(
             padding: const EdgeInsets.only(top: 10),
-            child: Text("Item: " + item.itemname.name,
+            child: Text(item.itemname.name + " - " + item.category.name,
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           ),
-          Text("Category: " + item.category.name,// + (item.remarks != 'NA' ? 'Season-' + item.remarks:''),
+          Text(_setPayLiftDt(item),// + (item.remarks != 'NA' ? 'Season-' + item.remarks:''),
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text("Origin: " + item.origin,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
@@ -370,7 +371,7 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text((item.showSeller ? 'Seller: ' + item.seller.name : ''),
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
-          Text((item.remarks != 'NA' && item.remarks != null ? 'Season-' + item.remarks:''),
+          Text((item.remarks != 'NA' && item.remarks != null ? 'Season: ' + item.remarks:''),
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
 
           Text('*Plus taxes, if applicable',
@@ -419,6 +420,27 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
       }
     }
     return listedText;
+  }
+
+  _setPayLiftDt(Item itemtoset) {
+
+    String payDt,liftDt,payLiftStr;
+    payDt = DateFormat("dd-MMM-yy").format(DateTime.parse(itemtoset.paymentDt.toString()));
+    liftDt = DateFormat("dd-MMM-yy").format(DateTime.parse(itemtoset.liftDt.toString()));
+    if (itemtoset.paymentDt.isBefore(DateTime.now())){
+      payDt = DateFormat("dd-MMM-yy").format(DateTime.parse(DateTime.now().toString()));
+    }
+
+    if (itemtoset.liftDt.isBefore(DateTime.now())){
+      liftDt = DateFormat("dd-MMM-yy").format(DateTime.parse(DateTime.now().toString()));
+    }
+
+    if (payDt == liftDt) {
+      payLiftStr = 'Pay and Lift by ' + payDt;
+    } else {
+      payLiftStr = 'Pay by ' + payDt + ' & ' + 'Lift by ' + liftDt;
+    }
+    return payLiftStr;
   }
 
 }

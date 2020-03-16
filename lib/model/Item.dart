@@ -40,8 +40,8 @@ class Item {
   final bool brokerage;
   final String brokerageRate;
   final String remarks;
-//  final DateTime paymentDt;
-//  final DateTime liftDt;
+  final DateTime paymentDt;
+  final DateTime liftDt;
   Item({
     this.name,
     this.id,
@@ -73,8 +73,8 @@ class Item {
     this.showSeller,
     this.brokerageRate,
     this.remarks,
-//    this.paymentDt,
-//    this.liftDt
+    this.paymentDt,
+    this.liftDt
   });
 
   factory Item.fromJson(Map<String, dynamic> json) {
@@ -113,8 +113,8 @@ class Item {
       showSeller: json['showseller'],
       brokerageRate: json['brokeragerate'],
       remarks: json['remarks'],
-//      paymentDt : Utility.convertStringDateToDateTime(json['paymentdate']),
-//      liftDt : Utility.convertStringDateToDateTime(json['liftdate']),
+      paymentDt : json['paymentdate'] == null ? DateTime.now(): Utility.convertStringDateToDateTime(json['paymentdate']),
+      liftDt : json['liftdate'] == null ? DateTime.now() : Utility.convertStringDateToDateTime(json['liftdate']),
     );
   }
 
