@@ -536,7 +536,7 @@ class API extends BaseRepository
     }
   }
 
-  static placeOrder(CartItem cart, var address, String userID,String ordertype) async {
+  static placeOrder(CartItem cart, var address, String userID,String ordertype,String payeeAcc) async {
     print('Level1');
     var data = {
       'quantity': cart.qty,
@@ -559,7 +559,8 @@ class API extends BaseRepository
       'phone': address.phone,
       'addedby': userID,
       'addressreference' : address.id,
-      'isExistingAddr' : true
+      'isExistingAddr' : true,
+      'payeeacc' : payeeAcc
     };
     // This is done to generate valid purchase order and calculate GST. Buyer may be buying on behalf of someone and hence it would be billed to that party
     print('Level2');

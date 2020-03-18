@@ -18,18 +18,20 @@ String slice(String subject, [int start = 0, int end]) {
 
 getListedByDtl(Item item) {
   String listedText;
-  if (item.showAddedByName && (item.addedBy != null)){
-    listedText = item.addedBy.name;
-  } else if (item.addedBy == null) {
-    listedText = 'Admin';
+  String userExists;
+  userExists = item.addedBy.name ?? 'false';
+  if (item.showAddedByName){
+    listedText = item.addedBy.name ?? 'Broker';
   }
   else {
-    if (item.addedBy.isAgent) {
+    if (userExists == 'false') {
       listedText = 'Broker';
-    } else if (item.addedBy.isAdmin) {
-      listedText  = 'Admin';
     } else {
-      listedText = 'Seller';
+      if (item.addedBy.isSeller) {
+        listedText = 'Seller';
+      } else {
+        listedText = 'Broker';
+      }
     }
   }
   return listedText;

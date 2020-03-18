@@ -181,12 +181,12 @@ static  validateEmptyPassword(String value) {
 
 
   static validateGstInNumber(String value) {
-    if ((value.length != 15)) {
+    if ((value.length != 15 && value.isNotEmpty)) {
       return "Incorrect GSTIN";
     }
-    else if (value.isEmpty) {
-      return "Incorrect GSTIN";
-    }
+//    else if (value.isEmpty) {
+//      return "Incorrect GSTIN";
+//    }
     return null;
   }
 

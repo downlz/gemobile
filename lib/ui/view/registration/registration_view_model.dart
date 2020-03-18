@@ -22,8 +22,8 @@ class RegistrationViewModel extends BaseModel
     stateList = await API.getStateList();
     cityList = await API.getCityList();
 
-    print('sxxxsxxxxs==>${stateList.length}');
-    print('sxxxsxxxxs==>${cityList.length}');
+//    print('sxxxsxxxxs==>${stateList.length}');
+//    print('sxxxsxxxxs==>${cityList.length}');
     notifyListeners();
 //    setState(ViewState.Idle);
   }

@@ -9,6 +9,7 @@ import 'package:graineasy/ui/validation/validation.dart';
 import 'package:graineasy/ui/view/Bargain/bargain_view.dart';
 import 'package:graineasy/ui/widget/AppBar.dart';
 import 'package:graineasy/ui/widget/widget_utils.dart';
+import 'package:intl/intl.dart';
 
 import 'details_view_model.dart';
 
@@ -119,7 +120,7 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
                               padding: const EdgeInsets.only(bottom: 8.0),
                               child: Text(
                               "\u20B9" + model.itemDetails.price.toString() + "/" +
-                                    model.itemDetails.unit.mass,
+                                    model.itemDetails.unit.mass + "*",
                                 style: Theme
                                     .of(context)
                                     .textTheme
@@ -355,23 +356,26 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
           Padding(
             padding: const EdgeInsets.only(top: 10),
-            child: Text("Item: " + item.itemname.name,
+            child: Text(item.itemname.name + " - " + item.category.name,
                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           ),
-          Text("Category: " + item.category.name,// + (item.remarks != 'NA' ? 'Season-' + item.remarks:''),
+          Text(_setPayLiftDt(item),// + (item.remarks != 'NA' ? 'Season-' + item.remarks:''),
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text("Origin: " + item.origin,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text("Grade: " + item.grade,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
-//          Text("Brokerage Applicable: " + (item.brokerage ? 'Yes'  : 'No'),
-//              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+          Text("Brokerage Applicable: " + (item.brokerage ? 'Yes'  : 'No'),
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text("Listed By: " + _getListedByDtl(item),
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
           Text((item.showSeller ? 'Seller: ' + item.seller.name : ''),
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
-          Text((item.remarks != 'NA' && item.remarks != null ? 'Season-' + item.remarks:''),
+          Text((item.remarks != 'NA' && item.remarks != null ? 'Season: ' + item.remarks:''),
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+
+          Text('*Plus taxes, if applicable',
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500)),
 //          Text("List Price: " + "Rs. " + item.price.toString() + "/" +
 //              item.unit.mass,
 //              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
@@ -416,6 +420,27 @@ class _DetailsViewState extends State<DetailsView> with CommonAppBar {
       }
     }
     return listedText;
+  }
+
+  _setPayLiftDt(Item itemtoset) {
+
+    String payDt,liftDt,payLiftStr;
+    payDt = DateFormat("dd-MMM-yy").format(DateTime.parse(itemtoset.paymentDt.toString()));
+    liftDt = DateFormat("dd-MMM-yy").format(DateTime.parse(itemtoset.liftDt.toString()));
+    if (itemtoset.paymentDt.isBefore(DateTime.now())){
+      payDt = DateFormat("dd-MMM-yy").format(DateTime.parse(DateTime.now().toString()));
+    }
+
+    if (itemtoset.liftDt.isBefore(DateTime.now())){
+      liftDt = DateFormat("dd-MMM-yy").format(DateTime.parse(DateTime.now().toString()));
+    }
+
+    if (payDt == liftDt) {
+      payLiftStr = 'Pay and Lift by ' + payDt;
+    } else {
+      payLiftStr = 'Pay by ' + payDt + ' & ' + 'Lift by ' + liftDt;
+    }
+    return payLiftStr;
   }
 
 }
