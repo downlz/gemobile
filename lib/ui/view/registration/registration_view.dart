@@ -182,7 +182,7 @@ class _RegistrationViewState extends State<RegistrationView>  with CommonAppBar 
                             validator: (value) {
                               return Validation.validateGstInNumber(value);
                             },
-                            decoration: AppWidget.whiteTextField('GSTIN Number')
+                            decoration: AppWidget.whiteTextField('GSTIN Number (Optional)')
                         ),
 
                         UIHelper.verticalSpaceSmall1,
