@@ -20,25 +20,32 @@ class ApiConfig {
   static String getUserAddresses = baseURL + 'address';
   static String getCalculatePrice = baseURL + 'price';
   static String updateAddress = baseURL + 'address/';
+
+  // Item APIs
   static String searchItem = baseURL + 'item/search/';
   static String itemGrade = baseURL + 'item/grade/';
+  static var getRecentlyAddedItem = baseURL + 'item/recent';
+  static var getMostOrdered = baseURL + 'item/ordered';
+  static var getItemNear = baseURL + 'item/nearme';
 
 
   // Order APIs
   static String getLastOrderNumber = baseURL + 'order/orderno';
   static String createOrder = baseURL + 'order';
-  static String getAddressByIdAndPhone = baseURL + 'address/byuser/phone/';       // Replaced with getUserAddresses,No longer needed
   static String updateOrderStatus = baseURL + 'order/';
-  static String uploadBill = baseURL + 'uploadbill';
-  static String updateManualBill = baseURL + 'uploadbill/';
-  static String getManualBill = baseURL + 'uploadbill/';
   static String getUserOrders = baseURL + 'order/user/';
   static String getOrderById = baseURL + 'order/id/';
   static String getAgentOrders = baseURL + 'order/agent/';
 
+
+  static String getAddressByIdAndPhone = baseURL + 'address/byuser/phone/';       // Replaced with getUserAddresses,No longer needed
+
   // Billing APIs
   static String getPO = baseURL + 'getpo';
   static String getInvoice = baseURL + 'getinvoice';
+  static String uploadBill = baseURL + 'uploadbill';
+  static String updateManualBill = baseURL + 'uploadbill/';
+  static String getManualBill = baseURL + 'uploadbill/';
 
   // Bargain APIs
   static String raiseBargainRequest = baseURL + 'bargain/';
@@ -80,10 +87,6 @@ class ApiConfig {
   static String updateUserApiForGetFcmKey = baseURL + 'user/';
   static int successStatusCode = 200;
 
-
-  static var getRecentlyAddedItem = baseURL + 'item/recent';
-  static var getMostOrdered = baseURL + 'item/ordered';
-  static var getItemNear = baseURL + 'item/nearme';
   static var getManufacturerData = baseURL + 'manufacturer/';
 
   // Credit Request Form

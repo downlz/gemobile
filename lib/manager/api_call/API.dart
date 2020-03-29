@@ -206,7 +206,10 @@ class API extends BaseRepository
           "Authorization": await UserPreferences.getToken()});
 //    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
-      List<Order> orders = Order.fromJsonArray(jsonDecode(response.body));
+      var responseBody = jsonDecode(response.body);
+      var resOrders = responseBody["_embedded"]["orders"] as List;
+
+      List<Order> orders = Order.fromJsonArray(resOrders);
       return orders;
     }
     return [];
@@ -225,7 +228,10 @@ class API extends BaseRepository
 //    print(response.statusCode);
     print(response.reasonPhrase);
     if (response.statusCode == ApiConfig.successStatusCode) {
-      List<Order> orders = Order.fromJsonArray(jsonDecode(response.body));
+      var responseBody = jsonDecode(response.body);
+      var resOrders = responseBody["_embedded"]["orders"] as List;
+
+      List<Order> orders = Order.fromJsonArray(resOrders);
       return orders;
     }
     return [];
@@ -242,7 +248,9 @@ class API extends BaseRepository
           "Authorization": await UserPreferences.getToken()});
 //    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
-      List<Order> orders = Order.fromJsonArray(jsonDecode(response.body));
+      var responseBody = jsonDecode(response.body);
+      var resOrders = responseBody["_embedded"]["orders"] as List;
+      List<Order> orders = Order.fromJsonArray(resOrders);
       return orders;
     }
     return [];
@@ -254,7 +262,10 @@ class API extends BaseRepository
         headers: await ApiConfig.getHeaderWithToken());
 //    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
-      List<Order> orders = Order.fromJsonArray(jsonDecode(response.body));
+      var responseBody = jsonDecode(response.body);
+      var resOrders = responseBody["_embedded"]["orders"] as List;
+
+      List<Order> orders = Order.fromJsonArray(resOrders);
       return orders;
     }
     return [];
@@ -265,7 +276,10 @@ class API extends BaseRepository
         headers: await ApiConfig.getHeaderWithToken());
 //    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
-      List<Order> orders = Order.fromJsonArray(jsonDecode(response.body));
+      var responseBody = jsonDecode(response.body);
+      var resOrders = responseBody["_embedded"]["orders"] as List;
+
+      List<Order> orders = Order.fromJsonArray(resOrders);
       return orders;
     }
     return [];
@@ -636,6 +650,7 @@ class API extends BaseRepository
         body: jsonEncode(data));
 //    print(response.statusCode);
     if (response.statusCode == ApiConfig.successStatusCode) {
+
       Map<dynamic, dynamic> responseBody = jsonDecode(response.body);
       return 'Successfully updated order status';
     } else {
@@ -849,7 +864,10 @@ class API extends BaseRepository
         headers: await ApiConfig.getHeaderWithTokenAndContentType());
 //    print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
-      List<Bargain> bargain = Bargain.fromJsonArray(jsonDecode(response.body));
+      var responseBody = jsonDecode(response.body);
+      var resBargains = responseBody["_embedded"]["bargains"] as List;
+
+      List<Bargain> bargain = Bargain.fromJsonArray(resBargains);
       return bargain;
     }
     return [];
@@ -863,7 +881,9 @@ class API extends BaseRepository
           "Authorization": await UserPreferences.getToken()});
     print(response.body);
     if (response.statusCode == ApiConfig.successStatusCode) {
-      List<Bargain> bargain = Bargain.fromJsonArray(jsonDecode(response.body));
+      var responseBody = jsonDecode(response.body);
+      var resBargains = responseBody["_embedded"]["bargains"] as List;
+      List<Bargain> bargain = Bargain.fromJsonArray(resBargains);
       return bargain;
     }
     return [];
@@ -1019,9 +1039,9 @@ class API extends BaseRepository
     var response = await http.get(ApiConfig.searchItem + name,
         headers: await ApiConfig.getHeaderWithTokenAndContentType());
     if (response.statusCode == ApiConfig.successStatusCode) {
-      List<Item> items = Item.fromJsonArray(jsonDecode(response.body));
-      print(response.body);
-
+      var responseBody = jsonDecode(response.body);
+      var resItems = responseBody["_embedded"]["items"] as List;
+      List<Item> items = Item.fromJsonArray(resItems);
       return items;
     }
     return [];
@@ -1032,7 +1052,7 @@ class API extends BaseRepository
         headers: await ApiConfig.getHeaderWithTokenAndContentType());
     if (response.statusCode == ApiConfig.successStatusCode) {
       List<Item> items = Item.fromJsonArray(jsonDecode(response.body));
-      print(response.body);
+//      print(response.body);
 
       return items;
     }
