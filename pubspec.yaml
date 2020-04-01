@@ -7,7 +7,7 @@ description: Graineasy Mobile Application
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.1.2+9
+version: 1.1.4+10
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -22,6 +22,7 @@ dependencies:
   intl: 0.16.0
   loader_search_bar: ^1.0.2
   cupertino_icons: ^0.1.2
+  flutter_launcher_icons: ^0.7.4
   flutter_range_slider: "^1.0.1"
   carousel_pro: ^0.0.13
   http: ^0.12.0+2
@@ -43,7 +44,7 @@ dependencies:
   flutter_advanced_networkimage: ^0.6.2
   country_code_picker: ^1.1.7
   device_info: ^0.4.1+1
-  flutter_share_me: ^0.4.0
+  flutter_share_me: ^0.9.1
   pull_to_refresh: ^1.5.7
   flutter_swiper: ^1.1.6
   file_picker: ^1.4.3+2
@@ -54,6 +55,7 @@ dependencies:
   jiffy: ^2.1.2
   path_provider: 1.5.0
   package_info: ^0.4.0+13
+  store_redirect: ^1.0.2
 
 
 dev_dependencies:
@@ -63,6 +65,11 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "images/gelogo_512.png"
 
 # The following section is specific to Flutter.
 flutter:
@@ -99,9 +106,11 @@ flutter:
      - images/whatsapp.png
      - images/call.png
      - images/mail.png
+     - images/gelogo_512.png
 
      - assets/address.json
      - assets/items.json
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg

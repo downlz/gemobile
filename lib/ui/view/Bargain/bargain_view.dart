@@ -429,7 +429,7 @@ class _CategoryViewState extends State<BargainView> with CommonAppBar {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       content: new Text(
-                          'Are you sure want to accept with this price?'),
+                          'Are you sure want to accept with this price? An order will be placed on acceptance of this quote'),
                       actions: <Widget>[
                         new FlatButton(
                             onPressed: () {

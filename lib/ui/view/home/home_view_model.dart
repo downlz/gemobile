@@ -6,6 +6,8 @@ import 'package:flutter/material.dart' as prefix0;
 import 'package:graineasy/manager/api_call/API.dart';
 import 'package:graineasy/manager/base/basemodel.dart';
 import 'package:graineasy/helpers/functions/common.dart';
+//import 'package:graineasy/model/app_pref.dart';
+//import 'package:store_redirect/store_redirect.dart';
 
 import 'package:graineasy/manager/shared_preference/UserPreferences.dart';
 import 'package:graineasy/model/Item.dart';
@@ -60,16 +62,44 @@ class HomeViewModel extends BaseModel
 
       onResume: (Map<String, dynamic> message) async {
         firebaseMessaging.onTokenRefresh;
-        print('on resume $message');
-        redirectScreenOnLoad(message);
-
+//        print('on resume $message');
+          redirectScreenOnLoad(message);
       },
 
       onLaunch: (Map<String, dynamic> message) async {
         firebaseMessaging.onTokenRefresh;
 //        await API.updateUserApiToGetFCMKey();
-        print('on launch $message');
-        redirectScreenOnLoad(message);
+//        print('on launch $message');
+//        AppPref currAppPref = await API.getAppPref(version);
+//        if (currAppPref.appupdaterequired) {
+//          return showDialog(
+//              context: context,
+//              builder: (BuildContext context) {
+//                return AlertDialog(
+//                  content: ListTile(
+//                    title: Text('App update required',style: TextStyle(color: Colors.blueGrey,fontSize: 18, fontWeight: FontWeight.bold),),
+//                    subtitle: Text("We've updated Graineasy with new features and improvement.To continue using our services please update the app"),
+//                  ),
+//                  actions: <Widget>[
+//                    Row(
+//                      children: <Widget>[
+//                        FlatButton(
+//                            child: Text('OK',style: TextStyle(color: Colors.blueGrey,fontSize: 20, fontWeight: FontWeight.bold),),
+//                            onPressed: () {
+//                              StoreRedirect.redirect(androidAppId: "com.graineasy.gemobile");
+////                                  ,iOSAppId: "585027354");
+//                            }
+//                        ),
+//                      ],
+//                    ),
+//                  ],
+//                  elevation: 2,
+//                );
+//              });
+//        } else {                              // Can be use in future to redirect to specific screen
+          redirectScreenOnLoad(message);
+//        }
+
       },
     );
   }
